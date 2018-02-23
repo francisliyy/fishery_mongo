@@ -1,0 +1,21 @@
+*.pyc
+app.db
+./tmp
+./build/*
+./.idea
+./.idea/*
+env
+venv
+*.sublime*
+# mac file
+.DS_Store
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+*.pdf
+app/static/csv/*
+app/static/rscript/*
+
