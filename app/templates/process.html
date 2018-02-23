@@ -1,0 +1,1333 @@
+{% extends "appbuilder/base.html" %}
+{% block head_css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/framework/acc-wizard/acc-wizard.min.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.min.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/common.css')}}"></link>
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+      <div class="lead well" style="padding-top: 0.1em; padding-left: 2em; padding-right: 2em;">
+      <p>
+        <h2>Accordion Wizard for Bootstrap 3</h2>
+        This page is both a demonstration of the accordion wizard and instructions for using it in your pages. Click the buttons and links to see the wizard in action, or view the source to see a complete implementation. Full details, including API documentation and full source code, are available on <a href="https://github.com/sathomas/acc-wizard">github</a>.
+      </p>
+      </div>
+    </div>
+    <div class="row acc-wizard">
+      <div class="col-md-3" style="padding-left: 2em;">
+        <p style="margin-bottom: 2em;">
+          Follow the steps below:
+        </p>
+        <ol class="acc-wizard-sidebar">
+          <li class="acc-wizard-todo"><a href="#generalinput">Genral Input</a></li>
+          <li class="acc-wizard-todo"><a href="#stockassessment1">Stock Assessment Model Input1</a></li>
+          <li class="acc-wizard-todo"><a href="#stockassessment2">Stock Assessment Model Input2</a></li>
+          <li class="acc-wizard-todo"><a href="#ibParam">Initial&Biological Parameters</a></li>
+          <li class="acc-wizard-todo"><a href="#naturalmortality">Natural Mortality</a></li>
+          <li class="acc-wizard-todo"><a href="#recruitment">Recruitment</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options Part1</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt2">Management Options Part2</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt3">Management Options Part3</a></li>
+        </ol>
+      </div>
+      <div class="col-md-9" style="padding-right: 2em;">
+        <div id="accordion-demo" class="panel-group">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#generalinput" data-parent="#accordion-demo" data-toggle="collapse">
+                  General Input
+                </a>
+              </h4>
+            </div>
+            <div id="generalinput" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-generalinput" >
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Time Step</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="timeStepRadio" id="1monthRadio" value="1"> 1 month
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="timeStepRadio" id="1seasonRadio" value="2"> 1 season
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="timeStepRadio" id="halfYearRadio" value="3"> half year
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="timeStepRadio" id="1YearRadio" value="4"> 1 year
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Start Projection</label>
+                    <div class='col-md-5 input-group date' id='projectionDate'>
+                      <input type='text' class="form-control"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 control-label">Short-term Management</label>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="shortTermTxt" placeholder="3"/> 
+                    </div> 
+                    <div class="col-md-2 input-group">      
+                      <select class="form-control">
+                              <option>Years</option>
+                              <option>Seasons</option>
+                              <option>Months</option>
+                      </select>
+                    </div>              
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 control-label">Long-term Management</label>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="longTermTxt" placeholder="3"/> 
+                    </div> 
+                    <div class="col-md-2 input-group">      
+                      <select class="form-control">
+                              <option>Years</option>
+                              <option>Seasons</option>
+                              <option>Months</option>
+                      </select>
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Stock per Management Unit</label>
+                    <div class="col-md-5 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="stockUnitTxt" placeholder="2"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Mixing Pattern</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="mixingpattern" id="constptn" value="1"> Constants
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="mixingpattern" id="sameptn" value="2"> Same over years
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="mixingpattern" id="timeptn" value="3"> Time varies
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Last Age in the Plus Group</label>
+                    <div class="col-md-5 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="ageTxt" placeholder="20"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Number of Iteratons</label>
+                    <div class="col-md-5 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="iterationTxt" placeholder="1000"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Random Seed Setting</label>
+                    <div class="col-md-5 input-group">   
+                      <input type="file" class="form-control" style="border-radius: 4px" id="SeedFile"/> 
+                    </div>              
+                  </div>
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#generalinput -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#stockassessment1" data-parent="#accordion-demo" data-toggle="collapse">
+                  Stock Assessment Model Input 1
+                </a>
+              </h4>
+            </div>
+            <div id="stockassessment1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-stockassessment1">
+                  <h2>Mixing matrix</h2>
+                  <h4>From/To
+                      <button style="margin-left: 60px" type="button" class="btn btn-danger">Standardize</button>
+                  </h4>
+                  <div class="form-group" style="height:34px">
+                    <label class="col-md-2 control-label"></label>
+                    <label class="col-md-4 control-label">Unit 1</label>  
+                    <label class="col-md-4 control-label">Unit 2</label>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-2 control-label">Unit 1</label>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div> 
+                    <div class="col-md-2 input-group">      
+                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>              
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-2 control-label">Unit 2</label>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                    </div> 
+                    <div class="col-md-1 input-group">%</div>   
+                    <div class="col-md-2 input-group">      
+                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>   
+                  </div>
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#stockassessment2" data-parent="#accordion-demo" data-toggle="collapse">
+                  Stock Assessment Model Input 2
+                </a>
+              </h4>
+            </div>
+            <div id="stockassessment2" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-stockassessment2">
+                  <h4>Stock1:</h4>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Model Type</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="modelType1" id="mt1SS3" value="1"> Stock Synthesis 3
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="modelType1" id="mt1VPA" value="2"> Virtual Population Analysis
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="modelType1" id="mt1Scaa" value="3"> Statistical-catch-at-age
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Input file path</label> 
+                    <div class="col-md-5 input-group">   
+                      <input type="file" class="form-control" style="border-radius: 4px" id="mt1FilePath"/>
+                    </div>
+                  </div>
+                  <h4>Stock2:</h4>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Model Type</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="modelType1" id="mt2SS3" value="1"> Stock Synthesis 3
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="modelType1" id="mt2VPA" value="2"> Virtual Population Analysis
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="modelType1" id="mt2Scaa" value="3"> Statistical-catch-at-age
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Input file path</label> 
+                    <div class="col-md-5 input-group">   
+                      <input type="file" class="form-control" style="border-radius: 4px" id="mt2FilePath"/>
+                    </div>
+                  </div>                  
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#ibParam" data-parent="#accordion-demo" data-toggle="collapse">
+                  Initial&Biological Parameters
+                </a>
+              </h4>
+            </div>
+            <div id="ibParam" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-ibParam">
+                  <!-- <table id="table-ibParam" data-toggle="table"> -->
+                  <table id="table-ibParam">
+                      
+                  </table>                  
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#naturalmortality" data-parent="#accordion-demo" data-toggle="collapse">
+                  Natural Mortality
+                </a>
+              </h4>
+            </div>
+            <div id="naturalmortality" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-naturalmortality">
+                  <h4>Constant natural mortality<button style="margin-left: 60px" type="button" class="btn btn-danger">Increase complexity</button></h4>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Mean</label>
+                    <div class="col-md-4 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="meanTxt" placeholder="0.2"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 control-label">CV</label>
+                    <div class="col-md-4 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="cvTxt" placeholder="20"/>
+                    </div>
+                    <div class="col-md-1 input-group">%
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Fraction before spawning</label>
+                    <div class="col-md-4 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="spawnTxt" placeholder="0.83"/>
+                    </div>              
+                  </div>
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#recruitment" data-parent="#accordion-demo" data-toggle="collapse">
+                  Recruitment
+                </a>
+              </h4>
+            </div>
+            <div id="recruitment" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-recruitment">
+                  <h4 style="display:inline-block;width: 50%;float: left">Stock1</h4>
+                  <h4 style="display:inline-block;width: 50%">Stock2</h4> 
+
+                  <div class="form-group form-inline" ><!-- first part -->
+                    <div class="col-md-6 ">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="historyStock1" value="1">Input from history
+                    </div>
+                    <div class="col-md-6 input-group">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="historyStock2" value="1">Input from history
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio1" value="1">Lower 25%
+                      </label>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst1txt1" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio1" value="1">Lower 25%
+                        </label>
+                    </div> 
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst2txt1" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio2" value="1">Median
+                      </label>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst1txt2" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio2" value="1">Median
+                        </label>
+                    </div> 
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst2txt2" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio3" value="1">Mean
+                      </label>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst1txt3" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio3" value="1">Mean
+                        </label>
+                    </div> 
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst2txt3" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio4" value="1">Upper 25%
+                      </label>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst1txt4" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio4" value="1">Upper 25%
+                        </label>
+                    </div> 
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst2txt4" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio5" value="1">Other percentile
+                      </label>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst1txt5" placeholder="10000000"/>%
+                    </div>
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio5" value="1">Other percentile
+                        </label>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst2txt5" placeholder="10000000"/>%
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <button style="margin-left: 40px" type="button" class="btn btn-danger">Calculate</button>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst1txt5" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                      <button style="margin-left: 40px" type="button" class="btn btn-danger">Calculate</button>
+                    </div>
+                    <div class="col-md-3 input-group" >                           
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="hst2txt5" placeholder="10000000"/>
+                    </div>
+                  </div><!--/.first part -->
+
+                  <div class="form-group form-inline" ><!-- second part -->
+                    <div class="col-md-6 ">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="formulaStock1" value="1">Formula
+                    </div>
+                    <div class="col-md-6 input-group">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="fomulaStock2" value="1">Formula
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="formulaStock1" id="fml1radio1" value="1">Beverton-Holt Mode
+                      </label>
+                    </div>
+                    <div class="col-md-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" name="formulaStock2" id="fml2radio1" value="1">Beverton-Holt Mode
+                        </label>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Bmalpha1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Bmbeta1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml2Bmalpha1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml2Bmbeta1" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="formulaStock1" id="fml1radio2" value="1">Ricker Mode
+                      </label>
+                    </div>
+                    <div class="col-md-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" name="formulaStock2" id="fml2radio2" value="1">Ricker Mode
+                        </label>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Rmalpha1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Rmbeta1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml2Rmalpha1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml2Rmbeta1" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="formulaStock1" id="fml1radio3" value="1">Moderfied Beverton-Holy Mode
+                      </label>
+                    </div>
+                    <div class="col-md-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" name="formulaStock2" id="fml2radio3" value="1">Moderfied Beverton-Holy Mode
+                        </label>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">SSB0</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Mbmalpha1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Mbmbeta1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">SSB0</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml2Mbmalpha1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml2Mbmbeta1" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">Steepnes</label>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Mbmalpha1" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 115px"> 
+                      <label class="control-label">Steepnes</label>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="fml1Mbmbeta1" placeholder="3"/> 
+                    </div>             
+                  </div><!--/.second part -->
+
+                  <div class="form-group form-inline" ><!-- third part -->
+                    <div class="col-md-6 ">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="autoStock1" value="1">Auto correlated
+                    </div>
+                    <div class="col-md-6 input-group">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="autoStock2" value="1">Auto correlated
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="auto1R01" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">h</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="auto1h" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="auto2R01" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group"> 
+                      <label class="col-md-1 control-label">h</label>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="auto2h" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">Rave</label>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="auto1Rave" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 115px"> 
+                      <label class="control-label">Rave</label>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="auto2Rave" placeholder="3"/> 
+                    </div>             
+                  </div><!--/.third part -->
+
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 30px">
+                      <label class="control-label">CV for recruitment</label>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto" id="cv1Recruit" placeholder="3"/>%
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 100px"> 
+                      <label class="control-label">CV for recruitment</label>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto" id="cv2Recruit" placeholder="3"/>%
+                    </div>             
+                  </div>                  
+
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt1" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options Part1
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt1">
+                  <h4>Biological reference points</h4>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Biomass-based reference points</label>
+                    <div class="col-md-5 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px" id="blomassTxt" placeholder="2"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Harvest reference points</label>
+                    <div class="col-md-5 input-group">  
+                      <label class="radio-inline" >
+                        <input type="radio" name="harvestRadio" id="cacheRadio" value="1">Catch-based
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 10px" id="cacheTxt" placeholder=""/>mt                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-5 input-group">  
+                      <label class="radio-inline" >
+                        <input type="radio" name="harvestRadio" id="fbaseRadio" value="1">F-based
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="fbaseTxt" placeholder="0.05"/>%                      
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Harvest control rule</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="harvestRuleRadio" id="contCRadio" value="1"> Constant catch
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="harvestRuleRadio" id="contFRadio" value="2"> Constant F
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="harvestRuleRadio" id="linearCRadio" value="3"> Linear catch
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="harvestRuleRadio" id="linearFRadio" value="4"> Linear F
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-5 input-group">
+                      <img style="width: 400px ; height: 300px"></img>
+                    </div>                    
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Biomass-based reference points</label>
+                    <div class="col-md-5 input-group">  
+                      <label class="radio-inline" >
+                        Threshold I
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="fbaseTxt" placeholder=""/>mt                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-5 input-group">  
+                      <label class="radio-inline" >
+                        Threshold II
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="fbaseTxt" placeholder=""/>mt                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Harvest reference points</label>
+                    <div class="col-md-8 input-group">
+                      <label class="radio-inline" >
+                        <input type="radio" name="harvestRadio" id="cRadio" value="1">Catch-based
+                      </label>  
+                      <label class="radio-inline" >
+                        Threshold I
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="fbaseTxt" placeholder=""/>mt                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-8 input-group">  
+                      <label class="radio-inline" style="margin-left: 110px">
+                        Threshold II
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="fbaseTxt" placeholder=""/>mt                     
+                    </div>                                  
+                  </div>  
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-8 input-group">
+                      <label class="radio-inline" >
+                        <input type="radio" name="harvestRadio" id="fRadio" value="1">F-based
+                      </label>  
+                      <label class="radio-inline" style="margin-left: 40px">
+                        Threshold I
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="fbaseTxt" placeholder=""/>                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-8 input-group">  
+                      <label class="radio-inline" style="margin-left: 110px">
+                        Threshold II
+                      </label> 
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="fbaseTxt" placeholder=""/>                     
+                    </div>                                  
+                  </div>
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt2" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options Part2
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt2" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt2">
+                  <h4>Allocation among sectors</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-4 control-label" style="padding-left: 40px">Recreational</label> 
+                    <label class="col-md-4 control-label">Commercial</label>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div> 
+                    <div class="col-md-2 input-group">      
+                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>
+                    <div class="col-md-1 input-group">
+                     <button style="margin-left: 60px" type="button" class="btn btn-danger">Include bycatch</button> 
+                    </div>             
+                  </div>
+                  <h4>Allocation among fleets</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-3 control-label">Recreational</label> 
+                    <label class="col-md-3 control-label">Stock</label> 
+                    <label class="col-md-3 control-label">Fleet</label>
+                    <label class="col-md-3 control-label">Allocation</label>           
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-3 control-label">Commercail</label> 
+                    <label class="col-md-3 control-label">Stock</label> 
+                    <label class="col-md-3 control-label">Fleet</label>
+                    <label class="col-md-3 control-label">Allocation</label>           
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group"></div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <button style="" type="button" class="btn btn-danger">Include bycatch</button>
+                  </div>
+                  <h4>Recreational fishing season</h4>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">Start</label>
+                    </div>
+                    <div class='col-md-3 input-group date' id='fishingStartDate'>
+                      <input type='text' class="form-control"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 115px"> 
+                      <label class="control-label">End</label>
+                    </div>
+                    <div class='col-md-3 input-group date' id='fishingEndDate'>
+                      <input type='text' class="form-control"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>            
+                  </div>
+                 
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt3" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options Part3
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt3" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt3">
+                  <h4>Landing ratios among states</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-6 control-label">Recreational</label> 
+                    <label class="col-md-6 control-label">Commercial</label>            
+                  </div>
+                  <div class="form-group" style="height:34px">
+                    <label class="col-md-2 control-label">Stock</label> 
+                    <label class="col-md-2 control-label">State</label> 
+                    <label class="col-md-2 control-label">Loading ratios</label>
+                    <label class="col-md-2 control-label">Stock</label> 
+                    <label class="col-md-2 control-label">State</label> 
+                    <label class="col-md-2 control-label">Loading ratios</label>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:80px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+
+                  <h4>Discard ratio</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-6 control-label">Recreational</label> 
+                    <label class="col-md-6 control-label">Commercial</label>            
+                  </div>
+                  <div class="form-group" style="height:34px">
+                    <label class="col-md-1 control-label">Stock</label> 
+                    <label class="col-md-1 control-label">Fleet</label> 
+                    <label class="col-md-2 control-label">Open/Closed</label>
+                    <label class="col-md-2 control-label">Discard ratios</label>
+                    <label class="col-md-1 control-label">Stock</label> 
+                    <label class="col-md-1 control-label">Fleet</label> 
+                    <label class="col-md-2 control-label">Open/Closed</label>
+                    <label class="col-md-2 control-label">Discard ratios</label>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>
+                    <div class="col-md-1 input-group"></div>
+                    <div class="col-md-1 input-group">
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:100px; margin-right: 20px" id="shortTermTxt" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input type="text" class="form-control" style="border-radius: 4px;width:50px;" id="shortTermTxt" placeholder=""/>%
+                    </div>          
+                  </div>
+
+
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+          
+        </div>
+      </div>
+    </div>
+    <div id="mask"></div>
+
+{% endblock %}
+{% block tail_js %}
+	  {{super()}}
+    <script type="text/javascript">
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script src="{{url_for('static',filename='assets/framework/acc-wizard/accwizard.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/moment/min/moment.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>    
+{% endblock %}
+
