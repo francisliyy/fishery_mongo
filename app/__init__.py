@@ -4,6 +4,8 @@ from flask.ext.appbuilder.security.mongoengine.manager import SecurityManager
 from flask.ext.appbuilder import AppBuilder
 from flask_mongoengine import MongoEngine
 
+from app.index import MyIndexView
+
 """
  Logging configuration
 """
@@ -14,7 +16,7 @@ logging.getLogger().setLevel(logging.DEBUG)
 app = Flask(__name__)
 app.config.from_object('config')
 db = MongoEngine(app)
-appbuilder = AppBuilder(app, security_manager_class=SecurityManager)
+appbuilder = AppBuilder(app, security_manager_class=SecurityManager, indexview=MyIndexView)
 
 
 """
