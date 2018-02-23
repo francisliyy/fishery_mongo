@@ -19,6 +19,9 @@ class ProcessView(BaseView):
     @has_access
     def showProcess(self):
 
+        #rutils = RUtil()
+        #rutils.runScript("app/static/rscript/test.r");
+
         return self.render_template('/process.html')
 
 
