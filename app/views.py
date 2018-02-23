@@ -3,6 +3,7 @@ from flask.ext.appbuilder import ModelView
 from flask.ext.appbuilder.models.mongoengine.interface import MongoEngineInterface
 from app import appbuilder
 from flask_appbuilder import BaseView, expose, has_access
+from app.models import *
 from app.rutils import *
 import pandas as pd
 import numpy as np
@@ -48,10 +49,32 @@ class ProcessView(BaseView):
         return Response(json.dumps({'status':1}), mimetype='application/json')
 
 
+class StockFileView(ModelView):
+
+    datamodel = MongoEngineInterface(StockFile)
+
+    label_columns = {'file_name': 'File Name','description':'Description','download': 'Download'}
+    list_columns = ['file_name', 'description', 'download']
+    show_fieldsets = [
+        ('Info', {'fields': ['file_name', 'description', 'download']}),
+        ('Audit', {'fields': ['created_by', 'created_on', 'changed_by', 'changed_on'], 'expanded': False})
+    ]
+
+    @expose('/download/<pk>')
+    @has_access
+    def download(self, pk):
+        item = self.datamodel.get(pk)
+        file = item.file.read()
+        response = make_response(file)
+        response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.file.name)
+        return response
+
+
+
 """
     Application wide 404 error handler
 """
-
+appbuilder.add_view(StockFileView,"Stock File", icon='fa-folder-open-o', category='Management',category_icon="fa-envelope")
 appbuilder.add_view(ProcessView,"prcess", href='/processview/showProcess', category='Process View')
 
 
