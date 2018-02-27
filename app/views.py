@@ -3,6 +3,7 @@ from flask.ext.appbuilder import ModelView
 from flask.ext.appbuilder.models.mongoengine.interface import MongoEngineInterface
 from app import appbuilder
 from flask_appbuilder import BaseView, expose, has_access
+from flask_login import current_user
 from app.models import *
 from app.rutils import *
 import pandas as pd
@@ -61,6 +62,12 @@ class StockFileView(ModelView):
         ('Info', {'fields': ['file_name', 'description', 'download']}),
         ('Audit', {'fields': ['created_by', 'created_on', 'changed_by', 'changed_on'], 'expanded': False})
     ]
+
+    def pre_add(self, item):
+        item.created_by = current_user.id
+
+    def pre_update(self, item):
+        item.changed_by = current_user.id
 
     @expose('/download/<pk>')
     @has_access
