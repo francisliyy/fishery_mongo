@@ -54,7 +54,9 @@ class StockFileView(ModelView):
     datamodel = MongoEngineInterface(StockFile)
 
     label_columns = {'file_name': 'File Name','description':'Description','download': 'Download'}
-    list_columns = ['file_name', 'description', 'download']
+    add_columns =  ['file', 'description']
+    edit_columns = ['file', 'description']
+    list_columns = ['file_name', 'description', 'download','created_by', 'created_on', 'changed_by', 'changed_on']
     show_fieldsets = [
         ('Info', {'fields': ['file_name', 'description', 'download']}),
         ('Audit', {'fields': ['created_by', 'created_on', 'changed_by', 'changed_on'], 'expanded': False})
