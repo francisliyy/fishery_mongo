@@ -19,3 +19,4 @@ venv
 app/static/csv/*
 app/static/rscript/*
 
+config.py
