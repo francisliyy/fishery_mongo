@@ -22,7 +22,7 @@ class ProcessView(BaseView):
     def showProcess(self):
 
         #rutils = RUtil()
-        #rutils.runScript("app/static/rscript/test.r");
+        #rutils.runScript("app/static/rscript/rplots.r");
 
         return self.render_template('/process.html')
 

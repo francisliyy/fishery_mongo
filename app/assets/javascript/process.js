@@ -34,6 +34,7 @@ $(function() {
     	data: {param1: 'value1'},
     })
     .done(function(result) {
+    	$("#table-ibParam").parent('.bootstrap-table').css('margin-bottom', '30px');
     	$("#table-ibParam").bootstrapTable({
 	    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
 	    	//dataType:'json',
