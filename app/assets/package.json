@@ -15,6 +15,7 @@
     "echarts": "^3.8.5",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "jquery": "^3.2.1",
+    "jquery-file-upload": "^4.0.11",
     "moment": "^2.20.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

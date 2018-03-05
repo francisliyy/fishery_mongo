@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}"></link>
     <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css')}}"></link>
     <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.min.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/jquery-file-upload/css/uploadfile.css')}}"></link>
     <link rel="stylesheet" href="{{url_for('static',filename='assets/css/common.css')}}"></link>
 {% endblock %}
 {% block content %}
@@ -47,25 +48,25 @@
             </div>
             <div id="generalinput" class="panel-collapse collapse in">
               <div class="panel-body">
-                <form id="form-generalinput" >
+                <form id="form-generalinput">
                   <div class="form-group">
                     <label class="col-md-3 control-label">Time Step</label>
                     <label class="radio-inline">
-                      <input type="radio" name="timeStepRadio" id="1monthRadio" value="1"> 1 month
+                      <input type="radio" name="time_step" id="1monthRadio" value="M"> 1 month
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="timeStepRadio" id="1seasonRadio" value="2"> 1 season
+                      <input type="radio" name="time_step" id="1seasonRadio" value="S"> 1 season
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="timeStepRadio" id="halfYearRadio" value="3"> half year
+                      <input type="radio" name="time_step" id="halfYearRadio" value="HY"> half year
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="timeStepRadio" id="1YearRadio" value="4"> 1 year
+                      <input type="radio" name="time_step" id="1YearRadio" value="Y"> 1 year
                     </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Start Projection</label>
-                    <div class='col-md-5 input-group date' id='projectionDate'>
+                    <div class='col-md-5 input-group date' id='start_projection' name='start_projection'>
                       <input type='text' class="form-control"/>
                       <span class="input-group-addon">
                           <span class="glyphicon glyphicon-calendar"></span>
@@ -75,64 +76,65 @@
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Short-term Management</label>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="shortTermTxt" placeholder="3"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3"/> 
                     </div> 
                     <div class="col-md-2 input-group">      
-                      <select class="form-control">
-                              <option>Years</option>
-                              <option>Seasons</option>
-                              <option>Months</option>
+                      <select id="short_term_unit" name="short_term_unit" class="form-control">
+                              <option value="Y">Years</option>
+                              <option value="S">Seasons</option>
+                              <option value="M">Months</option>
                       </select>
                     </div>              
                   </div>
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Long-term Management</label>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="longTermTxt" placeholder="3"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="long_term_mgt" name="long_term_mgt" placeholder="3"/> 
                     </div> 
                     <div class="col-md-2 input-group">      
-                      <select class="form-control">
-                              <option>Years</option>
-                              <option>Seasons</option>
-                              <option>Months</option>
+                      <select id="long_term_unit" name="long_term_unit" class="form-control">
+                              <option value="Y">Years</option>
+                              <option value="S">Seasons</option>
+                              <option value="M">Months</option>
                       </select>
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Stock per Management Unit</label>
                     <div class="col-md-5 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="stockUnitTxt" placeholder="2"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="stock_per_mgt_unit" name="stock_per_mgt_unit" placeholder="2"/> 
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Mixing Pattern</label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixingpattern" id="constptn" value="1"> Constants
+                      <input type="radio" name="mixing_pattern" id="constptn" value="1"> Constants
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixingpattern" id="sameptn" value="2"> Same over years
+                      <input type="radio" name="mixing_pattern" id="sameptn" value="2"> Same over years
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixingpattern" id="timeptn" value="3"> Time varies
+                      <input type="radio" name="mixing_pattern" id="timeptn" value="3"> Time varies
                     </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Last Age in the Plus Group</label>
                     <div class="col-md-5 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="ageTxt" placeholder="20"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="last_age" name="last_age" placeholder="20"/> 
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Number of Iteratons</label>
                     <div class="col-md-5 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="iterationTxt" placeholder="1000"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="no_of_interations" name="no_of_interations" placeholder="1000"/> 
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Random Seed Setting</label>
-                    <div class="col-md-5 input-group">   
-                      <input type="file" class="form-control" style="border-radius: 4px" id="SeedFile"/> 
-                    </div>              
+                    <div class="col-md-5 input-group" id="rnd_seed_file">Upload</div>
+                    <!-- <div class="col-md-5 input-group">   
+                                   <input type="file" class="form-control" style="border-radius: 4px" id="rnd_seed_file"/> 
+                                 </div>  -->             
                   </div>
                 </form>
               </div> <!--/.panel-body -->
@@ -1328,6 +1330,7 @@
     <script src="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>    
 {% endblock %}
 

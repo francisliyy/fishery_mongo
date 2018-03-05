@@ -10,21 +10,44 @@ function onNext(parent, panel) {
 
 $(function() {
 
-	$(".acc-wizard").accwizard({onNext:onNext});
+	$(".acc-wizard").accwizard({		
+		onNext:function(){
 
-    $('#projectionDate').datetimepicker({
-    	format:'MMMM Do YYYY',
+			$this = $(this);
+			if($this.parent("#form-generalinput")){
+				var data = {};
+				var time_step = $('input[name=time_step]:checked', '#form-generalinput').val();
+				var start_projection = $("#start_projection").find("input").val();
+				var short_term_mgt = $("#short_term_mgt").val();
+				var short_term_unit = $("#short_term_unit").val();
+				var long_term_mgt = $("#long_term_mgt").val();
+				var long_term_unit = $("#long_term_unit").val();
+				var stock_per_mgt_unit = $("#stock_per_mgt_unit").val();
+				var mixing_pattern = $('input[name=mixing_pattern]:checked', '#form-generalinput').val();
+				var last_age = $('#last_age').val();
+				var no_of_interations = $('#no_of_interations').val();
+
+			}
+		}
+	});
+
+    $('#start_projection').datetimepicker({
+    	format:'YYYY-MM-DD',
     }).on('dp.change', function(e) {
     	
     });
 
     $('#fishingStartDate').datetimepicker({
-    	format:'MMMM Do YYYY',
+    	format:'YYYY-MM-DD',
     });
 
     $('#fishingEndDate').datetimepicker({
-    	format:'MMMM Do YYYY',
+    	format:'YYYY-MM-DD',
     });
+
+    $("#rnd_seed_file").uploadFile({
+		url: $SCRIPT_ROOT+'/processview/uploadRndSeedFile',
+	});
 
 	$("#mask").addClass('lmask');
     $.ajax({

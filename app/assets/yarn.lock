@@ -296,15 +296,15 @@ async-each@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
 
-async@^1.4.0, async@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
-
-async@^2.1.2, async@^2.1.4, async@^2.4.1:
+"async@>= 0.1.22", async@^2.1.2, async@^2.1.4, async@^2.4.1:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.0.tgz#61a29abb6fcc026fea77e56d1c6ec53a795951f4"
   dependencies:
     lodash "^4.14.0"
+
+async@^1.4.0, async@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
 asynckit@^0.4.0:
   version "0.4.0"
@@ -2930,6 +2930,13 @@ form-data@~2.3.1:
     combined-stream "1.0.6"
     mime-types "^2.1.12"
 
+form@:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/form/-/form-0.2.4.tgz#69a0e9bf9003e7d6e4eee7f9d16239148a129a21"
+  dependencies:
+    async ">= 0.1.22"
+    validator ">= 0.4.9"
+
 forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
@@ -4137,7 +4144,14 @@ jest@20.0.4:
   dependencies:
     jest-cli "^20.0.4"
 
-"jquery@^1.8.3 || ^2.0 || ^3.0", jquery@^3.2.1:
+jquery-file-upload@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/jquery-file-upload/-/jquery-file-upload-4.0.11.tgz#840d74af95791d3df8472d47ac803734c61f32fb"
+  dependencies:
+    form ""
+    jquery ">=1.6"
+
+jquery@>=1.6, "jquery@^1.8.3 || ^2.0 || ^3.0", jquery@^3.2.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -7138,6 +7152,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+"validator@>= 0.4.9":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-9.4.1.tgz#abf466d398b561cd243050112c6ff1de6cc12663"
 
 value-equal@^0.4.0:
   version "0.4.0"

@@ -1,5 +1,5 @@
 from mongoengine import Document
-from mongoengine import DateTimeField, StringField, ReferenceField, ListField, FileField
+from mongoengine import DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField
 from flask import Markup, url_for
 from flask_appbuilder.models.decorators import renders
 #from flask_appbuilder.security.mongoengine.models import *
@@ -12,6 +12,12 @@ Define you MongoEngine Models here
 
 """
 
+class AuditMixinMongo(Document):
+
+
+
+	meta = {'allow_inheritance': True}
+
 class StockFile(Document):
 
 
@@ -23,6 +29,7 @@ class StockFile(Document):
 	changed_on = DateTimeField(default=datetime.datetime.now,
                         onupdate=datetime.datetime.now, nullable=False)
 
+
 	def download(self):
 		if self.file:
 			return Markup('<a href="' + url_for('StockFileView.download',pk=str(self.id))+'">Download')
@@ -32,4 +39,30 @@ class StockFile(Document):
 
 	def file_name(self):
 		return self.file.name
+
+class ProcessGenInput(Document):
+
+
+	TIMESTEP = (('M', '1 month'),
+			('HY', 'half year'),
+			('S', '1 season'),
+			('Y', '1 year'))
+
+	process_id = SequenceField()
+	time_step = StringField(max_length=2,choices=TIMESTEP)
+	start_projection = DateTimeField(default=datetime.datetime.now)
+	short_term_mgt = IntField()
+	short_term_unit = StringField(max_length=2)
+	long_term_mgt = IntField()
+	long_term_unit = StringField(max_length=2)
+	stock_per_mgt_unit = IntField()
+	mixing_pattern = StringField(max_length=2)
+	last_age = IntField()
+	no_of_interations = IntField()
+	rnd_seed_file = FileField()
+	created_by = ReferenceField("User",reqired=True)
+	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
+	changed_by = ReferenceField("User",reqired=True)
+	changed_on = DateTimeField(default=datetime.datetime.now,
+                        onupdate=datetime.datetime.now, nullable=False)
 

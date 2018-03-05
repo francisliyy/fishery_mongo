@@ -4,11 +4,14 @@ from flask.ext.appbuilder.models.mongoengine.interface import MongoEngineInterfa
 from app import appbuilder
 from flask_appbuilder import BaseView, expose, has_access
 from flask_login import current_user
+from werkzeug import secure_filename
 from app.models import *
 from app.rutils import *
+from app.fileUtils import *
 import pandas as pd
 import numpy as np
 import json
+
 
 """
     Define you Views here
@@ -26,6 +29,38 @@ class ProcessView(BaseView):
 
         return self.render_template('/process.html')
 
+    ALLOWED_RND_EXTENSIONS = set(['txt'])
+
+
+    def allowed_file(self,filename):
+        return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in self.ALLOWED_RND_EXTENSIONS
+
+    #process step1 : rnd file upload
+    @expose('/uploadRndSeedFile', methods = ['POST'])
+    def uploadRndSeedFile(self):
+        
+        if request.method == 'POST':
+            files = request.files['file']
+
+        if files:
+            filename = secure_filename(files.filename)
+            #filename = gen_file_name(filename)
+            mime_type = files.content_type
+            print(filename)
+
+            if not self.allowed_file(files.filename):
+                result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
+
+        return json.dumps({"files": [result.get_file()]})
+
+    @expose('/generalInput', methods = ['POST'])
+    def getTableData(self):
+
+        data = request.form['form-generalinput']
+        print(data)
+
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
 
     @expose('/getTableData')
