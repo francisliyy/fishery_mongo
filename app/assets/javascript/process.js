@@ -10,7 +10,7 @@ function onNext(parent, panel) {
 
 $(function() {
 
-	$(".acc-wizard").accwizard({		
+	$("#process-part").accwizard({		
 		onNext:function(){
 
 			$this = $(this);

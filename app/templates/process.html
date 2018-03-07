@@ -18,7 +18,7 @@
       </p>
       </div>
     </div>
-    <div class="row acc-wizard">
+    <div id="process-part" class="row acc-wizard">
       <div class="col-md-3" style="padding-left: 2em;">
         <p style="margin-bottom: 2em;">
           Follow the steps below:
@@ -1317,7 +1317,7 @@
       </div>
     </div>
     <hr>
-    <div class="row acc-wizard">
+    <div id="process-result" class="row acc-wizard">
       <div class="col-md-3" style="padding-left: 2em;">
         <p style="margin-bottom: 2em;">
           Show the process result:
@@ -1340,7 +1340,8 @@
             </div>
             <div id="bio" class="panel-collapse collapse in">
               <div class="panel-body">
-                <div></div>
+                <div id="bio-chart-1" style="width: 800px;height: 600px">
+                </div>
               </div> <!--/.panel-body -->
             </div> <!-- /#generalinput -->
           </div> <!-- /.panel.panel-default -->
@@ -1378,6 +1379,8 @@
     <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.min.js')}}"></script>
-    <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>    
+    <script src="{{url_for('static',filename='assets/node_modules/echarts/dist/echarts.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>    
 {% endblock %}
 
