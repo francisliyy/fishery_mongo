@@ -11,26 +11,47 @@ from app.fileUtils import *
 import pandas as pd
 import numpy as np
 import json
+#from flask import _app_ctx_stack
+#from flask.globals import _request_ctx_stack
 
 
 """
     Define you Views here
 """
 
-class ProcessView(BaseView):
-
-
-    @expose('/showProcess/')
-    @has_access
-    def showProcess(self):
-
+"""
+        r invoke
         #rutils = RUtil()
         #rutils.runScript("app/static/rscript/rplots.r");
+"""
 
-        return self.render_template('/process.html')
+class ProcessView(ModelView):
+
+    datamodel = MongoEngineInterface(Process)
+
+    label_columns = {'pro_name': 'Process Name'}
+
+    add_columns =  ['process_name','process_description']
+    edit_columns =  ['process_name','process_description']
+    list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on']
+
+    def pre_add(self, item):
+        item.created_by = current_user.id
+
+    def pre_update(self, item):
+        item.changed_by = current_user.id
+
+    @expose('/showProStep/<pk>')
+    @has_access
+    def showProStep(self,pk):
+
+        item = self.datamodel.get(pk)
+
+        return self.render_template('/process.html', process_name=item.process_name, process_description=item.process_description)
+
+class ProStepView(BaseView):
 
     ALLOWED_RND_EXTENSIONS = set(['txt'])
-
 
     def allowed_file(self,filename):
         return '.' in filename and \
@@ -39,6 +60,8 @@ class ProcessView(BaseView):
     #process step1 : rnd file upload
     @expose('/uploadRndSeedFile', methods = ['POST'])
     def uploadRndSeedFile(self):
+        #app_stack = _app_ctx_stack or _request_ctx_stack
+        #ctx = app_stack.top
         
         if request.method == 'POST':
             files = request.files['file']
@@ -48,11 +71,25 @@ class ProcessView(BaseView):
             #filename = gen_file_name(filename)
             mime_type = files.content_type
             print(filename)
+            #print(files)
 
             if not self.allowed_file(files.filename):
                 result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
+            else:
+                #print(os.path.abspath('.'))
+                #uploaded_file_path = os.path.join(ctx.app.config['UPLOAD_FOLDER'], filename)
+                #files.save(uploaded_file_path)
+                #size = os.path.getsize(uploaded_file_path)
+                #result = uploadfile(name=filename, type=mime_type, size=size)
+                upfile = StockFile()
+                upfile.file = files
+                upfile.file.filename = filename
+                upfile.description = filename
+                upfile.created_by = current_user.id
+                upfile.created_by = current_user.id
+                upfile.save()
 
-        return json.dumps({"files": [result.get_file()]})
+        return json.dumps({"files": [{'name':filename}]})
 
     @expose('/generalInput', methods = ['POST'])
     def getTableData(self):
@@ -119,7 +156,7 @@ class StockFileView(ModelView):
     Application wide 404 error handler
 """
 appbuilder.add_view(StockFileView,"Stock File", icon='fa-folder-open-o', category='Management',category_icon="fa-envelope")
-appbuilder.add_view(ProcessView,"prcess", href='/processview/showProcess', category='Process View')
+appbuilder.add_view(ProcessView,"Prcoess List", icon='fa-folder-open-o', category='Process View',category_icon="fa-envelope")
 
 
 @appbuilder.app.errorhandler(404)

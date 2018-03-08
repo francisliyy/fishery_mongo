@@ -14,9 +14,7 @@ Define you MongoEngine Models here
 
 class AuditMixinMongo(Document):
 
-
-
-	meta = {'allow_inheritance': True}
+    meta = {'allow_inheritance': True}
 
 class StockFile(Document):
 
@@ -40,6 +38,24 @@ class StockFile(Document):
 	def file_name(self):
 		return self.file.name
 
+class Process(Document):
+
+    process_name = StringField(max_length=50)
+    process_description = StringField(max_length=1000)
+    created_by = ReferenceField("User",reqired=True)
+    created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
+    changed_by = ReferenceField("User",reqired=True)
+    changed_on = DateTimeField(default=datetime.datetime.now,
+                        onupdate=datetime.datetime.now, nullable=False)
+
+    def pro_name(self):
+        if self.process_name:
+            return Markup('<a href="' + url_for('ProcessView.showProStep',pk=str(self.id))+'">'+self.process_name)
+
+        else:
+            return Markup('')
+
+
 class ProcessGenInput(Document):
 
 
@@ -48,7 +64,7 @@ class ProcessGenInput(Document):
 			('S', '1 season'),
 			('Y', '1 year'))
 
-	process_id = SequenceField()
+	process_id = ReferenceField("Process",reqired=True)
 	time_step = StringField(max_length=2,choices=TIMESTEP)
 	start_projection = DateTimeField(default=datetime.datetime.now)
 	short_term_mgt = IntField()

@@ -9,7 +9,7 @@ function onNext(parent, panel) {
 }
 
 $(function() {
-
+	
 	$("#process-part").accwizard({		
 		onNext:function(){
 
@@ -46,12 +46,13 @@ $(function() {
     });
 
     $("#rnd_seed_file").uploadFile({
-		url: $SCRIPT_ROOT+'/processview/uploadRndSeedFile',
+		url: $SCRIPT_ROOT+'/prostepview/uploadRndSeedFile',
 	});
 
 	$("#mask").addClass('lmask');
+
     $.ajax({
-    	url: $SCRIPT_ROOT+'/processview/getTableData',
+    	url: $SCRIPT_ROOT+'/prostepview/getTableData',
     	type: 'get',
     	dataType: 'JSON',
     	data: {param1: 'value1'},
