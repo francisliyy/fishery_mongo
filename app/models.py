@@ -82,3 +82,6 @@ class ProcessGenInput(Document):
 	changed_on = DateTimeField(default=datetime.datetime.now,
                         onupdate=datetime.datetime.now, nullable=False)
 
+	def file_name(self):
+		return self.rnd_seed_file.name
+

@@ -49,6 +49,8 @@
             <div id="generalinput" class="panel-collapse collapse in">
               <div class="panel-body">
                 <form id="form-generalinput">
+                  {% if process_step1 %}
+                  <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfilename="{{process_step1['rnd_seed_file'].name}}"></div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Time Step</label>
                     <label class="radio-inline">
@@ -67,7 +69,7 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Start Projection</label>
                     <div class='col-md-5 input-group date' id='start_projection' name='start_projection'>
-                      <input type='text' class="form-control"/>
+                      <input type='text' class="form-control" value="{{process_step1['start_projection']}}"/>
                       <span class="input-group-addon">
                           <span class="glyphicon glyphicon-calendar"></span>
                       </span>
@@ -76,7 +78,7 @@
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Short-term Management</label>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3" value="{{process_step1['short_term_mgt']}}"/> 
                     </div> 
                     <div class="col-md-2 input-group">      
                       <select id="short_term_unit" name="short_term_unit" class="form-control">
@@ -89,7 +91,7 @@
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Long-term Management</label>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="long_term_mgt" name="long_term_mgt" placeholder="3"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="long_term_mgt" name="long_term_mgt" placeholder="3" value="{{process_step1['long_term_mgt']}}"/> 
                     </div> 
                     <div class="col-md-2 input-group">      
                       <select id="long_term_unit" name="long_term_unit" class="form-control">
@@ -102,7 +104,7 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Stock per Management Unit</label>
                     <div class="col-md-5 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="stock_per_mgt_unit" name="stock_per_mgt_unit" placeholder="2"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="stock_per_mgt_unit" name="stock_per_mgt_unit" placeholder="2" value="{{process_step1['stock_per_mgt_unit']}}"/> 
                     </div>              
                   </div>
                   <div class="form-group">
@@ -120,13 +122,13 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Last Age in the Plus Group</label>
                     <div class="col-md-5 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="last_age" name="last_age" placeholder="20"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="last_age" name="last_age" placeholder="20" value="{{process_step1['last_age']}}"/> 
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Number of Iteratons</label>
                     <div class="col-md-5 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="no_of_interations" name="no_of_interations" placeholder="1000"/> 
+                      <input type="text" class="form-control" style="border-radius: 4px" id="no_of_interations" name="no_of_interations" placeholder="1000" value="{{process_step1['no_of_interations']}}"/> 
                     </div>              
                   </div>
                   <div class="form-group">
@@ -136,6 +138,7 @@
                                    <input type="file" class="form-control" style="border-radius: 4px" id="rnd_seed_file"/> 
                                  </div>  -->             
                   </div>
+                  {% endif %}
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#generalinput -->
