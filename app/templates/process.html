@@ -110,13 +110,13 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Mixing Pattern</label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixing_pattern" id="constptn" value="1"> Constants
+                      <input type="radio" name="mixing_pattern" id="constptn" value="1" {{ 'checked' if process_step1['mixing_pattern']=='1'}}> Constants
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixing_pattern" id="sameptn" value="2"> Same over years
+                      <input type="radio" name="mixing_pattern" id="sameptn" value="2" {{ 'checked' if process_step1['mixing_pattern']=='2'}}> Same over years
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixing_pattern" id="timeptn" value="3"> Time varies
+                      <input type="radio" name="mixing_pattern" id="timeptn" value="3" {{ 'checked' if process_step1['mixing_pattern']=='3'}}> Time varies
                     </label>
                   </div>
                   <div class="form-group">
