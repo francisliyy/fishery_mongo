@@ -54,16 +54,16 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Time Step</label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="1monthRadio" value="M"> 1 month
+                      <input type="radio" name="time_step" id="1monthRadio" value="M" {{'checked' if process_step1['time_step']=='M'}}> 1 month
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="1seasonRadio" value="S"> 1 season
+                      <input type="radio" name="time_step" id="1seasonRadio" value="S" {{ 'checked' if process_step1['time_step']=='S'}}> 1 season
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="halfYearRadio" value="HY"> half year
+                      <input type="radio" name="time_step" id="halfYearRadio" value="HY" {{ 'checked' if process_step1['time_step']=='HY'}}> half year
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="1YearRadio" value="Y"> 1 year
+                      <input type="radio" name="time_step" id="1YearRadio" value="Y" {{ 'checked' if process_step1['time_step']=='Y'}}> 1 year
                     </label>
                   </div>
                   <div class="form-group">
@@ -82,9 +82,9 @@
                     </div> 
                     <div class="col-md-2 input-group">      
                       <select id="short_term_unit" name="short_term_unit" class="form-control">
-                              <option value="Y">Years</option>
-                              <option value="S">Seasons</option>
-                              <option value="M">Months</option>
+                              <option value="Y" {{'selected' if process_step1['short_term_unit']=='Y'}}>Years</option>
+                              <option value="S" {{'selected' if process_step1['short_term_unit']=='S'}}>Seasons</option>
+                              <option value="M" {{'selected' if process_step1['short_term_unit']=='M'}}>Months</option>
                       </select>
                     </div>              
                   </div>
@@ -95,9 +95,9 @@
                     </div> 
                     <div class="col-md-2 input-group">      
                       <select id="long_term_unit" name="long_term_unit" class="form-control">
-                              <option value="Y">Years</option>
-                              <option value="S">Seasons</option>
-                              <option value="M">Months</option>
+                              <option value="Y" {{'selected' if process_step1['long_term_unit']=='Y'}}>Years</option>
+                              <option value="S" {{'selected' if process_step1['long_term_unit']=='S'}}>Seasons</option>
+                              <option value="M" {{'selected' if process_step1['long_term_unit']=='M'}}>Months</option>
                       </select>
                     </div>              
                   </div>

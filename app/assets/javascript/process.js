@@ -16,16 +16,16 @@ $(function() {
 			$this = $(this);
 			if($this.parent("#form-generalinput")){
 				var data = {};
-				var time_step = $('input[name=time_step]:checked', '#form-generalinput').val();
-				var start_projection = $("#start_projection").find("input").val();
-				var short_term_mgt = $("#short_term_mgt").val();
-				var short_term_unit = $("#short_term_unit").val();
-				var long_term_mgt = $("#long_term_mgt").val();
-				var long_term_unit = $("#long_term_unit").val();
-				var stock_per_mgt_unit = $("#stock_per_mgt_unit").val();
-				var mixing_pattern = $('input[name=mixing_pattern]:checked', '#form-generalinput').val();
-				var last_age = $('#last_age').val();
-				var no_of_interations = $('#no_of_interations').val();
+				var time_step = $('input[name=time_step]:checked', '#form-generalinput').val()||'M';
+				var start_projection = $("#start_projection").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
+				var short_term_mgt = $("#short_term_mgt").val()||0;
+				var short_term_unit = $("#short_term_unit").val()||'Y';
+				var long_term_mgt = $("#long_term_mgt").val()||0;
+				var long_term_unit = $("#long_term_unit").val()||'Y';
+				var stock_per_mgt_unit = $("#stock_per_mgt_unit").val()||0;
+				var mixing_pattern = $('input[name=mixing_pattern]:checked', '#form-generalinput').val()||1
+				var last_age = $('#last_age').val()||0;
+				var no_of_interations = $('#no_of_interations').val()||0;
 				$.ajax({
 		            cache: false,
 		            url: $SCRIPT_ROOT+'/prostepview/step1/'+$("#step1_id").data("step1id"),
@@ -119,7 +119,7 @@ $(function() {
 	$("#table-ibParam").bootstrapTable({
     	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
     	//dataType:'json',
-    	data:result,
+    	//data:result,
         method: 'get',                      //请求方式（*）
         toolbar: '#toolbar',                //工具按钮用哪个容器
         striped: true,                      //是否显示行间隔色
