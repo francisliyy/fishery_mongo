@@ -1,5 +1,5 @@
 from mongoengine import Document
-from mongoengine import DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField
+from mongoengine import DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField
 from flask import Markup, url_for
 from flask_appbuilder.models.decorators import renders
 #from flask_appbuilder.security.mongoengine.models import *
@@ -65,6 +65,7 @@ class ProcessGenInput(Document):
 			('Y', '1 year'))
 
 	process_id = ReferenceField("Process",reqired=True)
+	#step1
 	time_step = StringField(max_length=2,choices=TIMESTEP)
 	start_projection = DateTimeField(default=datetime.datetime.now)
 	short_term_mgt = IntField()
@@ -76,6 +77,12 @@ class ProcessGenInput(Document):
 	last_age = IntField()
 	no_of_interations = IntField()
 	rnd_seed_file = FileField()
+	#step2
+	unit1to1 = DecimalField()
+	unit1to2 = DecimalField()
+	unit2to1 = DecimalField()
+	unit2to2 = DecimalField()
+
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
 	changed_by = ReferenceField("User",reqired=True)

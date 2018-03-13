@@ -71,6 +71,7 @@ class ProStepView(BaseView):
 
     #process step1 : rnd file upload
     @expose('/step1/<string:pk>', methods = ['PUT'])
+    @has_access
     def step1(self,pk):
     	if request.method == 'PUT':
     		pgi = ProcessGenInput.objects(id=pk).first()
@@ -88,9 +89,24 @@ class ProStepView(BaseView):
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
+    #process step1 : rnd file upload
+    @expose('/step2/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step2(self,pk):
+    	if request.method == 'PUT':
+    		pgi = ProcessGenInput.objects(id=pk).first()
+    		pgi.unit1to1 = request.form["unit1to1"]
+    		pgi.unit1to2 = request.form["unit1to2"]
+    		pgi.unit2to1 = request.form["unit2to1"]
+    		pgi.unit2to2 = request.form["unit2to2"]
+    		pgi.save()
+
+    	return Response(json.dumps({'status':1}), mimetype='application/json')
+
 
     #process step1 : rnd file upload
     @expose('/rndSeedFile/<string:pk>', methods = ['POST','DELETE'])
+    @has_access
     def uploadRndSeedFile(self,pk):
         #app_stack = _app_ctx_stack or _request_ctx_stack
         #ctx = app_stack.top
@@ -115,7 +131,7 @@ class ProStepView(BaseView):
         if request.method == 'DELETE':
             print("delete------------------------------:%s"%pgi.file_name())
             pgi.rnd_seed_file.delete()
-            print("delete------------------------------:%s"%pgi.file_name())
+            #print("delete------------------------------:%s"%pgi.file_name())
 
         return json.dumps({})
 

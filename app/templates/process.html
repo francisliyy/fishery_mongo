@@ -38,6 +38,8 @@
       <div class="col-md-9" style="padding-right: 2em;">
         <div id="accordion-demo" class="panel-group">
 
+          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfilename="{{process_step1['rnd_seed_file'].name}}"></div>
+
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
@@ -50,7 +52,6 @@
               <div class="panel-body">
                 <form id="form-generalinput">
                   {% if process_step1 %}
-                  <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfilename="{{process_step1['rnd_seed_file'].name}}"></div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Time Step</label>
                     <label class="radio-inline">
@@ -167,22 +168,22 @@
                   <div class="form-group form-inline">
                     <label class="col-md-2 control-label">Unit 1</label>
                     <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="unit1to1" name="unit1to1" value="{{process_step1['unit1to1']}}" placeholder="3"/>
                     </div>
                     <div class="col-md-1 input-group">%</div> 
                     <div class="col-md-2 input-group">      
-                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="unit1to2" name="unit1to2" value="{{process_step1['unit1to2']}}" placeholder="3"/>
                     </div>
                     <div class="col-md-1 input-group">%</div>              
                   </div>
                   <div class="form-group form-inline">
                     <label class="col-md-2 control-label">Unit 2</label>
                     <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="unit2to1" name="unit2to1" value="{{process_step1['unit2to1']}}" placeholder="3"/>
                     </div> 
                     <div class="col-md-1 input-group">%</div>   
                     <div class="col-md-2 input-group">      
-                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="unit2to2" name="unit2to2" value="{{process_step1['unit2to2']}}" placeholder="3"/>
                     </div>
                     <div class="col-md-1 input-group">%</div>   
                   </div>
@@ -1381,7 +1382,7 @@
     <script src="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js')}}"></script>
-    <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/echarts/dist/echarts.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>    

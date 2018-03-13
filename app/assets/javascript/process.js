@@ -1,20 +1,10 @@
-function onNext(parent, panel) {
-  hash = "#" + panel.id;
-  $(".acc-wizard-sidebar",$(parent))
-      .children("li")
-      .children("a[href='" + hash + "']")
-      .parent("li")
-      .removeClass("acc-wizard-todo")
-      .addClass("acc-wizard-completed");
-}
-
 $(function() {
 
 	$("#process-part").accwizard({		
-		onNext:function(){
-
-			$this = $(this);
-			if($this.parent("#form-generalinput")){
+		onNext:function(parent, panel){
+			$panel = $(panel);
+			if($panel.prop("id")=='generalinput'){
+				console.log('in step1');
 				var data = {};
 				var time_step = $('input[name=time_step]:checked', '#form-generalinput').val()||'M';
 				var start_projection = $("#start_projection").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
@@ -39,11 +29,31 @@ $(function() {
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
-		                     console.log("save step1 successfully");  //打印服务器返回的错误信息
+		                     console.log("save step1 successfully");
 		                 }
 		            }
 		        });
-
+			}else if($panel.prop("id")=='stockassessment1'){
+				console.log('in step2');
+				var data = {};
+				var unit1to1 = parseFloat($("#unit1to1").val())||0;
+				var unit1to2 = parseFloat($("#unit1to2").val())||(100.0-unit1to1);
+				var unit2to1 = parseFloat($("#unit2to1").val())||0;
+				var unit2to2 = parseFloat($("#unit2to2").val())||(100.0-unit2to1);
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step2/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            data: {"unit1to1":unit1to1,"unit1to2":unit1to2,
+		            "unit2to1":unit2to1,"unit2to2":unit2to2},
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step2 successfully");
+		                 }
+		            }
+		        });
 			}
 		}
 	});
