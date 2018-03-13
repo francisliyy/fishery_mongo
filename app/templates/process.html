@@ -207,38 +207,38 @@
                   <div class="form-group">
                     <label class="col-md-2 control-label">Model Type</label>
                     <label class="radio-inline">
-                      <input type="radio" name="modelType1" id="mt1SS3" value="1"> Stock Synthesis 3
+                      <input type="radio" name="stock1_model_type" id="mt1SS3" value="1" {{ 'checked' if process_step1['stock1_model_type']=='1'}}> Stock Synthesis 3
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="modelType1" id="mt1VPA" value="2"> Virtual Population Analysis
+                      <input type="radio" name="stock1_model_type" id="mt1VPA" value="2" {{ 'checked' if process_step1['stock1_model_type']=='2'}}> Virtual Population Analysis
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="modelType1" id="mt1Scaa" value="3"> Statistical-catch-at-age
+                      <input type="radio" name="stock1_model_type" id="mt1Scaa" value="3" {{ 'checked' if process_step1['stock1_model_type']=='3'}}> Statistical-catch-at-age
                     </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-2 control-label">Input file path</label> 
-                    <div class="col-md-5 input-group">   
-                      <input type="file" class="form-control" style="border-radius: 4px" id="mt1FilePath"/>
+                    <div class="col-md-5 input-group">     
+                      <input type="text" class="form-control" style="border-radius: 4px;" id="stock1_filepath" name="stock1_filepath" value="{{process_step1['stock1_filepath']}}"/>
                     </div>
                   </div>
                   <h4>Stock2:</h4>
                   <div class="form-group">
                     <label class="col-md-2 control-label">Model Type</label>
                     <label class="radio-inline">
-                      <input type="radio" name="modelType1" id="mt2SS3" value="1"> Stock Synthesis 3
+                      <input type="radio" name="stock2_model_type" id="mt2SS3" value="1" {{ 'checked' if process_step1['stock2_model_type']=='1'}}> Stock Synthesis 3
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="modelType1" id="mt2VPA" value="2"> Virtual Population Analysis
+                      <input type="radio" name="stock2_model_type" id="mt2VPA" value="2" {{ 'checked' if process_step1['stock2_model_type']=='2'}}> Virtual Population Analysis
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="modelType1" id="mt2Scaa" value="3"> Statistical-catch-at-age
+                      <input type="radio" name="stock2_model_type" id="mt2Scaa" value="3" {{ 'checked' if process_step1['stock2_model_type']=='3'}}> Statistical-catch-at-age
                     </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-2 control-label">Input file path</label> 
                     <div class="col-md-5 input-group">   
-                      <input type="file" class="form-control" style="border-radius: 4px" id="mt2FilePath"/>
+                      <input type="text" class="form-control" style="border-radius: 4px;" id="stock2_filepath" name="stock2_filepath" value="{{process_step1['stock2_filepath']}}"/>
                     </div>
                   </div>                  
                 </form>

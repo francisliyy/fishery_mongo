@@ -89,7 +89,7 @@ class ProStepView(BaseView):
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
-    #process step1 : rnd file upload
+    #process step2 
     @expose('/step2/<string:pk>', methods = ['PUT'])
     @has_access
     def step2(self,pk):
@@ -99,6 +99,20 @@ class ProStepView(BaseView):
     		pgi.unit1to2 = request.form["unit1to2"]
     		pgi.unit2to1 = request.form["unit2to1"]
     		pgi.unit2to2 = request.form["unit2to2"]
+    		pgi.save()
+
+    	return Response(json.dumps({'status':1}), mimetype='application/json')
+
+    #process step3 
+    @expose('/step3/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step3(self,pk):
+    	if request.method == 'PUT':
+    		pgi = ProcessGenInput.objects(id=pk).first()
+    		pgi.stock1_model_type = request.form["stock1_model_type"]
+    		pgi.stock1_filepath = request.form["stock1_filepath"]
+    		pgi.stock2_model_type = request.form["stock2_model_type"]
+    		pgi.stock2_filepath = request.form["stock2_filepath"]
     		pgi.save()
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')

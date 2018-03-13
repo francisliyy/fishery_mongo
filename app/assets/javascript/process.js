@@ -1,5 +1,10 @@
 $(function() {
 
+
+	$('#mt1FilePath').change(function () {
+	    console.log(this.files[0].mozFullPath);
+	});
+
 	$("#process-part").accwizard({		
 		onNext:function(parent, panel){
 			$panel = $(panel);
@@ -51,6 +56,27 @@ $(function() {
 		            {
 		                 if(data.status=1){
 		                     console.log("save step2 successfully");
+		                 }
+		            }
+		        });
+			}else if($panel.prop("id")=='stockassessment2'){
+				console.log('in step3');
+				var data = {};
+				var stock1_model_type = $('input[name=stock1_model_type]:checked', '#form-stockassessment2').val()||'1';
+				var stock1_filepath = $("#stock1_filepath").val()||'';
+				var stock2_model_type = $('input[name=stock2_model_type]:checked', '#form-stockassessment2').val()||'1';
+				var stock2_filepath = $("#stock2_filepath").val()||'';
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step3/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            data: {"stock1_model_type":stock1_model_type,"stock1_filepath":stock1_filepath,
+		            "stock2_model_type":stock2_model_type,"stock2_filepath":stock2_filepath},
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step3 successfully");
 		                 }
 		            }
 		        });

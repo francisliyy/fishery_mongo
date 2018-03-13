@@ -82,6 +82,11 @@ class ProcessGenInput(Document):
 	unit1to2 = DecimalField()
 	unit2to1 = DecimalField()
 	unit2to2 = DecimalField()
+	#step3
+	stock1_model_type = StringField(max_length=2)
+	stock1_filepath = StringField(max_length=100)
+	stock2_model_type = StringField(max_length=2)
+	stock2_filepath = StringField(max_length=100)
 
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
