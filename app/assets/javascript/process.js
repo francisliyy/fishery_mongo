@@ -209,9 +209,10 @@ $(function() {
 		},
 	    onLoad: function(obj)
 	    {
+	    	var filename = $("#step1_id").data("rndfilename");
 
 	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
-	        //obj.createProgress('/tmpImage.jpg');        //createProgress方法可以创建一个已上传的文件
+	        filename&&obj.createProgress(filename);        //createProgress方法可以创建一个已上传的文件
 	    },
 	    deleteCallback: function(data,pd)
 	    {

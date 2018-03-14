@@ -55,7 +55,11 @@ class ProcessView(ModelView):
             step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)
             step1.save()
         else:
-            print("===========%s"%step1[0]["rnd_seed_file"])
+        	rndfile = step1[0].rnd_seed_file 
+        	rndfilename = ""
+        	if rndfile is None:
+        		rndfilename = step1[0].rnd_seed_file.filename
+            #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         return self.render_template('/process.html',process_step1=step1[0],process_name=item.process_name, process_description=item.process_description)
 
@@ -139,13 +143,14 @@ class ProStepView(BaseView):
                 if not self.allowed_file(files.filename):
                     result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
                 else:
-                    pgi.rnd_seed_file.replace(files,content_type = 'txt')
+                    pgi.rnd_seed_file.replace(files,content_type = 'txt',filename = files.filename)
                     pgi.save()
+                    rnd = pgi.rnd_seed_file.read()
+                    print(pgi.rnd_seed_file.filename)
+                    print(pgi.rnd_seed_file.content_type)
 
         if request.method == 'DELETE':
-            print("delete------------------------------:%s"%pgi.file_name())
             pgi.rnd_seed_file.delete()
-            #print("delete------------------------------:%s"%pgi.file_name())
 
         return json.dumps({})
 
