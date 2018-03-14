@@ -178,7 +178,7 @@ class ProStepView(BaseView):
         df_W = pd.read_csv(file_obs_W,usecols=['Year','Observed'])
         df_W = df_W.rename(index=str, columns={"Year": "W_Year", "Observed": "W_Observed"})
         df_total = pd.concat([df_E,df_W],axis=1)
-        println('in side getTableData====================================')
+        print('in side getTableData====================================')
         #return jsonify(df_E.to_json(orient='records'))
         return Response(df_total.to_json(orient='records'), mimetype='application/json')
 
@@ -224,7 +224,7 @@ class StockFileView(ModelView):
     Application wide 404 error handler
 """
 appbuilder.add_view(StockFileView,"Stock File", icon='fa-folder-open-o', category='Management',category_icon="fa-envelope")
-appbuilder.add_view(ProcessView,"Prcoess List", icon='fa-folder-open-o', category='Process View',category_icon="fa-envelope")
+appbuilder.add_view(ProcessView,"MSE Test Scenarios", icon='fa-folder-open-o', category='MSE',category_icon="fa-envelope")
 appbuilder.add_view_no_menu(ProStepView())
 
 @appbuilder.app.errorhandler(404)
