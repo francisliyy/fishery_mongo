@@ -1,5 +1,5 @@
-from mongoengine import Document
-from mongoengine import DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField
+from mongoengine import Document, EmbeddedDocument
+from mongoengine import DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField,EmbeddedDocumentListField
 from flask import Markup, url_for
 from flask_appbuilder.models.decorators import renders
 #from flask_appbuilder.security.mongoengine.models import *
@@ -11,10 +11,6 @@ import datetime
 Define you MongoEngine Models here
 
 """
-
-class AuditMixinMongo(Document):
-
-    meta = {'allow_inheritance': True}
 
 class StockFile(Document):
 
@@ -37,6 +33,15 @@ class StockFile(Document):
 
 	def file_name(self):
 		return self.file.name
+
+
+class GIIniPopulation(EmbeddedDocument):
+
+	age_1 = IntField()
+	stock_1_mean = DecimalField()
+	cv_1 = DecimalField()
+	stock_2_mean = DecimalField()
+	cv_2 = DecimalField()
 
 class Process(Document):
 
@@ -87,13 +92,12 @@ class ProcessGenInput(Document):
 	stock1_filepath = StringField(max_length=100)
 	stock2_model_type = StringField(max_length=2)
 	stock2_filepath = StringField(max_length=100)
+	#step4
+	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
 	changed_by = ReferenceField("User",reqired=True)
 	changed_on = DateTimeField(default=datetime.datetime.now,
                         onupdate=datetime.datetime.now, nullable=False)
-
-	def file_name(self):
-		return self.rnd_seed_file.name
 

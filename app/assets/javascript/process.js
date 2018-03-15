@@ -115,32 +115,61 @@ $(function() {
 							    	columns:[
 							    		[
 							    			{
-							    				title:"East Year",
-							    				field:"E_Year",
+							    				title:"Age",
+							    				field:"age_1",
 							    				editable:false,
 							    			},
 							    			{
-							    				title:"East Observed",
-							    				field:"E_Observed",
+							    				title:"Stock 1 mean",
+							    				field:"stock_1_mean",
 							    				editable: {
 								                    type: 'text',
-								                    title: 'East Observed',
+								                    title: 'Stock 1 mean',
 								                    validate: function (v) {
-								                        if (isNaN(v)) return 'East Observed must be number';
+								                        if (isNaN(v)) return 'Stock 1 mean must be number';
 								                        var stockmean = parseFloat(v);
-								                        if (stockmean <= 0) return 'East Observed must larger than 0';
+								                        if (stockmean <= 0) return 'Stock 1 mean must larger than 0';
 									                }
 							                    }
 							    			},
 							    			{
-							    				title:"West Year",
-							    				field:"W_Year",
-							    				editable:false,
+							    				title:"CV",
+							    				field:"E_Expected",
+							    				editable: {
+								                    type: 'text',
+								                    title: 'cv_1',
+								                    validate: function (v) {
+								                        if (isNaN(v)) return 'CV must be number';
+								                        var stockmean = parseFloat(v);
+								                        if (stockmean <= 0) return 'CV must larger than 0';
+									                }
+							                    }
 							    			},
 							    			{
-							    				title:"West Observed",
-							    				field:"W_Observed",
-							    				editable:false,
+							    				title:"Stock 2 mean",
+							    				field:"stick_2_mean",
+							    				editable: {
+								                    type: 'text',
+								                    title: 'Stock 2 mean',
+								                    validate: function (v) {
+								                        if (isNaN(v)) return 'Stock 2 mean must be number';
+								                        var stockmean = parseFloat(v);
+								                        if (stockmean <= 0) return 'Stock 2 mean must larger than 0';
+									                }
+							                    }
+							    			},
+							    			{
+							    				title:"CV",
+							    				field:"cv_2",
+							    				editable: {
+								                    type: 'text',
+								                    title: 'CV',
+								                    validate: function (v) {
+								                        if (isNaN(v)) return 'CV must be number';
+								                        var stockmean = parseFloat(v);
+								                        if (stockmean <= 0) return 'CV must larger than 0';
+									                }
+							                    }
 							    			},
 							    		],
 							    	],
@@ -148,7 +177,7 @@ $(function() {
 							    		console.log(row);
 							    		$.ajax({
 							                type: "post",
-							                url: $SCRIPT_ROOT+"/processview/editTableData",
+							                url: $SCRIPT_ROOT+"/prostepview/editTableData",
 							                data: row,
 							                dataType: 'json',
 							            }).done(function(result) {
@@ -169,6 +198,22 @@ $(function() {
 						    	$("#mask").removeClass('lmask');
 						    });
 				        }
+		            }
+		        });
+			}else if($panel.prop("id")=='ibParam'){
+				alert($("#table-ibParam").bootstrapTable('getData').length);
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step4/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: JSON.stringify($("#table-ibParam").bootstrapTable('getData')),
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step4 successfully");
+		                 }
 		            }
 		        });
 			}

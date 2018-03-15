@@ -8,6 +8,7 @@ from werkzeug import secure_filename
 from app.models import *
 from app.rutils import *
 from app.fileUtils import *
+from bson import json_util
 import pandas as pd
 import numpy as np
 import json
@@ -121,6 +122,28 @@ class ProStepView(BaseView):
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
+    #process step3 
+    @expose('/step4/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step4(self,pk):
+    	if request.method == 'PUT':
+    		pgi = ProcessGenInput.objects(id=pk).first()
+    		originlist = request.get_json()
+    		populist = []
+    		for popu in originlist:
+    			inipopu = GIIniPopulation()
+    			inipopu.age_1 = int(popu['age_1'])
+    			inipopu.stock_1_mean = float(popu['stock_1_mean'])
+    			inipopu.cv_1 = float(popu['cv_1'])
+    			inipopu.stock_2_mean = float(popu['stock_2_mean'])
+    			inipopu.cv_2 = float(popu['cv_2'])
+    			populist.append(inipopu)    			
+    		
+    		pgi.iniPopu = populist
+    		pgi.save()
+
+    	return Response(json.dumps({'status':1}), mimetype='application/json')
+
 
     #process step1 : rnd file upload
     @expose('/rndSeedFile/<string:pk>', methods = ['POST','DELETE'])
@@ -164,6 +187,7 @@ class ProStepView(BaseView):
         return response
 
     @expose('/generalInput', methods = ['POST'])
+    @has_access
     def getTableData(self):
 
         data = request.form['form-generalinput']
@@ -173,24 +197,25 @@ class ProStepView(BaseView):
 
 
     @expose('/getTableData')
+    @has_access
     def getTableData(self):
 
         file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
         file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
 
-        df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed'])
-        df_E = df_E.rename(index=str, columns={"Year": "E_Year", "Observed": "E_Observed"})
-        df_W = pd.read_csv(file_obs_W,usecols=['Year','Observed'])
-        df_W = df_W.rename(index=str, columns={"Year": "W_Year", "Observed": "W_Observed"})
+        df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
+        df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "stock_1_mean", "Expected": "cv_1"})
+        df_W = pd.read_csv(file_obs_W,usecols=['Observed','Expected'])
+        df_W = df_W.rename(index=str, columns={"Observed": "stock_2_mean", "Expected": "cv_2"})
         df_total = pd.concat([df_E,df_W],axis=1)
-        print('in side getTableData====================================')
         #return jsonify(df_E.to_json(orient='records'))
         return Response(df_total.to_json(orient='records'), mimetype='application/json')
 
     @expose('/editTableData', methods = ['POST'])
+    @has_access
     def editTableData(self):
         
-        print(request.form["E_Year"])
+        print(request.form["stock_1_mean"])
 
         return Response(json.dumps({'status':1}), mimetype='application/json')
 
