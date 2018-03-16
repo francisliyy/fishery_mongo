@@ -75,7 +75,7 @@ $(function() {
 		            "stock2_model_type":stock2_model_type,"stock2_filepath":stock2_filepath},
 		            success: function(data) 
 		            {
-		                if(data.status=1){
+		                if(data.status==1){
 		                    $("#mask").addClass('lmask');
 		                    $.ajax({
 						    	url: $SCRIPT_ROOT+'/prostepview/getTableData',
