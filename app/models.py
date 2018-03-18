@@ -5,7 +5,8 @@ from flask_appbuilder.models.decorators import renders
 #from flask_appbuilder.security.mongoengine.models import *
 from flask_login import current_user
 import datetime
-
+import json
+from app.jsonUtils import mongo_to_dict
 """
 
 Define you MongoEngine Models here
@@ -101,3 +102,5 @@ class ProcessGenInput(Document):
 	changed_on = DateTimeField(default=datetime.datetime.now,
                         onupdate=datetime.datetime.now, nullable=False)
 
+	def to_dict(self):
+		return mongo_to_dict(self)

@@ -49,20 +49,20 @@ class ProcessView(ModelView):
 
         item = self.datamodel.get(pk)
 
-        step1 = ProcessGenInput.objects(process_id=pk)
+        step1 = ProcessGenInput.objects(process_id=pk).first()
 
-        if len(step1) == 0:
+        if step1 is None:
             print("step1 is null")
             step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)
             step1.save()
         else:
-        	rndfile = step1[0].rnd_seed_file 
+        	rndfile = step1.rnd_seed_file 
         	rndfilename = ""
         	if rndfile is None:
         		rndfilename = step1[0].rnd_seed_file.filename
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
-        return self.render_template('/process.html',process_step1=step1[0],process_name=item.process_name, process_description=item.process_description)
+        return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
 
 class ProStepView(BaseView):
 
@@ -112,6 +112,7 @@ class ProStepView(BaseView):
     @expose('/step3/<string:pk>', methods = ['PUT'])
     @has_access
     def step3(self,pk):
+    	populist = {}
     	if request.method == 'PUT':
     		pgi = ProcessGenInput.objects(id=pk).first()
     		pgi.stock1_model_type = request.form["stock1_model_type"]
@@ -120,7 +121,8 @@ class ProStepView(BaseView):
     		pgi.stock2_filepath = request.form["stock2_filepath"]
     		pgi.save()
 
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+    	#return jsonify(pgi.to_json())
+    	return Response(pgi.to_json(), mimetype='application/json')
 
     #process step3 
     @expose('/step4/<string:pk>', methods = ['PUT'])
@@ -130,6 +132,7 @@ class ProStepView(BaseView):
     		pgi = ProcessGenInput.objects(id=pk).first()
     		originlist = request.get_json()
     		populist = []
+    		
     		for popu in originlist:
     			inipopu = GIIniPopulation()
     			inipopu.age_1 = int(popu['age_1'])
@@ -186,30 +189,25 @@ class ProStepView(BaseView):
         response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.rnd_seed_file.name)
         return response
 
-    @expose('/generalInput', methods = ['POST'])
+    @expose('/getTableData/<pk>')
     @has_access
-    def getTableData(self):
+    def getTableData(self,pk):
 
-        data = request.form['form-generalinput']
-        print(data)
+        if pk != None:
+            pgi = ProcessGenInput.objects(id=pk).first()
+            return Response(pgi.to_json(), mimetype='application/json')
 
-        return Response(json.dumps({'status':1}), mimetype='application/json')
+        else:
+            file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
+            file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
 
+            df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
+            df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "stock_1_mean", "Expected": "cv_1"})
+            df_W = pd.read_csv(file_obs_W,usecols=['Observed','Expected'])
+            df_W = df_W.rename(index=str, columns={"Observed": "stock_2_mean", "Expected": "cv_2"})
+            df_total = pd.concat([df_E,df_W],axis=1)
 
-    @expose('/getTableData')
-    @has_access
-    def getTableData(self):
-
-        file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
-        file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
-
-        df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
-        df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "stock_1_mean", "Expected": "cv_1"})
-        df_W = pd.read_csv(file_obs_W,usecols=['Observed','Expected'])
-        df_W = df_W.rename(index=str, columns={"Observed": "stock_2_mean", "Expected": "cv_2"})
-        df_total = pd.concat([df_E,df_W],axis=1)
-        #return jsonify(df_E.to_json(orient='records'))
-        return Response(df_total.to_json(orient='records'), mimetype='application/json')
+            return Response(df_total.to_json(orient='records'), mimetype='application/json')
 
     @expose('/editTableData', methods = ['POST'])
     @has_access
