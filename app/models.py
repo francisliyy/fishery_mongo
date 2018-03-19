@@ -51,6 +51,13 @@ class BioParameter(EmbeddedDocument):
 	maturity_stock_2 = DecimalField()
 	fecundity = DecimalField()
 
+class Mortality(EmbeddedDocument):
+
+	age_1 = IntField()
+	mean = DecimalField()
+	cv = DecimalField()
+	spawning = DecimalField()
+
 class Process(Document):
 
     process_name = StringField(max_length=50)
@@ -104,6 +111,8 @@ class ProcessGenInput(Document):
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 	#step5
 	bioParam = EmbeddedDocumentListField(BioParameter)
+	#step6
+	mortality = EmbeddedDocumentListField(Mortality)
 
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)

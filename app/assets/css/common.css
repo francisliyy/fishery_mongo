@@ -96,3 +96,13 @@
     -webkit-transform: rotate(360deg);
   }
 }
+
+/*button style*/
+.btn-disable {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-disable:hover
+{ 
+    color: #fff;
+}

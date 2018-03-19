@@ -241,7 +241,6 @@ class ProStepView(BaseView):
           	return Response(pgi.to_json(), mimetype='application/json')
 
         else:
-            print("in")
             file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
             file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
 
@@ -249,6 +248,28 @@ class ProStepView(BaseView):
             df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "maturity_stock_1", "Expected": "maturity_stock_2"})
             df_W = pd.read_csv(file_obs_W,usecols=['Observed'])
             df_W = df_W.rename(index=str, columns={"Observed": "fecundity"})
+            df_total = pd.concat([df_E,df_W],axis=1)            
+
+            return Response(df_total.to_json(orient='records'), mimetype='application/json')
+
+    @expose('/getMortalityTableData/<pk>')
+    @has_access
+    def getMortalityTableData(self,pk):
+
+        pgi = ProcessGenInput.objects(id=pk).first()
+
+        if pgi.mortality != None and len(pgi.mortality)>0:
+          	return Response(pgi.to_json(), mimetype='application/json')
+
+        else:
+            print("in")
+            file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
+            file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
+
+            df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
+            df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "mean", "Expected": "cv"})
+            df_W = pd.read_csv(file_obs_W,usecols=['Observed'])
+            df_W = df_W.rename(index=str, columns={"Observed": "spawning"})
             df_total = pd.concat([df_E,df_W],axis=1)            
 
             return Response(df_total.to_json(orient='records'), mimetype='application/json')

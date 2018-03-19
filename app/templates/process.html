@@ -298,27 +298,32 @@
             <div id="naturalmortality" class="panel-collapse collapse in">
               <div class="panel-body">
                 <form id="form-naturalmortality">
-                  <h4>Constant natural mortality<button style="margin-left: 60px" type="button" class="btn btn-danger">Increase complexity</button></h4>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label">Mean</label>
-                    <div class="col-md-4 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="meanTxt" placeholder="0.2"/> 
-                    </div>              
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="col-md-3 control-label">CV</label>
-                    <div class="col-md-4 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="cvTxt" placeholder="20"/>
+                  <h4>Constant natural mortality<button id="mortality-pre-btn" style="margin-left: 60px" type="button" class="btn btn-disable">&lt;&lt;&nbsp;Increase complexity</button><button id="mortality-next-btn" style="margin-left: 60px" type="button" class="btn btn-danger">Decrease complexity&nbsp;&gt;&gt;</button><div id="hidden-mortality" data-mortalitycomplex="1"></div></h4>
+                  <div id="simpleMortality">
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">Mean</label>
+                      <div class="col-md-4 input-group">   
+                        <input type="text" class="form-control" style="border-radius: 4px" id="meanTxt" placeholder="0.2"/> 
+                      </div>              
                     </div>
-                    <div class="col-md-1 input-group">%
-                    </div>              
+                    <div class="form-group form-inline">
+                      <label class="col-md-3 control-label">CV</label>
+                      <div class="col-md-4 input-group">   
+                        <input type="text" class="form-control" style="border-radius: 4px" id="cvTxt" placeholder="20"/>
+                      </div>
+                      <div class="col-md-1 input-group">%
+                      </div>              
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">Fraction before spawning</label>
+                      <div class="col-md-4 input-group">   
+                        <input type="text" class="form-control" style="border-radius: 4px" id="spawnTxt" placeholder="0.83"/>
+                      </div>              
+                    </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label">Fraction before spawning</label>
-                    <div class="col-md-4 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="spawnTxt" placeholder="0.83"/>
-                    </div>              
-                  </div>
+                  <table id="table-mortality">
+                      
+                  </table>
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->
