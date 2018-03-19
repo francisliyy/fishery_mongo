@@ -44,6 +44,13 @@ class GIIniPopulation(EmbeddedDocument):
 	stock_2_mean = DecimalField()
 	cv_2 = DecimalField()
 
+class BioParameter(EmbeddedDocument):
+
+	age_1 = IntField()
+	maturity_stock_1 = DecimalField()
+	maturity_stock_2 = DecimalField()
+	fecundity = DecimalField()
+
 class Process(Document):
 
     process_name = StringField(max_length=50)
@@ -95,6 +102,8 @@ class ProcessGenInput(Document):
 	stock2_filepath = StringField(max_length=100)
 	#step4
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
+	#step5
+	bioParam = EmbeddedDocumentListField(BioParameter)
 
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)

@@ -124,7 +124,7 @@ class ProStepView(BaseView):
     	#return jsonify(pgi.to_json())
     	return Response(pgi.to_json(), mimetype='application/json')
 
-    #process step3 
+    #process step4 
     @expose('/step4/<string:pk>', methods = ['PUT'])
     @has_access
     def step4(self,pk):
@@ -143,6 +143,28 @@ class ProStepView(BaseView):
     			populist.append(inipopu)    			
     		
     		pgi.iniPopu = populist
+    		pgi.save()
+
+    	return Response(json.dumps({'status':1}), mimetype='application/json')
+
+        #process step3 
+    @expose('/step5/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step5(self,pk):
+    	if request.method == 'PUT':
+    		pgi = ProcessGenInput.objects(id=pk).first()
+    		originlist = request.get_json()
+    		biolist = []
+    		
+    		for origin in originlist:
+    			bioParam = BioParameter()
+    			bioParam.age_1 = int(origin['age_1'])
+    			bioParam.maturity_stock_1 = float(origin['maturity_stock_1'])
+    			bioParam.maturity_stock_2 = float(origin['maturity_stock_2'])
+    			bioParam.fecundity = float(origin['fecundity'])
+    			biolist.append(bioParam)    			
+    		
+    		pgi.bioParam = biolist
     		pgi.save()
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
@@ -189,12 +211,12 @@ class ProStepView(BaseView):
         response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.rnd_seed_file.name)
         return response
 
-    @expose('/getTableData/<pk>')
+    @expose('/getIniPopuTableData/<pk>')
     @has_access
-    def getTableData(self,pk):
+    def getIniPopuTableData(self,pk):
 
-        if pk != None:
-            pgi = ProcessGenInput.objects(id=pk).first()
+        pgi = ProcessGenInput.objects(id=pk).first()
+        if pgi.iniPopu != None and len(pgi.iniPopu)>0:
             return Response(pgi.to_json(), mimetype='application/json')
 
         else:
@@ -206,6 +228,28 @@ class ProStepView(BaseView):
             df_W = pd.read_csv(file_obs_W,usecols=['Observed','Expected'])
             df_W = df_W.rename(index=str, columns={"Observed": "stock_2_mean", "Expected": "cv_2"})
             df_total = pd.concat([df_E,df_W],axis=1)
+
+            return Response(df_total.to_json(orient='records'), mimetype='application/json')
+
+    @expose('/getBioParamTableData/<pk>')
+    @has_access
+    def getBioParamTableData(self,pk):
+
+        pgi = ProcessGenInput.objects(id=pk).first()
+
+        if pgi.bioParam != None and len(pgi.bioParam)>0:
+          	return Response(pgi.to_json(), mimetype='application/json')
+
+        else:
+            print("in")
+            file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
+            file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
+
+            df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
+            df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "maturity_stock_1", "Expected": "maturity_stock_2"})
+            df_W = pd.read_csv(file_obs_W,usecols=['Observed'])
+            df_W = df_W.rename(index=str, columns={"Observed": "fecundity"})
+            df_total = pd.concat([df_E,df_W],axis=1)            
 
             return Response(df_total.to_json(orient='records'), mimetype='application/json')
 

@@ -4,7 +4,7 @@ $(function() {
 		
         $("#mask").addClass('lmask');
         $.ajax({
-	    	url: $SCRIPT_ROOT+'/prostepview/getTableData/'+$("#step1_id").data("step1id"),
+	    	url: $SCRIPT_ROOT+'/prostepview/getIniPopuTableData/'+$("#step1_id").data("step1id"),
 	    	type: 'get',
 	    	dataType: 'JSON',
 	    	data: {},
@@ -101,18 +101,132 @@ $(function() {
 		    		],
 		    	],
 		    	onEditableSave: function (field, row, oldValue, $el) {
-		    		console.log(row);
-		    		$.ajax({
-		                type: "post",
-		                url: $SCRIPT_ROOT+"/prostepview/editTableData",
-		                data: row,
-		                dataType: 'json',
-		            }).done(function(result) {
-		            	console.log(result);
-		            	if(result.status=='1'){
-		            		alert('submit success');
-		            	}
-		            });
+		    		// console.log(row);
+		    		// $.ajax({
+		      //           type: "post",
+		      //           url: $SCRIPT_ROOT+"/prostepview/editTableData",
+		      //           data: row,
+		      //           dataType: 'json',
+		      //       }).done(function(result) {
+		      //       	console.log(result);
+		      //       	if(result.status=='1'){
+		      //       		alert('submit success');
+		      //       	}
+		      //       });
+		    	},
+		    });
+		    
+	    })
+	    .fail(function() {
+	    	console.log("error");
+	    })
+	    .always(function() {
+	    	console.log("complete");
+	    	$("#mask").removeClass('lmask');
+	    });
+        
+	}
+
+	function getBioParam(){
+		
+        $("#mask").addClass('lmask');
+        $.ajax({
+	    	url: $SCRIPT_ROOT+'/prostepview/getBioParamTableData/'+$("#step1_id").data("step1id"),
+	    	type: 'get',
+	    	dataType: 'JSON',
+	    	data: {},
+	    })
+	    .done(function(result) {
+	    	var inputdata=result.bioParam||result;
+	    	$("#table-bioParam").parent('.bootstrap-table').css('margin-bottom', '30px');
+			$("#table-bioParam").bootstrapTable({
+		    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
+		    	//dataType:'json',
+		    	data:inputdata,
+		        method: 'get',                      //请求方式（*）
+		        toolbar: '#toolbar',                //工具按钮用哪个容器
+		        striped: true,                      //是否显示行间隔色
+		        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		        pagination: false,                   //是否显示分页（*）
+		        sortable: false,                     //是否启用排序
+		        sortOrder: "asc",                   //排序方式
+		        //queryParams: ibParamTable.queryParams,//传递参数（*）
+		        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+		        pageNumber:1,                       //初始化加载第一页，默认第一页
+		        pageSize: 10,                       //每页的记录行数（*）
+		        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+		        search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+		        strictSearch: true,
+		        showColumns: false,                  //是否显示所有的列
+		        showRefresh: false,                  //是否显示刷新按钮
+		        minimumCountColumns: 2,             //最少允许的列数
+		        clickToSelect: true,                //是否启用点击选中行
+		        height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+		        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+		        showToggle:false,                    //是否显示详细视图和列表视图的切换按钮
+		        cardView: false,                    //是否显示详细视图
+		        detailView: false,                   //是否显示父子表
+		    	columns:[
+		    		[
+		    			{
+		    				title:"Age",
+		    				field:"age_1",
+		    				editable:false,
+		    			},
+		    			{
+		    				title:"Maturity Stock 1",
+		    				field:"maturity_stock_1",
+		    				editable: {
+			                    type: 'text',
+			                    title: 'Maturity Stock 1',
+			                    validate: function (v) {
+			                        if (isNaN(v)) return 'Maturity Stock 1 must be number';
+			                        var stockmean = parseFloat(v);
+			                        if (stockmean <= 0) return 'Maturity Stock 1 must larger than 0';
+				                }
+		                    }
+		    			},
+		    			{
+		    				title:"Maturity Stock 2",
+		    				field:"maturity_stock_2",
+		    				editable: {
+			                    type: 'text',
+			                    title: 'Maturity Stock 2',
+			                    validate: function (v) {
+			                        if (isNaN(v)) return 'Maturity Stock 2 must be number';
+			                        var stockmean = parseFloat(v);
+			                        if (stockmean <= 0) return 'Maturity Stock 2 must larger than 0';
+				                }
+		                    }
+		    			},
+		    			{
+		    				title:"Fecundity",
+		    				field:"fecundity",
+		    				editable: {
+			                    type: 'text',
+			                    title: 'Fecundity',
+			                    validate: function (v) {
+			                        if (isNaN(v)) return 'Fecundity must be number';
+			                        var stockmean = parseFloat(v);
+			                        if (stockmean <= 0) return 'Fecundity must larger than 0';
+				                }
+		                    }
+		    			},
+		    		],
+		    	],
+		    	onEditableSave: function (field, row, oldValue, $el) {
+		    		// console.log(row);
+		    		// $.ajax({
+		      //           type: "post",
+		      //           url: $SCRIPT_ROOT+"/prostepview/editTableData",
+		      //           data: row,
+		      //           dataType: 'json',
+		      //       }).done(function(result) {
+		      //       	console.log(result);
+		      //       	if(result.status=='1'){
+		      //       		alert('submit success');
+		      //       	}
+		      //       });
 		    	},
 		    });
 		    
@@ -220,6 +334,21 @@ $(function() {
 		                 }
 		            }
 		        });
+			}else if($panel.prop("id")=='bioParam'){
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step5/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: JSON.stringify($("#table-bioParam").bootstrapTable('getData')),
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step5 successfully");
+		                 }
+		            }
+		        });
 			}
 		}
 	});
@@ -293,6 +422,7 @@ $(function() {
 	});
 
 	getIniPopu();
+	getBioParam();
 
 	
 
