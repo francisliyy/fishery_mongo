@@ -115,10 +115,11 @@ $(function() {
 					var simple_spawning = parseFloat($("#simple_spawning").val())||0;
 					inputdata = JSON.stringify({"mortality_complexity":1,"simple_mean":simple_mean,"simple_cv":simple_cv,
 		            "simple_spawning":simple_spawning,mortality:[]});
+		            
 
 				}else if($("#hidden-mortality").data('mortalitycomplex')==2){
 					inputdata =JSON.stringify({"mortality_complexity":2,"simple_mean":0,"simple_cv":0,
-		            "simple_spawning":0,mortality:$("#table-mortality").bootstrapTable('getData')})
+		            "simple_spawning":0,mortality:$("#table-mortality").bootstrapTable('getData')});	
 				}
 				$.ajax({
 		            cache: false,
@@ -130,7 +131,13 @@ $(function() {
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
-		                     console.log("save step5 successfully");
+		                     if($("#hidden-mortality").data('mortalitycomplex')==1){
+		                     	getMortality();//TODO:get data right but table not refresh
+		                     }else if($("#hidden-mortality").data('mortalitycomplex')==2){
+		                        $("#simple_mean").val(0);
+		                        $("#simple_cv").val(0);
+		                        $("#simple_spawning").val(0);
+		                     }
 		                 }
 		            }
 		        });
