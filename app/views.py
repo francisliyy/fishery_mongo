@@ -147,24 +147,32 @@ class ProStepView(BaseView):
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
-        #process step3 
+    #process step5
     @expose('/step5/<string:pk>', methods = ['PUT'])
     @has_access
     def step5(self,pk):
     	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()
-    		originlist = request.get_json()
-    		biolist = []
+    		pgi = ProcessGenInput.objects(id=pk).first()    		
+    		inputparam = request.get_json()
+
+    		pgi.mortality_complexity = int(inputparam['mortality_complexity']);
+    		pgi.simple_mean = float(inputparam['simple_mean']);
+    		pgi.simple_cv = float(inputparam['simple_cv']);
+    		pgi.simple_spawning = float(inputparam['simple_spawning']);
+
+    		mortalitylist = inputparam['mortality']
+
+    		morlist = []
     		
-    		for origin in originlist:
-    			bioParam = BioParameter()
-    			bioParam.age_1 = int(origin['age_1'])
-    			bioParam.maturity_stock_1 = float(origin['maturity_stock_1'])
-    			bioParam.maturity_stock_2 = float(origin['maturity_stock_2'])
-    			bioParam.fecundity = float(origin['fecundity'])
-    			biolist.append(bioParam)    			
+    		for origin in mortalitylist:
+    			morParam = Mortality()
+    			morParam.age_1 = int(origin['age_1'])
+    			morParam.mean = float(origin['mean'])
+    			morParam.cv = float(origin['cv'])
+    			morParam.spawning = float(origin['spawning'])
+    			morlist.append(morParam)    			
     		
-    		pgi.bioParam = biolist
+    		pgi.mortality = morlist
     		pgi.save()
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')

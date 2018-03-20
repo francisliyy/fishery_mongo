@@ -107,6 +107,33 @@ $(function() {
 		                 }
 		            }
 		        });
+			}else if($panel.prop("id")=='naturalmortality'){
+				var inputdata = {};
+				if($("#hidden-mortality").data('mortalitycomplex')==1){
+					var simple_mean = parseFloat($("#simple_mean").val())||0;
+					var simple_cv = parseFloat($("#simple_cv").val())||0;
+					var simple_spawning = parseFloat($("#simple_spawning").val())||0;
+					inputdata = JSON.stringify({"mortality_complexity":1,"simple_mean":simple_mean,"simple_cv":simple_cv,
+		            "simple_spawning":simple_spawning,mortality:[]});
+
+				}else if($("#hidden-mortality").data('mortalitycomplex')==2){
+					inputdata =JSON.stringify({"mortality_complexity":2,"simple_mean":0,"simple_cv":0,
+		            "simple_spawning":0,mortality:$("#table-mortality").bootstrapTable('getData')})
+				}
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step5/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: inputdata,
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step5 successfully");
+		                 }
+		            }
+		        });
 			}
 		}
 	});

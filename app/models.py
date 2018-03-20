@@ -112,6 +112,12 @@ class ProcessGenInput(Document):
 	#step5
 	bioParam = EmbeddedDocumentListField(BioParameter)
 	#step6
+	mortality_complexity = IntField()
+
+	simple_mean = DecimalField()
+	simple_cv = DecimalField()
+	simple_spawning = DecimalField()
+
 	mortality = EmbeddedDocumentListField(Mortality)
 
 	created_by = ReferenceField("User",reqired=True)
