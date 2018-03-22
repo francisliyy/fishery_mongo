@@ -147,7 +147,7 @@ $(function() {
 
 				//stock1				
 				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'0';
-				alert($('input[name=historySt1]:checked', '#form-recruitment').val());
+
 				var historySt1 = $('input[name=historySt1]:checked', '#form-recruitment').val()||'0';
 				var hst1_lower = $("#hst1-lower:enabled").val()||0;
 				var hst1_median = $("#hst1-median:enabled").val()||0;
@@ -183,17 +183,17 @@ $(function() {
 				var hst2_cal = $('#hst2-cal:enabled').val()||0;
 
 				var formulaStock2 = $('input[name=formulaStock2]:checked', '#form-recruitment').val()||'0';
-				var fml2Bmalpha1 = $("#fml1Bmalpha1:enabled").val()||0;
-				var fml2Bmbeta1 = $("#fml1Bmbeta1:enabled").val()||0;
-				var fml2Rmalpha1 = $("#fml1Rmalpha1:enabled").val()||0;
-				var fml2Rmbeta1 = $("#fml1Rmbeta1:enabled").val()||0;
-				var fml2MbhmSSB0 = $("#fml1MbhmSSB0:enabled").val()||0;
-				var fml2MbhmR0 = $("#fml1MbhmR0:enabled").val()||0;
-				var fml2MbhmSteep = $("#fml1MbhmSteep:enabled").val()||0;
+				var fml2Bmalpha1 = $("#fml2Bmalpha1:enabled").val()||0;
+				var fml2Bmbeta1 = $("#fml2Bmbeta1:enabled").val()||0;
+				var fml2Rmalpha1 = $("#fml2Rmalpha1:enabled").val()||0;
+				var fml2Rmbeta1 = $("#fml2Rmbeta1:enabled").val()||0;
+				var fml2MbhmSSB0 = $("#fml2MbhmSSB0:enabled").val()||0;
+				var fml2MbhmR0 = $("#fml2MbhmR0:enabled").val()||0;
+				var fml2MbhmSteep = $("#fml2MbhmSteep:enabled").val()||0;
 
-				var auto2R0 = $("#auto1R0:enabled").val()||0;
-				var auto2h = $("#auto1h:enabled").val()||0;
-				var auto2Rave = $("#auto1Rave:enabled").val()||0;
+				var auto2R0 = $("#auto2R0:enabled").val()||0;
+				var auto2h = $("#auto2h:enabled").val()||0;
+				var auto2Rave = $("#auto2Rave:enabled").val()||0;
 
 				var cv2Recruit = $("#cv2Recruit:enabled").val()||0;
 
@@ -704,7 +704,7 @@ $(function() {
 		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"-mean").prop('disabled','');
 		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"-upper").prop('disabled','');
 		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"-other").prop('disabled','');
-		$("#hst"+stock+"-cal").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()!=0&&$("#hst"+stock+"-cal").prop('disabled','');
 	}
 
 	function initFormulaStock(stock){
@@ -712,6 +712,10 @@ $(function() {
 		$("input[name='formulaStock"+stock+"']:checked").val()==1&&$("[name^='fml"+stock+"Bm']").prop('disabled','');
 		$("input[name='formulaStock"+stock+"']:checked").val()==2&&$("[name^='fml"+stock+"Rm']").prop('disabled','');
 		$("input[name='formulaStock"+stock+"']:checked").val()==3&&$("[name^='fml"+stock+"Mbhm']").prop('disabled','');
+	}
+
+	function initAutoCorelated(stock){
+
 	}
 
 
@@ -781,7 +785,12 @@ $(function() {
 	getMortality();
 	$("#form-recruitment input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1'],input[name^='auto1']").prop('disabled','disabled');
 	$("#form-recruitment input[name='historySt2'],input[name^='hst2'],input[name='formulaStock2'],input[name^='fml2'],input[name^='auto2']").prop('disabled','disabled');
-
+    $("input[name='recruitTypeStock1']:checked").val()==1&&$("#form-recruitment input[name='historySt1']").prop('disabled','')&&initHistroySt(1);
+    $("input[name='recruitTypeStock2']:checked").val()==1&&$("#form-recruitment input[name='historySt2']").prop('disabled','')&&initHistroySt(2);
+    $("input[name='recruitTypeStock1']:checked").val()==2&&$("#form-recruitment input[name='formulaStock1']").prop('disabled','')&&initFormulaStock(1);
+    $("input[name='recruitTypeStock2']:checked").val()==2&&$("#form-recruitment input[name='formulaStock2']").prop('disabled','')&&initFormulaStock(2);
+    $("input[name='recruitTypeStock1']:checked").val()==3&&$("#form-recruitment input[name^='auto1']").prop('disabled','');
+    $("input[name='recruitTypeStock2']:checked").val()==3&&$("#form-recruitment input[name^='auto2']").prop('disabled','');
 
 	
 
