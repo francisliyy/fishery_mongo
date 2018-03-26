@@ -263,15 +263,15 @@ $(function() {
 				var sec_commercial = $("#sec_commercial").val()||0;
 				var fishingStartDate = $("#fishingStartDate").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
 				var fishingEndDate = $("#fishingEndDate").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
-				var fleet_rec_stock = [{'stock':$("#fleet_rec_stock_1").val()||'','fleet':$("#fleet_rec_fleet_1").val()||'','allocation':$("#fleet_rec_allocation_1").val()||0},
+				var fleet_rec_stock = [{'stock':$("#fleet_rec_stock_0").val()||'','fleet':$("#fleet_rec_fleet_0").val()||'','allocation':$("#fleet_rec_allocation_0").val()||0},
+									   {'stock':$("#fleet_rec_stock_1").val()||'','fleet':$("#fleet_rec_fleet_1").val()||'','allocation':$("#fleet_rec_allocation_1").val()||0},
 									   {'stock':$("#fleet_rec_stock_2").val()||'','fleet':$("#fleet_rec_fleet_2").val()||'','allocation':$("#fleet_rec_allocation_2").val()||0},
-									   {'stock':$("#fleet_rec_stock_3").val()||'','fleet':$("#fleet_rec_fleet_3").val()||'','allocation':$("#fleet_rec_allocation_3").val()||0},
-									   {'stock':$("#fleet_rec_stock_4").val()||'','fleet':$("#fleet_rec_fleet_4").val()||'','allocation':$("#fleet_rec_allocation_4").val()||0}
+									   {'stock':$("#fleet_rec_stock_3").val()||'','fleet':$("#fleet_rec_fleet_3").val()||'','allocation':$("#fleet_rec_allocation_3").val()||0}									   
 									  ];
-				var fleet_com_stock = [{'stock':$("#fleet_com_stock_1").val()||'','fleet':$("#fleet_com_fleet_1").val()||'','allocation':$("#fleet_com_allocation_1").val()||0},
+				var fleet_com_stock = [{'stock':$("#fleet_rec_stock_0").val()||'','fleet':$("#fleet_rec_fleet_0").val()||'','allocation':$("#fleet_rec_allocation_0").val()||0},
+									   {'stock':$("#fleet_com_stock_1").val()||'','fleet':$("#fleet_com_fleet_1").val()||'','allocation':$("#fleet_com_allocation_1").val()||0},
 									   {'stock':$("#fleet_com_stock_2").val()||'','fleet':$("#fleet_com_fleet_2").val()||'','allocation':$("#fleet_com_allocation_2").val()||0},
-									   {'stock':$("#fleet_com_stock_3").val()||'','fleet':$("#fleet_com_fleet_3").val()||'','allocation':$("#fleet_com_allocation_3").val()||0},
-									   {'stock':$("#fleet_com_stock_4").val()||'','fleet':$("#fleet_com_fleet_4").val()||'','allocation':$("#fleet_com_allocation_4").val()||0}
+									   {'stock':$("#fleet_com_stock_3").val()||'','fleet':$("#fleet_com_fleet_3").val()||'','allocation':$("#fleet_com_allocation_3").val()||0}
 									  ];
 				
 				inputdata =JSON.stringify({"sec_recreational":sec_recreational,"sec_commercial":sec_commercial,"fishingStartDate":fishingStartDate,

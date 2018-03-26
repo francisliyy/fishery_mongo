@@ -825,17 +825,17 @@
                     <label class="col-md-3 control-label">Fleet</label>
                     <label class="col-md-3 control-label">Allocation</label>           
                   </div>
-                  {% for num in range(1,5) %}
+                  {% for num in range(0,4) %}
                   <div class="form-group form-inline">
                     <div class="col-md-2 input-group"></div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_stock_{{num}}" name="fleet_rec_stock_{{num}}" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_stock_{{num}}" name="fleet_rec_stock_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['stock']}}" placeholder=""/>
                     </div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_fleet_{{num}}" name="fleet_rec_fleet_{{num}}" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_fleet_{{num}}" name="fleet_rec_fleet_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['fleet']}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['allocation']}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">%</div>            
                   </div>
@@ -846,17 +846,17 @@
                     <label class="col-md-3 control-label">Fleet</label>
                     <label class="col-md-3 control-label">Allocation</label>           
                   </div>
-                  {% for num in range(1,5) %}
+                  {% for num in range(0,4) %}
                   <div class="form-group form-inline">
                     <div class="col-md-2 input-group"></div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_stock_{{num}}" name="fleet_com_stock_{{num}}" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_stock_{{num}}" name="fleet_com_stock_{{num}}" value="{{process_step1['fleet_com_stock'][num]['stock']}}" placeholder=""/>
                     </div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_fleet_{{num}}" name="fleet_com_fleet_{{num}}" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_fleet_{{num}}" name="fleet_com_fleet_{{num}}" value="{{process_step1['fleet_com_stock'][num]['fleet']}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" value="{{process_step1['fleet_com_stock'][num]['allocation']}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">%</div>            
                   </div>
