@@ -251,6 +251,31 @@ class ProStepView(BaseView):
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
+    #process step8
+    @expose('/step8/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step8(self,pk):
+    	if request.method == 'PUT':
+    		pgi = ProcessGenInput.objects(id=pk).first()    		
+    		inputparam = request.get_json()
+
+    		pgi.bio_biomass_points = float(inputparam['bio_biomass_points']);
+    		pgi.bio_harvest_radio = inputparam['bio_harvest_radio'];
+    		pgi.bio_catch_mt = float(inputparam['bio_catch_mt']);
+    		pgi.bio_f_percent = float(inputparam['bio_f_percent']);
+    		pgi.hrt_harvest_rule = inputparam['hrt_harvest_rule'];
+    		pgi.hrt_threshold1 = float(inputparam['hrt_threshold1']);
+    		pgi.hrt_threshold2 = float(inputparam['hrt_threshold2']);
+    		pgi.hrt_harvest_radio = inputparam['hrt_harvest_radio'];
+    		pgi.hst_catch_thh1 = float(inputparam['hst_catch_thh1']);
+    		pgi.hst_catch_thh2 = float(inputparam['hst_catch_thh2']);
+    		pgi.hst_f_thh1 = float(inputparam['hst_f_thh1']);
+    		pgi.hst_f_thh2 = float(inputparam['hst_f_thh2']);
+
+    		pgi.save()
+
+    	return Response(json.dumps({'status':1}), mimetype='application/json')
+
 
     #process step1 : rnd file upload
     @expose('/rndSeedFile/<string:pk>', methods = ['POST','DELETE'])

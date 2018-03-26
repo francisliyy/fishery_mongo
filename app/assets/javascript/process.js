@@ -219,10 +219,48 @@ $(function() {
 		                 }
 		            }
 		        });
+			}else if($panel.prop("id")=='mgtopt1'){
+				console.log('in step8');
+				var data = {};
+
+				var bio_biomass_points = $("#bio_biomass_points").val()||0;
+
+				var bio_harvest_radio = $('input[name=bio_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
+				var bio_catch_mt = $("#bio_catch_mt:enabled").val()||0;
+				var bio_f_percent = $("#bio_f_percent:enabled").val()||0;
+
+				var hrt_harvest_rule = $('input[name=hrt_harvest_rule]:checked', '#form-mgtopt1').val()||'CC';
+				var hrt_threshold1 = $("#hrt_threshold1").val()||0;
+				var hrt_threshold2 = $("#hrt_threshold2").val()||0;
+
+				var hrt_harvest_radio = $('input[name=hrt_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
+				var hst_catch_thh1 = $("#hst_catch_thh1:enabled").val()||0;
+				var hst_catch_thh2 = $("#hst_catch_thh2:enabled").val()||0;
+				var hst_f_thh1 = $("#hst_f_thh1:enabled").val()||0;
+				var hst_f_thh2 = $('#hst_f_thh2:enabled').val()||0;
+
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step8/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: JSON.stringify({'bio_biomass_points':bio_biomass_points,'bio_harvest_radio':bio_harvest_radio,'bio_catch_mt':bio_catch_mt,
+		        'bio_f_percent':bio_f_percent,'hrt_harvest_rule':hrt_harvest_rule,'hrt_threshold1':hrt_threshold1,'hrt_threshold2':hrt_threshold2,
+		        'hrt_harvest_radio':hrt_harvest_radio,'hst_catch_thh1':hst_catch_thh1,'hst_catch_thh2':hst_catch_thh2,'hst_f_thh1':hst_f_thh1,
+		        'hst_f_thh2':hst_f_thh2}),
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step8 successfully");
+		                 }
+		            }
+		        });
 			}
 		}
 	});
 
+	/*part 1 general input start */
     $('#start_projection').datetimepicker({
     	format:'YYYY-MM-DD',
     }).on('dp.change', function(e) {
@@ -290,7 +328,9 @@ $(function() {
 	        // }
 	    }
 	});
+	/*part 1 general input end */
 
+	/* part 4 initial population start */
 	function getIniPopu(){
 		
         $("#mask").addClass('lmask');
@@ -417,7 +457,9 @@ $(function() {
 	    });
         
 	}
+	/* part 4 initial population end */
 
+	/* part 5 biological parameters start */
 	function getBioParam(){
 		
         $("#mask").addClass('lmask');
@@ -531,7 +573,9 @@ $(function() {
 	    });
         
 	}
+	/* part 5 biological parameters end */
 
+	/* part 6 natural mortality start */
 	function showRightComplexity(complexity){
 		if(complexity==1){
 			$("#table-mortality").closest(".bootstrap-table").css('display', 'none');
@@ -696,7 +740,9 @@ $(function() {
 			$(this).addClass('btn-disable');
 		}
 	});
+	/* part 6 natural mortality end */
 
+	/* part 7 recruitment start */
 	function initHistroySt(stock){
 		$("input[name^='hst"+stock+"']").prop('disabled','disabled');
 		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"-lower").prop('disabled','');
@@ -713,11 +759,6 @@ $(function() {
 		$("input[name='formulaStock"+stock+"']:checked").val()==2&&$("[name^='fml"+stock+"Rm']").prop('disabled','');
 		$("input[name='formulaStock"+stock+"']:checked").val()==3&&$("[name^='fml"+stock+"Mbhm']").prop('disabled','');
 	}
-
-	function initAutoCorelated(stock){
-
-	}
-
 
 	$("input[name='recruitTypeStock1']").on('change', function(event) {
 		event.preventDefault();
@@ -780,6 +821,56 @@ $(function() {
 		initFormulaStock(2);
 	});
 
+	/* part 7 recruitment end */
+
+	/* part 8 Management Options Part I start */
+	function initBioPoints(){
+		if($("input[name='bio_harvest_radio']:checked").val()=='C'){
+			$("#bio_catch_mt").prop('disabled', '');
+			$("#bio_f_percent").prop('disabled', 'disabled');
+		}else{
+			$("#bio_catch_mt").prop('disabled', 'disabled');
+			$("#bio_f_percent").prop('disabled', '');
+		}
+	}
+
+	function initHrtPoints(){
+		if($("input[name='hrt_harvest_radio']:checked").val()=='C'){
+			$("#hst_catch_thh1").prop('disabled', '');
+			$("#hst_catch_thh2").prop('disabled', '');
+			$("#hst_f_thh1").prop('disabled', 'disabled');
+			$("#hst_f_thh2").prop('disabled', 'disabled');
+		}else{
+			$("#hst_catch_thh1").prop('disabled', 'disabled');
+			$("#hst_catch_thh2").prop('disabled', 'disabled');
+			$("#hst_f_thh1").prop('disabled', '');
+			$("#hst_f_thh2").prop('disabled', '');
+		}
+	}
+
+
+
+	$("input[name='hrt_harvest_rule']").on('change', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		$("#hr_rule_pic").prop("src", $SCRIPT_ROOT+"/static/assets/images/harvestCtlRule/"+$("input[name='hrt_harvest_rule']:checked").val()+".png")
+		
+	});
+
+	$("input[name='bio_harvest_radio']").on('change', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		initBioPoints();
+	});
+
+	$("input[name='hrt_harvest_radio']").on('change', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		initHrtPoints();
+	});
+	/* part 8 Management Options Part I end */
+
+	/* initialization start*/
 	getIniPopu();
 	getBioParam();
 	getMortality();
@@ -791,7 +882,9 @@ $(function() {
     $("input[name='recruitTypeStock2']:checked").val()==2&&$("#form-recruitment input[name='formulaStock2']").prop('disabled','')&&initFormulaStock(2);
     $("input[name='recruitTypeStock1']:checked").val()==3&&$("#form-recruitment input[name^='auto1']").prop('disabled','');
     $("input[name='recruitTypeStock2']:checked").val()==3&&$("#form-recruitment input[name^='auto2']").prop('disabled','');
-
+    initBioPoints();
+    initHrtPoints();
+    /* initialization end*/
 	
 
 	// 

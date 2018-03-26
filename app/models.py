@@ -169,7 +169,20 @@ class ProcessGenInput(Document):
 	auto2Rave = DecimalField()
 
 	cv2Recruit = DecimalField()
+	#step8
+	bio_biomass_points = DecimalField()
+	bio_harvest_radio = StringField(max_length=2)
+	bio_catch_mt = DecimalField()
+	bio_f_percent = DecimalField()
 
+	hrt_harvest_rule = StringField(max_length=2)
+	hrt_threshold1 = DecimalField()
+	hrt_threshold2 = DecimalField()
+	hrt_harvest_radio = StringField(max_length=2)
+	hst_catch_thh1 = DecimalField()
+	hst_catch_thh2 = DecimalField()
+	hst_f_thh1 = DecimalField()
+	hst_f_thh2 = DecimalField()
 
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
