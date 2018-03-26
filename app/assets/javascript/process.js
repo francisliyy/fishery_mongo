@@ -256,6 +256,41 @@ $(function() {
 		                 }
 		            }
 		        });
+			}else if($panel.prop("id")=='mgtopt2'){
+				console.log("in step9");
+				var inputdata = {};
+				var sec_recreational = $("#sec_recreational").val()||0;
+				var sec_commercial = $("#sec_commercial").val()||0;
+				var fishingStartDate = $("#fishingStartDate").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
+				var fishingEndDate = $("#fishingEndDate").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
+				var fleet_rec_stock = [{'stock':$("#fleet_rec_stock_1").val()||'','fleet':$("#fleet_rec_fleet_1").val()||'','allocation':$("#fleet_rec_allocation_1").val()||0},
+									   {'stock':$("#fleet_rec_stock_2").val()||'','fleet':$("#fleet_rec_fleet_2").val()||'','allocation':$("#fleet_rec_allocation_2").val()||0},
+									   {'stock':$("#fleet_rec_stock_3").val()||'','fleet':$("#fleet_rec_fleet_3").val()||'','allocation':$("#fleet_rec_allocation_3").val()||0},
+									   {'stock':$("#fleet_rec_stock_4").val()||'','fleet':$("#fleet_rec_fleet_4").val()||'','allocation':$("#fleet_rec_allocation_4").val()||0}
+									  ];
+				var fleet_com_stock = [{'stock':$("#fleet_com_stock_1").val()||'','fleet':$("#fleet_com_fleet_1").val()||'','allocation':$("#fleet_com_allocation_1").val()||0},
+									   {'stock':$("#fleet_com_stock_2").val()||'','fleet':$("#fleet_com_fleet_2").val()||'','allocation':$("#fleet_com_allocation_2").val()||0},
+									   {'stock':$("#fleet_com_stock_3").val()||'','fleet':$("#fleet_com_fleet_3").val()||'','allocation':$("#fleet_com_allocation_3").val()||0},
+									   {'stock':$("#fleet_com_stock_4").val()||'','fleet':$("#fleet_com_fleet_4").val()||'','allocation':$("#fleet_com_allocation_4").val()||0}
+									  ];
+				
+				inputdata =JSON.stringify({"sec_recreational":sec_recreational,"sec_commercial":sec_commercial,"fishingStartDate":fishingStartDate,
+		            "fishingEndDate":fishingEndDate,"fleet_rec_stock":fleet_rec_stock,"fleet_com_stock":fleet_com_stock});	
+
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step9/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: inputdata,
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step9 successfully");
+		                 }
+		            }
+		        });
 			}
 		}
 	});

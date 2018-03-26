@@ -58,6 +58,12 @@ class Mortality(EmbeddedDocument):
 	cv = DecimalField()
 	spawning = DecimalField()
 
+class Allocation(EmbeddedDocument):
+
+	stock = StringField(max_length=50)
+	fleet = StringField(max_length=50)
+	allocation = DecimalField()
+
 class Process(Document):
 
     process_name = StringField(max_length=50)
@@ -183,6 +189,14 @@ class ProcessGenInput(Document):
 	hst_catch_thh2 = DecimalField()
 	hst_f_thh1 = DecimalField()
 	hst_f_thh2 = DecimalField()
+	#step9
+	sec_recreational = DecimalField()
+	sec_commercial = DecimalField()
+	fleet_rec_stock = EmbeddedDocumentListField(Allocation)
+	fleet_com_stock = EmbeddedDocumentListField(Allocation)
+	fishingStartDate = DateTimeField(default=datetime.datetime.now)
+	fishingEndDate = DateTimeField(default=datetime.datetime.now)
+
 
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)

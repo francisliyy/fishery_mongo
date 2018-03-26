@@ -276,6 +276,46 @@ class ProStepView(BaseView):
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
+        #process step9
+    @expose('/step9/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step6(self,pk):
+    	if request.method == 'PUT':
+    		pgi = ProcessGenInput.objects(id=pk).first()    		
+    		inputparam = request.get_json()
+
+    		pgi.sec_recreational = float(inputparam['sec_recreational']);
+    		pgi.sec_commercial = float(inputparam['sec_commercial']);
+    		pgi.fishingStartDate = inputparam['fishingStartDate'];
+    		pgi.fishingEndDate = inputparam['fishingEndDate'];
+
+    		recStockList = inputparam['fleet_rec_stock']
+    		comStockList = inputparam['fleet_com_stock']
+
+    		fleet_rec_stock = []
+    		fleet_com_stock = []
+    		
+    		for origin in recStockList:
+    			stockParam = Allocation()
+    			stockParam.stock = origin['stock']
+    			stockParam.fleet = origin['fleet']
+    			stockParam.allocation = float(origin['allocation'])
+    			fleet_rec_stock.append(stockParam)    			
+    		
+    		pgi.fleet_rec_stock = fleet_rec_stock
+
+    		for origin in comStockList:
+    			stockParam = Allocation()
+    			stockParam.stock = origin['stock']
+    			stockParam.fleet = origin['fleet']
+    			stockParam.allocation = float(origin['allocation'])
+    			fleet_com_stock.append(stockParam)
+
+    		pgi.fleet_com_stock = fleet_com_stock
+    		pgi.save()
+
+    	return Response(json.dumps({'status':1}), mimetype='application/json')
+
 
     #process step1 : rnd file upload
     @expose('/rndSeedFile/<string:pk>', methods = ['POST','DELETE'])

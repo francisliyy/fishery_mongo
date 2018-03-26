@@ -807,11 +807,11 @@
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="sec_recreational" name="sec_recreational" value="{{process_step1['sec_recreational'] if process_step1['sec_recreational'] != None else ''}}" placeholder="3"/>
                     </div>
                     <div class="col-md-1 input-group">%</div> 
                     <div class="col-md-2 input-group">      
-                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder="3"/>
+                        <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="sec_commercial" name="sec_commercial" value="{{process_step1['sec_commercial'] if process_step1['sec_commercial'] != None else ''}}" placeholder="3"/>
                     </div>
                     <div class="col-md-1 input-group">%</div>
                     <div class="col-md-1 input-group">
@@ -825,116 +825,42 @@
                     <label class="col-md-3 control-label">Fleet</label>
                     <label class="col-md-3 control-label">Allocation</label>           
                   </div>
+                  {% for num in range(1,5) %}
                   <div class="form-group form-inline">
                     <div class="col-md-2 input-group"></div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_stock_{{num}}" name="fleet_rec_stock_{{num}}" placeholder=""/>
                     </div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_fleet_{{num}}" name="fleet_rec_fleet_{{num}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">%</div>            
                   </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">%</div>            
-                  </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">%</div>            
-                  </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">%</div>            
-                  </div>
+                  {% endfor%}
                   <div class="form-group" style="height:34px">                    
                     <label class="col-md-3 control-label">Commercail</label> 
                     <label class="col-md-3 control-label">Stock</label> 
                     <label class="col-md-3 control-label">Fleet</label>
                     <label class="col-md-3 control-label">Allocation</label>           
                   </div>
+                  {% for num in range(1,5) %}
                   <div class="form-group form-inline">
                     <div class="col-md-2 input-group"></div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_stock_{{num}}" name="fleet_com_stock_{{num}}" placeholder=""/>
                     </div>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_fleet_{{num}}" name="fleet_com_fleet_{{num}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
+                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">%</div>            
                   </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">%</div>            
-                  </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">%</div>            
-                  </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;width:auto;" id="shortTermTxt" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">%</div>            
-                  </div>
+                  {% endfor%}
                   <div class="form-group form-inline">
                     <button style="" type="button" class="btn btn-danger">Include bycatch</button>
                   </div>
@@ -943,8 +869,8 @@
                     <div class="col-md-1 input-group" style="margin-left: 60px">
                       <label class="control-label">Start</label>
                     </div>
-                    <div class='col-md-3 input-group date' id='fishingStartDate'>
-                      <input type='text' class="form-control"/>
+                    <div class='col-md-3 input-group date' id='fishingStartDate' name='fishingStartDate'>
+                      <input type='text' class="form-control" value="{{process_step1['fishingStartDate']}}"/>
                       <span class="input-group-addon">
                           <span class="glyphicon glyphicon-calendar"></span>
                       </span>
@@ -952,8 +878,8 @@
                     <div class="col-md-1 input-group" style="margin-left: 115px"> 
                       <label class="control-label">End</label>
                     </div>
-                    <div class='col-md-3 input-group date' id='fishingEndDate'>
-                      <input type='text' class="form-control"/>
+                    <div class='col-md-3 input-group date' id='fishingEndDate' name='fishingEndDate'>
+                      <input type='text' class="form-control" value="{{process_step1['fishingEndDate']}}"/>
                       <span class="input-group-addon">
                           <span class="glyphicon glyphicon-calendar"></span>
                       </span>
