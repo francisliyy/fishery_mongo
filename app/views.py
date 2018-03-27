@@ -316,6 +316,62 @@ class ProStepView(BaseView):
 
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
+    #process step10
+    @expose('/step10/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step6(self,pk):
+    	if request.method == 'PUT':
+    		pgi = ProcessGenInput.objects(id=pk).first()    		
+    		inputparam = request.get_json()
+
+    		ratioRecRatioList = inputparam['ratio_rec_ratio']
+    		ratioComRatioList = inputparam['ratio_com_ratio']
+    		discardRecRatioList = inputparam['discard_rec_ratio']
+    		discardComRatioList = inputparam['discard_com_ratio']
+
+    		ratio_rec_ratio = []
+    		ratio_com_ratio = []
+    		discard_rec_ratio = []
+    		discard_com_ratio = []
+    		
+    		for origin in ratioRecRatioList:
+    			stockParam = LandingRatio()
+    			stockParam.stock = origin['stock']
+    			stockParam.state = origin['state']
+    			stockParam.ratio = float(origin['ratio'])
+    			ratio_rec_ratio.append(stockParam)
+    		pgi.ratio_rec_ratio = ratio_rec_ratio
+
+    		for origin in ratioComRatioList:
+    			stockParam = LandingRatio()
+    			stockParam.stock = origin['stock']
+    			stockParam.state = origin['state']
+    			stockParam.ratio = float(origin['ratio'])
+    			ratio_com_ratio.append(stockParam)
+    		pgi.ratio_com_ratio = ratio_com_ratio
+
+    		for origin in discardRecRatioList:
+    			stockParam = DiscardRatio()
+    			stockParam.stock = origin['stock']
+    			stockParam.fleet = origin['fleet']
+    			stockParam.oc = origin['oc']
+    			stockParam.ratio = float(origin['ratio'])
+    			discard_rec_ratio.append(stockParam)
+    		pgi.discard_rec_ratio = discard_rec_ratio
+
+    		for origin in discardComRatioList:
+    			stockParam = DiscardRatio()
+    			stockParam.stock = origin['stock']
+    			stockParam.fleet = origin['fleet']
+    			stockParam.oc = origin['oc']
+    			stockParam.ratio = float(origin['ratio'])
+    			discard_com_ratio.append(stockParam)
+    		pgi.discard_com_ratio = discard_com_ratio
+
+    		pgi.save()
+
+    	return Response(json.dumps({'status':1}), mimetype='application/json')
+
 
     #process step1 : rnd file upload
     @expose('/rndSeedFile/<string:pk>', methods = ['POST','DELETE'])

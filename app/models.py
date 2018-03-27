@@ -64,6 +64,19 @@ class Allocation(EmbeddedDocument):
 	fleet = StringField(max_length=50)
 	allocation = DecimalField()
 
+class LandingRatio(EmbeddedDocument):
+
+	stock = StringField(max_length=50)
+	state = StringField(max_length=50)
+	ratio = DecimalField()
+
+class DiscardRatio(EmbeddedDocument):
+
+	stock = StringField(max_length=50)
+	fleet = StringField(max_length=50)
+	oc = StringField(max_length=50)
+	ratio = DecimalField()
+
 class Process(Document):
 
     process_name = StringField(max_length=50)
@@ -196,6 +209,11 @@ class ProcessGenInput(Document):
 	fleet_com_stock = EmbeddedDocumentListField(Allocation)
 	fishingStartDate = DateTimeField(default=datetime.datetime.now)
 	fishingEndDate = DateTimeField(default=datetime.datetime.now)
+	#step10
+	ratio_rec_ratio = EmbeddedDocumentListField(LandingRatio)
+	ratio_com_ratio = EmbeddedDocumentListField(LandingRatio)
+	discard_rec_ratio = EmbeddedDocumentListField(DiscardRatio)
+	discard_com_ratio = EmbeddedDocumentListField(DiscardRatio)
 
 
 	created_by = ReferenceField("User",reqired=True)

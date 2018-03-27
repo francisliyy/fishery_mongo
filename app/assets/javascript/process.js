@@ -291,6 +291,54 @@ $(function() {
 		                 }
 		            }
 		        });
+			}else if($panel.prop("id")=='mgtopt3'){
+				console.log("in step10");
+				var inputdata = {};
+				var ratio_rec_ratio = [{'stock':$("#ratio_rec_stock_0").val()||'','state':$("#ratio_rec_state_0").val()||'','ratio':$("#ratio_rec_ratio_0").val()||0},
+									   {'stock':$("#ratio_rec_stock_1").val()||'','state':$("#ratio_rec_state_1").val()||'','ratio':$("#ratio_rec_ratio_1").val()||0},
+									   {'stock':$("#ratio_rec_stock_2").val()||'','state':$("#ratio_rec_state_2").val()||'','ratio':$("#ratio_rec_ratio_2").val()||0},
+									   {'stock':$("#ratio_rec_stock_3").val()||'','state':$("#ratio_rec_state_3").val()||'','ratio':$("#ratio_rec_ratio_3").val()||0},
+									   {'stock':$("#ratio_rec_stock_4").val()||'','state':$("#ratio_rec_state_4").val()||'','ratio':$("#ratio_rec_ratio_4").val()||0},
+									   {'stock':$("#ratio_rec_stock_5").val()||'','state':$("#ratio_rec_state_5").val()||'','ratio':$("#ratio_rec_ratio_5").val()||0}									   
+									  ];
+				var ratio_com_ratio = [{'stock':$("#ratio_com_stock_0").val()||'','state':$("#ratio_com_state_0").val()||'','ratio':$("#ratio_com_ratio_0").val()||0},
+									   {'stock':$("#ratio_com_stock_1").val()||'','state':$("#ratio_com_state_1").val()||'','ratio':$("#ratio_com_ratio_1").val()||0},
+									   {'stock':$("#ratio_com_stock_2").val()||'','state':$("#ratio_com_state_2").val()||'','ratio':$("#ratio_com_ratio_2").val()||0},
+									   {'stock':$("#ratio_com_stock_3").val()||'','state':$("#ratio_com_state_3").val()||'','ratio':$("#ratio_com_ratio_3").val()||0},
+									   {'stock':$("#ratio_com_stock_4").val()||'','state':$("#ratio_com_state_4").val()||'','ratio':$("#ratio_com_ratio_4").val()||0},
+									   {'stock':$("#ratio_com_stock_5").val()||'','state':$("#ratio_com_state_5").val()||'','ratio':$("#ratio_com_ratio_5").val()||0}									   
+									  ];
+				var discard_rec_ratio = [{'stock':$("#discard_rec_stock_0").val()||'','fleet':$("#discard_rec_fleet_0").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_0").val()||0},
+									     {'stock':$("#discard_rec_stock_1").val()||'','fleet':$("#discard_rec_fleet_1").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_1").val()||0},
+									     {'stock':$("#discard_rec_stock_2").val()||'','fleet':$("#discard_rec_fleet_2").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_2").val()||0},
+									     {'stock':$("#discard_rec_stock_3").val()||'','fleet':$("#discard_rec_fleet_3").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_3").val()||0},
+									     {'stock':$("#discard_rec_stock_4").val()||'','fleet':$("#discard_rec_fleet_4").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_4").val()||0},
+									     {'stock':$("#discard_rec_stock_5").val()||'','fleet':$("#discard_rec_fleet_5").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_5").val()||0}									   
+									    ];
+				var discard_com_ratio = [{'stock':$("#discard_com_stock_0").val()||'','fleet':$("#discard_com_fleet_0").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_0").val()||0},
+									     {'stock':$("#discard_com_stock_1").val()||'','fleet':$("#discard_com_fleet_1").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_1").val()||0},
+									     {'stock':$("#discard_com_stock_2").val()||'','fleet':$("#discard_com_fleet_2").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_2").val()||0},
+									     {'stock':$("#discard_com_stock_3").val()||'','fleet':$("#discard_com_fleet_3").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_3").val()||0},
+									     {'stock':$("#discard_com_stock_4").val()||'','fleet':$("#discard_com_fleet_4").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_4").val()||0},
+									     {'stock':$("#discard_com_stock_5").val()||'','fleet':$("#discard_com_fleet_5").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_5").val()||0}									   
+									    ];
+				inputdata =JSON.stringify({"ratio_rec_ratio":ratio_rec_ratio,"ratio_com_ratio":ratio_com_ratio,"discard_rec_ratio":discard_rec_ratio,
+		            "discard_com_ratio":discard_com_ratio});	
+
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step10/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: inputdata,
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step10 successfully");
+		                 }
+		            }
+		        });
 			}
 		}
 	});

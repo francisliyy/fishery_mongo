@@ -133,13 +133,19 @@
                                     "type":  options.nextType,
                                     "text":  options.nextText
                                 }));
-                var backOnly = $( "<div/>", {
+                var backEnd = $( "<div/>", {
                                     "class": options.stepClass
                                 })
                                 .append($("<button/>", {
                                     "class": options.backClasses,
                                     "type":  options.backType,
                                     "text":  options.backText
+                                }))
+                                .append(" ")
+                                .append($("<button/>", {
+                                    "class": options.nextClasses,
+                                    "type":  options.nextType,
+                                    "text":  options.endText
                                 }));
 
                 // Grab all the <form> elements in the accordion stack
@@ -153,7 +159,7 @@
                     if (ix === 0) {
                         $(forms[0]).append(nextOnly);
                     } else if (ix === (last - 1)) {
-                        $(forms[last - 1]).append(backOnly);
+                        $(forms[last - 1]).append(backEnd);
                     } else {
                         $(forms[ix]).append($(nextBack).clone());
                     }
@@ -396,6 +402,7 @@
         stepClass:      "acc-wizard-step",      // class for step buttons within panels
         nextText:       "Next Step",            // text for next button
         backText:       "Go Back",              // text for back button
+        endText:        "End Step",             // text for end button
         nextType:       "submit",               // HTML input type for next button
         backType:       "reset",                // HTML input type for back button
         nextClasses:    "btn btn-primary",      // class(es) for next button
