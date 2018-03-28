@@ -183,7 +183,7 @@ $(function() {
 		                data: [
 		                    {type: 'average', name: 'average'}
 		                ]
-		            }
+		            },
 		        }
 		    ]
 		};
