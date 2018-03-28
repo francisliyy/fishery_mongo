@@ -309,18 +309,18 @@ $(function() {
 									   {'stock':$("#ratio_com_stock_5").val()||'','state':$("#ratio_com_state_5").val()||'','ratio':$("#ratio_com_ratio_5").val()||0}									   
 									  ];
 				var discard_rec_ratio = [{'stock':$("#discard_rec_stock_0").val()||'','fleet':$("#discard_rec_fleet_0").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_0").val()||0},
-									     {'stock':$("#discard_rec_stock_1").val()||'','fleet':$("#discard_rec_fleet_1").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_1").val()||0},
-									     {'stock':$("#discard_rec_stock_2").val()||'','fleet':$("#discard_rec_fleet_2").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_2").val()||0},
-									     {'stock':$("#discard_rec_stock_3").val()||'','fleet':$("#discard_rec_fleet_3").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_3").val()||0},
-									     {'stock':$("#discard_rec_stock_4").val()||'','fleet':$("#discard_rec_fleet_4").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_4").val()||0},
-									     {'stock':$("#discard_rec_stock_5").val()||'','fleet':$("#discard_rec_fleet_5").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_5").val()||0}									   
+									     {'stock':$("#discard_rec_stock_1").val()||'','fleet':$("#discard_rec_fleet_1").val()||'','oc':$("#discard_rec_oc_1").val()||'','ratio':$("#discard_rec_ratio_1").val()||0},
+									     {'stock':$("#discard_rec_stock_2").val()||'','fleet':$("#discard_rec_fleet_2").val()||'','oc':$("#discard_rec_oc_2").val()||'','ratio':$("#discard_rec_ratio_2").val()||0},
+									     {'stock':$("#discard_rec_stock_3").val()||'','fleet':$("#discard_rec_fleet_3").val()||'','oc':$("#discard_rec_oc_3").val()||'','ratio':$("#discard_rec_ratio_3").val()||0},
+									     {'stock':$("#discard_rec_stock_4").val()||'','fleet':$("#discard_rec_fleet_4").val()||'','oc':$("#discard_rec_oc_4").val()||'','ratio':$("#discard_rec_ratio_4").val()||0},
+									     {'stock':$("#discard_rec_stock_5").val()||'','fleet':$("#discard_rec_fleet_5").val()||'','oc':$("#discard_rec_oc_5").val()||'','ratio':$("#discard_rec_ratio_5").val()||0}									   
 									    ];
 				var discard_com_ratio = [{'stock':$("#discard_com_stock_0").val()||'','fleet':$("#discard_com_fleet_0").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_0").val()||0},
-									     {'stock':$("#discard_com_stock_1").val()||'','fleet':$("#discard_com_fleet_1").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_1").val()||0},
-									     {'stock':$("#discard_com_stock_2").val()||'','fleet':$("#discard_com_fleet_2").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_2").val()||0},
-									     {'stock':$("#discard_com_stock_3").val()||'','fleet':$("#discard_com_fleet_3").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_3").val()||0},
-									     {'stock':$("#discard_com_stock_4").val()||'','fleet':$("#discard_com_fleet_4").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_4").val()||0},
-									     {'stock':$("#discard_com_stock_5").val()||'','fleet':$("#discard_com_fleet_5").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_5").val()||0}									   
+									     {'stock':$("#discard_com_stock_1").val()||'','fleet':$("#discard_com_fleet_1").val()||'','oc':$("#discard_com_oc_1").val()||'','ratio':$("#discard_com_ratio_1").val()||0},
+									     {'stock':$("#discard_com_stock_2").val()||'','fleet':$("#discard_com_fleet_2").val()||'','oc':$("#discard_com_oc_2").val()||'','ratio':$("#discard_com_ratio_2").val()||0},
+									     {'stock':$("#discard_com_stock_3").val()||'','fleet':$("#discard_com_fleet_3").val()||'','oc':$("#discard_com_oc_3").val()||'','ratio':$("#discard_com_ratio_3").val()||0},
+									     {'stock':$("#discard_com_stock_4").val()||'','fleet':$("#discard_com_fleet_4").val()||'','oc':$("#discard_com_oc_4").val()||'','ratio':$("#discard_com_ratio_4").val()||0},
+									     {'stock':$("#discard_com_stock_5").val()||'','fleet':$("#discard_com_fleet_5").val()||'','oc':$("#discard_com_oc_5").val()||'','ratio':$("#discard_com_ratio_5").val()||0}									   
 									    ];
 				inputdata =JSON.stringify({"ratio_rec_ratio":ratio_rec_ratio,"ratio_com_ratio":ratio_com_ratio,"discard_rec_ratio":discard_rec_ratio,
 		            "discard_com_ratio":discard_com_ratio});	

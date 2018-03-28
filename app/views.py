@@ -279,7 +279,7 @@ class ProStepView(BaseView):
         #process step9
     @expose('/step9/<string:pk>', methods = ['PUT'])
     @has_access
-    def step6(self,pk):
+    def step9(self,pk):
     	if request.method == 'PUT':
     		pgi = ProcessGenInput.objects(id=pk).first()    		
     		inputparam = request.get_json()
@@ -319,7 +319,7 @@ class ProStepView(BaseView):
     #process step10
     @expose('/step10/<string:pk>', methods = ['PUT'])
     @has_access
-    def step6(self,pk):
+    def step10(self,pk):
     	if request.method == 'PUT':
     		pgi = ProcessGenInput.objects(id=pk).first()    		
     		inputparam = request.get_json()
