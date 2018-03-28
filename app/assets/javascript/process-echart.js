@@ -1,99 +1,195 @@
 $(function() {
 
-	var myChart = echarts.init(document.getElementById('bio-chart-1'));
+	var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
+	var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
 
-	option = {
-	    title: {
-	        text: '折线图堆叠'
-	    },
-	    tooltip: {
-	        trigger: 'axis'
-	    },
-	    legend: {
-	        data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-	    },
-	    grid: {
-	        left: '3%',
-	        right: '4%',
-	        bottom: '3%',
-	        containLabel: true
-	    },
-	    toolbox: {
-	        feature: {
-	            saveAsImage: {}
-	        }
-	    },
-	    xAxis: {
-	        type: 'category',
-	        boundaryGap: false,
-	        data: ['周一','周二','周三','周四','周五','周六','周日']
-	    },
-	    yAxis: {
-	        type: 'value'
-	    },
-	    series: [
-	        {
-	            name:'邮件营销',
-	            type:'line',
-	            stack: '总量',
-	            lineStyle: {
-	                normal: {
-	                    opacity: 0
+	$.ajax({
+		url: $SCRIPT_ROOT+'/prostepview/getEchartData',
+		type: 'GET',
+	})
+	.done(function(edata) {
+		var xAxisData = [];
+        var F_std_data = [];
+        var HL_E_data = [];
+        var HL_W_data = [];
+        $.each(edata,function(index, el) {
+        	xAxisData.push(el.Yr);
+			F_std_data.push(el.F_std);
+			HL_E_data.push(el.HL_E);
+			HL_W_data.push(el.HL_W);
+        });
+		option = {
+		    title: {
+		        text: 'Ending year expected growth(with 95% intervals)'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
 	                }
 	            },
-	            showSymbol: false,
-	            data:[120, 132, 101, 134, 90, 230, 210]
-	        },
-	        {
-	            name:'联盟广告',
-	            type:'line',    
-	            lineStyle: {
-	                normal: {
-	                    opacity: 0
-	                }
-	            },   
-	            showSymbol: false,     
-	            data:[220, 182, 191, 234, 290, 330, 310]
-	        },
-	        {
-	            name:'视频广告',
-	            type:'line',
-	            lineStyle: {
-	                normal: {
-	                    opacity: 0
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: xAxisData,
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'F_std',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:F_std_data,
+		        },
+		        {
+		            name:'HL_E',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:HL_E_data
+		        },
+		        {
+		            name:'HL_W',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:HL_W_data,
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		bioChart1.setOption(option);
+	});
+
+	$.ajax({
+		url: $SCRIPT_ROOT+'/prostepview/getEchartData',
+		type: 'GET',
+	})
+	.done(function(edata) {
+		var xAxisData = [];
+        var F_std_data = [];
+        $.each(edata,function(index, el) {
+        	xAxisData.push(el.Yr);
+			F_std_data.push(el.F_std);
+        });
+		option = {
+		    title: {
+		        text: ''
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
 	                }
 	            },
-	            showSymbol: false,
-	            data:[150, 232, 201, 154, 190, 330, 410]
-	        },
-	        {
-	            name:'直接访问',
-	            type:'line',
-	            data:[320, 332, 301, 334, 390, 330, 320]
-	        },
-	        {
-	            name:'搜索引擎',
-	            type:'line',
-	            stack: '总量',
-	            lineStyle: {
-	                normal: {
-	                    opacity: 0
-	                }
-	            },
-	            areaStyle: {
-	                normal: {
-	                    color: '#ccc',
-	                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-	                }
-	            },
-	            data:[820, 932, 901, 934, 1290, 1330, 1320],
-	            showSymbol: false
+		    },
+		    legend: {
+		        data:['F_std'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: xAxisData,
+		    },
+		    yAxis: {
+		        type: 'value',		        
+		        splitLine:{show:false},
+		    },
+		    series: [
+		        {
+		            name:'F_std',
+		            type:'line',
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },
+		            showAllSymbol: true,
+		            data:F_std_data,
+		            markLine: {
+		                data: [
+		                    {type: 'average', name: 'average'}
+		                ]
+		            }
+		        }
+		    ]
+		};
+		sprChart1.setOption(option);
+	});
 
-	        }
-	    ]
-	};
-
-
-	myChart.setOption(option);
+	
 
 })

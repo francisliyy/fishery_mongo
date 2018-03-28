@@ -343,6 +343,10 @@ $(function() {
 		}
 	});
 
+	$("#process-result").accwizard({
+
+	});
+
 	/*part 1 general input start */
     $('#start_projection').datetimepicker({
     	format:'YYYY-MM-DD',

@@ -485,6 +485,15 @@ class ProStepView(BaseView):
 
         return Response(json.dumps({'status':1}), mimetype='application/json')
 
+    @expose('/getEchartData')
+    @has_access
+    def getEchartData(self):
+        
+        file_data = '/Users/yli120/rfish/Tables/F by Fleet.csv'
+
+        df_E = pd.read_csv(file_data,usecols=['Yr','F_std','HL_E','HL_W'])
+
+        return Response(df_E.to_json(orient='records'), mimetype='application/json')
 
 class StockFileView(ModelView):
 
