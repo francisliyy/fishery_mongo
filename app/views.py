@@ -1,6 +1,7 @@
 from flask import render_template,jsonify,Response,request,make_response
 from flask.ext.appbuilder import ModelView
 from flask.ext.appbuilder.models.mongoengine.interface import MongoEngineInterface
+from flask_appbuilder.actions import action
 from app import appbuilder
 from flask_appbuilder import BaseView, expose, has_access
 from flask_login import current_user
@@ -63,6 +64,14 @@ class ProcessView(ModelView):
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+
+    @action("comparePro","Do Strategy Comparison on these records","Do you really want to?","fa-rocket")
+    def comparePro(self, item):
+        """
+            do something with the item record
+        """
+        return self.render_template('/stgCompare.html')
+
 
 class ProStepView(BaseView):
 
