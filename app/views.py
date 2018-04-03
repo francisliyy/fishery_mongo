@@ -44,6 +44,11 @@ class ProcessView(ModelView):
     def pre_update(self, item):
         item.changed_by = current_user.id
 
+    def pre_delete(self, item):
+        print(item.id)
+        step1 = ProcessGenInput.objects(process_id=item.id).first()
+        step1.delete()
+
     @expose('/showProStep/<pk>')
     @has_access
     def showProStep(self,pk):

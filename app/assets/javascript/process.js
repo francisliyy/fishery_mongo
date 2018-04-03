@@ -4,6 +4,15 @@ $(function() {
 	    console.log(this.files[0].mozFullPath);
 	});
 
+	$("#form-generalinput").validate({
+		rules: {
+			time_step:"required"
+		},
+		message:{
+
+		}
+	})
+
 	$("#process-part").accwizard({		
 		onNext:function(parent, panel){
 			$panel = $(panel);
