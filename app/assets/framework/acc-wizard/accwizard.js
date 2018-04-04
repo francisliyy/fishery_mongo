@@ -266,11 +266,12 @@
                         ev.preventDefault();
                         var panel = $(this).parents(".panel-collapse")[0];
                         if(hook('beforeNext', panel)===false) return false;
+                        if(hook('onNext', panel)===false) return false;
                         var next = "#" + $(".panel-collapse",
                             $(panel).parents(".panel")
                                 .next(".panel")[0])[0].id;
                         $(next).collapse("show");
-                        hook('onNext', panel);
+                        
                         currentHash = next;
                         makeTaskActive(currentHash);
                         window.location.hash = currentHash;

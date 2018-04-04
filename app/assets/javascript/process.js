@@ -4,11 +4,28 @@ $(function() {
 	    console.log(this.files[0].mozFullPath);
 	});
 
+	$("#form-generalinput").validate({
+	 	ignore:"input[type=file]",
+	    rules: {
+	      // no quoting necessary
+	      short_term_mgt:{
+	      	required: true,
+	      	digits:true,
+	      },
+	    },
+	    errorPlacement: function(error, element) {
+		    error.appendTo( element.closest(".form-group") );
+		}
+	 });
+
 	$("#process-part").accwizard({		
 		onNext:function(parent, panel){
 			$panel = $(panel);
 			if($panel.prop("id")=='generalinput'){
 				console.log('in step1');
+				if(!$("#form-generalinput").valid()){
+					return false;
+				}
 				var data = {};
 				var time_step = $('input[name=time_step]:checked', '#form-generalinput').val()||'M';
 				var start_projection = $("#start_projection").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
