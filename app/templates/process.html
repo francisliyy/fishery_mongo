@@ -80,7 +80,7 @@
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Short-term Management</label>
                     <div class="col-md-3 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3" value="{{process_step1['short_term_mgt'] if process_step1['short_term_mgt'] != None else ''}}"/> 
+                      <input maxlength="3" type="text" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3" value="{{process_step1['short_term_mgt'] if process_step1['short_term_mgt'] != None else ''}}"/> 
                     </div> 
                     <div class="col-md-2 input-group">      
                       <select id="short_term_unit" name="short_term_unit" class="form-control">
@@ -88,7 +88,7 @@
                               <option value="S" {{'selected' if process_step1['short_term_unit']=='S'}}>Seasons</option>
                               <option value="M" {{'selected' if process_step1['short_term_unit']=='M'}}>Months</option>
                       </select>
-                    </div>              
+                    </div>        
                   </div>
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Long-term Management</label>
@@ -1057,6 +1057,7 @@
     <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/echarts/dist/echarts.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/jquery-validation/dist/jquery.validate.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>    
 {% endblock %}
