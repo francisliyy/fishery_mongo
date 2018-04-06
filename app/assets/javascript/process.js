@@ -8,10 +8,24 @@ $(function() {
 	 	ignore:"input[type=file]",
 	    rules: {
 	      // no quoting necessary
+	      time_step:{
+	      	required: true,
+	      },
 	      short_term_mgt:{
 	      	required: true,
 	      	digits:true,
 	      },
+	      long_term_mgt:{
+	      	required: true,
+	      	digits:true,
+	      },
+	      stock_per_mgt_unit:{
+	      	required: true,
+	      	digits:true,
+	      },	
+	      mixing_pattern:{
+	      	required: true,
+	      },      
 	    },
 	    errorPlacement: function(error, element) {
 		    error.appendTo( element.closest(".form-group") );
