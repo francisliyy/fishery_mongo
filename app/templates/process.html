@@ -220,7 +220,7 @@
                   <div class="form-group">
                     <label class="col-md-2 control-label">Input file path</label> 
                     <div class="col-md-5 input-group">     
-                      <input type="text" class="form-control" style="border-radius: 4px;" id="stock1_filepath" name="stock1_filepath" value="{{process_step1['stock1_filepath'] if process_step1['stock1_filepath'] != None else ''}}"/>
+                      <input type="text" maxlength="50" class="form-control" style="border-radius: 4px;" id="stock1_filepath" name="stock1_filepath" value="{{process_step1['stock1_filepath'] if process_step1['stock1_filepath'] != None else ''}}"/>
                     </div>
                   </div>
                   <h4>Stock2:</h4>
@@ -239,7 +239,7 @@
                   <div class="form-group">
                     <label class="col-md-2 control-label">Input file path</label> 
                     <div class="col-md-5 input-group">   
-                      <input type="text" class="form-control" style="border-radius: 4px;" id="stock2_filepath" name="stock2_filepath" value="{{process_step1['stock2_filepath'] if process_step1['stock2_filepath'] != None else ''}}"/>
+                      <input type="text" maxlength="50" class="form-control" style="border-radius: 4px;" id="stock2_filepath" name="stock2_filepath" value="{{process_step1['stock2_filepath'] if process_step1['stock2_filepath'] != None else ''}}"/>
                     </div>
                   </div>                  
                 </form>

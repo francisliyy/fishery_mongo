@@ -89,6 +89,27 @@ $(function() {
 		}
 	});
 
+	$("#form-stockassessment2").validate({
+		rules: {
+	      // no quoting necessary
+	      stock1_model_type:{
+	      	required: true,
+	      },
+	      stock1_filepath:{
+	      	required: true,
+	      },
+	      stock2_model_type:{
+	      	required: true,
+	      },
+	      stock2_filepath:{
+	      	required: true,
+	      },      
+	    },
+	    errorPlacement: function(error, element) {
+		    error.appendTo( element.closest(".form-group"));
+		}
+	});
+
 	$("#process-part").accwizard({		
 		onNext:function(parent, panel){
 			$panel = $(panel);
@@ -151,6 +172,9 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='stockassessment2'){
 				console.log('in step3');
+				if(!$("#form-stockassessment2").valid()){
+					return false;
+				}
 				var data = {};
 				var stock1_model_type = $('input[name=stock1_model_type]:checked', '#form-stockassessment2').val()||'1';
 				var stock1_filepath = $("#stock1_filepath").val()||'';
