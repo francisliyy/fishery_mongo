@@ -936,32 +936,35 @@ $(function() {
 	$("#mortality-pre-btn").on('click', function(event) {
 		event.preventDefault();
 		if($("#hidden-mortality").data('mortalitycomplex')==1){
-			$(this).removeClass('btn-disable');
-			$(this).addClass('btn-danger');
-			$("#mortality-next-btn").removeClass('btn-danger');
-			$("#mortality-next-btn").addClass('btn-disable');
+			//$(this).removeClass('btn-disable');
+			//$(this).addClass('btn-danger');
+			//$("#mortality-next-btn").removeClass('btn-danger');
+			//$("#mortality-next-btn").addClass('btn-disable');
 		}else{
 			if(parseInt($("#hidden-mortality").data('mortalitycomplex'))>1){
+				console.log(parseInt($("#hidden-mortality").data('mortalitycomplex'))-1);
 				$("#hidden-mortality").data('mortalitycomplex', parseInt($("#hidden-mortality").data('mortalitycomplex'))-1)
 				$("#mortality-next-btn").removeClass('btn-disable');
 				$("#mortality-next-btn").addClass('btn-danger');
+				$("#hidden-mortality").data('mortalitycomplex','1');
 				showRightComplexity($("#hidden-mortality").data('mortalitycomplex'));
 			}
 			$(this).removeClass('btn-danger');
 			$(this).addClass('btn-disable');
-		}
+		}		
 		/* Act on the event */
 	});
 
 	$("#mortality-next-btn").on('click', function(event) {
 		event.preventDefault();
 		if($("#hidden-mortality").data('mortalitycomplex')==2){
-			$(this).removeClass('btn-disable');
-			$(this).addClass('btn-danger');
-			$("#mortality-pre-btn").removeClass('btn-danger');
-			$("#mortality-pre-btn").addClass('btn-disable');
+			//$(this).removeClass('btn-disable');
+			//$(this).addClass('btn-danger');
+			//$("#mortality-pre-btn").removeClass('btn-danger');
+			//$("#mortality-pre-btn").addClass('btn-disable');
 		}else{
 			if(parseInt($("#hidden-mortality").data('mortalitycomplex'))<2){
+				console.log(parseInt($("#hidden-mortality").data('mortalitycomplex'))+1);
 				$("#hidden-mortality").data('mortalitycomplex', parseInt($("#hidden-mortality").data('mortalitycomplex'))+1);
 				$("#mortality-pre-btn").removeClass('btn-disable');
 				$("#mortality-pre-btn").addClass('btn-danger');
