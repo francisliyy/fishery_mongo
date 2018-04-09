@@ -38,7 +38,7 @@ $(function() {
 	    errorPlacement: function(error, element) {
 		    error.appendTo( element.closest(".form-group") );
 		}
-	 });
+	});
 
 	$("#form-stockassessment1").validate({
 		rules: {
@@ -133,6 +133,93 @@ $(function() {
 	    },
 	    errorPlacement: function(error, element) {
 		    error.appendTo( element.closest(".form-group"));
+		}
+	});
+
+	$("#form-recruitment").validate({
+	    rules: {
+	      // no quoting necessary
+	      recruitTypeStock1:{
+	      	required: true,
+	      },
+	      hst1_lower:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst1_median:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst1_mean:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst1_upper:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst1_other:{
+	      	required: true,
+	      	number:true,
+	      	max:100,
+	      },
+	      hst1_cal:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      }, 
+	      recruitTypeStock2:{
+	      	required: true,
+	      },    
+	      hst2_lower:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst2_median:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst2_mean:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst2_upper:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	      hst2_other:{
+	      	required: true,
+	      	number:true,
+	      	max:100,
+	      },
+	      hst2_cal:{
+	      	required: true,
+	      	number:true,
+	      	max:99999999,
+	      },
+	    },
+	    messages:{
+	    	recruitTypeStock1:{
+	    		required: "Stock 1 recruit type is required",
+	    	},
+	    	recruitTypeStock2:{
+	    		required: "Stock 2 recruit type is required",
+	    	}
+	    },
+	    errorPlacement: function(error, element) {
+	    	if(element.prop('name')=='recruitTypeStock1'||element.prop('name')=='recruitTypeStock2'){
+	    		error.appendTo( element.closest("div") );
+	    	}else{
+	    		error.insertAfter( element );
+	    	}		    
 		}
 	});
 
@@ -288,17 +375,20 @@ $(function() {
 			}else if($panel.prop("id")=='recruitment'){
 				console.log('in step7');
 				var data = {};
+				if(!$("#form-recruitment").valid()){
+					return false;
+				};
 
 				//stock1				
 				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'0';
 
 				var historySt1 = $('input[name=historySt1]:checked', '#form-recruitment').val()||'0';
-				var hst1_lower = $("#hst1-lower:enabled").val()||0;
-				var hst1_median = $("#hst1-median:enabled").val()||0;
-				var hst1_mean = $("#hst1-mean:enabled").val()||0;
-				var hst1_upper = $("#hst1-upper:enabled").val()||0;
-				var hst1_other = $('#hst1-other:enabled').val()||0;
-				var hst1_cal = $('#hst1-cal:enabled').val()||0;
+				var hst1_lower = $("#hst1_lower:enabled").val()||0;
+				var hst1_median = $("#hst1_median:enabled").val()||0;
+				var hst1_mean = $("#hst1_mean:enabled").val()||0;
+				var hst1_upper = $("#hst1_upper:enabled").val()||0;
+				var hst1_other = $('#hst1_other:enabled').val()||0;
+				var hst1_cal = $('#hst1_cal:enabled').val()||0;
 
 				var formulaStock1 = $('input[name=formulaStock1]:checked', '#form-recruitment').val()||'0';
 				var fml1Bmalpha1 = $("#fml1Bmalpha1:enabled").val()||0;
@@ -319,12 +409,12 @@ $(function() {
 				var recruitTypeStock2 = $('input[name=recruitTypeStock2]:checked', '#form-recruitment').val()||'0';
 				
 				var historySt2 = $('input[name=historySt2]:checked', '#form-recruitment').val()||'0';
-				var hst2_lower = $("#hst2-lower:enabled").val()||0;
-				var hst2_median = $("#hst2-median:enabled").val()||0;
-				var hst2_mean = $("#hst2-mean:enabled").val()||0;
-				var hst2_upper = $("#hst2-upper:enabled").val()||0;
-				var hst2_other = $('#hst2-other:enabled').val()||0;
-				var hst2_cal = $('#hst2-cal:enabled').val()||0;
+				var hst2_lower = $("#hst2_lower:enabled").val()||0;
+				var hst2_median = $("#hst2_median:enabled").val()||0;
+				var hst2_mean = $("#hst2_mean:enabled").val()||0;
+				var hst2_upper = $("#hst2_upper:enabled").val()||0;
+				var hst2_other = $('#hst2_other:enabled').val()||0;
+				var hst2_cal = $('#hst2_cal:enabled').val()||0;
 
 				var formulaStock2 = $('input[name=formulaStock2]:checked', '#form-recruitment').val()||'0';
 				var fml2Bmalpha1 = $("#fml2Bmalpha1:enabled").val()||0;
@@ -979,12 +1069,12 @@ $(function() {
 	/* part 7 recruitment start */
 	function initHistroySt(stock){
 		$("input[name^='hst"+stock+"']").prop('disabled','disabled');
-		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"-lower").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==2&&$("#hst"+stock+"-median").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"-mean").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"-upper").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"-other").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()!=0&&$("#hst"+stock+"-cal").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"_lower").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==2&&$("#hst"+stock+"_median").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"_mean").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"_upper").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"_other").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()!=0&&$("#hst"+stock+"_cal").prop('disabled','');
 	}
 
 	function initFormulaStock(stock){
