@@ -46,18 +46,22 @@ $(function() {
 	      unit1to1:{
 	      	required: true,
 	      	number:true,
+	      	max:100,
 	      },
 	      unit1to2:{
 	      	required: true,
 	      	number:true,
+	      	max:100,
 	      },
 	      unit2to1:{
 	      	required: true,
 	      	number:true,
+	      	max:100,
 	      },
 	      unit2to2:{
 	      	required: true,
 	      	number:true,
+	      	max:100,
 	      },      
 	    },
 	    messages: {
@@ -103,7 +107,29 @@ $(function() {
 	      },
 	      stock2_filepath:{
 	      	required: true,
-	      },      
+	      },    
+	    },
+	    errorPlacement: function(error, element) {
+		    error.appendTo( element.closest(".form-group"));
+		}
+	});
+	$("#form-naturalmortality").validate({
+		rules: {
+	      // no quoting necessary
+	      
+	      simple_mean:{
+	      	required: true,
+	      	number:true,
+	      },
+	      simple_cv:{
+	      	required: true,
+	      	number:true,
+	      	max:100,
+	      },
+	      simple_spawning:{
+	      	required: true,
+	      	number:true,
+	      }       
 	    },
 	    errorPlacement: function(error, element) {
 		    error.appendTo( element.closest(".form-group"));
@@ -222,9 +248,12 @@ $(function() {
 		                 }
 		            }
 		        });
-			}else if($panel.prop("id")=='naturalmortality'){
+			}else if($panel.prop("id")=='naturalmortality'){				
 				var inputdata = {};
 				if($("#hidden-mortality").data('mortalitycomplex')==1){
+					if(!$("#form-naturalmortality").valid()){
+						return false;
+					}
 					var simple_mean = parseFloat($("#simple_mean").val())||0;
 					var simple_cv = parseFloat($("#simple_cv").val())||0;
 					var simple_spawning = parseFloat($("#simple_spawning").val())||0;
