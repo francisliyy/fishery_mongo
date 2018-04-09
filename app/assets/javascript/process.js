@@ -89,7 +89,7 @@ $(function() {
 	      },      
 	    },
 	    errorPlacement: function(error, element) {
-		    error.appendTo( element.closest(".form-group"));
+		    error.appendTo( element.closest("div"));
 		}
 	});
 
@@ -110,7 +110,7 @@ $(function() {
 	      },    
 	    },
 	    errorPlacement: function(error, element) {
-		    error.appendTo( element.closest(".form-group"));
+		    error.appendTo( element.closest("div"));
 		}
 	});
 	$("#form-naturalmortality").validate({
