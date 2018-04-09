@@ -138,7 +138,7 @@ $(function() {
 
 	$("#form-recruitment").validate({
 	    rules: {
-	      // no quoting necessary
+	      // part1
 	      recruitTypeStock1:{
 	      	required: true,
 	      },
@@ -205,6 +205,102 @@ $(function() {
 	      	number:true,
 	      	max:99999999,
 	      },
+	      //part2
+	      formulaStock1:{
+	      	required: true,
+	      },
+	      formulaStock2:{
+	      	required: true,
+	      },
+	      fml1Bmalpha1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml1Bmbeta1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml2Bmalpha1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml2Bmbeta1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml1Rmalpha1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml1Rmbeta1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml2Rmalpha1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml2Rmbeta1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml1MbhmSSB0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml1MbhmR0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml2MbhmSSB0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml2MbhmR0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml1MbhmSteep:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fml2MbhmSteep:{
+	      	required: true,
+	      	number:true,
+	      },
+	      //part3
+	      auto1R0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      auto1h:{
+	      	required: true,
+	      	number:true,
+	      },
+	      auto1Rave:{
+	      	required: true,
+	      	number:true,
+	      },
+	      auto2R0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      auto2h:{
+	      	required: true,
+	      	number:true,
+	      },
+	      auto2Rave:{
+	      	required: true,
+	      	number:true,
+	      },
+	      cv1Recruit:{
+	      	required: true,
+	      	number:true,
+	      },
+	      cv2Recruit:{
+	      	required: true,
+	      	number:true,
+	      },
 	    },
 	    messages:{
 	    	recruitTypeStock1:{
@@ -215,11 +311,7 @@ $(function() {
 	    	}
 	    },
 	    errorPlacement: function(error, element) {
-	    	if(element.prop('name')=='recruitTypeStock1'||element.prop('name')=='recruitTypeStock2'){
-	    		error.appendTo( element.closest("div") );
-	    	}else{
-	    		error.insertAfter( element );
-	    	}		    
+	    	error.appendTo( element.closest("div") );	    
 		}
 	});
 
