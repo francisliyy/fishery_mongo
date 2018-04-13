@@ -360,6 +360,137 @@ $(function() {
 		}
 	});
 
+	$("#form-mgtopt2").validate({
+		rules: {
+	      // no quoting necessary
+	      sec_recreational:{
+	      	required: true,
+	      	number:true,
+	      },
+	      sec_commercial:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_stock_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_fleet_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_allocation_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_stock_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_fleet_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_allocation_1:{
+	      	required: true,
+	      	number:true,
+	      },  
+	      fleet_rec_stock_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_fleet_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_allocation_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_stock_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_fleet_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      fleet_rec_allocation_3:{
+	      	required: true,
+	      	number:true,
+	      },	
+	      fleet_com_stock_0:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_fleet_0:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_allocation_0:{
+	        required: true,
+	      	number:true,
+	      },       
+	      fleet_com_stock_1:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_fleet_1:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_allocation_1:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_stock_2:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_fleet_2:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_allocation_2:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_stock_3:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_fleet_3:{
+	        required: true,
+	      	number:true,
+	      },
+	      fleet_com_allocation_3:{
+	        required: true,
+	      	number:true,
+	      }, 
+	      fishingStartDateTxt:{
+	      	required: true,
+	      },
+	      fishingEndDateTxt:{
+	      	required: true,
+	      },
+	    },
+	    messages:{
+	    	fishingStartDateTxt:{
+	    		required: "Field Start is required",
+	    	},
+	    	fishingEndDateTxt:{
+	    		required: "Field End is required",
+	    	}
+	    },
+	    errorPlacement: function(error, element) {
+	    	if(element[0].id=="fishingStartDateTxt"||element[0].id=="fishingEndDateTxt"){
+	    		error.appendTo( element.closest(".form-group"));
+	    	}else{
+	    		error.appendTo( element.closest("div"));
+	    	}		    
+		}
+	});
+
 	$("#process-part").accwizard({		
 		onNext:function(parent, panel){
 			$panel = $(panel);
@@ -632,6 +763,9 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt2'){
 				console.log("in step9");
+				if(!$("#form-mgtopt2").valid()){
+					return false;
+				};
 				var inputdata = {};
 				var sec_recreational = $("#sec_recreational").val()||0;
 				var sec_commercial = $("#sec_commercial").val()||0;
