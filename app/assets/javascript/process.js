@@ -315,6 +315,51 @@ $(function() {
 		}
 	});
 
+	$("#form-mgtopt1").validate({
+		rules: {
+	      // no quoting necessary
+	      bio_biomass_points:{
+	      	required: true,
+	      	number:true,
+	      },
+	      bio_catch_mt:{
+	      	required: true,
+	      	number:true,
+	      },
+	      bio_f_percent:{
+	      	required: true,
+	      	number:true,
+	      },
+	      hrt_threshold1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      hrt_threshold2:{
+	      	required: true,
+	      	number:true,
+	      },  
+	      hst_catch_thh1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      hst_catch_thh2:{
+	      	required: true,
+	      	number:true,
+	      },     
+	      hst_f_thh1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      hst_f_thh2:{
+	      	required: true,
+	      	number:true,
+	      }, 
+	    },
+	    errorPlacement: function(error, element) {
+		    error.appendTo( element.closest("div"));
+		}
+	});
+
 	$("#process-part").accwizard({		
 		onNext:function(parent, panel){
 			$panel = $(panel);
@@ -547,6 +592,9 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt1'){
 				console.log('in step8');
+				if(!$("#form-mgtopt1").valid()){
+					return false;
+				};
 				var data = {};
 
 				var bio_biomass_points = $("#bio_biomass_points").val()||0;
@@ -1245,6 +1293,7 @@ $(function() {
 			$("#bio_catch_mt").prop('disabled', '');
 			$("#bio_f_percent").prop('disabled', 'disabled');
 		}else{
+			$("#fbaseRadio").prop('checked', true);
 			$("#bio_catch_mt").prop('disabled', 'disabled');
 			$("#bio_f_percent").prop('disabled', '');
 		}
@@ -1257,6 +1306,7 @@ $(function() {
 			$("#hst_f_thh1").prop('disabled', 'disabled');
 			$("#hst_f_thh2").prop('disabled', 'disabled');
 		}else{
+			$("#fRadio").prop('checked',true);
 			$("#hst_catch_thh1").prop('disabled', 'disabled');
 			$("#hst_catch_thh2").prop('disabled', 'disabled');
 			$("#hst_f_thh1").prop('disabled', '');
