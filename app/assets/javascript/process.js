@@ -491,6 +491,347 @@ $(function() {
 		}
 	});
 
+	$("#form-mgtopt3").validate({
+		rules: {
+	      // no quoting necessary
+	      ratio_rec_stock_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_state_0:{
+	      	required: true,
+	      },
+	      ratio_rec_ratio_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_stock_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_state_0:{
+	      	required: true,
+	      },
+	      ratio_com_ratio_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_stock_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_state_1:{
+	      	required: true,
+	      },
+	      ratio_rec_ratio_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_stock_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_state_1:{
+	      	required: true,
+	      },
+	      ratio_com_ratio_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_stock_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_state_2:{
+	      	required: true,
+	      },
+	      ratio_rec_ratio_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_stock_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_state_2:{
+	      	required: true,
+	      },
+	      ratio_com_ratio_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_stock_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_state_3:{
+	      	required: true,
+	      },
+	      ratio_rec_ratio_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_stock_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_state_3:{
+	      	required: true,
+	      },
+	      ratio_com_ratio_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_stock_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_state_4:{
+	      	required: true,
+	      },
+	      ratio_rec_ratio_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_stock_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_state_4:{
+	      	required: true,
+	      },
+	      ratio_com_ratio_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_stock_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_rec_state_5:{
+	      	required: true,
+	      },
+	      ratio_rec_ratio_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_stock_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      ratio_com_state_5:{
+	      	required: true,
+	      },
+	      ratio_com_ratio_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_stock_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_fleet_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_oc_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_ratio_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_stock_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_fleet_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_oc_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_ratio_0:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_stock_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_fleet_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_oc_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_ratio_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_stock_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_fleet_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_oc_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_ratio_1:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_stock_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_fleet_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_oc_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_ratio_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_stock_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_fleet_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_oc_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_ratio_2:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_stock_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_fleet_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_oc_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_ratio_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_stock_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_fleet_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_oc_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_ratio_3:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_stock_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_fleet_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_oc_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_ratio_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_stock_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_fleet_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_oc_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_ratio_4:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_stock_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_fleet_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_oc_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_rec_ratio_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_stock_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_fleet_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_oc_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	      discard_com_ratio_5:{
+	      	required: true,
+	      	number:true,
+	      },
+	    },
+	    messages:{
+	    	fishingStartDateTxt:{
+	    		required: "Field Start is required",
+	    	},
+	    	fishingEndDateTxt:{
+	    		required: "Field End is required",
+	    	}
+	    },
+	    errorPlacement: function(error, element) {
+	    	error.appendTo( element.closest("div"));	   		    
+		}
+	});
+
 	$("#process-part").accwizard({		
 		onNext:function(parent, panel){
 			$panel = $(panel);
@@ -801,6 +1142,9 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt3'){
 				console.log("in step10");
+				if(!$("#form-mgtopt3").valid()){
+					return false;
+				};
 				var inputdata = {};
 				var ratio_rec_ratio = [{'stock':$("#ratio_rec_stock_0").val()||'','state':$("#ratio_rec_state_0").val()||'','ratio':$("#ratio_rec_ratio_0").val()||0},
 									   {'stock':$("#ratio_rec_stock_1").val()||'','state':$("#ratio_rec_state_1").val()||'','ratio':$("#ratio_rec_ratio_1").val()||0},
