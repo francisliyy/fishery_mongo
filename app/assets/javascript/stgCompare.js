@@ -24,7 +24,9 @@ $(function() {
 	    },
 	    tooltip: {},
 	    legend: {
-	        data: ['Allocated Budget']
+	        data: ['Allocated Budget'],
+	        left:'10%',
+	        top:'2%'
 	    },
 	    radar: {
 	        // shape: 'circle',
@@ -41,7 +43,7 @@ $(function() {
 	           { name: 'Administration', max: 16000},
 	           { name: 'Information Techology', max: 30000},
 	           { name: 'Customer Support', max: 38000},
-	           { name: '研发（Development', max: 52000},
+	           { name: 'Development', max: 52000},
 	           { name: 'Marketing', max: 25000}
 	        ]
 	    },
