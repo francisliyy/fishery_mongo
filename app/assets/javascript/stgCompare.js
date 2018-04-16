@@ -65,6 +65,55 @@ $(function() {
 	radarChart.setOption(radarOption);
 
 
+	$("#form_compare").validate({
+	    rules: {
+	      // no quoting necessary
+	      reportPath:{
+	      	required: true,
+	      },
+	      fMin:{
+	      	required: true,
+	      	digits:true,
+	      },
+	      fMax:{
+	      	required: true,
+	      	digits:true,
+	      },
+	      fLevel:{
+	      	required: true,
+	      	digits:true,
+	      },	
+	      sMin:{
+	      	required: true,
+	      },	       
+	      sMax:{
+	      	required: true,
+	      	digits:true,
+	      },
+	      sLevel:{
+	      	required: true,
+	      	digits:true,
+	      },       
+	    },
+	    errorPlacement: function(error, element) {
+	    	if(element[0].id=="reportPath"){
+	    		error.appendTo( element.closest(".form-group"));
+	    	}else{
+	    		error.appendTo( element.closest("div"));
+	    	}
+		}
+	});
+
+	$("#cmpBtn").on('click', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		if(!$("#form_compare").valid()){
+			return false;
+		}
+
+	});
+
+
 /*************************** heat map *********************************/
 var noise = getNoiseHelper();
 var xData = [];
