@@ -14,6 +14,7 @@ import pandas as pd
 import numpy as np
 import json
 import datetime
+import os
 #from flask import _app_ctx_stack
 #from flask.globals import _request_ctx_stack
 
@@ -437,12 +438,12 @@ class ProStepView(BaseView):
             return Response(pgi.to_json(), mimetype='application/json')
 
         else:
-            file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
-            file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
+            file_obs_E = 'static/csv/Obs and Pred Sum_E.csv'
+            file_obs_W = 'static/csv/Obs and Pred Sum_W.csv'
 
-            df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
+            df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_E),usecols=['Year','Observed','Expected'])
             df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "stock_1_mean", "Expected": "cv_1"})
-            df_W = pd.read_csv(file_obs_W,usecols=['Observed','Expected'])
+            df_W = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_W),usecols=['Observed','Expected'])
             df_W = df_W.rename(index=str, columns={"Observed": "stock_2_mean", "Expected": "cv_2"})
             df_total = pd.concat([df_E,df_W],axis=1)
 
@@ -458,12 +459,12 @@ class ProStepView(BaseView):
           	return Response(pgi.to_json(), mimetype='application/json')
 
         else:
-            file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
-            file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
+            file_obs_E = 'static/csv//Obs and Pred Sum_E.csv'
+            file_obs_W = 'static/csv//Obs and Pred Sum_W.csv'
 
-            df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
+            df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_E),usecols=['Year','Observed','Expected'])
             df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "maturity_stock_1", "Expected": "maturity_stock_2"})
-            df_W = pd.read_csv(file_obs_W,usecols=['Observed'])
+            df_W = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_W),usecols=['Observed'])
             df_W = df_W.rename(index=str, columns={"Observed": "fecundity"})
             df_total = pd.concat([df_E,df_W],axis=1)            
 
@@ -480,12 +481,12 @@ class ProStepView(BaseView):
 
         else:
             print("in")
-            file_obs_E = '/Users/yli120/rfish/Tables/Obs and Pred Sum_E.csv'
-            file_obs_W = '/Users/yli120/rfish/Tables/Obs and Pred Sum_W.csv'
+            file_obs_E = 'static/csv/Obs and Pred Sum_E.csv'
+            file_obs_W = 'static/csv/Obs and Pred Sum_W.csv'
 
-            df_E = pd.read_csv(file_obs_E,usecols=['Year','Observed','Expected'])
+            df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_E),usecols=['Year','Observed','Expected'])
             df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "mean", "Expected": "cv"})
-            df_W = pd.read_csv(file_obs_W,usecols=['Observed'])
+            df_W = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_W),usecols=['Observed'])
             df_W = df_W.rename(index=str, columns={"Observed": "spawning"})
             df_total = pd.concat([df_E,df_W],axis=1)            
 
@@ -503,9 +504,9 @@ class ProStepView(BaseView):
     @has_access
     def getEchartData(self):
         
-        file_data = '/Users/yli120/rfish/Tables/F by Fleet.csv'
+        file_data = 'static/csv/F by Fleet.csv'
 
-        df_E = pd.read_csv(file_data,usecols=['Yr','F_std','HL_E','HL_W'])
+        df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_data),usecols=['Yr','F_std','HL_E','HL_W'])
 
         return Response(df_E.to_json(orient='records'), mimetype='application/json')
 

@@ -16,7 +16,7 @@ venv
 !.elasticbeanstalk/*.global.yml
 
 *.pdf
-app/static/csv/*
+#app/static/csv/*
 app/static/rscript/*
 
 config.py
