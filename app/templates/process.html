@@ -433,17 +433,19 @@
                           <input type="radio" name="historySt1" id="hst1radio5" value="5" {{'checked' if process_step1['historySt1']=='5'}}>Other percentile
                       </label>
                     </div>
-                    <div class="col-md-3 input-group" >                           
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="hst1_other" name="hst1_other" value="{{process_step1['hst1_other'] if process_step1['hst1_other'] != None else ''}}" placeholder="100"/>%
+                    <div class="col-md-2 input-group" >                           
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="hst1_other" name="hst1_other" value="{{process_step1['hst1_other'] if process_step1['hst1_other'] != None else ''}}" placeholder="100"/>
                     </div>
-                    <div class="col-md-2 input-group" style="margin-left: 50px">
+                    <div class="col-md-1 input-group" style="width:5px">%</div>
+                    <div class="col-md-2 input-group" style="margin-left: 38px">
                       <label class="radio-inline">
                           <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio5" value="5" {{'checked' if process_step1['historySt2']=='5'}}>Other percentile
                         </label>
                     </div>
-                    <div class="col-md-3 input-group" >                           
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="hst2_other" name="hst2_other" value="{{process_step1['hst2_other'] if process_step1['hst2_other'] != None else ''}}" placeholder="100"/>%
+                    <div class="col-md-2 input-group" >                           
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="hst2_other" name="hst2_other" value="{{process_step1['hst2_other'] if process_step1['hst2_other'] != None else ''}}" placeholder="100"/>
                     </div>
+                    <div class="col-md-1 input-group" style="width:5px">%</div>
                   </div>
                   <div class="form-group form-inline" >
                     <div class="col-md-2 input-group" style="margin-left: 50px">
@@ -650,15 +652,17 @@
                     <div class="col-md-1 input-group" style="margin-left: 30px">
                       <label class="control-label">CV for recruitment</label>
                     </div>
-                    <div class="col-md-3 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto" id="cv1Recruit" name="cv1Recruit" value="{{process_step1['cv1Recruit'] if process_step1['cv1Recruit'] != None else ''}}" placeholder="3"/>%
+                    <div class="col-md-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto" id="cv1Recruit" name="cv1Recruit" value="{{process_step1['cv1Recruit'] if process_step1['cv1Recruit'] != None else ''}}" placeholder="3"/>
                     </div>
-                    <div class="col-md-1 input-group" style="margin-left: 100px"> 
+                    <div class="col-md-1 input-group" style="width:5px">%</div>
+                    <div class="col-md-1 input-group" style="margin-left: 88px"> 
                       <label class="control-label">CV for recruitment</label>
                     </div>
-                    <div class="col-md-3 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto" id="cv2Recruit" name="cv2Recruit" value="{{process_step1['cv2Recruit'] if process_step1['cv2Recruit'] != None else ''}}" placeholder="3"/>%
-                    </div>             
+                    <div class="col-md-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto" id="cv2Recruit" name="cv2Recruit" value="{{process_step1['cv2Recruit'] if process_step1['cv2Recruit'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 input-group" style="width:5px">%</div>           
                   </div>                  
 
                 </form>
@@ -690,7 +694,8 @@
                       <label class="radio-inline" >
                         <input type="radio" name="bio_harvest_radio" id="catchRadio" {{'checked' if process_step1['bio_harvest_radio']=='C'}} value="C">Catch-based
                       </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 10px" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>mt                     
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 10px" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
+                      <span style="margin-left:5px;width:5px">mt</span>
                     </div>                                  
                   </div>
                   <div class="form-group">
@@ -726,20 +731,22 @@
                   </div>
                   <div class="form-group">
                     <label class="col-md-4 control-label">Biomass-based reference points</label>
-                    <div class="col-md-5 input-group">  
+                    <div class="col-md-6 input-group">  
                       <label class="radio-inline" >
                         Threshold I
                       </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="hrt_threshold1" name="hrt_threshold1" value="{{process_step1['hrt_threshold1'] if process_step1['hrt_threshold1'] != None else ''}}" placeholder=""/>mt                     
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="hrt_threshold1" name="hrt_threshold1" value="{{process_step1['hrt_threshold1'] if process_step1['hrt_threshold1'] != None else ''}}" placeholder=""/>
+                      <span style="width: 5px;margin-left: 5px">mt</span>                     
                     </div>                                  
                   </div>
                   <div class="form-group">
                     <label class="col-md-4 control-label"></label>
-                    <div class="col-md-5 input-group">  
+                    <div class="col-md-6 input-group">  
                       <label class="radio-inline" >
                         Threshold II
                       </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="hrt_threshold2" name="hrt_threshold2" value="{{process_step1['hrt_threshold2'] if process_step1['hrt_threshold2'] != None else ''}}" placeholder=""/>mt                     
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" id="hrt_threshold2" name="hrt_threshold2" value="{{process_step1['hrt_threshold2'] if process_step1['hrt_threshold2'] != None else ''}}" placeholder=""/>
+                      <span style="width:5px;margin-left: 5px">mt</span>                     
                     </div>                                  
                   </div>
                   <div class="form-group">
@@ -751,7 +758,8 @@
                       <label class="radio-inline" >
                         Threshold I
                       </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_catch_thh1" id="hst_catch_thh1" value="{{process_step1['hst_catch_thh1'] if process_step1['hst_catch_thh1'] != None else ''}}" placeholder=""/>mt                     
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_catch_thh1" id="hst_catch_thh1" value="{{process_step1['hst_catch_thh1'] if process_step1['hst_catch_thh1'] != None else ''}}" placeholder=""/>
+                      <span style="width:5px;margin-left: 5px">mt</span>                   
                     </div>                                  
                   </div>
                   <div class="form-group">
@@ -760,7 +768,8 @@
                       <label class="radio-inline" style="margin-left: 110px">
                         Threshold II
                       </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_catch_thh2" id="hst_catch_thh2" value="{{process_step1['hst_catch_thh2'] if process_step1['hst_catch_thh2'] != None else ''}}" placeholder=""/>mt                     
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" name="hst_catch_thh2" id="hst_catch_thh2" value="{{process_step1['hst_catch_thh2'] if process_step1['hst_catch_thh2'] != None else ''}}" placeholder=""/>
+                      <span style="width:5px;margin-left: 5px">mt</span>                     
                     </div>                                  
                   </div>  
                   <div class="form-group">
@@ -781,7 +790,7 @@
                       <label class="radio-inline" style="margin-left: 110px">
                         Threshold II
                       </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_f_thh2" id="hst_f_thh2" value="{{process_step1['hst_f_thh2'] if process_step1['hst_f_thh2'] != None else ''}}" placeholder=""/>                     
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" name="hst_f_thh2" id="hst_f_thh2" value="{{process_step1['hst_f_thh2'] if process_step1['hst_f_thh2'] != None else ''}}" placeholder=""/>                     
                     </div>                                  
                   </div>
                 </form>
@@ -837,7 +846,7 @@
                     <div class="col-md-2 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['allocation'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-1 input-group">%</div>            
+                    <div class="col-md-1 input-group" style="width: 5px;margin-left: 5px">%</div>            
                   </div>
                   {% endfor%}
                   <div class="form-group" style="height:34px">                    
@@ -858,7 +867,7 @@
                     <div class="col-md-2 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" value="{{process_step1['fleet_com_stock'][num]['allocation'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-1 input-group">%</div>            
+                    <div class="col-md-1 input-group" style="margin-left: 5px;width: 5px">%</div>            
                   </div>
                   {% endfor%}
                   <div class="form-group form-inline">

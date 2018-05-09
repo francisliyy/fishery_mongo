@@ -1,15 +1,2 @@
-Base Skeleton to start your application using Flask-AppBuilder and MongoEngine
-------------------------------------------------------------------------------
-
-- Install it::
-
-	pip install flask-appbuilder
-	git clone https://github.com/dpgaspar/Flask-AppBuilder-Skeleton.git
-
-- Run it::
-
-	fabmanager run
-
-
-That's it!!
-
+mongodb create user:
+db.createUser({'user':'fishery','pwd':'fishery123',roles:[{'role':'readWrite','db':'admin'},{'role':'dbAdmin','db':'admin'}]})
