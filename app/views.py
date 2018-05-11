@@ -1,4 +1,4 @@
-from flask import render_template,jsonify,Response,request,make_response
+from flask import render_template,jsonify,Response,request,make_response,flash,redirect
 from flask.ext.appbuilder import ModelView
 from flask.ext.appbuilder.models.mongoengine.interface import MongoEngineInterface
 from flask_appbuilder.actions import action
@@ -9,6 +9,7 @@ from werkzeug import secure_filename
 from app.models import *
 from app.rutils import *
 from app.fileUtils import *
+from app.widgets import *
 from bson import json_util
 import pandas as pd
 import numpy as np
@@ -32,6 +33,7 @@ import os
 class ProcessView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
+    list_template = 'list_process.html'
 
     label_columns = {'pro_name': 'Process Name'}
 
