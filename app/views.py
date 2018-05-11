@@ -9,7 +9,6 @@ from werkzeug import secure_filename
 from app.models import *
 from app.rutils import *
 from app.fileUtils import *
-from app.widgets import *
 from bson import json_util
 import pandas as pd
 import numpy as np
