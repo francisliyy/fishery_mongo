@@ -63,6 +63,12 @@ class ProcessView(ModelView):
             print("step1 is null")
             step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)
             step1.save()
+
+            #add default rnd file
+            rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/test.csv'),'rb')
+            step1.rnd_seed_file.put(rndfile,content_type='csv',filename = 'test.csv')
+            step1.save()
+
         else:
         	rndfile = step1.rnd_seed_file 
         	rndfilename = ""
