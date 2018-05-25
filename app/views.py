@@ -90,7 +90,7 @@ class ProStepView(BaseView):
 
     route_base = "/prostepview"
 
-    ALLOWED_RND_EXTENSIONS = set(['txt'])
+    ALLOWED_RND_EXTENSIONS = set(['csv'])
 
     def allowed_file(self,filename):
         return '.' in filename and \
@@ -416,7 +416,7 @@ class ProStepView(BaseView):
                 if not self.allowed_file(files.filename):
                     result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
                 else:
-                    pgi.rnd_seed_file.replace(files,content_type = 'txt',filename = files.filename)
+                    pgi.rnd_seed_file.replace(files,content_type = 'csv',filename = files.filename)
                     pgi.save()
                     rnd = pgi.rnd_seed_file.read()
                     print(pgi.rnd_seed_file.filename)
