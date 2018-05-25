@@ -1217,7 +1217,7 @@ $(function() {
     $("#rnd_seed_file").uploadFile({
 		url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
 	    maxFileCount: 1,                		   //上传文件个数（多个时修改此处
-	    allowedTypes: 'txt',  				       //允许上传的文件式
+	    allowedTypes: 'csv',  				       //允许上传的文件式
 	    showDone: false,                           //是否显示"Done"(完成)按钮
 	    showDelete: true,                          //是否显示"Delete"(删除)按钮
 	    showDownload:true,
