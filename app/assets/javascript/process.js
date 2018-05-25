@@ -1220,17 +1220,10 @@ $(function() {
 	    allowedTypes: 'txt',  				       //允许上传的文件式
 	    showDone: false,                           //是否显示"Done"(完成)按钮
 	    showDelete: true,                          //是否显示"Delete"(删除)按钮
-	    showDownload:false,
-		downloadCallback:function(){
-			$.ajax({
-	            cache: false,
-	            url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/download/'+$("#step1_id").data("step1id"),
-	            type: "GET",
-	            responseType : 'blob',
-	            success: function(data) 
-	            {
-	            }
-	        });
+	    showDownload:true,
+	    statusBarWidth:600,
+		downloadCallback:function(){			
+	        window.open($SCRIPT_ROOT+'/prostepview/rndSeedFile/download/'+$("#step1_id").data("step1id"))
 		},
 	    onLoad: function(obj)
 	    {

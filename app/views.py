@@ -433,7 +433,8 @@ class ProStepView(BaseView):
         item = ProcessGenInput.objects(id=pk).first()
         file = item.rnd_seed_file.read()
         response = make_response(file)
-        response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.rnd_seed_file.name)
+        response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.rnd_seed_file.filename)
+        response.mimetype = 'text/csv'
         return response
 
     @expose('/getIniPopuTableData/<pk>')
