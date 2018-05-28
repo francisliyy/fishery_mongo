@@ -85,7 +85,11 @@ class ProcessView(ModelView):
         """
         return self.render_template('/stgCompare.html')
 
-    @expose('/advancedMSE')
+class AdvancedMseView(BaseView):
+
+    default_view = "advancedMse"
+
+    @expose('/advancedMse/')
     @has_access
     def advancedMse(self):
 
@@ -559,7 +563,7 @@ class StockFileView(ModelView):
 """
 appbuilder.add_view(StockFileView,"Stock File", icon='fa-folder-open-o', category='Management',category_icon="fa-envelope")
 appbuilder.add_view(ProcessView,"MSE Test Scenarios", icon='fa-folder-open-o', category='MSE',category_icon="fa-envelope")
-appbuilder.add_link("Advanced MSE", href="/processview/advancedMSE",category='MSE', icon='fa-folder-open-o')
+appbuilder.add_view(AdvancedMseView,"Advanced MSE", category='MSE', icon='fa-folder-open-o')
 appbuilder.add_view_no_menu(ProStepView())
 
 appbuilder.security_cleanup()
