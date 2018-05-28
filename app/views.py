@@ -32,7 +32,6 @@ import os
 class ProcessView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
-    list_template = 'list_process.html'
 
     label_columns = {'pro_name': 'Process Name'}
 
@@ -77,6 +76,14 @@ class ProcessView(ModelView):
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+
+class ProcessCmpView(ModelView):
+
+    datamodel = MongoEngineInterface(Process)
+    list_template = 'list_process.html'
+    base_permissions = ['can_list']
+
+    list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on']
 
     @action("comparePro","Do Strategy Comparison on these records","Do you really want to?","fa-rocket")
     def comparePro(self, item):
@@ -562,7 +569,8 @@ class StockFileView(ModelView):
     Application wide 404 error handler
 """
 appbuilder.add_view(StockFileView,"Stock File", icon='fa-folder-open-o', category='Management',category_icon="fa-envelope")
-appbuilder.add_view(ProcessView,"MSE Test Scenarios", icon='fa-folder-open-o', category='MSE',category_icon="fa-envelope")
+appbuilder.add_view(ProcessView,"MSE Management", icon='fa-folder-open-o', category='MSE',category_icon="fa-envelope")
+appbuilder.add_view(ProcessCmpView,"MSE Comparison", icon='fa-folder-open-o', category='MSE',category_icon="fa-envelope")
 appbuilder.add_view(AdvancedMseView,"Advanced MSE", category='MSE', icon='fa-folder-open-o')
 appbuilder.add_view_no_menu(ProStepView())
 
