@@ -454,6 +454,84 @@ class ProStepView(BaseView):
         response.mimetype = 'text/csv'
         return response
 
+    #process step3 : stock1 file upload
+    @expose('/stock1file/<string:pk>', methods = ['POST','DELETE'])
+    @has_access
+    def uploadStock1File(self,pk):
+        #app_stack = _app_ctx_stack or _request_ctx_stack
+        #ctx = app_stack.top
+
+        pgi = ProcessGenInput.objects(id=pk).first()
+        pgi.update(changed_by=current_user.id,changed_on=datetime.datetime.now)
+        
+        if request.method == 'POST':
+            files = request.files['file']
+
+            if files:
+                filename = secure_filename(files.filename)
+
+                mime_type = files.content_type
+
+                if not self.allowed_file(files.filename):
+                    result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
+                else:
+                    pgi.stock1_filepath.replace(files,content_type = 'csv',filename = files.filename)
+                    pgi.save()
+
+        if request.method == 'DELETE':
+            pgi.stock1_filepath.delete()
+
+        return json.dumps({})
+
+    @expose('/stock1file/download/<pk>')
+    @has_access
+    def downloadStock1File(self, pk):
+        item = ProcessGenInput.objects(id=pk).first()
+        file = item.stock1_filepath.read()
+        response = make_response(file)
+        response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.stock1_filepath.filename)
+        response.mimetype = 'text/csv'
+        return response
+
+    #process step3 : stock2 file upload
+    @expose('/stock2file/<string:pk>', methods = ['POST','DELETE'])
+    @has_access
+    def uploadStock2File(self,pk):
+        #app_stack = _app_ctx_stack or _request_ctx_stack
+        #ctx = app_stack.top
+
+        pgi = ProcessGenInput.objects(id=pk).first()
+        pgi.update(changed_by=current_user.id,changed_on=datetime.datetime.now)
+        
+        if request.method == 'POST':
+            files = request.files['file']
+
+            if files:
+                filename = secure_filename(files.filename)
+
+                mime_type = files.content_type
+
+                if not self.allowed_file(files.filename):
+                    result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
+                else:
+                    pgi.stock2_filepath.replace(files,content_type = 'csv',filename = files.filename)
+                    pgi.save()
+
+        if request.method == 'DELETE':
+            pgi.stock2_filepath.delete()
+
+        return json.dumps({})
+
+    @expose('/stock2file/download/<pk>')
+    @has_access
+    def downloadStock2File(self, pk):
+        item = ProcessGenInput.objects(id=pk).first()
+        file = item.stock2_filepath.read()
+        response = make_response(file)
+        response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.stock2_filepath.filename)
+        response.mimetype = 'text/csv'
+        return response
+
     @expose('/getIniPopuTableData/<pk>')
     @has_access
     def getIniPopuTableData(self,pk):

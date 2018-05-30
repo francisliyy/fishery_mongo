@@ -123,9 +123,9 @@ class ProcessGenInput(Document):
 	unit2to2 = DecimalField()
 	#step3
 	stock1_model_type = StringField(max_length=2)
-	stock1_filepath = StringField(max_length=100)
+	stock1_filepath = FileField()
 	stock2_model_type = StringField(max_length=2)
-	stock2_filepath = StringField(max_length=100)
+	stock2_filepath = FileField()
 	#step4
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 	#step5
