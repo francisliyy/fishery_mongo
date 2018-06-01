@@ -94,24 +94,15 @@ $(function() {
 	});
 
 	$("#form-stockassessment2").validate({
+		ignore:"input[type=file]",
 		rules: {
 	      // no quoting necessary
 	      stock1_model_type:{
 	      	required: true,
 	      },
-	      /*
-	      stock1_filepath:{
-	      	required: true,
-	      },
-	      */
 	      stock2_model_type:{
 	      	required: true,
-	      },
-	      /*
-	      stock2_filepath:{
-	      	required: true,
-	      },
-	      */    
+	      },   
 	    },
 	    errorPlacement: function(error, element) {
 		    error.appendTo( element.closest("div"));
