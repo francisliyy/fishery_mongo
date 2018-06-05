@@ -805,63 +805,63 @@
                 <form id="form-mgtopt2">
                   <h4>Allocation among sectors</h4>
                   <div class="form-group" style="height:34px">                    
-                    <label class="col-md-4 control-label" style="padding-left: 40px">Recreational</label> 
-                    <label class="col-md-4 control-label">Commercial</label>            
+                    <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Recreational</label> 
+                    <label class="col-md-4 col-sm-4 control-label">Commercial</label>            
                   </div>
                   <div class="form-group form-inline">
-                    <div class="col-md-2 input-group">   
+                    <div class="col-md-2 col-sm-2 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_recreational" name="sec_recreational" value="{{process_step1['sec_recreational'] if process_step1['sec_recreational'] != None else ''}}" placeholder="3"/>
                     </div>
-                    <div class="col-md-1 input-group">%</div> 
-                    <div class="col-md-2 input-group">      
+                    <div class="col-md-1 col-sm-1 input-group">%</div> 
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_commercial" name="sec_commercial" value="{{process_step1['sec_commercial'] if process_step1['sec_commercial'] != None else ''}}" placeholder="3"/>
                     </div>
-                    <div class="col-md-1 input-group">%</div>
-                    <div class="col-md-1 input-group">
+                    <div class="col-md-1 col-sm-1 input-group">%</div>
+                    <div class="col-md-1 col-sm-1 input-group">
                      <button style="margin-left: 60px" type="button" class="btn btn-danger">Include bycatch</button> 
                     </div>             
                   </div>
                   <h4>Allocation among fleets</h4>
                   <div class="form-group" style="height:34px">                    
-                    <label class="col-md-3 control-label">Recreational</label> 
-                    <label class="col-md-3 control-label">Stock</label> 
-                    <label class="col-md-3 control-label">Fleet</label>
-                    <label class="col-md-3 control-label">Allocation</label>           
+                    <label class="col-md-3 col-sm-3 control-label">Recreational</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
+                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
                   </div>
                   {% for num in range(0,4) %}
                   <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
+                    <div class="col-md-2 col-sm-2 input-group"></div>
+                    <div class="col-md-3 col-sm-3 input-group">   
                       <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_stock_{{num}}" name="fleet_rec_stock_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['stock'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-3 input-group">   
+                    <div class="col-md-3 col-sm-3 input-group">   
                       <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_fleet_{{num}}" name="fleet_rec_fleet_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['fleet'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-2 input-group">   
+                    <div class="col-md-2 col-sm-2 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['allocation'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-1 input-group" style="width: 5px;margin-left: 5px">%</div>            
+                    <div class="col-md-1 col-sm-1 input-group" style="width: 5px;margin-left: 5px">%</div>            
                   </div>
                   {% endfor%}
                   <div class="form-group" style="height:34px">                    
-                    <label class="col-md-3 control-label">Commercail</label> 
-                    <label class="col-md-3 control-label">Stock</label> 
-                    <label class="col-md-3 control-label">Fleet</label>
-                    <label class="col-md-3 control-label">Allocation</label>           
+                    <label class="col-md-3 col-sm-3 control-label">Commercail</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
+                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
                   </div>
                   {% for num in range(0,4) %}
                   <div class="form-group form-inline">
-                    <div class="col-md-2 input-group"></div>
-                    <div class="col-md-3 input-group">   
+                    <div class="col-md-2 col-sm-2 input-group"></div>
+                    <div class="col-md-3 col-sm-3 input-group">   
                       <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_stock_{{num}}" name="fleet_com_stock_{{num}}" value="{{process_step1['fleet_com_stock'][num]['stock'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-3 input-group">   
+                    <div class="col-md-3 col-sm-3 input-group">   
                       <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_fleet_{{num}}" name="fleet_com_fleet_{{num}}" value="{{process_step1['fleet_com_stock'][num]['fleet'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-2 input-group">   
+                    <div class="col-md-2 col-sm-2 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" value="{{process_step1['fleet_com_stock'][num]['allocation'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-1 input-group" style="margin-left: 5px;width: 5px">%</div>            
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 5px;width: 5px">%</div>            
                   </div>
                   {% endfor%}
                   <div class="form-group form-inline">
