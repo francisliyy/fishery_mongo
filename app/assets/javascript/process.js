@@ -299,11 +299,12 @@ $(function() {
 	    },
 	    messages:{
 	    	recruitTypeStock1:{
-	    		required: "Stock 1 recruit type is required",
+	    		//required: "Stock 1 recruit type is required",
 	    	},
 	    	recruitTypeStock2:{
-	    		required: "Stock 2 recruit type is required",
-	    	}
+	    		//required: "Stock 2 recruit type is required",
+	    	},
+
 	    },
 	    errorPlacement: function(error, element) {
 	    	error.appendTo( element.closest("div") );	    
