@@ -816,12 +816,6 @@ $(function() {
 	      },
 	    },
 	    messages:{
-	    	fishingStartDateTxt:{
-	    		required: "Field Start is required",
-	    	},
-	    	fishingEndDateTxt:{
-	    		required: "Field End is required",
-	    	}
 	    },
 	    errorPlacement: function(error, element) {
 	    	error.appendTo( element.closest("div"));	   		    

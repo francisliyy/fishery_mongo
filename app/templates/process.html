@@ -907,8 +907,8 @@
                 <form id="form-mgtopt3">
                   <h4>Landing ratios among states</h4>
                   <div class="form-group" style="height:34px">                    
-                    <label class="col-md-6 control-label">Recreational</label> 
-                    <label class="col-md-6 control-label">Commercial</label>            
+                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
+                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
                   </div>
                   <div class="form-group" style="height:34px">
                     <label class="col-md-2 control-label">Stock</label> 
@@ -929,7 +929,7 @@
                     <div class="col-md-1 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_rec_ratio_{{num}}" name="ratio_rec_ratio_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['ratio'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-1 input-group" style="margin-left: 0px">%</div>
+                    <div class="col-md-1 input-group" style="width:30px;margin-left: 0px">%</div> 
                     <div class="col-md-2 input-group">   
                       <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:80px;" id="ratio_com_stock_{{num}}" name="ratio_com_stock_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['stock'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
@@ -938,24 +938,24 @@
                     </div>
                     <div class="col-md-1 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_com_ratio_{{num}}" name="ratio_com_ratio_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['ratio'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>  
-                    <div class="col-md-1 input-group" style="width: 10px;margin-left: 0px">%</div>      
+                    </div>
+                    <div class="col-md-1 input-group" style="width:10px;margin-left: 0px">%</div>     
                   </div>
                   {% endfor%}
                   <h4>Discard ratio</h4>
                   <div class="form-group" style="height:34px">                    
-                    <label class="col-md-6 control-label">Recreational</label> 
-                    <label class="col-md-6 control-label">Commercial</label>            
+                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
+                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
                   </div>
                   <div class="form-group" style="height:34px">
-                    <label class="col-md-1 control-label">Stock</label> 
-                    <label class="col-md-1 control-label">Fleet</label> 
-                    <label class="col-md-2 control-label">Open/Closed</label>
-                    <label class="col-md-2 control-label">Discard ratios</label>
-                    <label class="col-md-1 control-label">Stock</label> 
-                    <label class="col-md-1 control-label">Fleet</label> 
-                    <label class="col-md-2 control-label">Open/Closed</label>
-                    <label class="col-md-2 control-label">Discard ratios</label>
+                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
+                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
+                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
+                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
+                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
+                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
+                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
+                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
                   </div>
                   {% for num in range(0,6) %}
                   <div class="form-group form-inline">
