@@ -111,4 +111,18 @@ label.error{
   color:red;
   margin-left: 10px;
 }
-
+@media (min-width: 768px){
+  .echart-size{
+    height:500px;
+  }
+}
+@media (min-width: 992px){
+  .echart-size{
+    height:450px;
+  }
+}
+@media (min-width: 1200px){
+  .echart-size{
+    height:600px;
+  }
+}
