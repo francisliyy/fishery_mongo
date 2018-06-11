@@ -129,13 +129,13 @@ label.error{
 
 @media (min-width: 768px) {
   .input-txt{
-    border-radius: 4px;
-    width: 100px;
+    border-radius: 4px !important;
+    width: 100px !important;
   }
 }
 @media (min-width: 1024px) {
   .input-txt{
-    border-radius: 4px;
-    width: 100%;
+    border-radius: 4px !important;
+    width: auto !important;
   }
 }
