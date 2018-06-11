@@ -126,3 +126,16 @@ label.error{
     height:600px;
   }
 }
+
+@media (min-width: 768px) {
+  .input-txt{
+    border-radius: 4px;
+    width: 100px;
+  }
+}
+@media (min-width: 1024px) {
+  .input-txt{
+    border-radius: 4px;
+    width: 100%;
+  }
+}
