@@ -963,28 +963,28 @@
                       <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_rec_stock_{{num}}" name="discard_rec_stock_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['stock'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="discard_rec_fleet_{{num}}" name="discard_rec_fleet_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['fleet'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_fleet_{{num}}" name="discard_rec_fleet_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['fleet'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:80px; margin-right: 20px" id="discard_rec_oc_{{num}}" name="discard_rec_oc_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['oc'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_oc_{{num}}" name="discard_rec_oc_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['oc'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_ratio_{{num}}" name="discard_rec_ratio_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['ratio'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-1 input-group" style="margin-left: 5px">%</div>
+                    <div class="col-md-1 input-group" style="margin: 0 15px 0 0">%</div>
                     <div class="col-md-1 input-group">
                       <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_com_stock_{{num}}" name="discard_com_stock_{{num}}" value="{{process_step1['discard_com_ratio'][num]['stock'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;margin-right: 20px" id="discard_com_fleet_{{num}}" name="discard_com_fleet_{{num}}" value="{{process_step1['discard_com_ratio'][num]['fleet'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_fleet_{{num}}" name="discard_com_fleet_{{num}}" value="{{process_step1['discard_com_ratio'][num]['fleet'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:80px; margin-right: 20px" id="discard_com_oc_{{num}}" name="discard_com_oc_{{num}}" value="{{process_step1['discard_com_ratio'][num]['oc'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px; " id="discard_com_oc_{{num}}" name="discard_com_oc_{{num}}" value="{{process_step1['discard_com_ratio'][num]['oc'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_ratio_{{num}}" name="discard_com_ratio_{{num}}" value="{{process_step1['discard_com_ratio'][num]['ratio'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
                     </div>
-                    <div class="col-md-1 input-group" style="width: 10px;margin-left: 5px">%</div>          
+                    <div class="col-md-1 input-group" style="width: 10px;margin: 0 15px 0 0">%</div>          
                   </div>
                   {% endfor%}
                 </form>
