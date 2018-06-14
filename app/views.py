@@ -92,6 +92,7 @@ class ProcessCmpView(ModelView):
         """
         return self.render_template('/stgCompare.html')
 
+"""
 class AdvancedMseView(BaseView):
 
     default_view = "advancedMse"
@@ -101,7 +102,15 @@ class AdvancedMseView(BaseView):
     def advancedMse(self):
 
         return self.render_template('/advancedMse.html')
+"""
 
+class AdvancedMseView(ModelView):
+
+    datamodel = MongoEngineInterface(Process)
+    list_template = 'advanced_process.html'
+    base_permissions = ['can_list']
+
+    list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on']
 
 class ProStepView(BaseView):
 
