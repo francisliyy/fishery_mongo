@@ -94,6 +94,8 @@ class Process(Document):
         else:
             return Markup('')
 
+    def advance_compare(self):
+        return Markup('<input name="radiopid" type="radio" value="' + str(self.id)+'">')
 
 class ProcessGenInput(Document):
 

@@ -110,7 +110,7 @@ class AdvancedMseView(ModelView):
     list_template = 'advanced_process.html'
     base_permissions = ['can_list']
 
-    list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on']
+    list_columns = ['advance_compare','process_name','created_by', 'created_on', 'changed_by', 'changed_on']
 
 class ProStepView(BaseView):
 
