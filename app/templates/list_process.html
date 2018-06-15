@@ -34,6 +34,11 @@
 				            return false;
 				        }
 
+				        if (selected < 3 ) {
+				            ab_alert('at least 3 rows must be selected');
+				            return false;
+				        }
+
 				        if (selected > 8) {
 				            ab_alert('No more than 8 row can be selected');
 				            return false;
