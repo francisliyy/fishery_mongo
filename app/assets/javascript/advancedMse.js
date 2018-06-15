@@ -1,6 +1,8 @@
 $(function() {
 
   var heatChart = echarts.init(document.getElementById('heatChart'));
+
+  $( "input[type=number]" ).prop('disabled','disabled');
 	
 	$("#form_compare").validate({
 	    rules: {
@@ -49,6 +51,12 @@ $(function() {
 		}
 	});
 
+  $(":checkbox").on('change', function(event) {
+    event.preventDefault();
+    console.log($(this));
+    disabledThreshhold($(this));
+  });
+
 	$("#cmpBtn").on('click', function(event) {
 		event.preventDefault();
 		/* Act on the event */
@@ -56,7 +64,24 @@ $(function() {
 			return false;
 		}
 
+    if($( ":checkbox:checked" ).length!=2){
+      ab_alert('Please choose 2 parameters!');
+    }
+
 	});
+
+  function disabledThreshhold($ele){
+    idPrefix = $ele.prop('id').substring(0, $ele.prop('id').length-3);
+    if($ele.prop('checked')){
+      $("#"+idPrefix+"Min").prop('disabled','');
+      $("#"+idPrefix+"Max").prop('disabled','');
+      $("#"+idPrefix+"Level").prop('disabled','');
+    }else{
+      $("#"+idPrefix+"Min").prop('disabled','disabled');
+      $("#"+idPrefix+"Max").prop('disabled','disabled');
+      $("#"+idPrefix+"Level").prop('disabled','disabled');
+    }
+  }
 
 
 /*************************** heat map *********************************/
