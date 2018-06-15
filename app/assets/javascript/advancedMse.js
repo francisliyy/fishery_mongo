@@ -5,9 +5,6 @@ $(function() {
 	$("#form_compare").validate({
 	    rules: {
 	      // no quoting necessary
-	      reportPath:{
-	      	required: true,
-	      },
 	      fMin:{
 	      	required: true,
 	      	digits:true,
@@ -30,7 +27,18 @@ $(function() {
 	      sLevel:{
 	      	required: true,
 	      	digits:true,
-	      },       
+	      },
+        aMin:{
+          required: true,
+        },         
+        aMax:{
+          required: true,
+          digits:true,
+        },
+        aLevel:{
+          required: true,
+          digits:true,
+        },        
 	    },
 	    errorPlacement: function(error, element) {
 	    	if(element[0].id=="reportPath"){
