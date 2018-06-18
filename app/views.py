@@ -81,6 +81,7 @@ class ProcessCmpView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
     list_template = 'list_process.html'
+    list_title = "MSE Comparison"
     base_permissions = ['can_list']
 
     list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on']
@@ -108,6 +109,7 @@ class AdvancedMseView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
     list_template = 'advanced_process.html'
+    list_title = "Advanced MSE"
     base_permissions = ['can_list']
 
     list_columns = ['advance_compare','process_name','created_by', 'created_on', 'changed_by', 'changed_on']
