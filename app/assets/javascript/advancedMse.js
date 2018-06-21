@@ -77,7 +77,6 @@ $(function() {
       contentType:"application/json",
     })
     .done(function(data) {
-      console.log(data);
       $('#fCur').val(data.hst_f_thh1||0);
       $('#sCur').val(data.hst_catch_thh1||0);
       $('#aCur').val(data.sec_recreational||0);
