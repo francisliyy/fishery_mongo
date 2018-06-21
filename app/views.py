@@ -624,6 +624,15 @@ class ProStepView(BaseView):
 
         return Response(df_E.to_json(orient='records'), mimetype='application/json')
 
+    @expose('/getMseInfo/<string:pid>')
+    @has_access
+    def getMseInfo(self,pid):
+        
+        pgi = ProcessGenInput.objects(process_id=pid).first() 
+        print(pgi)           
+
+        return Response(pgi.to_json(), mimetype='application/json')
+
 class StockFileView(ModelView):
 
     datamodel = MongoEngineInterface(StockFile)

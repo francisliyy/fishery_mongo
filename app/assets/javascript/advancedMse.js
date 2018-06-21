@@ -70,6 +70,21 @@ $(function() {
 
 	});
 
+  $("input[name=radiopid]").on('change', function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: $SCRIPT_ROOT+'/prostepview/getMseInfo/'+$('input[name=radiopid]:checked').val(),
+      contentType:"application/json",
+    })
+    .done(function(data) {
+      console.log(data);
+      $('#fCur').val(data.hst_f_thh1||0);
+      $('#sCur').val(data.hst_catch_thh1||0);
+      $('#aCur').val(data.sec_recreational||0);
+    });
+     
+  });
+
   function disabledThreshhold($ele){
     idPrefix = $ele.prop('id').substring(0, $ele.prop('id').length-3);
     if($ele.prop('checked')){
