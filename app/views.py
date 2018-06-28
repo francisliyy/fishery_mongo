@@ -624,6 +624,16 @@ class ProStepView(BaseView):
 
         return Response(df_E.to_json(orient='records'), mimetype='application/json')
 
+    @expose('/getSsbAndFEchart')
+    @has_access
+    def getSsbAndFEchart(self):
+        
+        file_data = 'static/csv/ssbF.csv'
+
+        df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_data),usecols=['plot_years','plot_ssb','plot_F'])
+
+        return Response(df_E.to_json(orient='records'), mimetype='application/json')
+
     @expose('/getMseInfo/<string:pid>')
     @has_access
     def getMseInfo(self,pid):
