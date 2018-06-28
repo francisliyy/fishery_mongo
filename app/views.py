@@ -482,12 +482,15 @@ class ProStepView(BaseView):
                 filename = secure_filename(files.filename)
 
                 mime_type = files.content_type
-
+                '''
                 if not self.allowed_file(files.filename):
                     result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
                 else:
                     pgi.stock1_filepath.replace(files,content_type = 'csv',filename = files.filename)
                     pgi.save()
+                '''
+                pgi.stock1_filepath.replace(files,content_type = mime_type,filename = files.filename)
+                pgi.save()
 
         if request.method == 'DELETE':
             pgi.stock1_filepath.delete()
@@ -501,7 +504,7 @@ class ProStepView(BaseView):
         file = item.stock1_filepath.read()
         response = make_response(file)
         response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.stock1_filepath.filename)
-        response.mimetype = 'text/csv'
+        response.mimetype = item.stock1_filepath.content_type
         return response
 
     #process step3 : stock2 file upload
@@ -521,12 +524,15 @@ class ProStepView(BaseView):
                 filename = secure_filename(files.filename)
 
                 mime_type = files.content_type
-
+                '''
                 if not self.allowed_file(files.filename):
                     result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
                 else:
                     pgi.stock2_filepath.replace(files,content_type = 'csv',filename = files.filename)
                     pgi.save()
+                '''
+                pgi.stock2_filepath.replace(files,content_type = mime_type,filename = files.filename)
+                pgi.save()
 
         if request.method == 'DELETE':
             pgi.stock2_filepath.delete()
@@ -540,7 +546,7 @@ class ProStepView(BaseView):
         file = item.stock2_filepath.read()
         response = make_response(file)
         response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.stock2_filepath.filename)
-        response.mimetype = 'text/csv'
+        response.mimetype = item.stock2_filepath.content_type
         return response
 
     @expose('/getIniPopuTableData/<pk>')
