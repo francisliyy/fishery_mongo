@@ -34,15 +34,20 @@ class ProcessView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
 
+    list_template = 'list_process_editable.html'
+
     label_columns = {'pro_name': 'Process Name'}
 
     add_columns =  ['process_name','process_description']
     edit_columns =  ['process_name','process_description']
-    list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on']
+    list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on','is_public','is_simple']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
 
     def pre_add(self, item):
         item.created_by = current_user.id
+        item.changed_by = current_user.id
+        item.process_public = False
+        item.process_simple = True
 
     def pre_update(self, item):
         item.changed_by = current_user.id

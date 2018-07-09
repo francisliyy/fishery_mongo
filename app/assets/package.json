@@ -12,6 +12,7 @@
   "dependencies": {
     "bootstrap": "4.0.0",
     "bootstrap-table": "^1.11.2",
+    "bootstrap-toggle": "^2.2.2",
     "echarts": "^4.0.4",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "jquery": "^3.2.1",

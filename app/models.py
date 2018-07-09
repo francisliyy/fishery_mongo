@@ -1,5 +1,5 @@
 from mongoengine import Document, EmbeddedDocument
-from mongoengine import DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField,EmbeddedDocumentListField
+from mongoengine import BooleanField,DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField,EmbeddedDocumentListField
 from flask import Markup, url_for
 from flask_appbuilder.models.decorators import renders
 #from flask_appbuilder.security.mongoengine.models import *
@@ -86,12 +86,12 @@ class Process(Document):
 
 	process_name = StringField(max_length=50)
 	process_description = StringField(max_length=1000)
-	process_privacy = StringField(max_length=2,choices=PROPRIVACY,default='PV')
-	process_version = StringField(max_length=2,choices=PROVERSION)
+	process_public = BooleanField(default=False)
+	process_simple = BooleanField(default=True)
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
 	changed_by = ReferenceField("User",reqired=True)
-	changed_on = DateTimeField(default=datetime.datetime.now, nullable=False)
+	changed_on = DateTimeField(default=datetime.datetime.now,nullable=False)
 
 	def pro_name(self):
 		if self.process_name:
@@ -99,6 +99,19 @@ class Process(Document):
 
 		else:
 			return Markup('')
+
+	def is_public(self):
+		if self.process_public is True:
+			return Markup('<input type="checkbox" data-proid='+str(self.id)+' checked data-toggle="toggle">')
+		else:	
+			return Markup('<input type="checkbox" data-proid='+str(self.id)+' data-toggle="toggle">')
+
+	def is_simple(self):
+		print(self.process_simple)
+		if self.process_simple is True:
+			return Markup('<input type="checkbox" data-proid='+str(self.id)+' checked data-toggle="toggle">')
+		else:	
+			return Markup('<input type="checkbox" data-proid='+str(self.id)+' data-toggle="toggle">')
 
 	def advance_compare(self):
 		return Markup('<input name="radiopid" type="radio" value="' + str(self.id)+'">')
