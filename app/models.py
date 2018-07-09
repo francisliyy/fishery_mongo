@@ -89,10 +89,9 @@ class Process(Document):
 	process_privacy = StringField(max_length=2,choices=PROPRIVACY,default='PV')
 	process_version = StringField(max_length=2,choices=PROVERSION)
 	created_by = ReferenceField("User",reqired=True)
-	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
+	created_on = DateTimeField(default=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), nullable=False)
 	changed_by = ReferenceField("User",reqired=True)
-	changed_on = DateTimeField(default=datetime.datetime.now,
-		onupdate=datetime.datetime.now, nullable=False)
+	changed_on = DateTimeField(default=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), nullable=False)
 
 	def pro_name(self):
 		if self.process_name:

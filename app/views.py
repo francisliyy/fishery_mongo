@@ -6,6 +6,7 @@ from app import appbuilder
 from flask_appbuilder import BaseView, expose, has_access
 from flask_login import current_user
 from werkzeug import secure_filename
+from wtforms.fields import SelectField,TextField
 from app.models import *
 from app.rutils import *
 from app.fileUtils import *
@@ -35,15 +36,16 @@ class ProcessView(ModelView):
 
     label_columns = {'pro_name': 'Process Name'}
 
-    add_columns =  ['process_name','process_description','process_privacy']
-    edit_columns =  ['process_name','process_description','process_privacy']
-    list_columns = ['pro_name','process_privacy','created_by', 'created_on', 'changed_by', 'changed_on']
+    add_columns =  ['process_name','process_description']
+    edit_columns =  ['process_name','process_description']
+    list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on']
 
     def pre_add(self, item):
         item.created_by = current_user.id
 
     def pre_update(self, item):
         item.changed_by = current_user.id
+        item.changed_on = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def pre_delete(self, item):
         print(item.id)
