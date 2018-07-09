@@ -79,23 +79,30 @@ class DiscardRatio(EmbeddedDocument):
 
 class Process(Document):
 
-    process_name = StringField(max_length=50)
-    process_description = StringField(max_length=1000)
-    created_by = ReferenceField("User",reqired=True)
-    created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
-    changed_by = ReferenceField("User",reqired=True)
-    changed_on = DateTimeField(default=datetime.datetime.now,
-                        onupdate=datetime.datetime.now, nullable=False)
+	PROPRIVACY = (('PV', 'private'),
+		('PB', 'public'))
+	PROVERSION = (('SP', 'simple'),
+		('PF', 'profession'))
 
-    def pro_name(self):
-        if self.process_name:
-            return Markup('<a href="' + url_for('ProcessView.showProStep',pk=str(self.id))+'">'+self.process_name)
+	process_name = StringField(max_length=50)
+	process_description = StringField(max_length=1000)
+	process_privacy = StringField(max_length=2,choices=PROPRIVACY,default='PV')
+	process_version = StringField(max_length=2,choices=PROVERSION)
+	created_by = ReferenceField("User",reqired=True)
+	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
+	changed_by = ReferenceField("User",reqired=True)
+	changed_on = DateTimeField(default=datetime.datetime.now,
+		onupdate=datetime.datetime.now, nullable=False)
 
-        else:
-            return Markup('')
+	def pro_name(self):
+		if self.process_name:
+			return Markup('<a href="' + url_for('ProcessView.showProStep',pk=str(self.id))+'">'+self.process_name)
 
-    def advance_compare(self):
-        return Markup('<input name="radiopid" type="radio" value="' + str(self.id)+'">')
+		else:
+			return Markup('')
+
+	def advance_compare(self):
+		return Markup('<input name="radiopid" type="radio" value="' + str(self.id)+'">')
 
 class ProcessGenInput(Document):
 
