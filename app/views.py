@@ -39,6 +39,7 @@ class ProcessView(ModelView):
     add_columns =  ['process_name','process_description']
     edit_columns =  ['process_name','process_description']
     list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on']
+    formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
 
     def pre_add(self, item):
         item.created_by = current_user.id
