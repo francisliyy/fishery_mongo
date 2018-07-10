@@ -91,6 +91,7 @@ class ProcessCmpView(ModelView):
     list_template = 'list_process.html'
     list_title = "MSE Comparison"
     base_permissions = ['can_list']
+    formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
 
     list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on']
 
@@ -119,6 +120,7 @@ class AdvancedMseView(ModelView):
     list_template = 'advanced_process.html'
     list_title = "Advanced MSE"
     base_permissions = ['can_list']
+    formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
 
     list_columns = ['advance_compare','process_name','created_by', 'created_on', 'changed_by', 'changed_on']
 
