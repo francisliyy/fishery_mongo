@@ -662,6 +662,26 @@ class ProStepView(BaseView):
 
         return Response(pgi.to_json(), mimetype='application/json')
 
+    @expose('/propublic/<string:pk>', methods = ['PUT'])
+    @has_access
+    def propublic(self,pk):
+        
+        prs = Process.objects(id=pk).first()
+        if request.form["public"]:
+            prs.process_public = True if request.form["public"]=='true' else False
+        prs.save()
+        return Response(json.dumps({'status':1}), mimetype='application/json')
+
+    @expose('/prosimple/<string:pk>', methods = ['PUT'])
+    @has_access
+    def prosimple(self,pk):
+        
+        prs = Process.objects(id=pk).first()
+        if request.form["simple"]:
+            prs.process_simple = True if request.form["simple"]=='true' else False
+        prs.save()
+        return Response(json.dumps({'status':1}), mimetype='application/json')
+
 class StockFileView(ModelView):
 
     datamodel = MongoEngineInterface(StockFile)

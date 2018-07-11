@@ -8,5 +8,6 @@
     <script type="text/javascript">
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
-    <script src="{{url_for('static',filename='assets/node_modules/bootstrap-toggle/js/bootstrap-toggle.min.js')}}"></script>  
+    <script src="{{url_for('static',filename='assets/node_modules/bootstrap-toggle/js/bootstrap-toggle.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/list_process_editable.js')}}"></script>  
 {% endblock %}

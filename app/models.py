@@ -102,16 +102,16 @@ class Process(Document):
 
 	def is_public(self):
 		if self.process_public is True:
-			return Markup('<input type="checkbox" data-proid='+str(self.id)+' checked data-toggle="toggle">')
+			return Markup('<input type="checkbox" name="propublic" data-proid='+str(self.id)+' checked data-toggle="toggle">')
 		else:	
-			return Markup('<input type="checkbox" data-proid='+str(self.id)+' data-toggle="toggle">')
+			return Markup('<input type="checkbox" name="propublic" data-proid='+str(self.id)+' data-toggle="toggle">')
 
 	def is_simple(self):
 		print(self.process_simple)
 		if self.process_simple is True:
-			return Markup('<input type="checkbox" data-proid='+str(self.id)+' checked data-toggle="toggle">')
+			return Markup('<input type="checkbox" name="prosimple" data-proid='+str(self.id)+' checked data-toggle="toggle">')
 		else:	
-			return Markup('<input type="checkbox" data-proid='+str(self.id)+' data-toggle="toggle">')
+			return Markup('<input type="checkbox" name="prosimple" data-proid='+str(self.id)+' data-toggle="toggle">')
 
 	def advance_compare(self):
 		return Markup('<input name="radiopid" type="radio" value="' + str(self.id)+'">')
