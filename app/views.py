@@ -86,7 +86,10 @@ class ProcessView(ModelView):
         		rndfilename = step1[0].rnd_seed_file.filename
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
-        return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+        if item.process_simple is True:
+            return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+        else:
+            return self.render_template('/process_simple.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
 
 class ProcessCmpView(ModelView):
 

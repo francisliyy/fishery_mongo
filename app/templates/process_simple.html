@@ -13,7 +13,7 @@
     <div class="row">
       <div class="lead well" style="padding-top: 0.1em; padding-left: 2em; padding-right: 2em;">
       <p>
-        <h2>Professional version : {{process_name}}</h2>
+        <h2>Simple version : {{process_name}}</h2>
         {{process_description}}. <a href="{{url_for('ProcessView.list')}}" class="btn btn-warning" role="button" aria-pressed="true">Return</a>
       </p>
       </div>
@@ -1095,7 +1095,7 @@
     <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/echarts/dist/echarts.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/jquery-validation/dist/jquery.validate.js')}}"></script>
-    <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process_simple.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>    
 {% endblock %}
 
