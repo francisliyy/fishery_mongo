@@ -116,6 +116,13 @@ class Process(Document):
 	def advance_compare(self):
 		return Markup('<input name="radiopid" type="radio" value="' + str(self.id)+'">')
 
+	def guest_pro_name(self):
+		if self.process_name:
+			return Markup('<a href="' + url_for('GuestProcessView.guestProStep',pk=str(self.id))+'">'+self.process_name)
+
+		else:
+			return Markup('')
+
 class ProcessGenInput(Document):
 
 

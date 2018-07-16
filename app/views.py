@@ -34,6 +34,51 @@ import os
 def get_user():
     return current_user.id
 
+class GuestProcessView(ModelView):
+
+    datamodel = MongoEngineInterface(Process)
+
+    list_template = 'list_process_guest.html'
+
+    label_columns = {'guest_pro_name': 'Process Name'}
+
+    base_permissions = ['can_list']
+
+    list_columns = ['guest_pro_name','created_by', 'created_on', 'changed_by', 'changed_on','process_public','process_simple']
+    formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
+    base_filters = [['process_public',FilterEqual,True]]
+    base_order = ('created_on','desc')
+
+    @expose('/guestProStep/<pk>')
+    def guestProStep(self,pk):
+
+        item = self.datamodel.get(pk)
+
+        step1 = ProcessGenInput.objects(process_id=pk).first()
+
+        if step1 is None:
+            print("step1 is null")
+            step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)
+            step1.save()
+
+            #add default rnd file
+            rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/test.csv'),'rb')
+            step1.rnd_seed_file.put(rndfile,content_type='csv',filename = 'test.csv')
+            step1.save()
+
+        else:
+            rndfile = step1.rnd_seed_file 
+            rndfilename = ""
+            if rndfile is None:
+                rndfilename = step1[0].rnd_seed_file.filename
+            #print("===========%s"%step1[0].rnd_seed_file.filename)
+
+        if item.process_simple is True:
+            return self.render_template('/process_simple.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+        else:
+            return self.render_template('/process_guest.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+
+
 class ProcessView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
@@ -46,7 +91,7 @@ class ProcessView(ModelView):
     edit_columns =  ['process_name','process_description']
     list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on','is_public','is_simple']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
-    base_filters = [['process_public',FilterEqual,False],['created_by',FilterEqualFunction,get_user]]
+    base_filters = [['created_by',FilterEqualFunction,get_user]]
     base_order = ('process_public','asc')
 
     def pre_add(self, item):
@@ -90,9 +135,9 @@ class ProcessView(ModelView):
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         if item.process_simple is True:
-            return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
-        else:
             return self.render_template('/process_simple.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+        else:
+            return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
 
 class ProcessCmpView(ModelView):
 
@@ -726,6 +771,8 @@ appbuilder.add_view(ProcessView,"MSE Management", icon='fa-folder-open-o', categ
 appbuilder.add_view(ProcessCmpView,"MSE Comparison", icon='fa-folder-open-o', category='MSE',category_icon="fa-envelope")
 appbuilder.add_view(AdvancedMseView,"Advanced MSE", category='MSE', icon='fa-folder-open-o')
 appbuilder.add_view_no_menu(ProStepView())
+
+appbuilder.add_view(GuestProcessView,"Guest MSE Management", icon='fa-folder-open-o', category='Guest MSE',category_icon="fa-envelope")
 
 appbuilder.security_cleanup()
 

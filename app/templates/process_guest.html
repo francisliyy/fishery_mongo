@@ -1,0 +1,1101 @@
+{% extends "appbuilder/base.html" %}
+{% block head_css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/framework/acc-wizard/acc-wizard.min.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.min.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/jquery-file-upload/css/uploadfile.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/common.css')}}"></link>
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+      <div class="lead well" style="padding-top: 0.1em; padding-left: 2em; padding-right: 2em;">
+      <p>
+        <h2>Professional version : {{process_name}}</h2>
+        {{process_description}}. <a href="{{url_for('GuestProcessView.list')}}" class="btn btn-warning" role="button" aria-pressed="true">Return</a>
+      </p>
+      </div>
+    </div>
+    <div id="process-part" class="row acc-wizard">
+      <div class="col-md-3" style="padding-left: 2em;">
+        <p style="margin-bottom: 2em;">
+          Follow the Management Options below:
+        </p>
+        <ol class="acc-wizard-sidebar">
+          <li class="acc-wizard-todo"><a href="#generalinput">Genral Input</a></li>
+          <li class="acc-wizard-todo"><a href="#stockassessment1">Stock Assessment Model Input1</a></li>
+          <li class="acc-wizard-todo"><a href="#stockassessment2">Stock Assessment Model Input2</a></li>
+          <li class="acc-wizard-todo"><a href="#ibParam">Initial Population</a></li>
+          <li class="acc-wizard-todo"><a href="#bioParam">Biological Parameters</a></li>
+          <li class="acc-wizard-todo"><a href="#naturalmortality">Natural Mortality</a></li>
+          <li class="acc-wizard-todo"><a href="#recruitment">Recruitment</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options Part1</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt2">Management Options Part2</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt3">Management Options Part3</a></li>
+        </ol>
+      </div>
+      <div class="col-md-9" style="padding-right: 2em;">
+        <div id="accordion-demo" class="panel-group">
+
+          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfilename="{{'' if process_step1['rnd_seed_file'] is none else process_step1['rnd_seed_file'].name}}" data-stock1filename="{{'' if process_step1['stock1_filepath'] is none else process_step1['stock1_filepath'].name}}" data-stock2filename="{{'' if process_step1['stock2_filepath'] is none else process_step1['stock2_filepath'].name}}"></div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#generalinput" data-parent="#accordion-demo" data-toggle="collapse">
+                  General Input
+                </a>
+              </h4>
+            </div>
+            <div id="generalinput" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-generalinput">
+                  {% if process_step1 %}
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Time Step</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="time_step" id="1monthRadio" value="M" {{'checked' if process_step1['time_step']=='M'}}> 1 month
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="time_step" id="1seasonRadio" value="S" {{ 'checked' if process_step1['time_step']=='S'}}> 1 season
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="time_step" id="halfYearRadio" value="HY" {{ 'checked' if process_step1['time_step']=='HY'}}> half year
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="time_step" id="1YearRadio" value="Y" {{ 'checked' if process_step1['time_step']=='Y'}}> 1 year
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Start Projection</label>
+                    <div class='col-md-5 input-group date' id='start_projection' name='start_projection'>
+                      <input type='text' class="form-control" value="{{process_step1['start_projection']}}"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 control-label">Short-term Management&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <div class="col-md-3 input-group">   
+                      <input title="short term Management" maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3" value="{{process_step1['short_term_mgt'] if process_step1['short_term_mgt'] != None else ''}}"/> 
+                    </div> 
+                    <div class="col-md-2 input-group">      
+                      <select id="short_term_unit" name="short_term_unit" class="form-control">
+                              <option value="Y" {{'selected' if process_step1['short_term_unit']=='Y'}}>Years</option>
+                              <option value="S" {{'selected' if process_step1['short_term_unit']=='S'}}>Seasons</option>
+                              <option value="M" {{'selected' if process_step1['short_term_unit']=='M'}}>Months</option>
+                      </select>
+                    </div>        
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 control-label">Long-term Management&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <div class="col-md-3 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="long_term_mgt" name="long_term_mgt" placeholder="3" value="{{process_step1['long_term_mgt'] if process_step1['long_term_mgt'] != None else ''}}"/> 
+                    </div> 
+                    <div class="col-md-2 input-group">      
+                      <select id="long_term_unit" name="long_term_unit" class="form-control">
+                              <option value="Y" {{'selected' if process_step1['long_term_unit']=='Y'}}>Years</option>
+                              <option value="S" {{'selected' if process_step1['long_term_unit']=='S'}}>Seasons</option>
+                              <option value="M" {{'selected' if process_step1['long_term_unit']=='M'}}>Months</option>
+                      </select>
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 col-sm-3 control-label">Stock per Management Unit</label>
+                    <div class="col-md-5 col-sm-5 input-group">   
+                      <input maxlength="6" type="number" class="form-control" style="border-radius: 4px" id="stock_per_mgt_unit" name="stock_per_mgt_unit" placeholder="2" value="{{process_step1['stock_per_mgt_unit'] if process_step1['stock_per_mgt_unit'] != None else ''}}"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Mixing Pattern</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="mixing_pattern" id="constptn" value="1" {{ 'checked' if process_step1['mixing_pattern']=='1'}}> Constants
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="mixing_pattern" id="sameptn" value="2" {{ 'checked' if process_step1['mixing_pattern']=='2'}}> Same over years
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="mixing_pattern" id="timeptn" value="3" {{ 'checked' if process_step1['mixing_pattern']=='3'}}> Time varies
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 col-sm-3 control-label">Last Age in the Plus Group</label>
+                    <div class="col-md-5 col-sm-5 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="last_age" name="last_age" placeholder="20" value="{{process_step1['last_age'] if process_step1['last_age'] != None else ''}}"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 col-sm-3 control-label">Number of </br>Iteratons</label>
+                    <div class="col-md-5 col-sm-5 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="no_of_interations" name="no_of_interations" placeholder="1000" value="{{process_step1['no_of_interations'] if process_step1['no_of_interations'] != None else ''}}"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Random Seed Setting</label>
+                    <div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div>
+                    <!-- <div class="col-md-5 input-group">   
+                                   <input type="file" class="form-control" style="border-radius: 4px" id="rnd_seed_file"/> 
+                                 </div>  -->             
+                  </div>
+                  {% endif %}
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#generalinput -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#stockassessment1" data-parent="#accordion-demo" data-toggle="collapse">
+                  Stock Assessment Model Input 1
+                </a>
+              </h4>
+            </div>
+            <div id="stockassessment1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-stockassessment1">
+                  <h2>Mixing matrix</h2>
+                  <h4>From/To
+                      <button style="margin-left: 60px" type="button" class="btn btn-danger">Standardize</button>
+                  </h4>
+                  <div class="form-group" style="height:34px">
+                    <label class="col-md-2 col-sm-2 control-label"></label>
+                    <label class="col-md-4 col-sm-4 control-label">Unit 1</label>  
+                    <label class="col-md-4 col-sm-4 control-label">Unit 2</label>           
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-2 col-sm-2 control-label">Unit 1</label>
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit1to1" name="unit1to1" value="{{process_step1['unit1to1'] if process_step1['unit1to1'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div> 
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit1to2" name="unit1to2" value="{{process_step1['unit1to2'] if process_step1['unit1to2'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group">%</div>              
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-2 col-sm-2 control-label">Unit 2</label>
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit2to1" name="unit2to1" value="{{process_step1['unit2to1'] if process_step1['unit2to1'] != None else ''}}" placeholder="3"/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group">%</div>   
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit2to2" name="unit2to2" value="{{process_step1['unit2to2'] if process_step1['unit2to2'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group">%</div>   
+                  </div>
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#stockassessment2" data-parent="#accordion-demo" data-toggle="collapse">
+                  Stock Assessment Model Input 2
+                </a>
+              </h4>
+            </div>
+            <div id="stockassessment2" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-stockassessment2">
+                  <h4>Stock1:</h4>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Model Type</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_model_type" id="mt1SS3" value="1" {{ 'checked' if process_step1['stock1_model_type']=='1'}}> Stock Synthesis 3
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_model_type" id="mt1VPA" value="2" {{ 'checked' if process_step1['stock1_model_type']=='2'}}> Virtual Population Analysis
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_model_type" id="mt1Scaa" value="3" {{ 'checked' if process_step1['stock1_model_type']=='3'}}> Statistical-catch-at-age
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Input file path</label> 
+                    <div class="col-md-5 col-sm-5 input-group" id="stock1_filepath">Upload</div>
+                  </div>
+                  <h4>Stock2:</h4>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Model Type</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock2_model_type" id="mt2SS3" value="1" {{ 'checked' if process_step1['stock2_model_type']=='1'}}> Stock Synthesis 3
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock2_model_type" id="mt2VPA" value="2" {{ 'checked' if process_step1['stock2_model_type']=='2'}}> Virtual Population Analysis
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock2_model_type" id="mt2Scaa" value="3" {{ 'checked' if process_step1['stock2_model_type']=='3'}}> Statistical-catch-at-age
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Input file path</label>
+                    <div class="col-md-5 col-sm-5 input-group" id="stock2_filepath">Upload</div>
+                  </div>                  
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#ibParam" data-parent="#accordion-demo" data-toggle="collapse">
+                  Initial Population
+                </a>
+              </h4>
+            </div>
+            <div id="ibParam" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-ibParam">
+                  <!-- <table id="table-ibParam" data-toggle="table"> -->
+                  <table id="table-ibParam">
+                      
+                  </table>                  
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#bioParam" data-parent="#accordion-demo" data-toggle="collapse">
+                  Biological Parameters
+                </a>
+              </h4>
+            </div>
+            <div id="bioParam" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-bioParam">
+                  <!-- <table id="table-ibParam" data-toggle="table"> -->
+                  <table id="table-bioParam">
+                      
+                  </table>                  
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#naturalmortality" data-parent="#accordion-demo" data-toggle="collapse">
+                  Natural Mortality
+                </a>
+              </h4>
+            </div>
+            <div id="naturalmortality" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-naturalmortality">
+                  <h4>Constant natural mortality
+                    <button id="mortality-pre-btn" style="margin-left: 60px" type="button" class="btn btn-disable">&lt;&lt;&nbsp;Decrease complexity</button>
+                    <button id="mortality-next-btn" style="margin-left: 30px" type="button" class="btn btn-danger">Increase complexity&nbsp;&gt;&gt;</button>
+                    <div id="hidden-mortality" data-mortalitycomplex="{{process_step1['mortality_complexity'] if process_step1['mortality_complexity'] != None else '1'}}"></div>
+                  </h4>
+                  <div id="simpleMortality">
+                    <div class="form-group form-inline">
+                      <label class="col-md-3 col-sm-3 control-label">Mean</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_mean" name="simple_mean" value="{{process_step1['simple_mean'] if process_step1['simple_mean'] != None else ''}}" placeholder="0.2"/> 
+                      </div>             
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-md-3 col-sm-3 control-label">CV</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_cv" name="simple_cv" value="{{process_step1['simple_cv'] if process_step1['simple_cv'] != None else ''}}" placeholder="20"/>
+                      </div>
+                      <div class="col-md-1 input-group">%
+                      </div>              
+                    </div>
+                    <div class="form-group form-inline">
+                      <label class="col-md-3 col-sm-3 control-label">Fraction before spawning</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_spawning" name="simple_spawning" value="{{process_step1['simple_spawning'] if process_step1['simple_spawning'] != None else ''}}" placeholder="0.83"/>
+                      </div>             
+                    </div>
+                  </div>
+                  <table id="table-mortality">
+                      
+                  </table>
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#recruitment" data-parent="#accordion-demo" data-toggle="collapse">
+                  Recruitment
+                </a>
+              </h4>
+            </div>
+            <div id="recruitment" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-recruitment">
+                  <h4 style="display:inline-block;width: 50%;float: left">Stock1</h4>
+                  <h4 style="display:inline-block;width: 50%">Stock2</h4> 
+
+                  <div class="form-group form-inline" ><!-- first part -->
+                    <div class="col-md-6 col-sm-6">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="historyStock1" value="1" {{'checked' if process_step1['recruitTypeStock1']=='1'}}>Input from history
+                    </div>
+                    <div class="col-md-6 col-sm-6 input-group">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="historyStock2" value="1" {{'checked' if process_step1['recruitTypeStock2']=='1'}}>Input from history
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio1" value="1" {{'checked' if process_step1['historySt1']=='1'}}>Lower 25%
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_lower" name="hst1_lower" value="{{process_step1['hst1_lower'] if process_step1['hst1_lower'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio1" value="1" {{'checked' if process_step1['historySt2']=='1'}}>Lower 25%
+                        </label>
+                    </div> 
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_lower" name="hst2_lower" value="{{process_step1['hst2_lower'] if process_step1['hst2_lower'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio2" value="2" {{'checked' if process_step1['historySt1']=='2'}}>Median
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_median" name="hst1_median" value="{{process_step1['hst1_median'] if process_step1['hst1_median'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio2" value="2" {{'checked' if process_step1['historySt2']=='2'}}>Median
+                        </label>
+                    </div> 
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_median" name="hst2_median" value="{{process_step1['hst2_median'] if process_step1['hst2_median'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio3" value="3" {{'checked' if process_step1['historySt1']=='3'}}>Mean
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_mean" name="hst1_mean" value="{{process_step1['hst1_mean'] if process_step1['hst1_mean'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio3" value="3" {{'checked' if process_step1['historySt2']=='3'}}>Mean
+                        </label>
+                    </div> 
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_mean" name="hst2_mean" value="{{process_step1['hst2_mean'] if process_step1['hst2_mean'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio4" value="4" {{'checked' if process_step1['historySt1']=='4'}}>Upper 25%
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_upper" name="hst1_upper" value="{{process_step1['hst1_upper'] if process_step1['hst1_upper'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio4" value="4" {{'checked' if process_step1['historySt2']=='4'}}>Upper 25%
+                        </label>
+                    </div> 
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_upper" name="hst2_upper" value="{{process_step1['hst2_upper'] if process_step1['hst2_upper'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1" id="hst1radio5" value="5" {{'checked' if process_step1['historySt1']=='5'}}>Other percentile
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="5" type="number" class="input-txt form-control" id="hst1_other" name="hst1_other" value="{{process_step1['hst1_other'] if process_step1['hst1_other'] != None else ''}}" placeholder="100"/><span style="line-height: 34px">&nbsp;%</span>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
+                      <label class="radio-inline">
+                          <input type="radio" style="margin-right: 10px" name="historySt2" id="hst2radio5" value="5" {{'checked' if process_step1['historySt2']=='5'}}>Other percentile
+                        </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="5" type="number" class="input-txt form-control" id="hst2_other" name="hst2_other" value="{{process_step1['hst2_other'] if process_step1['hst2_other'] != None else ''}}" placeholder="100"/><span style="line-height: 34px">&nbsp;%
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
+                      <button style="margin: 0 40px 0 10px" type="button" class="btn btn-danger">Calculate</button>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_cal" name="hst1_cal" value="{{process_step1['hst1_cal'] if process_step1['hst1_cal'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 10px">
+                      <button style="margin: 0 40px 0 10px" type="button" class="btn btn-danger">Calculate</button>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_cal" name="hst2_cal" value="{{process_step1['hst2_cal'] if process_step1['hst2_cal'] != None else ''}}" placeholder="10000000"/>
+                    </div>
+                  </div><!--/.first part -->
+
+                  <div class="form-group form-inline" ><!-- second part -->
+                    <div class="col-md-6 col-sm-6">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="formulaStock1" value="2" {{'checked' if process_step1['recruitTypeStock1']=='2'}}>Formula
+                    </div>
+                    <div class="col-md-6 col-sm-6 input-group">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="fomulaStock2" value="2" {{'checked' if process_step1['recruitTypeStock2']=='2'}}>Formula
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="formulaStock1" id="fml1radio1" value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Beverton-Holt Mode
+                      </label>
+                    </div>
+                    <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" name="formulaStock2" id="fml2radio1" value="1" {{'checked' if process_step1['formulaStock2']=='1'}}>Beverton-Holt Mode
+                        </label>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Bmalpha1" name="fml1Bmalpha1" value="{{process_step1['fml1Bmalpha1'] if process_step1['fml1Bmalpha1'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Bmbeta1" name="fml1Bmbeta1" value="{{process_step1['fml1Bmbeta1'] if process_step1['fml1Bmbeta1'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Bmalpha1" name="fml2Bmalpha1" value="{{process_step1['fml2Bmalpha1'] if process_step1['fml2Bmalpha1'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Bmbeta1" name="fml2Bmbeta1" value="{{process_step1['fml2Bmbeta1'] if process_step1['fml2Bmbeta1'] != None else ''}}" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="formulaStock1" id="fml1radio2" value="2" {{'checked' if process_step1['formulaStock1']=='2'}}>Ricker Mode
+                      </label>
+                    </div>
+                    <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" name="formulaStock2" id="fml2radio2" value="2" {{'checked' if process_step1['formulaStock2']=='2'}}>Ricker Mode
+                        </label>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Rmalpha1" name="fml1Rmalpha1" value="{{process_step1['fml1Rmalpha1'] if process_step1['fml1Rmalpha1'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Rmbeta1" name="fml1Rmbeta1" value="{{process_step1['fml1Rmbeta1'] if process_step1['fml1Rmbeta1'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">alpha</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Rmalpha1" name="fml2Rmalpha1" value="{{process_step1['fml2Rmalpha1'] if process_step1['fml2Rmalpha1'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">beta</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Rmbeta1" name="fml2Rmbeta1" value="{{process_step1['fml2Rmbeta1'] if process_step1['fml2Rmbeta1'] != None else ''}}" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="formulaStock1" id="fml1radio3" value="3" {{'checked' if process_step1['formulaStock1']=='3'}}>Moderfied Beverton-Holy Mode
+                      </label>
+                    </div>
+                    <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
+                      <label class="radio-inline">
+                          <input type="radio" name="formulaStock2" id="fml2radio3" value="3" {{'checked' if process_step1['formulaStock2']=='3'}}>Moderfied Beverton-Holy Mode
+                        </label>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">SSB0</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmSSB0" name="fml1MbhmSSB0" value="{{process_step1['fml1MbhmSSB0'] if process_step1['fml1MbhmSSB0'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmR0" name="fml1MbhmR0" value="{{process_step1['fml1MbhmR0'] if process_step1['fml1MbhmR0'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">SSB0</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmSSB0" name="fml2MbhmSSB0" value="{{process_step1['fml2MbhmSSB0'] if process_step1['fml2MbhmSSB0'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmR0" name="fml2MbhmR0" value="{{process_step1['fml2MbhmR0'] if process_step1['fml2MbhmR0'] != None else ''}}" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">Steepnes</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmSteep" name="fml1MbhmSteep" value="{{process_step1['fml1MbhmSteep'] if process_step1['fml1MbhmSteep'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 115px"> 
+                      <label class="control-label">Steepnes</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmSteep" name="fml2MbhmSteep" value="{{process_step1['fml2MbhmSteep'] if process_step1['fml2MbhmSteep'] != None else ''}}" placeholder="3"/> 
+                    </div>             
+                  </div><!--/.second part -->
+
+                  <div class="form-group form-inline" ><!-- third part -->
+                    <div class="col-md-6 col-sm-6 ">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="autoStock1" value="3" {{'checked' if process_step1['recruitTypeStock1']=='3'}}>Auto correlated
+                    </div>
+                    <div class="col-md-6 col-sm-6 input-group">
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="autoStock2" value="3" {{'checked' if process_step1['recruitTypeStock2']=='3'}}>Auto correlated
+                    </div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1R0" name="auto1R0" value="{{process_step1['auto1R0'] if process_step1['auto1R0'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">h</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1h" name="auto1h" value="{{process_step1['auto1h'] if process_step1['auto1h'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
+                      <label class="control-label">R0</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2R0" name="auto2R0" value="{{process_step1['auto2R0'] if process_step1['auto2R0'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group"> 
+                      <label class="col-md-1 control-label">h</label>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2h" name="auto2h" value="{{process_step1['auto2h'] if process_step1['auto2h'] != None else ''}}" placeholder="3"/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">Rave</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1Rave" name="auto1Rave" value="{{process_step1['auto1Rave'] if process_step1['auto1Rave'] != None else ''}}" placeholder="3"/> 
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 115px"> 
+                      <label class="control-label">Rave</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2Rave" name="auto2Rave" value="{{process_step1['auto2Rave'] if process_step1['auto2Rave'] != None else ''}}" placeholder="3"/> 
+                    </div>             
+                  </div><!--/.third part -->
+
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 30px">
+                      <label class="control-label">CV for recruitment</label>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="cv1Recruit" name="cv1Recruit" value="{{process_step1['cv1Recruit'] if process_step1['cv1Recruit'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="width:5px">%</div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 88px"> 
+                      <label class="control-label">CV for recruitment</label>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="cv2Recruit" name="cv2Recruit" value="{{process_step1['cv2Recruit'] if process_step1['cv2Recruit'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="width:5px">%</div>           
+                  </div>                  
+
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt1" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options Part1
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt1">
+                  <h4>Biological reference points</h4>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Biomass-based reference points</label>
+                    <div class="col-md-5 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="bio_biomass_points" name="bio_biomass_points" value="{{process_step1['bio_biomass_points'] if process_step1['bio_biomass_points'] != None else ''}}" placeholder="2"/> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Harvest reference points</label>
+                    <div class="col-md-7 col-sm-7 input-group">  
+                      <label class="radio-inline" >
+                        <input type="radio" name="bio_harvest_radio" id="catchRadio" {{'checked' if process_step1['bio_harvest_radio']=='C'}} value="C">Catch-based
+                      </label> 
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 10px" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
+                      <span style="margin-left:5px;width:5px">mt</span>
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-7 col-sm-7 input-group">  
+                      <label class="radio-inline" >
+                        <input type="radio" name="bio_harvest_radio" id="fbaseRadio" {{'checked' if process_step1['bio_harvest_radio']=='F'}} value="F">F-based
+                      </label> 
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>                      
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <h4>Harvest control rule</h4>
+                    <label class="col-md-4 control-label"></label>
+                    <label class="radio-inline">
+                      <input type="radio" name="hrt_harvest_rule" id="contCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CC' or process_step1['hrt_harvest_rule'] is none}} value="CC"> Constant catch
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="hrt_harvest_rule" id="contFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CF'}} value="CF"> Constant F
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="hrt_harvest_rule" id="linearCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='LC'}} value="LC"> Linear catch
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="hrt_harvest_rule" id="linearFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='LF'}} value="LF"> Linear F
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-5 input-group">
+                      <img id="hr_rule_pic" style="width: 400px ; height: 300px" src="{{url_for('static',filename='assets/images/harvestCtlRule/CC.png')}}"></img>
+                    </div>                    
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Biomass-based reference points</label>
+                    <div class="col-md-6 input-group">  
+                      <label class="radio-inline" >
+                        Threshold I
+                      </label> 
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="hrt_threshold1" name="hrt_threshold1" value="{{process_step1['hrt_threshold1'] if process_step1['hrt_threshold1'] != None else ''}}" placeholder=""/>
+                      <span style="width: 5px;margin-left: 5px">mt</span>                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-6 input-group">  
+                      <label class="radio-inline" >
+                        Threshold II
+                      </label> 
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" id="hrt_threshold2" name="hrt_threshold2" value="{{process_step1['hrt_threshold2'] if process_step1['hrt_threshold2'] != None else ''}}" placeholder=""/>
+                      <span style="width:5px;margin-left: 5px">mt</span>                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label">Harvest reference points</label>
+                    <div class="col-md-8 input-group">
+                      <label class="radio-inline" >
+                        <input type="radio" name="hrt_harvest_radio" id="cRadio" {{'checked' if process_step1['hrt_harvest_radio']=='C'}} value="C">Catch-based
+                      </label>  
+                      <label class="radio-inline" >
+                        Threshold I
+                      </label> 
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_catch_thh1" id="hst_catch_thh1" value="{{process_step1['hst_catch_thh1'] if process_step1['hst_catch_thh1'] != None else ''}}" placeholder=""/>
+                      <span style="width:5px;margin-left: 5px">mt</span>                   
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-8 input-group">  
+                      <label class="radio-inline" style="margin-left: 110px">
+                        Threshold II
+                      </label> 
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" name="hst_catch_thh2" id="hst_catch_thh2" value="{{process_step1['hst_catch_thh2'] if process_step1['hst_catch_thh2'] != None else ''}}" placeholder=""/>
+                      <span style="width:5px;margin-left: 5px">mt</span>                     
+                    </div>                                  
+                  </div>  
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-8 input-group">
+                      <label class="radio-inline" >
+                        <input type="radio" name="hrt_harvest_radio" id="fRadio" {{'checked' if process_step1['hrt_harvest_radio']=='F'}} value="F">F-based
+                      </label>  
+                      <label class="radio-inline" style="margin-left: 40px">
+                        Threshold I
+                      </label> 
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_f_thh1" id="hst_f_thh1" value="{{process_step1['hst_f_thh1'] if process_step1['hst_f_thh1'] != None else ''}}" placeholder=""/>                     
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div class="col-md-8 input-group">  
+                      <label class="radio-inline" style="margin-left: 110px">
+                        Threshold II
+                      </label> 
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" name="hst_f_thh2" id="hst_f_thh2" value="{{process_step1['hst_f_thh2'] if process_step1['hst_f_thh2'] != None else ''}}" placeholder=""/>                     
+                    </div>                                  
+                  </div>
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt2" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options Part2
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt2" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt2">
+                  <h4>Allocation among sectors</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Recreational</label> 
+                    <label class="col-md-4 col-sm-4 control-label">Commercial</label>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_recreational" name="sec_recreational" value="{{process_step1['sec_recreational'] if process_step1['sec_recreational'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div> 
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_commercial" name="sec_commercial" value="{{process_step1['sec_commercial'] if process_step1['sec_commercial'] != None else ''}}" placeholder="3"/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div>
+                    <div class="col-md-1 col-sm-1 input-group">
+                     <button style="margin-left: 40px" type="button" class="btn btn-danger">Include bycatch</button> 
+                    </div>             
+                  </div>
+                  <h4>Allocation among fleets</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-3 col-sm-3 control-label">Recreational</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
+                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
+                  </div>
+                  {% for num in range(0,4) %}
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group"></div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_rec_stock_{{num}}" name="fleet_rec_stock_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['stock'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_rec_fleet_{{num}}" name="fleet_rec_fleet_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['fleet'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control input-txt" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['allocation'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="width: 5px;margin-left: 5px">%</div>            
+                  </div>
+                  {% endfor%}
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-3 col-sm-3 control-label">Commercail</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
+                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
+                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
+                  </div>
+                  {% for num in range(0,4) %}
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group"></div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_com_stock_{{num}}" name="fleet_com_stock_{{num}}" value="{{process_step1['fleet_com_stock'][num]['stock'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_com_fleet_{{num}}" name="fleet_com_fleet_{{num}}" value="{{process_step1['fleet_com_stock'][num]['fleet'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control input-txt" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" value="{{process_step1['fleet_com_stock'][num]['allocation'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 5px;width: 5px">%</div>            
+                  </div>
+                  {% endfor%}
+                  <div class="form-group form-inline">
+                    <button style="" type="button" class="btn btn-danger">Include bycatch</button>
+                  </div>
+                  <h4>Recreational fishing season</h4>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group" style="margin-left: 60px">
+                      <label class="control-label">Start</label>
+                    </div>
+                    <div class='col-md-3 input-group date' id='fishingStartDate' name='fishingStartDate'>
+                      <input type='text' id="fishingStartDateTxt" name="fishingStartDateTxt" class="form-control" value="{{process_step1['fishingStartDate']}}"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+                    <div class="col-md-1 input-group" style="margin-left: 115px"> 
+                      <label class="control-label">End</label>
+                    </div>
+                    <div class='col-md-3 input-group date' id='fishingEndDate' name='fishingEndDate'>
+                      <input type='text' id="fishingEndDateTxt" name="fishingEndDateTxt" class="form-control" value="{{process_step1['fishingEndDate']}}"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>            
+                  </div>
+                 
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt3" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options Part3
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt3" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt3">
+                  <h4>Landing ratios among states</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
+                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
+                  </div>
+                  <div class="form-group" style="height:34px">
+                    <label class="col-md-2 control-label">Stock</label> 
+                    <label class="col-md-2 control-label">State</label> 
+                    <label class="col-md-2 control-label">Loading ratios</label>
+                    <label class="col-md-2 control-label">Stock</label> 
+                    <label class="col-md-2 control-label">State</label> 
+                    <label class="col-md-2 control-label">Loading ratios</label>
+                  </div>
+                  {% for num in range(0,6) %}
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 input-group">
+                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:80px;" id="ratio_rec_stock_{{num}}" name="ratio_rec_stock_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['stock'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input maxlength="5" type="text" class="form-control" style="border-radius: 4px;width:100px;" id="ratio_rec_state_{{num}}" name="ratio_rec_state_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['state'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_rec_ratio_{{num}}" name="ratio_rec_ratio_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['ratio'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group" style="width:30px;margin-left: 0px">%</div> 
+                    <div class="col-md-2 input-group">   
+                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:80px;" id="ratio_com_stock_{{num}}" name="ratio_com_stock_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['stock'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 input-group">   
+                      <input maxlength="5" type="text" class="form-control" style="border-radius: 4px;width:100px;" id="ratio_com_state_{{num}}" name="ratio_com_state_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['state'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_com_ratio_{{num}}" name="ratio_com_ratio_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['ratio'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group" style="width:10px;margin-left: 0px">%</div>     
+                  </div>
+                  {% endfor%}
+                  <h4>Discard ratio</h4>
+                  <div class="form-group" style="height:34px">                    
+                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
+                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
+                  </div>
+                  <div class="form-group" style="height:34px">
+                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
+                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
+                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
+                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
+                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
+                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
+                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
+                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
+                  </div>
+                  {% for num in range(0,6) %}
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 input-group">
+                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_rec_stock_{{num}}" name="discard_rec_stock_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['stock'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_fleet_{{num}}" name="discard_rec_fleet_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['fleet'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_oc_{{num}}" name="discard_rec_oc_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['oc'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_ratio_{{num}}" name="discard_rec_ratio_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['ratio'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group" style="margin: 0 15px 0 0">%</div>
+                    <div class="col-md-1 input-group">
+                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_com_stock_{{num}}" name="discard_com_stock_{{num}}" value="{{process_step1['discard_com_ratio'][num]['stock'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_fleet_{{num}}" name="discard_com_fleet_{{num}}" value="{{process_step1['discard_com_ratio'][num]['fleet'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px; " id="discard_com_oc_{{num}}" name="discard_com_oc_{{num}}" value="{{process_step1['discard_com_ratio'][num]['oc'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_ratio_{{num}}" name="discard_com_ratio_{{num}}" value="{{process_step1['discard_com_ratio'][num]['ratio'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 input-group" style="width: 10px;margin: 0 15px 0 0">%</div>          
+                  </div>
+                  {% endfor%}
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+          
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div id="process-result" class="row acc-wizard">
+      <div class="col-md-3" style="padding-left: 2em;">
+        <p style="margin-bottom: 2em;">
+          Show the process result:
+        </p>
+        <ol class="acc-wizard-sidebar">
+          <li class="acc-wizard-todo"><a href="#bio">Bio-Demo</a></li>
+          <li class="acc-wizard-todo"><a href="#spr">SPR-Demo</a></li>
+          <li class="acc-wizard-todo"><a href="#ssb">SSB</a></li>
+          <li class="acc-wizard-todo"><a href="#f">F</a></li>
+        </ol>
+      </div>
+      <div class="col-md-9" style="padding-right: 2em;">
+        <div id="process-result-panel" class="panel-group">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#bio" data-parent="#process-result" data-toggle="collapse">
+                  Bio-Demo
+                </a>
+              </h4>
+            </div>
+            <div id="bio" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="bio-chart-1" class="echart-size">
+                </div>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#generalinput -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#spr" data-parent="#process-result" data-toggle="collapse">
+                  SPR-Demo
+                </a>
+              </h4>
+            </div>
+            <div id="spr" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="spr-chart-1" class="echart-size">
+                </div>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#ssb" data-parent="#process-result" data-toggle="collapse">
+                  SSB
+                </a>
+              </h4>
+            </div>
+            <div id="ssb" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="ssb-chart-1" class="echart-size">
+                </div>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#f" data-parent="#process-result" data-toggle="collapse">
+                  F
+                </a>
+              </h4>
+            </div>
+            <div id="f" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="f-chart-1" class="echart-size">
+                </div>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+          
+        </div>
+      </div>
+    </div>
+    <div id="mask"></div>
+
+{% endblock %}
+{% block tail_js %}
+	  {{super()}}
+    <script type="text/javascript">
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script src="{{url_for('static',filename='assets/framework/acc-wizard/accwizard.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/moment/min/moment.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/echarts/dist/echarts.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/jquery-validation/dist/jquery.validate.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>    
+{% endblock %}
+
