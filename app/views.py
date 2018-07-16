@@ -1,7 +1,7 @@
 from flask import render_template,jsonify,Response,request,make_response,flash,redirect
 from flask.ext.appbuilder import ModelView
 from flask.ext.appbuilder.models.mongoengine.interface import MongoEngineInterface
-from flask_appbuilder.models.mongoengine.filters import FilterEqual
+from flask_appbuilder.models.mongoengine.filters import FilterEqual,FilterEqualFunction
 from flask_appbuilder.actions import action
 from app import appbuilder
 from flask_appbuilder import BaseView, expose, has_access
@@ -31,6 +31,9 @@ import os
         #rutils.runScript("app/static/rscript/rplots.r");
 """
 
+def get_user():
+    return current_user.id
+
 class ProcessView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
@@ -43,7 +46,7 @@ class ProcessView(ModelView):
     edit_columns =  ['process_name','process_description']
     list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on','is_public','is_simple']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
-    #base_filters = [['process_public',FilterEqual,False]]
+    base_filters = [['process_public',FilterEqual,False],['created_by',FilterEqualFunction,get_user]]
     base_order = ('process_public','asc')
 
     def pre_add(self, item):
