@@ -11,6 +11,7 @@ from wtforms.fields import SelectField,TextField
 from app.models import *
 from app.rutils import *
 from app.fileUtils import *
+from app.customize.mongointerface import ProcessOrMongoEngineInterface
 from bson import json_util
 import pandas as pd
 import numpy as np
@@ -81,7 +82,7 @@ class GuestProcessView(ModelView):
 
 class ProcessView(ModelView):
 
-    datamodel = MongoEngineInterface(Process)
+    datamodel = ProcessOrMongoEngineInterface(Process)
 
     list_template = 'list_process_editable.html'
 
@@ -91,7 +92,7 @@ class ProcessView(ModelView):
     edit_columns =  ['process_name','process_description']
     list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on','is_public','is_simple']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
-    base_filters = [['created_by',FilterEqualFunction,get_user]]
+    base_filters = [['created_by',FilterEqualFunction,get_user],['process_public',FilterEqual,True]]
     base_order = ('process_public','asc')
 
     def pre_add(self, item):
