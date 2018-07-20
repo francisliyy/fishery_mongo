@@ -90,6 +90,25 @@ IMG_UPLOAD_URL = '/static/uploads/'
 # Setup image size default is (300, 200, True)
 #IMG_SIZE = (300, 200, True)
 APP_NAME = "Fishery"
+
+#===============================================
+# User Registration
+#===============================================
+AUTH_TYPE = 1 # Database Authentication
+AUTH_USER_REGISTRATION = True
+AUTH_USER_REGISTRATION_ROLE = 'Public'
+# Config for Flask-WTF Recaptcha necessary for user registration
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
+# Config for Flask-Mail necessary for user registration
+MAIL_PORT=587
+MAIL_USE_SSL=False
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_USE_TLS = True
+MAIL_USERNAME = ''
+MAIL_PASSWORD = ''
+MAIL_DEFAULT_SENDER = '' 
+
 # Theme configuration
 # these are located on static/appbuilder/css/themes
 # you can create your own and easily use them placing them on the same dir structure to override
