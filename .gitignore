@@ -20,3 +20,4 @@ venv
 app/static/rscript/*
 
 config.py
+fishery.ini
