@@ -1221,9 +1221,11 @@ $(function() {
 	    onLoad: function(obj)
 	    {
 	    	var filename = $("#step1_id").data("rndfilename");
-
+	    	if (typeof obj.createProgress !== "undefined") {
+	    	 	filename&&obj.createProgress(filename); 
+	    	}
 	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
-	        filename&&obj.createProgress(filename);        //createProgress方法可以创建一个已上传的文件
+	               //createProgress方法可以创建一个已上传的文件
 	    },
 	    deleteCallback: function(data,pd)
 	    {
@@ -1272,9 +1274,12 @@ $(function() {
 	    onLoad: function(obj)
 	    {
 	    	var filename = $("#step1_id").data("stock1filename");
+	    	if (typeof obj.createProgress !== "undefined") {
+	    		filename&&obj.createProgress(filename);  
+	    	}
 
 	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
-	        filename&&obj.createProgress(filename);        //createProgress方法可以创建一个已上传的文件
+	              //createProgress方法可以创建一个已上传的文件
 	    },
 	    deleteCallback: function(data,pd)
 	    {
@@ -1320,9 +1325,12 @@ $(function() {
 	    onLoad: function(obj)
 	    {
 	    	var filename = $("#step1_id").data("stock2filename");
+	    	if (typeof obj.createProgress !== "undefined") {
+	    		filename&&obj.createProgress(filename);  
+	    	}
 
 	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
-	        filename&&obj.createProgress(filename);        //createProgress方法可以创建一个已上传的文件
+	                //createProgress方法可以创建一个已上传的文件
 	    },
 	    deleteCallback: function(data,pd)
 	    {
