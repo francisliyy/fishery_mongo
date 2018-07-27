@@ -93,7 +93,7 @@ class ProcessView(ModelView):
     list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on','is_public','is_simple']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
     base_filters = [['created_by',FilterEqualFunction,get_user],['process_public',FilterEqual,True]]
-    base_order = ('process_public','asc')
+    base_order = ('process_public','desc')
 
     def pre_add(self, item):
         item.created_by = current_user.id
