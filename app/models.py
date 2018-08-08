@@ -142,7 +142,7 @@ class ProcessGenInput(Document):
 	mixing_pattern = StringField(max_length=2)
 	last_age = IntField()
 	no_of_interations = IntField()
-	rnd_seed_file = FileField()
+	rnd_seed_file = ListField(FileField())
 	#step2
 	unit1to1 = DecimalField()
 	unit1to2 = DecimalField()

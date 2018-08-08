@@ -39,7 +39,7 @@
       <div class="col-md-9" style="padding-right: 2em;">
         <div id="accordion-demo" class="panel-group">
 
-          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfilename="{{'' if process_step1['rnd_seed_file'] is none else process_step1['rnd_seed_file'].name}}" data-stock1filename="{{'' if process_step1['stock1_filepath'] is none else process_step1['stock1_filepath'].name}}" data-stock2filename="{{'' if process_step1['stock2_filepath'] is none else process_step1['stock2_filepath'].name}}"></div>
+          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfiles="{{process_rndfilenames}}"></div>
 
           <div class="panel panel-default">
             <div class="panel-heading">

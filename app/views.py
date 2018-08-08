@@ -18,6 +18,7 @@ import numpy as np
 import json
 import datetime
 import os
+import mongoengine
 #from flask import _app_ctx_stack
 #from flask.globals import _request_ctx_stack
 
@@ -75,7 +76,7 @@ class GuestProcessView(ModelView):
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         if item.process_simple is True:
-            return self.render_template('/process_simple.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process_simple.html',process_step1=step1,process_name=item.process_name,process_description=item.process_description)
         else:
             return self.render_template('/process_guest.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
 
@@ -118,6 +119,8 @@ class ProcessView(ModelView):
 
         step1 = ProcessGenInput.objects(process_id=pk).first()
 
+        rndfilenames = []
+
         if step1 is None:
             print("step1 is null")
             step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)
@@ -125,20 +128,20 @@ class ProcessView(ModelView):
 
             #add default rnd file
             rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/test.csv'),'rb')
-            step1.rnd_seed_file.put(rndfile,content_type='csv',filename = 'test.csv')
+            onefile = mongoengine.fields.GridFSProxy()
+            onefile.put(rndfile,content_type='csv',filename = 'test.csv')
+            step1.rnd_seed_file.append(onefile)
             step1.save()
 
-        else:
-        	rndfile = step1.rnd_seed_file 
-        	rndfilename = ""
-        	if rndfile is None:
-        		rndfilename = step1[0].rnd_seed_file.filename
+        rndfiles = step1.rnd_seed_file 
+        for file in rndfiles:
+            rndfilenames.append(file.name)
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         if item.process_simple is True:
-            return self.render_template('/process_simple.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process_simple.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name, process_description=item.process_description)
         else:
-            return self.render_template('/process.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name, process_description=item.process_description)
 
 class ProcessCmpView(ModelView):
 
@@ -509,11 +512,14 @@ class ProStepView(BaseView):
                 if not self.allowed_file(files.filename):
                     result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
                 else:
-                    pgi.rnd_seed_file.replace(files,content_type = 'csv',filename = files.filename)
+                    onefile = mongoengine.fields.GridFSProxy()
+                    onefile.put(files,content_type = 'csv',filename = files.filename)
+                    pgi.rnd_seed_file.append(onefile)
+                    #pgi.rnd_seed_file.replace(files,content_type = 'csv',filename = files.filename)
                     pgi.save()
-                    rnd = pgi.rnd_seed_file.read()
-                    print(pgi.rnd_seed_file.filename)
-                    print(pgi.rnd_seed_file.content_type)
+                    #rnd = pgi.rnd_seed_file.read()
+                    #print(pgi.rnd_seed_file.filename)
+                    #print(pgi.rnd_seed_file.content_type)
 
         if request.method == 'DELETE':
             pgi.rnd_seed_file.delete()

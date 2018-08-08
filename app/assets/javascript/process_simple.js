@@ -1207,7 +1207,7 @@ $(function() {
 
     $("#rnd_seed_file").uploadFile({
 		url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
-	    maxFileCount: 1,                		   //上传文件个数（多个时修改此处
+	    //maxFileCount: 1,                		   //上传文件个数（多个时修改此处
 	    allowedTypes: 'csv',  				       //允许上传的文件式
 	    showFileSize: false,
 	    showDone: false,                           //是否显示"Done"(完成)按钮
@@ -1219,11 +1219,17 @@ $(function() {
 		},
 	    onLoad: function(obj)
 	    {
-	    	var filename = $("#step1_id").data("rndfilename");
-	    	if (typeof obj.createProgress !== "undefined") {
-	    	 	filename&&obj.createProgress(filename); 
-	    	}
-
+	    	var filenames = $("#step1_id").data("rndfiles");
+	    	var initfiles = setInterval(function(){
+	    		if (typeof obj.createProgress !== "undefined") {
+		    		filenames.forEach(function(ele){
+		    			obj.createProgress(ele);
+		    		});
+		    		clearInterval(initfiles);
+	    		}
+	    	},3000)
+	    	
+	    	//filename&&obj.createProgress(filename);
 	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
 	               //createProgress方法可以创建一个已上传的文件
 	    },
