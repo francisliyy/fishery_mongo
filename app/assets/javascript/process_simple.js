@@ -1214,8 +1214,8 @@ $(function() {
 	    showDelete: true,                          //是否显示"Delete"(删除)按钮
 	    showDownload:true,
 	    statusBarWidth:600,
-		downloadCallback:function(){			
-	        window.open($SCRIPT_ROOT+'/prostepview/rndSeedFile/download/'+$("#step1_id").data("step1id"))
+		downloadCallback:function(data){		
+	        window.open($SCRIPT_ROOT+'/prostepview/rndSeedFile/download/'+$("#step1_id").data("step1id")+"/"+data[0])
 		},
 	    onLoad: function(obj)
 	    {
@@ -1242,6 +1242,8 @@ $(function() {
 	            url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
 	            type: "DELETE",
 	            dataType: "json",
+	            contentType:"application/json",
+	            data:JSON.stringify({'filename':data[0]}),
 	            success: function(data) 
 	            {
 	                if(!data){

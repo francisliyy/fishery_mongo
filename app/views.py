@@ -135,7 +135,8 @@ class ProcessView(ModelView):
 
         rndfiles = step1.rnd_seed_file 
         for file in rndfiles:
-            rndfilenames.append(file.name)
+            if hasattr(file,'name'):
+                rndfilenames.append(file.name)
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         if item.process_simple is True:
@@ -522,19 +523,25 @@ class ProStepView(BaseView):
                     #print(pgi.rnd_seed_file.content_type)
 
         if request.method == 'DELETE':
-            pgi.rnd_seed_file.delete()
+            filename = request.get_json()['filename']
+            for file in pgi.rnd_seed_file:
+                print(file.name)
+                if(filename==file.name):
+                     file.delete()
+                    #ProcessGenInput.objects(id=pk).update_one(pull__rnd_seed_file=file)
 
         return json.dumps({})
 
-    @expose('/rndSeedFile/download/<pk>')
+    @expose('/rndSeedFile/download/<pk>/<filename>')
     @has_access
-    def download(self, pk):
+    def download(self, pk, filename):
         item = ProcessGenInput.objects(id=pk).first()
-        file = item.rnd_seed_file.read()
-        response = make_response(file)
-        response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.rnd_seed_file.filename)
-        response.mimetype = 'text/csv'
-        return response
+        for file in item.rnd_seed_file:
+            if(filename==file.name):
+                response = make_response(file.read())
+                response.headers["Content-Disposition"] = "attachment; filename={0}".format(filename)
+                response.mimetype = 'text/csv'
+                return response
 
     #process step3 : stock1 file upload
     @expose('/stock1file/<string:pk>', methods = ['POST','DELETE'])
