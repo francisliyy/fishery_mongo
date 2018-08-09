@@ -57,6 +57,8 @@ class GuestProcessView(ModelView):
         item = self.datamodel.get(pk)
 
         step1 = ProcessGenInput.objects(process_id=pk).first()
+        
+        rndfilenames = []
 
         if step1 is None:
             print("step1 is null")
@@ -65,21 +67,39 @@ class GuestProcessView(ModelView):
 
             #add default rnd file
             rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/test.csv'),'rb')
-            step1.rnd_seed_file.put(rndfile,content_type='csv',filename = 'test.csv')
+            onefile = mongoengine.fields.GridFSProxy()
+            onefile.put(rndfile,content_type='csv',filename = 'test.csv')
+            step1.rnd_seed_file.append(onefile)
             step1.save()
 
-        else:
-            rndfile = step1.rnd_seed_file 
-            rndfilename = ""
-            if rndfile is None:
-                rndfilename = step1[0].rnd_seed_file.filename
-            #print("===========%s"%step1[0].rnd_seed_file.filename)
+        rndfiles = step1.rnd_seed_file 
+        for file in rndfiles:
+            if hasattr(file,'name'):
+                rndfilenames.append(file.name)
 
         if item.process_simple is True:
-            return self.render_template('/process_simple.html',process_step1=step1,process_name=item.process_name,process_description=item.process_description)
+            return self.render_template('/process_simple.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name,process_description=item.process_description)
         else:
-            return self.render_template('/process_guest.html',process_step1=step1,process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process_guest.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name, process_description=item.process_description)
 
+class GuestProcessCmpView(ModelView):
+
+    datamodel = MongoEngineInterface(Process)
+    list_template = 'list_process.html'
+    list_title = "MSE Comparison"
+    base_permissions = ['can_list']
+    formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
+
+    list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on','process_simple']
+    base_filters = [['process_public',FilterEqual,True]]
+    base_order = ('created_on','desc')
+
+    @action("comparePro","Do Strategy Comparison on these records","Do you really want to?","fa-rocket")
+    def comparePro(self, item):
+        """
+            do something with the item record
+        """
+        return self.render_template('/stgCompare.html')
 
 class ProcessView(ModelView):
 
@@ -152,7 +172,7 @@ class ProcessCmpView(ModelView):
     base_permissions = ['can_list']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
 
-    list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on']
+    list_columns = ['process_name','created_by', 'created_on', 'changed_by', 'changed_on','process_simple']
 
     @action("comparePro","Do Strategy Comparison on these records","Do you really want to?","fa-rocket")
     def comparePro(self, item):
@@ -181,7 +201,7 @@ class AdvancedMseView(ModelView):
     base_permissions = ['can_list']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
 
-    list_columns = ['advance_compare','process_name','created_by', 'created_on', 'changed_by', 'changed_on']
+    list_columns = ['advance_compare','process_name','created_by', 'created_on', 'changed_by', 'changed_on','process_simple']
 
 class ProStepView(BaseView):
 
@@ -787,6 +807,7 @@ appbuilder.add_view(AdvancedMseView,"Advanced MSE", category='MSE', icon='fa-fol
 appbuilder.add_view_no_menu(ProStepView())
 
 appbuilder.add_view(GuestProcessView,"Guest MSE Management", icon='fa-folder-open-o', category='Guest MSE',category_icon="fa-envelope")
+appbuilder.add_view(GuestProcessCmpView,"Guest MSE Comparison", icon='fa-folder-open-o', category='Guest MSE',category_icon="fa-envelope")
 
 appbuilder.security_cleanup()
 
