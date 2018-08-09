@@ -18,7 +18,8 @@ class ProcessOrMongoEngineInterface(MongoEngineInterface):
         # apply filters first if given
         #Q(filters.filters[0]=filters.values[0])|Q(filters.filters[1]=filters.values[1])
         if filters:
-        	objs = objs.filter(Q(created_by=current_user.id)|Q(process_public=True))               
+            objs = objs.filter(Q(created_by=current_user.id)|Q(process_public=True))
+            objs = filters.apply_all(objs)
 
         # get the count of all items, either filtered or unfiltered
         count = objs.count()

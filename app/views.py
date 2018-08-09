@@ -113,7 +113,6 @@ class ProcessView(ModelView):
     edit_columns =  ['process_name','process_description']
     list_columns = ['pro_name','created_by', 'created_on', 'changed_by', 'changed_on','is_public','is_simple']
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
-    base_filters = [['created_by',FilterEqualFunction,get_user],['process_public',FilterEqual,True]]
     base_order = ('process_public','desc')
 
     def pre_add(self, item):
@@ -166,7 +165,7 @@ class ProcessView(ModelView):
 
 class ProcessCmpView(ModelView):
 
-    datamodel = MongoEngineInterface(Process)
+    datamodel = ProcessOrMongoEngineInterface(Process)
     list_template = 'list_process.html'
     list_title = "MSE Comparison"
     base_permissions = ['can_list']
@@ -195,7 +194,7 @@ class AdvancedMseView(BaseView):
 
 class AdvancedMseView(ModelView):
 
-    datamodel = MongoEngineInterface(Process)
+    datamodel = ProcessOrMongoEngineInterface(Process)
     list_template = 'advanced_process.html'
     list_title = "Advanced MSE"
     base_permissions = ['can_list']
