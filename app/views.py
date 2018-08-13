@@ -770,6 +770,8 @@ class StockFileView(ModelView):
 
     datamodel = MongoEngineInterface(StockFile)
 
+    list_template = 'stock_file.html'
+
     label_columns = {'file_name': 'File Name','description':'Description','download': 'Download'}
     add_columns =  ['file', 'description']
     edit_columns = ['file', 'description']
