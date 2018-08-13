@@ -18,12 +18,18 @@ class StockFile(Document):
 
 	file = FileField(required=True)
 	description = StringField(max_length=500)
+	default_file = BooleanField(default=False)
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
 	changed_by = ReferenceField("User",reqired=True)
 	changed_on = DateTimeField(default=datetime.datetime.now,
                         onupdate=datetime.datetime.now, nullable=False)
 
+	def is_default(self):
+		if self.default_file is True:
+			return Markup('<input type="radio" name="defaultfile" data-fileid='+str(self.id)+' checked>')
+		else:	
+			return Markup('<input type="radio" name="defaultfile" data-fileid='+str(self.id)+'>')
 
 	def download(self):
 		if self.file:

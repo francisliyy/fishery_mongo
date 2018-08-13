@@ -773,11 +773,13 @@ class StockFileView(ModelView):
     label_columns = {'file_name': 'File Name','description':'Description','download': 'Download'}
     add_columns =  ['file', 'description']
     edit_columns = ['file', 'description']
-    list_columns = ['file_name', 'description', 'download','created_by', 'created_on', 'changed_by', 'changed_on']
+    list_columns = ['file_name', 'description', 'created_by', 'created_on', 'changed_by', 'changed_on','is_default','download']
     show_fieldsets = [
-        ('Info', {'fields': ['file_name', 'description', 'download']}),
+        ('Info', {'fields': ['file_name', 'description', 'default_file', 'download']}),
         ('Audit', {'fields': ['created_by', 'created_on', 'changed_by', 'changed_on'], 'expanded': False})
     ]
+    formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }
+    base_permissions = ['can_list','can_add','can_delete','can_show','can_download']
 
     def pre_add(self, item):
         item.created_by = current_user.id
