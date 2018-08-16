@@ -1917,6 +1917,7 @@ $(function() {
 	/* part 8 Management Options Part I end */
 
 	/* initialization start*/
+	$("#start_projection").find("input").val(moment('2017-06-01').format('YYYY-MM-DD'));
 	getIniPopu();
 	getBioParam();
 	getMortality();
