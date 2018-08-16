@@ -27,9 +27,9 @@ class StockFile(Document):
 
 	def is_default(self):
 		if self.default_file is True:
-			return Markup('<input type="radio" name="defaultfile" data-fileid='+str(self.id)+' checked>')
+			return Markup('<input type="radio" name="defaultfile" data-fileid="'+str(self.file._id)+'" checked>')
 		else:	
-			return Markup('<input type="radio" name="defaultfile" data-fileid='+str(self.id)+'>')
+			return Markup('<input type="radio" name="defaultfile" data-fileid="'+str(self.file._id)+'" >')
 
 	def download(self):
 		if self.file:
