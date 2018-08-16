@@ -4,6 +4,22 @@ $(function() {
 	    console.log(this.files[0].mozFullPath);
 	});
 
+	$("#form-stockassessment").validate({
+		ignore:"input[type=file]",
+		rules: {
+	      // no quoting necessary
+	      stock1_model_type:{
+	      	required: true,
+	      },
+	      stock2_model_type:{
+	      	required: true,
+	      },   
+	    },
+	    errorPlacement: function(error, element) {
+		    error.appendTo( element.closest("div"));
+		}
+	});
+
 	$("#form-generalinput").validate({
 	 	ignore:"input[type=file]",
 	    rules: {
@@ -93,21 +109,6 @@ $(function() {
 		}
 	});
 
-	$("#form-stockassessment2").validate({
-		ignore:"input[type=file]",
-		rules: {
-	      // no quoting necessary
-	      stock1_model_type:{
-	      	required: true,
-	      },
-	      stock2_model_type:{
-	      	required: true,
-	      },   
-	    },
-	    errorPlacement: function(error, element) {
-		    error.appendTo( element.closest("div"));
-		}
-	});
 	$("#form-naturalmortality").validate({
 		rules: {
 	      // no quoting necessary
@@ -882,23 +883,22 @@ $(function() {
 		                 }
 		            }
 		        });
-			}else if($panel.prop("id")=='stockassessment2'){
+			}else if($panel.prop("id")=='stockassessment'){
 				console.log('in step3');
-				if(!$("#form-stockassessment2").valid()){
+				if(!$("#form-stockassessment").valid()){
 					return false;
 				}
 				var data = {};
-				var stock1_model_type = $('input[name=stock1_model_type]:checked', '#form-stockassessment2').val()||'1';
-				//var stock1_filepath = $("#stock1_filepath").val()||'';
-				var stock2_model_type = $('input[name=stock2_model_type]:checked', '#form-stockassessment2').val()||'1';
-				//var stock2_filepath = $("#stock2_filepath").val()||'';
+				var stock1_model_type = $('input[name=stock1_model_type]:checked', '#form-stockassessment').val()||'1';
+				var stock2_model_type = $('input[name=stock2_model_type]:checked', '#form-stockassessment').val()||'1';
+				
 				$.ajax({
 		            cache: false,
 		            url: $SCRIPT_ROOT+'/prostepview/step3/'+$("#step1_id").data("step1id"),
 		            type: "PUT",
 		            dataType: "json",
-		            data: {"stock1_model_type":stock1_model_type,//"stock1_filepath":stock1_filepath,
-		            "stock2_model_type":stock2_model_type,//"stock2_filepath":stock2_filepath
+		            data: {"stock1_model_type":stock1_model_type,
+		            "stock2_model_type":stock2_model_type,
 		            },
 		            success: function(data) 
 		            {
@@ -1190,83 +1190,8 @@ $(function() {
 
 	});
 
-	/*part 1 general input start */
-    $('#start_projection').datetimepicker({
-    	format:'YYYY-MM-DD',
-    }).on('dp.change', function(e) {
-    	
-    });
-
-    $('#fishingStartDate').datetimepicker({
-    	format:'YYYY-MM-DD',
-    });
-
-    $('#fishingEndDate').datetimepicker({
-    	format:'YYYY-MM-DD',
-    });
-
-    $("#rnd_seed_file").uploadFile({
-		url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
-	    //maxFileCount: 1,                		   //上传文件个数（多个时修改此处
-	    allowedTypes: 'csv',  				       //允许上传的文件式
-	    showFileSize: false,
-	    showDone: false,                           //是否显示"Done"(完成)按钮
-	    showDelete: true,                          //是否显示"Delete"(删除)按钮
-	    showDownload:true,
-	    statusBarWidth:600,
-		downloadCallback:function(data){		
-	        window.open($SCRIPT_ROOT+'/prostepview/rndSeedFile/download/'+$("#step1_id").data("step1id")+"/"+data[0])
-		},
-	    onLoad: function(obj)
-	    {
-	    	var filenames = $("#step1_id").data("rndfiles");
-	    	var initfiles = setInterval(function(){
-	    		if (typeof obj.createProgress !== "undefined") {
-		    		filenames.forEach(function(ele){
-		    			obj.createProgress(ele);
-		    		});
-		    		clearInterval(initfiles);
-	    		}
-	    	},3000)
-	    	
-	    	//filename&&obj.createProgress(filename);
-	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
-	               //createProgress方法可以创建一个已上传的文件
-	    },
-	    deleteCallback: function(data,pd)
-	    {
-	        //文件删除时的回调方法。
-	        //如：以下ajax方法为调用服务器端删除方法删除服务器端的文件
-	        $.ajax({
-	            cache: false,
-	            url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
-	            type: "DELETE",
-	            dataType: "json",
-	            contentType:"application/json",
-	            data:JSON.stringify({'filename':data[0]}),
-	            success: function(data) 
-	            {
-	                if(!data){
-	                    pd.statusbar.hide();        //删除成功后隐藏进度条等
-	                 }else{
-	                    console.log(data.message);  //打印服务器返回的错误信息
-	                 }
-	              }
-	        }); 
-	    },
-	    onSuccess: function(files,data,xhr,pd)
-	    {
-	    	//$(".ajax-file-upload-statusbar").width("600px");
-	        //上传成功后的回调方法。本例中是将返回的文件名保到一个hidden类开的input中，以便后期数据处理
-	        // if(data&&data.code===0){
-	        //     console.log(data);
-	        // }
-	    }
-	});
-	/*part 1 general input end */
-
-	/*part 3 Stock Assessment Model Input 2 start*/
-
+	/*part 1 Stock Assessment Model Input 2 start*/
+/*
 	$("#stock1_filepath").uploadFile({
 		url: $SCRIPT_ROOT+'/prostepview/stock1file/'+$("#step1_id").data("step1id"),
 	    maxFileCount: 1,                		   //上传文件个数（多个时修改此处
@@ -1368,8 +1293,83 @@ $(function() {
 	        // }
 	    }
 	});
+*/
+	/*part 1 Stock Assessment Model Input 2 end*/
 
-	/*part 3 Stock Assessment Model Input 2 end*/
+	/*part 2 general input start */
+    $('#start_projection').datetimepicker({
+    	format:'YYYY-MM-DD',
+    }).on('dp.change', function(e) {
+    	
+    });
+
+    $('#fishingStartDate').datetimepicker({
+    	format:'YYYY-MM-DD',
+    });
+
+    $('#fishingEndDate').datetimepicker({
+    	format:'YYYY-MM-DD',
+    });
+
+    $("#rnd_seed_file").uploadFile({
+		url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
+	    //maxFileCount: 1,                		   //上传文件个数（多个时修改此处
+	    allowedTypes: 'csv',  				       //允许上传的文件式
+	    showFileSize: false,
+	    showDone: false,                           //是否显示"Done"(完成)按钮
+	    showDelete: true,                          //是否显示"Delete"(删除)按钮
+	    showDownload:true,
+	    statusBarWidth:600,
+		downloadCallback:function(data){		
+	        window.open($SCRIPT_ROOT+'/prostepview/rndSeedFile/download/'+$("#step1_id").data("step1id")+"/"+data[0])
+		},
+	    onLoad: function(obj)
+	    {
+	    	var filenames = $("#step1_id").data("rndfiles");
+	    	var initfiles = setInterval(function(){
+	    		if (typeof obj.createProgress !== "undefined") {
+		    		filenames.forEach(function(ele){
+		    			obj.createProgress(ele);
+		    		});
+		    		clearInterval(initfiles);
+	    		}
+	    	},3000)
+	    	
+	    	//filename&&obj.createProgress(filename);
+	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
+	               //createProgress方法可以创建一个已上传的文件
+	    },
+	    deleteCallback: function(data,pd)
+	    {
+	        //文件删除时的回调方法。
+	        //如：以下ajax方法为调用服务器端删除方法删除服务器端的文件
+	        $.ajax({
+	            cache: false,
+	            url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
+	            type: "DELETE",
+	            dataType: "json",
+	            contentType:"application/json",
+	            data:JSON.stringify({'filename':data[0]}),
+	            success: function(data) 
+	            {
+	                if(!data){
+	                    pd.statusbar.hide();        //删除成功后隐藏进度条等
+	                 }else{
+	                    console.log(data.message);  //打印服务器返回的错误信息
+	                 }
+	              }
+	        }); 
+	    },
+	    onSuccess: function(files,data,xhr,pd)
+	    {
+	    	//$(".ajax-file-upload-statusbar").width("600px");
+	        //上传成功后的回调方法。本例中是将返回的文件名保到一个hidden类开的input中，以便后期数据处理
+	        // if(data&&data.code===0){
+	        //     console.log(data);
+	        // }
+	    }
+	});
+	/*part 2 general input end */
 
 	/* part 4 initial population start */
 	function getIniPopu(){
