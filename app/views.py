@@ -142,8 +142,30 @@ class ProcessView(ModelView):
 
         if step1 is None:
             print("step1 is null")
-            step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)
-            step1.save()
+            
+            #############################################################
+            #   read from global_settings                               #
+            #############################################################
+
+            global_settings = GlobalSettings.objects.first()
+
+            step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)                       
+
+            step1.stock1_model_type = global_settings.stock1_model_type
+            step1.time_step = global_settings.time_step
+            step1.start_projection = global_settings.start_projection
+            step1.short_term_mgt = global_settings.short_term_mgt
+            step1.short_term_unit = global_settings.short_term_unit
+            step1.long_term_mgt = global_settings.long_term_mgt
+            step1.long_term_unit = global_settings.long_term_unit
+            step1.stock_per_mgt_unit = global_settings.stock_per_mgt_unit
+            step1.mixing_pattern = global_settings.mixing_pattern
+            step1.last_age = global_settings.last_age
+            step1.no_of_interations = global_settings.no_of_interations
+            step1.rnd_seed_setting = global_settings.rnd_seed_setting
+
+            step1.save()            
+
 
             #add default rnd file
             rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/test.csv'),'rb')
@@ -511,7 +533,9 @@ class ProStepView(BaseView):
     	return Response(json.dumps({'status':1}), mimetype='application/json')
 
 
-    #process step1 : rnd file upload
+    ##############################################################################################
+    # process step1 : rnd file upload, keep it for future use, implemented multiple files upload #
+    ##############################################################################################
     @expose('/rndSeedFile/<string:pk>', methods = ['POST','DELETE'])
     @has_access
     def uploadRndSeedFile(self,pk):
@@ -544,13 +568,18 @@ class ProStepView(BaseView):
         if request.method == 'DELETE':
             filename = request.get_json()['filename']
             for file in pgi.rnd_seed_file:
-                print(file.name)
-                if(filename==file.name):
-                     file.delete()
+                if hasattr(file,'name'):
+                    if filename==file.name:
+                        file.delete()                        
+                        pgi.rnd_seed_file.pop(file_index)
+                        pgi.save()
                     #ProcessGenInput.objects(id=pk).update_one(pull__rnd_seed_file=file)
 
         return json.dumps({})
 
+    #######################################################################################
+    # keep it for future use, implemented multiple files upload                           #
+    #######################################################################################
     @expose('/rndSeedFile/download/<pk>/<filename>')
     @has_access
     def download(self, pk, filename):
@@ -561,6 +590,10 @@ class ProStepView(BaseView):
                 response.headers["Content-Disposition"] = "attachment; filename={0}".format(filename)
                 response.mimetype = 'text/csv'
                 return response
+
+    #######################################################################################
+    # keep it for future use, implemented single file upload                              #
+    #######################################################################################
 
     #process step3 : stock1 file upload
     @expose('/stock1file/<string:pk>', methods = ['POST','DELETE'])
@@ -594,6 +627,10 @@ class ProStepView(BaseView):
 
         return json.dumps({})
 
+    #######################################################################################
+    # keep it for future use, implemented single file upload                              #
+    #######################################################################################
+
     @expose('/stock1file/download/<pk>')
     @has_access
     def downloadStock1File(self, pk):
@@ -602,48 +639,6 @@ class ProStepView(BaseView):
         response = make_response(file)
         response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.stock1_filepath.filename)
         response.mimetype = item.stock1_filepath.content_type
-        return response
-
-    #process step3 : stock2 file upload
-    @expose('/stock2file/<string:pk>', methods = ['POST','DELETE'])
-    @has_access
-    def uploadStock2File(self,pk):
-        #app_stack = _app_ctx_stack or _request_ctx_stack
-        #ctx = app_stack.top
-
-        pgi = ProcessGenInput.objects(id=pk).first()
-        pgi.update(changed_by=current_user.id,changed_on=datetime.datetime.now)
-        
-        if request.method == 'POST':
-            files = request.files['file']
-
-            if files:
-                filename = secure_filename(files.filename)
-
-                mime_type = files.content_type
-                '''
-                if not self.allowed_file(files.filename):
-                    result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
-                else:
-                    pgi.stock2_filepath.replace(files,content_type = 'csv',filename = files.filename)
-                    pgi.save()
-                '''
-                pgi.stock2_filepath.replace(files,content_type = mime_type,filename = files.filename)
-                pgi.save()
-
-        if request.method == 'DELETE':
-            pgi.stock2_filepath.delete()
-
-        return json.dumps({})
-
-    @expose('/stock2file/download/<pk>')
-    @has_access
-    def downloadStock2File(self, pk):
-        item = ProcessGenInput.objects(id=pk).first()
-        file = item.stock2_filepath.read()
-        response = make_response(file)
-        response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.stock2_filepath.filename)
-        response.mimetype = item.stock2_filepath.content_type
         return response
 
     @expose('/getIniPopuTableData/<pk>')

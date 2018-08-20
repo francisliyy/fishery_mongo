@@ -10,10 +10,7 @@ $(function() {
 	      // no quoting necessary
 	      stock1_model_type:{
 	      	required: true,
-	      },
-	      stock2_model_type:{
-	      	required: true,
-	      },   
+	      },  
 	    },
 	    errorPlacement: function(error, element) {
 		    error.appendTo( element.closest("div"));
@@ -774,60 +771,9 @@ $(function() {
 		onNext:function(parent, panel){
 			$panel = $(panel);
 			if($panel.prop("id")=='generalinput'){
-				console.log('in step1');
-				if(!$("#form-generalinput").valid()){
-					return false;
-				}
-				var data = {};
-				var time_step = $('input[name=time_step]:checked', '#form-generalinput').val()||'M';
-				var start_projection = $("#start_projection").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
-				var short_term_mgt = $("#short_term_mgt").val()||0;
-				var short_term_unit = $("#short_term_unit").val()||'Y';
-				var long_term_mgt = $("#long_term_mgt").val()||0;
-				var long_term_unit = $("#long_term_unit").val()||'Y';
-				var stock_per_mgt_unit = $("#stock_per_mgt_unit").val()||0;
-				var mixing_pattern = $('input[name=mixing_pattern]:checked', '#form-generalinput').val()||1
-				var last_age = $('#last_age').val()||0;
-				var no_of_interations = $('#no_of_interations').val()||0;
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step1/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            data: {"time_step":time_step,"start_projection":start_projection,
-		            "short_term_mgt":short_term_mgt,"short_term_unit":short_term_unit,
-		            "long_term_mgt":long_term_mgt,"long_term_unit":long_term_unit,
-		            "stock_per_mgt_unit":stock_per_mgt_unit,"mixing_pattern":mixing_pattern,
-		            "last_age":last_age,"no_of_interations":no_of_interations},
-		            success: function(data) 
-		            {
-		                 if(data.status=1){
-		                     console.log("save step1 successfully");
-		                 }
-		            }
-		        });
-			}else if($panel.prop("id")=='stockassessment'){
-				console.log('in step3');
-				if(!$("#form-stockassessment").valid()){
-					return false;
-				}
-				var data = {};
-				var stock1_model_type = $('input[name=stock1_model_type]:checked', '#form-stockassessment').val()||'1';
-				var stock2_model_type = $('input[name=stock2_model_type]:checked', '#form-stockassessment').val()||'1';
 				
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step3/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            data: {"stock1_model_type":stock1_model_type,
-		            "stock2_model_type":stock2_model_type,
-		            },
-		            success: function(data) 
-		            {
-		            	getIniPopu(data);
-		            }
-		        });
+			}else if($panel.prop("id")=='stockassessment'){
+				
 			}else if($panel.prop("id")=='ibParam'){
 				$.ajax({
 		            cache: false,
@@ -1234,6 +1180,8 @@ $(function() {
     	format:'YYYY-MM-DD',
     });
 
+    /** keep it for future use, implemented multiple file upload.
+
     $("#rnd_seed_file").uploadFile({
 		url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
 	    //maxFileCount: 1,                		   //上传文件个数（多个时修改此处
@@ -1292,6 +1240,8 @@ $(function() {
 	        // }
 	    }
 	});
+	**/
+
 	/*part 2 general input end */
 
 	/* part 4 initial population start */
@@ -1840,7 +1790,7 @@ $(function() {
 	/* part 8 Management Options Part I end */
 
 	/* initialization start*/
-	$("#start_projection").find("input").val(moment('2017-06-01').format('YYYY-MM-DD'));
+	//$("#start_projection").find("input").val(moment('2017-01-01').format('YYYY-MM-DD'));
 	getIniPopu();
 	getBioParam();
 	getMortality();

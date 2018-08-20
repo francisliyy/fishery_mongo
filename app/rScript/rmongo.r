@@ -3,6 +3,7 @@
 #install.packages("devtools")
 #library(devtools)
 #install_github("mongosoup/rmongodb")
+#devtools::install_github("r4ss/r4ss",force=TRUE) #, ref="v1.23.1")
 #####################################################
 
 #* @filter cors
@@ -31,6 +32,7 @@ getMSEInfo<-function(mse_id){
 # param file_id is the ObjectId get from mse record
 # param store_path is the directory where you want to store the file
 getRondomFile<-function(file_id,store_path){
+  library("rmongodb")
   mongo <- mongo.create()
   gridfs <- mongo.gridfs.create(mongo, "admin")
   gf <- mongo.gridfs.find(gridfs, query=list('_id' = mongo.oid.from.string(file_id)))
@@ -48,13 +50,25 @@ getRondomFile<-function(file_id,store_path){
   mongo.gridfs.destroy(gridfs)
 }
 
-readr4ss<-function(){
-  #devtools::install_github("r4ss/r4ss",force=TRUE) #, ref="v1.23.1")
+# This function is used for save into MongoDb
+storeGlobalSetting<-function(){
+  library("rmongodb")
+  mongo <- mongo.create()
+  start_projection <- as.Date('2017/01/01')
+  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0"}',sep = "")
+  global_content<-mongo.bson.from.JSON(jsondata)
+  mongo.insert(mongo,"admin.global_settings",global_content)
+  mongo.count(mongo,"admin.global_settings")
+  
+}
+
+readr4ss<-function(store_path){
+  setwd(store_path)
   require(r4ss)
-  direct_ofl <- paste(getwd(),'OFL')
+  direct_ofl <- 'OFL'
   # Extract report Files from directories
   dat_ofl <- SS_output(dir = direct_ofl, covar=T, cormax=0.70, forecast=F, verbose = F)
-  derived <- dat_ofl$derived_quants
+  getderived <- dat_ofl$derived_quants
   
   ssb_year <- derived[grep('SSB', derived$Label), ]$Value
   f_year <- derived[grep('F', derived$Label), ]$Value
@@ -73,6 +87,7 @@ readr4ss<-function(){
 #' @serializer unboxedJSON
 #' @post /defaultFile
 function (file_id,store_path){
+  library("rmongodb")
   mongo <- mongo.create()
   gridfs <- mongo.gridfs.create(mongo, "admin")
   gf <- mongo.gridfs.find(gridfs, query=list('_id' = mongo.oid.from.string(file_id)))
@@ -90,7 +105,7 @@ function (file_id,store_path){
   }
   mongo.gridfs.destroy(gridfs)
   
-  readr4ss()
+  readr4ss(store_path)
 }
 
 if(FALSE){

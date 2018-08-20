@@ -128,6 +128,21 @@ class Process(Document):
 		else:
 			return Markup('')
 
+class GlobalSettings(Document):
+
+	stock1_model_type = StringField(max_length=2)
+	time_step = StringField(max_length=2)
+	start_projection = DateTimeField()
+	short_term_mgt = IntField()
+	short_term_unit = StringField(max_length=2)
+	long_term_mgt = IntField()
+	long_term_unit = StringField(max_length=2)
+	stock_per_mgt_unit = IntField()
+	mixing_pattern = StringField(max_length=2)
+	last_age = IntField()
+	no_of_interations = IntField()
+	rnd_seed_setting = StringField(max_length=2)
+
 class ProcessGenInput(Document):
 
 
@@ -148,6 +163,7 @@ class ProcessGenInput(Document):
 	mixing_pattern = StringField(max_length=2)
 	last_age = IntField()
 	no_of_interations = IntField()
+	rnd_seed_setting = StringField(max_length=2)
 	rnd_seed_file = ListField(FileField())
 	#step2
 	unit1to1 = DecimalField()
