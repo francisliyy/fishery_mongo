@@ -1305,11 +1305,14 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"CV",
+		    				title:"CV(%)",
 		    				field:"cv_1",
+		    				formatter: function(value, row, index, field) {
+						        	return parseFloat(value||0)*100.00;
+								},
 		    				editable: {
 			                    type: 'text',
-			                    title: 'cv_1',
+			                    title: 'cv_1',			                    
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'CV must be number';
 			                        var stockmean = parseFloat(v);
@@ -1331,11 +1334,14 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"CV",
+		    				title:"CV(%)",
 		    				field:"cv_2",
+		    				formatter: function(value, row, index, field) {
+						        	return parseFloat(value||0)*100.00;
+								},
 		    				editable: {
 			                    type: 'text',
-			                    title: 'CV',
+			                    title: 'CV',			                    
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'CV must be number';
 			                        var stockmean = parseFloat(v);
