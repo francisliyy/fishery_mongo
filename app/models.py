@@ -142,6 +142,7 @@ class GlobalSettings(Document):
 	last_age = IntField()
 	no_of_interations = IntField()
 	rnd_seed_setting = StringField(max_length=2)
+	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 
 class ProcessGenInput(Document):
 

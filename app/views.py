@@ -650,16 +650,13 @@ class ProStepView(BaseView):
             return Response(pgi.to_json(), mimetype='application/json')
 
         else:
-            file_obs_E = 'static/csv/Obs and Pred Sum_E.csv'
-            file_obs_W = 'static/csv/Obs and Pred Sum_W.csv'
+            global_settings = GlobalSettings.objects.first()                     
 
-            df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_E),usecols=['Year','Observed','Expected'])
-            df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "stock_1_mean", "Expected": "cv_1"})
-            df_W = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_W),usecols=['Observed','Expected'])
-            df_W = df_W.rename(index=str, columns={"Observed": "stock_2_mean", "Expected": "cv_2"})
-            df_total = pd.concat([df_E,df_W],axis=1)
+            pgi.iniPopu = global_settings.iniPopu
 
-            return Response(df_total.to_json(orient='records'), mimetype='application/json')
+            pgi.save()
+
+            return Response(pgi.to_json(), mimetype='application/json')
 
     @expose('/getBioParamTableData/<pk>')
     @has_access
