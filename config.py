@@ -98,8 +98,8 @@ AUTH_TYPE = 1 # Database Authentication
 AUTH_USER_REGISTRATION = True
 AUTH_USER_REGISTRATION_ROLE = 'Public'
 # Config for Flask-WTF Recaptcha necessary for user registration
-RECAPTCHA_PUBLIC_KEY = ''
-RECAPTCHA_PRIVATE_KEY = ''
+RECAPTCHA_PUBLIC_KEY = '6LfQFWUUAAAAADwk-exxCY317YayvnboZFy79UtW'
+RECAPTCHA_PRIVATE_KEY = '6LfQFWUUAAAAABXPLcJrpIAMQzF_jNJJxmDZ_lAC'
 # Config for Flask-Mail necessary for user registration
 MAIL_PORT=587
 MAIL_USE_SSL=False

@@ -54,21 +54,10 @@ getRondomFile<-function(file_id,store_path){
 }
 
 # This function is used for save into MongoDb
-storeGlobalSetting<-function(){
-  library("rmongodb")
-  mongo <- mongo.create()
-  start_projection <- as.Date('2017/01/01')
-  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0"}',sep = "")
-  global_content<-mongo.bson.from.JSON(jsondata)
-  mongo.insert(mongo,"admin.global_settings",global_content)
-  mongo.count(mongo,"admin.global_settings")
-  
-}
-
-readr4ss<-function(store_path){
+storeGlobalSetting<-function(store_path,folder_name){
   setwd(store_path)
   require(r4ss)
-  direct_ofl <- 'OFL'
+  direct_ofl <- folder_name
   # Extract report Files from directories
   dat_ofl <- SS_output(dir = direct_ofl, covar=T, cormax=0.70, forecast=F, verbose = F)
   
@@ -86,21 +75,22 @@ readr4ss<-function(store_path){
 
   library("rmongodb")
   mongo <- mongo.create()
-  b <- mongo.bson.from.df(mean1)
   start_projection <- as.Date('2017/01/01')
   jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
+  mongo.remove(mongo,"admin.global_settings")
   mongo.insert(mongo,"admin.global_settings",global_content)
 
 }
 
-# This function is used for read random file
+# This function is used for save global zip file and unzip it, then invoke analytic function to get value and save into global settings.
 # param file_id is the ObjectId get from mse record
 # param store_path is the directory where you want to store the file
 #' @param file_id The gridfs file id
 #' @param store_path file saved directory
 #' @serializer unboxedJSON
 #' @post /defaultFile
+#saveGlobalFile<-function (file_id,store_path){
 function (file_id,store_path){
   library("rmongodb")
   mongo <- mongo.create()
@@ -110,7 +100,7 @@ function (file_id,store_path){
   if( !is.null(gf)){
     #print(mongo.gridfile.get.length(gf))
     filename <- mongo.gridfile.get.filename(gf)
-    #print(filename)
+    print(filename)
     #store file 
     setwd(store_path)
     downfile <- file(filename)
@@ -119,8 +109,8 @@ function (file_id,store_path){
     unzip(filename)
   }
   mongo.gridfs.destroy(gridfs)
-  
-  readr4ss(store_path)
+  split_filename<-unlist(strsplit(filename, "\\."))
+  storeGlobalSetting(store_path,split_filename[1])
 }
 
 if(FALSE){
@@ -129,11 +119,12 @@ if(FALSE){
     ##  based on getMSEInfo function.                                 ##
     ####################################################################
     #invoke Rmongo to get data from mongodb,"5b02cc1b360e2e8f7f93d438", try to get this id from mongo client
-    mse_info <- getMSEInfo("5b02cc1b360e2e8f7f93d438")
+    mse_info <- getMSEInfo("5b7ad05f360e2e52e8d51737")
     #see all the values inside
     print(mse_info)
     #get a specific value
-    print(mongo.bson.value(mse_info, "bio_biomass_points"))
+    print(mongo.bson.value(mse_info, "mixing_pattern"))
+    print(as.Date(mongo.bson.value(mse_info, "start_projection")))
     #get a list
     iniPopuList <-mongo.bson.value(mse_info, "iniPopu")
     #get a value in the list
@@ -141,8 +132,9 @@ if(FALSE){
     #iterate the list to get all value
     for(i in iniPopuList){print(i)}
     #get rnd_seed_file then you can use R to read the file as you want
-    rnd_file<-mongo.bson.value(mse_info, "rnd_seed_file")$'0'
-    print(as.character(rnd_file))
-    rondomFile<-getGridfsFile(as.character(rnd_file),"/Users/yli120/Documents/") 
+    #rnd_file<-mongo.bson.value(mse_info, "rnd_seed_file")$'0'
+    #print(as.character(rnd_file))
+    #rondomFile<-getGridfsFile(as.character(rnd_file),"/Users/yli120/Documents/") 
+    saveGlobalFile('5b72d902360e2e20451dc0e4',"/Users/yli120/")
 }
 
