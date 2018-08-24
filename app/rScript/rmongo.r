@@ -113,6 +113,13 @@ function (file_id,store_path){
   storeGlobalSetting(store_path,split_filename[1])
 }
 
+#* Echo back the input,for testing the service is ready or not
+#* @param msg The message to echo
+#* @get /echo
+function(msg=""){
+  list(msg = paste0("The message is: '", msg, "'"))
+}
+
 if(FALSE){
     ####################################################################
     ##  The following codes illustrate how to get value from mongodb  ##
