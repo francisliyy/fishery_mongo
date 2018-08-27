@@ -93,7 +93,7 @@ storeGlobalSetting<-function(store_path,folder_name){
 function(file_id,store_path){
   library("rmongodb")
   mongo <- mongo.create()
-  gridfs <- mongo.gridfs.create(mongo, "admin")
+  gridfs <- mongo.gridfs.create(mongo, "fishery")
   gf <- mongo.gridfs.find(gridfs, query=list('_id' = mongo.oid.from.string(file_id)))
   
   if( !is.null(gf)){
