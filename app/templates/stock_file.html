@@ -1,6 +1,7 @@
 {% extends "appbuilder/general/model/list.html" %}
 {% block head_css %}
     {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/common.css')}}"></link>
 {% endblock %}
 {% block content %}
 	{{ super() }}
@@ -25,6 +26,7 @@
 		    </div>
 		  </div>
 		</div>
+		<div id="mask"></div>
 {% endblock %}
 {% block tail_js %}
 	  {{super()}}

@@ -90,8 +90,7 @@ storeGlobalSetting<-function(store_path,folder_name){
 #' @param store_path file saved directory
 #' @serializer unboxedJSON
 #' @post /defaultFile
-#saveGlobalFile<-function (file_id,store_path){
-function (file_id,store_path){
+function(file_id,store_path){
   library("rmongodb")
   mongo <- mongo.create()
   gridfs <- mongo.gridfs.create(mongo, "admin")
@@ -142,6 +141,6 @@ if(FALSE){
     #rnd_file<-mongo.bson.value(mse_info, "rnd_seed_file")$'0'
     #print(as.character(rnd_file))
     #rondomFile<-getGridfsFile(as.character(rnd_file),"/Users/yli120/Documents/") 
-    saveGlobalFile('5b72d902360e2e20451dc0e4',"/Users/yli120/")
+    #saveGlobalFile('5b72d902360e2e20451dc0e4',"/Users/yli120/"), need to name plumber function as saveGlobalFile before testing
 }
 
