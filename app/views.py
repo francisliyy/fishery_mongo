@@ -310,22 +310,23 @@ class ProStepView(BaseView):
     @expose('/step5/<string:pk>', methods = ['PUT'])
     @has_access
     def step5(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()
-    		originlist = request.get_json()
-    		biolist = []
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()
+            originlist = request.get_json()
+            biolist = []
+            
+            for origin in originlist:
+                bioparam = BioParameter()
+                bioparam.age_1 = int(origin['age_1'])
+                bioparam.weight_at_age_1 = float(origin['weight_at_age_1'])
+                bioparam.fec_at_age_1 = float(origin['fec_at_age_1'])
+                bioparam.weight_at_age_2 = float(origin['weight_at_age_2'])
+                bioparam.fec_at_age_2 = float(origin['fec_at_age_2'])
+                biolist.append(bioparam)    			
     		
-    		for origin in originlist:
-    			bioParam = BioParameter()
-    			bioParam.age_1 = int(origin['age_1'])
-    			bioParam.maturity_stock_1 = float(origin['maturity_stock_1'])
-    			bioParam.maturity_stock_2 = float(origin['maturity_stock_2'])
-    			bioParam.fecundity = float(origin['fecundity'])
-    			biolist.append(bioParam)    			
-    		
-    		pgi.bioParam = biolist
-    		pgi.save()
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+            pgi.bioParam = biolist
+            pgi.save()
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
     #process step6
     @expose('/step6/<string:pk>', methods = ['PUT'])
@@ -668,16 +669,13 @@ class ProStepView(BaseView):
           	return Response(pgi.to_json(), mimetype='application/json')
 
         else:
-            file_obs_E = 'static/csv//Obs and Pred Sum_E.csv'
-            file_obs_W = 'static/csv//Obs and Pred Sum_W.csv'
+            global_settings = GlobalSettings.objects.first()                     
 
-            df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_E),usecols=['Year','Observed','Expected'])
-            df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "maturity_stock_1", "Expected": "maturity_stock_2"})
-            df_W = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_W),usecols=['Observed'])
-            df_W = df_W.rename(index=str, columns={"Observed": "fecundity"})
-            df_total = pd.concat([df_E,df_W],axis=1)            
+            pgi.bioParam = global_settings.bioParam
 
-            return Response(df_total.to_json(orient='records'), mimetype='application/json')
+            pgi.save()
+
+            return Response(pgi.to_json(), mimetype='application/json')
 
     @expose('/getMortalityTableData/<pk>')
     @has_access

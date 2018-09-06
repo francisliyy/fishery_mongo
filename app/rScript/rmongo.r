@@ -59,24 +59,56 @@ storeGlobalSetting<-function(store_path,folder_name){
   require(r4ss)
   direct_ofl <- folder_name
   # Extract report Files from directories
-  dat_ofl <- SS_output(dir = direct_ofl, covar=T, cormax=0.70, forecast=F, verbose = F)
+  dat_ofl <- SS_output(dir = direct_ofl,printstats = T, covar=T, cormax=0.70, forecast=F,printhighcor=50, printlowcor=50)
   
-  age_1<-c("0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20")
-  stock_1_mean<-dat_ofl$natage[(dat_ofl$natage$Area==1)&(dat_ofl$natage$Yr==2016)&(dat_ofl$natage$`Beg/Mid`=="B"),c("0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20")]*1000
-  cv_1<-c(0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2)
-  stock_2_mean<-dat_ofl$natage[(dat_ofl$natage$Area==2)&(dat_ofl$natage$Yr==2016)&(dat_ofl$natage$`Beg/Mid`=="B"),c("0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20")]*1000
-  cv_2<-c(0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2)
-  iniPopu<-cbind(age_1,t(stock_1_mean),cv_1,t(stock_2_mean),cv_2)
+  ########################################################
+  #Step 3 initial population, abundance unit 1000  #######
+  ########################################################
+  age_1<-base$agebins
+  stock_1_mean<-base$natage[(base$natage$Area==1)&(base$natage$Yr==base$endyr)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
+  cv_N_1<-rep(0.2,length(base$agebins))
+  stock_2_mean<-base$natage[(base$natage$Area==2)&(base$natage$Yr==base$endyr)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
+  cv_N_2<-rep(0.2,length(base$agebins))
+  iniPopu<-cbind(age_1,t(stock_1_mean),cv_N_1,t(stock_2_mean),cv_N_2)
   colnames(iniPopu) <- c("age_1", "stock_1_mean", "cv_1", "stock_2_mean", "cv_2")
   library("RJSONIO")
   library("plyr")
   modified <- list(unname(alply(iniPopu, 1, identity)))
   iniPopuJson<-toJSON(unname(alply(iniPopu,1,identity)))
+  ########################################################
+  #Step 3 ends                                     #######
+  ########################################################
+  
+  ########################################################
+  #Step 4 biological parameters weight unit kg     #######
+  ########################################################
+  ##In SS3 fleet 0 contains begin season pop WT, fleet -1 contains mid season pop WT, and fleet -2 contains maturity*fecundity
+  # Number of eggs for each individual
+  fec_at_age<-base$wtatage[(base$wtatage$Fleet==-2),as.character(base$agebins)]
+  if(unique(base$wtatage$Bio_Pattern)==1){
+    fec_at_age_1<-fec_at_age
+    fec_at_age_2<-fec_at_age
+  }
+  
+  # Biomass for each individual, unit mt
+  weight_at_age<-base$wtatage[(base$wtatage$Fleet==0),as.character(base$agebins)]
+  if(unique(base$wtatage$Bio_Pattern)==1){
+    weight_at_age_1<-weight_at_age
+    weight_at_age_2<-weight_at_age
+  }
+  
+  bioPara<-cbind(age_1, t(weight_at_age_1),t(fec_at_age_1),t(weight_at_age_2),t(fec_at_age_2))
+  colnames(bioPara) <- c("age_1", "weight_at_age_1", "fec_at_age_1", "weight_at_age_2", "fec_at_age_2")
+  #modified <- list(unname(alply(iniPopu, 1, identity)))
+  bioParamJson<-toJSON(unname(alply(bioPara,1,identity)))
+  ########################################################
+  #Step 4 ends                                     #######
+  ########################################################
 
   library("rmongodb")
   mongo <- mongo.create()
   start_projection <- as.Date('2017/01/01')
-  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson,'}',sep = "")
+  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson,',"bioParam":',bioParamJson,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")
   mongo.insert(mongo,"admin.global_settings",global_content)
@@ -109,7 +141,7 @@ function(file_id,store_path){
   }
   mongo.gridfs.destroy(gridfs)
   split_filename<-unlist(strsplit(filename, "\\."))
-  storeGlobalSetting(store_path,split_filename[1])
+  #storeGlobalSetting(store_path,split_filename[1])
 }
 
 #* Echo back the input,for testing the service is ready or not
@@ -141,6 +173,11 @@ if(FALSE){
     #rnd_file<-mongo.bson.value(mse_info, "rnd_seed_file")$'0'
     #print(as.character(rnd_file))
     #rondomFile<-getGridfsFile(as.character(rnd_file),"/Users/yli120/Documents/") 
-    #saveGlobalFile('5b72d902360e2e20451dc0e4',"/Users/yli120/"), need to name plumber function as saveGlobalFile before testing
+    #need to name plumber function as saveGlobalFile before testing
+    #saveGlobalFile('5b72d902360e2e20451dc0e4',"/Users/yli120/")
+
+    
+    
+    
 }
 

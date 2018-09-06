@@ -1305,14 +1305,14 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"CV(%)",
+		    				title:"CV (Normal Dist.)",
 		    				field:"cv_1",
 		    				formatter: function(value, row, index, field) {
 						        	return parseFloat(value||0)*100.00;
 								},
 		    				editable: {
 			                    type: 'text',
-			                    title: 'cv_1',			                    
+			                    title: 'CV 1',			                    
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'CV must be number';
 			                        var stockmean = parseFloat(v);
@@ -1334,14 +1334,14 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"CV(%)",
+		    				title:"CV (Normal Dist.)",
 		    				field:"cv_2",
 		    				formatter: function(value, row, index, field) {
 						        	return parseFloat(value||0)*100.00;
 								},
 		    				editable: {
 			                    type: 'text',
-			                    title: 'CV',			                    
+			                    title: 'CV 2',			                    
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'CV must be number';
 			                        var stockmean = parseFloat(v);
@@ -1427,41 +1427,54 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Maturity Stock 1",
-		    				field:"maturity_stock_1",
+		    				title:"Stock 1 Weight-at-age",
+		    				field:"weight_at_age_1",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Maturity Stock 1',
+			                    title: 'Stock 1 Weight-at-age',
 			                    validate: function (v) {
-			                        if (isNaN(v)) return 'Maturity Stock 1 must be number';
+			                        if (isNaN(v)) return 'Stock 1 Weight-at-age must be number';
 			                        var stockmean = parseFloat(v);
-			                        if (stockmean <= 0) return 'Maturity Stock 1 must larger than 0';
+			                        if (stockmean <= 0) return 'Stock 1 Weight-at-age must larger than 0';
 				                }
 		                    }
 		    			},
 		    			{
-		    				title:"Maturity Stock 2",
-		    				field:"maturity_stock_2",
+		    				title:"Stock 1 Fecundity",
+		    				field:"fec_at_age_1",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Maturity Stock 2',
+			                    title: 'Stock 1 Fecundity',
 			                    validate: function (v) {
-			                        if (isNaN(v)) return 'Maturity Stock 2 must be number';
+			                        if (isNaN(v)) return 'Stock 1 Fecundity must be number';
 			                        var stockmean = parseFloat(v);
-			                        if (stockmean <= 0) return 'Maturity Stock 2 must larger than 0';
+			                        if (stockmean <= 0) return 'Stock 1 Fecundity must larger than 0';
 				                }
 		                    }
 		    			},
 		    			{
-		    				title:"Fecundity",
-		    				field:"fecundity",
+		    				title:"Stock 2 Weight-at-age",
+		    				field:"weight_at_age_2",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Fecundity',
+			                    title: 'Stock 2 Weight-at-age',
 			                    validate: function (v) {
-			                        if (isNaN(v)) return 'Fecundity must be number';
+			                        if (isNaN(v)) return 'Stock 2 Weight-at-age must be number';
 			                        var stockmean = parseFloat(v);
-			                        if (stockmean <= 0) return 'Fecundity must larger than 0';
+			                        if (stockmean <= 0) return 'Stock 2 Weight-at-age must larger than 0';
+				                }
+		                    }
+		    			},
+		    			{
+		    				title:"Stock 2 Fecundity",
+		    				field:"fec_at_age_2",
+		    				editable: {
+			                    type: 'text',
+			                    title: 'Stock 2 Fecundity',
+			                    validate: function (v) {
+			                        if (isNaN(v)) return 'Stock 2 Fecundity must be number';
+			                        var stockmean = parseFloat(v);
+			                        if (stockmean <= 0) return 'Stock 2 Fecundity must larger than 0';
 				                }
 		                    }
 		    			},

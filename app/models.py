@@ -53,9 +53,10 @@ class GIIniPopulation(EmbeddedDocument):
 class BioParameter(EmbeddedDocument):
 
 	age_1 = IntField()
-	maturity_stock_1 = DecimalField()
-	maturity_stock_2 = DecimalField()
-	fecundity = DecimalField()
+	weight_at_age_1 = DecimalField()
+	fec_at_age_1 = DecimalField()
+	weight_at_age_2 = DecimalField()
+	fec_at_age_2 = DecimalField()
 
 class Mortality(EmbeddedDocument):
 
@@ -143,6 +144,7 @@ class GlobalSettings(Document):
 	no_of_interations = IntField()
 	rnd_seed_setting = StringField(max_length=2)
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
+	bioParam = EmbeddedDocumentListField(BioParameter)
 
 class ProcessGenInput(Document):
 
