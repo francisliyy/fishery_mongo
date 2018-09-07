@@ -61,9 +61,10 @@ class BioParameter(EmbeddedDocument):
 class Mortality(EmbeddedDocument):
 
 	age_1 = IntField()
-	mean = DecimalField()
-	cv = DecimalField()
-	spawning = DecimalField()
+	mean_1 = DecimalField()
+	cv_mean_1 = DecimalField()
+	mean_2 = DecimalField()
+	cv_mean_2 = DecimalField()
 
 class Allocation(EmbeddedDocument):
 
@@ -145,6 +146,8 @@ class GlobalSettings(Document):
 	rnd_seed_setting = StringField(max_length=2)
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 	bioParam = EmbeddedDocumentListField(BioParameter)
+	simple_spawning = DecimalField()
+	mortality = EmbeddedDocumentListField(Mortality)
 
 class ProcessGenInput(Document):
 
@@ -185,8 +188,6 @@ class ProcessGenInput(Document):
 	#step6
 	mortality_complexity = IntField()
 
-	simple_mean = DecimalField()
-	simple_cv = DecimalField()
 	simple_spawning = DecimalField()
 
 	mortality = EmbeddedDocumentListField(Mortality)

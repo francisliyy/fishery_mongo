@@ -163,6 +163,7 @@ class ProcessView(ModelView):
             step1.last_age = global_settings.last_age
             step1.no_of_interations = global_settings.no_of_interations
             step1.rnd_seed_setting = global_settings.rnd_seed_setting
+            step1.simple_spawning = global_settings.simple_spawning
 
             step1.save()            
 
@@ -332,31 +333,29 @@ class ProStepView(BaseView):
     @expose('/step6/<string:pk>', methods = ['PUT'])
     @has_access
     def step6(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()    		
-    		inputparam = request.get_json()
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()    		
+            inputparam = request.get_json()
 
-    		pgi.mortality_complexity = int(inputparam['mortality_complexity']);
-    		pgi.simple_mean = float(inputparam['simple_mean']);
-    		pgi.simple_cv = float(inputparam['simple_cv']);
-    		pgi.simple_spawning = float(inputparam['simple_spawning']);
+            pgi.simple_spawning = float(inputparam['simple_spawning']);
 
-    		mortalitylist = inputparam['mortality']
+            mortalitylist = inputparam['mortality']
 
-    		morlist = []
+            morlist = []
     		
-    		for origin in mortalitylist:
-    			morParam = Mortality()
-    			morParam.age_1 = int(origin['age_1'])
-    			morParam.mean = float(origin['mean'])
-    			morParam.cv = float(origin['cv'])
-    			morParam.spawning = float(origin['spawning'])
-    			morlist.append(morParam)    			
-    		
-    		pgi.mortality = morlist
-    		pgi.save()
+            for origin in mortalitylist:
+                morParam = Mortality()
+                morParam.age_1 = int(origin['age_1'])
+                morParam.mean_1 = float(origin['mean_1'])
+                morParam.cv_mean_1 = float(origin['cv_mean_1'])
+                morParam.mean_2 = float(origin['mean_2'])
+                morParam.cv_mean_2 = float(origin['cv_mean_2'])
+                morlist.append(morParam)    			
 
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+            pgi.mortality = morlist
+            pgi.save()
+
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
     #process step7
     @expose('/step7/<string:pk>', methods = ['PUT'])
@@ -687,17 +686,13 @@ class ProStepView(BaseView):
           	return Response(pgi.to_json(), mimetype='application/json')
 
         else:
-            print("in")
-            file_obs_E = 'static/csv/Obs and Pred Sum_E.csv'
-            file_obs_W = 'static/csv/Obs and Pred Sum_W.csv'
+            global_settings = GlobalSettings.objects.first()                     
 
-            df_E = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_E),usecols=['Year','Observed','Expected'])
-            df_E = df_E.rename(index=str, columns={"Year": "age_1", "Observed": "mean", "Expected": "cv"})
-            df_W = pd.read_csv(os.path.join(os.path.dirname(__file__),file_obs_W),usecols=['Observed'])
-            df_W = df_W.rename(index=str, columns={"Observed": "spawning"})
-            df_total = pd.concat([df_E,df_W],axis=1)            
+            pgi.mortality = global_settings.mortality
 
-            return Response(df_total.to_json(orient='records'), mimetype='application/json')
+            pgi.save()
+
+            return Response(pgi.to_json(), mimetype='application/json')
 
     @expose('/editTableData', methods = ['POST'])
     @has_access

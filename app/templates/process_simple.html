@@ -238,24 +238,10 @@
                 <form id="form-naturalmortality">
                   <h4>Constant natural mortality
                     <button id="mortality-pre-btn" style="margin-left: 60px" type="button" class="btn btn-disable">&lt;&lt;&nbsp;Decrease complexity</button>
-                    <button id="mortality-next-btn" style="margin-left: 30px" type="button" class="btn btn-danger">Increase complexity&nbsp;&gt;&gt;</button>
+                    <button id="mortality-next-btn" style="margin-left: 30px" type="button" class="btn btn-disable">Increase complexity&nbsp;&gt;&gt;</button>
                     <div id="hidden-mortality" data-mortalitycomplex="{{process_step1['mortality_complexity'] if process_step1['mortality_complexity'] != None else '1'}}"></div>
                   </h4>
-                  <div id="simpleMortality">
-                    <div class="form-group form-inline">
-                      <label class="col-md-3 col-sm-3 control-label">Mean</label>
-                      <div class="col-md-4 col-sm-4 input-group">   
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_mean" name="simple_mean" value="{{process_step1['simple_mean'] if process_step1['simple_mean'] != None else ''}}" placeholder="0.2"/> 
-                      </div>             
-                    </div>
-                    <div class="form-group form-inline">
-                      <label class="col-md-3 col-sm-3 control-label">CV</label>
-                      <div class="col-md-4 col-sm-4 input-group">   
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_cv" name="simple_cv" value="{{process_step1['simple_cv'] if process_step1['simple_cv'] != None else ''}}" placeholder="20"/>
-                      </div>
-                      <div class="col-md-1 input-group">%
-                      </div>              
-                    </div>
+                  <div id="simpleMortality">                    
                     <div class="form-group form-inline">
                       <label class="col-md-3 col-sm-3 control-label">Fraction before spawning</label>
                       <div class="col-md-4 col-sm-4 input-group">   

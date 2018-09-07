@@ -58,6 +58,8 @@ storeGlobalSetting<-function(store_path,folder_name){
   setwd(store_path)
   require(r4ss)
   direct_ofl <- folder_name
+  #setwd("/Users/yli120/")
+  #direct_ofl <- "OFL"
   # Extract report Files from directories
   dat_ofl <- SS_output(dir = direct_ofl,printstats = T, covar=T, cormax=0.70, forecast=F,printhighcor=50, printlowcor=50)
   
@@ -104,11 +106,44 @@ storeGlobalSetting<-function(store_path,folder_name){
   ########################################################
   #Step 4 ends                                     #######
   ########################################################
+  
+  ########################################################
+  #Step 5 Natural Mortality                        #######
+  ########################################################
+  #Natural mortality
+  #Age-specific natural mortality rates (M) for Gulf of Mexico red snapper assuming a
+  #Lorenzen mortality curve rescaled to an average M = 0.0943. The column labeled M represents
+  #the average natural mortality experienced from July 1-June 30 (i.e., a birth year). The label Adj.
+  #M indicates the values used in the SS3 model to account for SS advancing age on January 1.
+  
+  M<-base$M_at_age[(base$M_at_age$Year==base$endyr),as.character(base$agebins)]
+  for(i.M in 2:length(M)) {
+    if(is.na(M[i.M])){
+      M[i.M]=M[i.M-1]
+    }
+  }
+  
+  if(unique(base$M_at_age$Bio_Pattern)==1){
+    M_1<-M
+    M_2<-M
+  }
+  
+  cv_M_1<-rep(0.2,length(base$agebins))
+  cv_M_2<-rep(0.2,length(base$agebins))
+  
+  #Step 5 natural mortality
+  natM<-cbind(age_1, t(M_1),cv_M_1,t(M_2),cv_M_2)
+  colnames(natM) <- c("age_1","mean_1", "cv_mean_1", "mean_2", "cv_mean_2")
+  mortalityParamJson<-toJSON(unname(alply(natM,1,identity)))
+  simple_spawning<-0.5
+  ########################################################
+  #Step 5 ends                                     #######
+  ########################################################
 
   library("rmongodb")
   mongo <- mongo.create()
   start_projection <- as.Date('2017/01/01')
-  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson,',"bioParam":',bioParamJson,'}',sep = "")
+  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson,',"bioParam":',bioParamJson,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")
   mongo.insert(mongo,"admin.global_settings",global_content)
@@ -141,7 +176,7 @@ function(file_id,store_path){
   }
   mongo.gridfs.destroy(gridfs)
   split_filename<-unlist(strsplit(filename, "\\."))
-  #storeGlobalSetting(store_path,split_filename[1])
+  storeGlobalSetting(store_path,split_filename[1])
 }
 
 #* Echo back the input,for testing the service is ready or not

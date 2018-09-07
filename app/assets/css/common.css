@@ -103,10 +103,6 @@
     background-color: #6c757d;
     border-color: #6c757d;
 }
-.btn-disable:hover
-{ 
-    color: #fff;
-}
 /*error label*/
 label.error{
   color:red;

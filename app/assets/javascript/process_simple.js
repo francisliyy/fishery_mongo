@@ -806,21 +806,9 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='naturalmortality'){				
 				var inputdata = {};
-				if($("#hidden-mortality").data('mortalitycomplex')==1){
-					if(!$("#form-naturalmortality").valid()){
-						return false;
-					}
-					var simple_mean = parseFloat($("#simple_mean").val())||0;
-					var simple_cv = parseFloat($("#simple_cv").val())||0;
-					var simple_spawning = parseFloat($("#simple_spawning").val())||0;
-					inputdata = JSON.stringify({"mortality_complexity":1,"simple_mean":simple_mean,"simple_cv":simple_cv,
-		            "simple_spawning":simple_spawning,mortality:[]});
-		            
-
-				}else if($("#hidden-mortality").data('mortalitycomplex')==2){
-					inputdata =JSON.stringify({"mortality_complexity":2,"simple_mean":0,"simple_cv":0,
-		            "simple_spawning":0,mortality:$("#table-mortality").bootstrapTable('getData')});	
-				}
+				var simple_spawning = parseFloat($("#simple_spawning").val())||0;
+					inputdata =JSON.stringify({"mortality_complexity":2,
+		            "simple_spawning":simple_spawning,mortality:$("#table-mortality").bootstrapTable('getData')});	
 				$.ajax({
 		            cache: false,
 		            url: $SCRIPT_ROOT+'/prostepview/step6/'+$("#step1_id").data("step1id"),
@@ -831,13 +819,7 @@ $(function() {
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
-		                     if($("#hidden-mortality").data('mortalitycomplex')==1){
-		                     	getMortality();//TODO:get data right but table not refresh
-		                     }else if($("#hidden-mortality").data('mortalitycomplex')==2){
-		                        $("#simple_mean").val(0);
-		                        $("#simple_cv").val(0);
-		                        $("#simple_spawning").val(0);
-		                     }
+		                     
 		                 }
 		            }
 		        });
@@ -1509,16 +1491,7 @@ $(function() {
 	/* part 5 biological parameters end */
 
 	/* part 6 natural mortality start */
-	function showRightComplexity(complexity){
-		if(complexity==1){
-			$("#table-mortality").closest(".bootstrap-table").css('display', 'none');
-			$("#simpleMortality").css('display', 'block');
-		}else if(complexity==2){
-			$("#table-mortality").closest(".bootstrap-table").css('display', 'block');
-			$("#simpleMortality").css('display', 'none');
-		}
-
-	}
+	
 
 	function getMortality(){
 		
@@ -1567,8 +1540,8 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Mean",
-		    				field:"mean",
+		    				title:"Mean 1",
+		    				field:"mean_1",
 		    				editable: {
 			                    type: 'text',
 			                    title: 'Mean',
@@ -1580,11 +1553,11 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"CV",
-		    				field:"cv",
+		    				title:"CV 1 (Log-normal Dist.)",
+		    				field:"cv_mean_1",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'CV',
+			                    title: 'CV (Log-normal Dist.)',
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'CV must be number';
 			                        var stockmean = parseFloat(v);
@@ -1593,15 +1566,28 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"Fraction before spawning",
-		    				field:"spawning",
+		    				title:"Mean 2",
+		    				field:"mean_2",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Fraction before spawning',
+			                    title: 'Mean',
 			                    validate: function (v) {
-			                        if (isNaN(v)) return 'Fraction before spawning must be number';
+			                        if (isNaN(v)) return 'Mean must be number';
 			                        var stockmean = parseFloat(v);
-			                        if (stockmean <= 0) return 'Fraction before spawning must larger than 0';
+			                        if (stockmean <= 0) return 'Mean must larger than 0';
+				                }
+		                    }
+		    			},
+		    			{
+		    				title:"CV 2 (Log-normal Dist.)",
+		    				field:"cv_mean_2",
+		    				editable: {
+			                    type: 'text',
+			                    title: 'CV (Log-normal Dist.)',
+			                    validate: function (v) {
+			                        if (isNaN(v)) return 'CV must be number';
+			                        var stockmean = parseFloat(v);
+			                        if (stockmean <= 0) return 'CV must larger than 0';
 				                }
 		                    }
 		    			},
@@ -1629,53 +1615,11 @@ $(function() {
 	    })
 	    .always(function() {
 	    	console.log("complete");
-	    	showRightComplexity($("#hidden-mortality").data('mortalitycomplex'));
 	    	$("#mask").removeClass('lmask');
 	    });
         
 	}
-
-	$("#mortality-pre-btn").on('click', function(event) {
-		event.preventDefault();
-		if($("#hidden-mortality").data('mortalitycomplex')==1){
-			//$(this).removeClass('btn-disable');
-			//$(this).addClass('btn-danger');
-			//$("#mortality-next-btn").removeClass('btn-danger');
-			//$("#mortality-next-btn").addClass('btn-disable');
-		}else{
-			if(parseInt($("#hidden-mortality").data('mortalitycomplex'))>1){
-				console.log(parseInt($("#hidden-mortality").data('mortalitycomplex'))-1);
-				$("#hidden-mortality").data('mortalitycomplex', parseInt($("#hidden-mortality").data('mortalitycomplex'))-1)
-				$("#mortality-next-btn").removeClass('btn-disable');
-				$("#mortality-next-btn").addClass('btn-danger');
-				$("#hidden-mortality").data('mortalitycomplex','1');
-				showRightComplexity($("#hidden-mortality").data('mortalitycomplex'));
-			}
-			$(this).removeClass('btn-danger');
-			$(this).addClass('btn-disable');
-		}		
-		/* Act on the event */
-	});
-
-	$("#mortality-next-btn").on('click', function(event) {
-		event.preventDefault();
-		if($("#hidden-mortality").data('mortalitycomplex')==2){
-			//$(this).removeClass('btn-disable');
-			//$(this).addClass('btn-danger');
-			//$("#mortality-pre-btn").removeClass('btn-danger');
-			//$("#mortality-pre-btn").addClass('btn-disable');
-		}else{
-			if(parseInt($("#hidden-mortality").data('mortalitycomplex'))<2){
-				console.log(parseInt($("#hidden-mortality").data('mortalitycomplex'))+1);
-				$("#hidden-mortality").data('mortalitycomplex', parseInt($("#hidden-mortality").data('mortalitycomplex'))+1);
-				$("#mortality-pre-btn").removeClass('btn-disable');
-				$("#mortality-pre-btn").addClass('btn-danger');
-				showRightComplexity($("#hidden-mortality").data('mortalitycomplex'));
-			}
-			$(this).removeClass('btn-danger');
-			$(this).addClass('btn-disable');
-		}
-	});
+	
 	/* part 6 natural mortality end */
 
 	/* part 7 recruitment start */
