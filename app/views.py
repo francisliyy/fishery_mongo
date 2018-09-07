@@ -163,7 +163,22 @@ class ProcessView(ModelView):
             step1.last_age = global_settings.last_age
             step1.no_of_interations = global_settings.no_of_interations
             step1.rnd_seed_setting = global_settings.rnd_seed_setting
+
             step1.simple_spawning = global_settings.simple_spawning
+
+            step1.recruitTypeStock1 = global_settings.recruitTypeStock1
+            step1.formulaStock1 = global_settings.formulaStock1
+            step1.fml1MbhmSSB0 = global_settings.fml1MbhmSSB0
+            step1.fml1MbhmR0 = global_settings.fml1MbhmR0
+            step1.fml1MbhmSteep = global_settings.fml1MbhmSteep
+            step1.cv1Recruit = global_settings.cv1Recruit
+
+            step1.recruitTypeStock2 = global_settings.recruitTypeStock2
+            step1.formulaStock2 = global_settings.formulaStock2
+            step1.fml2MbhmSSB0 = global_settings.fml2MbhmSSB0
+            step1.fml2MbhmR0 = global_settings.fml2MbhmR0
+            step1.fml2MbhmSteep = global_settings.fml2MbhmSteep
+            step1.cv2Recruit = global_settings.cv2Recruit
 
             step1.save()            
 
@@ -361,55 +376,27 @@ class ProStepView(BaseView):
     @expose('/step7/<string:pk>', methods = ['PUT'])
     @has_access
     def step7(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()    		
-    		inputparam = request.get_json()
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()    		
+            inputparam = request.get_json()
 
-    		pgi.recruitTypeStock1 = inputparam['recruitTypeStock1']
-    		pgi.historySt1 = inputparam['recruitTypeStock1']
-    		pgi.hst1_lower = inputparam['hst1_lower']
-    		pgi.hst1_median = inputparam['hst1_median']
-    		pgi.hst1_mean = inputparam['hst1_mean']
-    		pgi.hst1_upper = inputparam['hst1_upper']
-    		pgi.hst1_other = inputparam['hst1_other']
-    		pgi.hst1_cal = inputparam['hst1_cal']
-    		pgi.formulaStock1 = inputparam['formulaStock1']
-    		pgi.fml1Bmalpha1 = inputparam['fml1Bmalpha1']
-    		pgi.fml1Bmbeta1 = inputparam['fml1Bmbeta1']
-    		pgi.fml1Rmalpha1 = inputparam['fml1Rmalpha1']
-    		pgi.fml1Rmbeta1 = inputparam['fml1Rmbeta1']
-    		pgi.fml1MbhmSSB0 = inputparam['fml1MbhmSSB0']
-    		pgi.fml1MbhmR0 = inputparam['fml1MbhmR0']
-    		pgi.fml1MbhmSteep = inputparam['fml1MbhmSteep']
-    		pgi.auto1R0 = inputparam['auto1R0']
-    		pgi.auto1h = inputparam['auto1h']
-    		pgi.auto1Rave = inputparam['auto1Rave']
-    		pgi.cv1Recruit = inputparam['cv1Recruit']
+            pgi.recruitTypeStock1 = inputparam['recruitTypeStock1']
+            pgi.formulaStock1 = inputparam['formulaStock1']
+            pgi.fml1MbhmSSB0 = inputparam['fml1MbhmSSB0']
+            pgi.fml1MbhmR0 = inputparam['fml1MbhmR0']
+            pgi.fml1MbhmSteep = inputparam['fml1MbhmSteep']
+            pgi.cv1Recruit = inputparam['cv1Recruit']
 
-    		pgi.recruitTypeStock2 = inputparam['recruitTypeStock2']
-    		pgi.historySt2 = inputparam['recruitTypeStock2']
-    		pgi.hst2_lower = inputparam['hst2_lower']
-    		pgi.hst2_median = inputparam['hst2_median']
-    		pgi.hst2_mean = inputparam['hst2_mean']
-    		pgi.hst2_upper = inputparam['hst2_upper']
-    		pgi.hst2_other = inputparam['hst2_other']
-    		pgi.hst2_cal = inputparam['hst2_cal']
-    		pgi.formulaStock2 = inputparam['formulaStock2']
-    		pgi.fml2Bmalpha1 = inputparam['fml2Bmalpha1']
-    		pgi.fml2Bmbeta1 = inputparam['fml2Bmbeta1']
-    		pgi.fml2Rmalpha1 = inputparam['fml2Rmalpha1']
-    		pgi.fml2Rmbeta1 = inputparam['fml2Rmbeta1']
-    		pgi.fml2MbhmSSB0 = inputparam['fml2MbhmSSB0']
-    		pgi.fml2MbhmR0 = inputparam['fml2MbhmR0']
-    		pgi.fml2MbhmSteep = inputparam['fml2MbhmSteep']
-    		pgi.auto2R0 = inputparam['auto2R0']
-    		pgi.auto2h = inputparam['auto2h']
-    		pgi.auto2Rave = inputparam['auto2Rave']
-    		pgi.cv2Recruit = inputparam['cv2Recruit']
+            pgi.recruitTypeStock2 = inputparam['recruitTypeStock2']
+            pgi.formulaStock2 = inputparam['formulaStock2']
+            pgi.fml2MbhmSSB0 = inputparam['fml2MbhmSSB0']
+            pgi.fml2MbhmR0 = inputparam['fml2MbhmR0']
+            pgi.fml2MbhmSteep = inputparam['fml2MbhmSteep']
+            pgi.cv2Recruit = inputparam['cv2Recruit']
 
-    		pgi.save()
+            pgi.save()
 
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
     #process step8
     @expose('/step8/<string:pk>', methods = ['PUT'])

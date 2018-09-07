@@ -139,11 +139,51 @@ storeGlobalSetting<-function(store_path,folder_name){
   ########################################################
   #Step 5 ends                                     #######
   ########################################################
+  
+  ########################################################
+  #Step 6 Recruitment                              #######
+  ########################################################
+  
+  # if historical 20 year recruitments.
+  Rhist_1<-base$natage[(base$natage$Area==1)&(base$natage$Yr<=base$endyr)&(base$natage$Yr>(base$endyr-20))&(base$natage$`Beg/Mid`=="B"),"0"]
+  Rhist_2<-base$natage[(base$natage$Area==2)&(base$natage$Yr<=base$endyr)&(base$natage$Yr>(base$endyr-20))&(base$natage$`Beg/Mid`=="B"),"0"]
+  
+  Rhist_1_mean<-mean(Rhist_1)
+  Rhist_1_sd<-sd(Rhist_1)
+  Rhist_1_median<-median(Rhist_1)
+  Rhist_1_q1<-quantile(Rhist_1,0.25)
+  Rhist_1_q3<-quantile(Rhist_1,0.75)
+  
+  Rhist_2_mean<-mean(Rhist_2)
+  Rhist_2_sd<-sd(Rhist_2)
+  Rhist_2_median<-median(Rhist_2)
+  Rhist_2_q1<-quantile(Rhist_2,0.25)
+  Rhist_2_q3<-quantile(Rhist_2,0.75)
+  
+  #recruitment, read parameter
+  dat6<- base$parameters
+  steepness<-base$parameters[base$parameters$Label=="SR_BH_steep","Value"]
+  R0<-exp(base$parameters[base$parameters$Label=="SR_LN(R0)","Value"]) #unit 1000
+  sigma_R<-base$parameters[base$parameters$Label=="SR_sigmaR","Value"] #standard deviation of logged recruitment
+  R_offset_para<-base$parameters[base$parameters$Label=="SR_envlink","Value"]
+  
+  SSB0_1<-base$Dynamic_Bzero[(base$Dynamic_Bzero$Era=="VIRG"),"SSB_area1"]
+  SSB0_2<-base$Dynamic_Bzero[(base$Dynamic_Bzero$Era=="VIRG"),"SSB_area2"]
+  R0_1<-base$natage[(base$natage$Area==1)&(base$natage$Era=="VIRG")&(base$natage$`Beg/Mid`=="B"),"0"]
+  R0_2<-base$natage[(base$natage$Area==2)&(base$natage$Era=="VIRG")&(base$natage$`Beg/Mid`=="B"),"0"]
+  
+  ########################################################
+  #Step 6 End                                      #######
+  ########################################################
 
   library("rmongodb")
   mongo <- mongo.create()
   start_projection <- as.Date('2017/01/01')
-  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson,',"bioParam":',bioParamJson,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning,'}',sep = "")
+  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson
+                    ,',"bioParam":',bioParamJson,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
+                    ,',"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',SSB0_1,',"fml1MbhmR0":',R0_1,',"fml1MbhmSteep":',steepness,',"cv1Recruit":',30
+                    ,',"recruitTypeStock2":"2","formulaStock2":"3","fml2MbhmSSB0":',SSB0_2,',"fml2MbhmR0":',R0_2,',"fml2MbhmSteep":',steepness,',"cv2Recruit":',30
+                    ,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")
   mongo.insert(mongo,"admin.global_settings",global_content)

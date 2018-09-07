@@ -132,7 +132,9 @@ class Process(Document):
 
 class GlobalSettings(Document):
 
+	#STEP1
 	stock1_model_type = StringField(max_length=2)
+   	#STEP2
 	time_step = StringField(max_length=2)
 	start_projection = DateTimeField()
 	short_term_mgt = IntField()
@@ -144,10 +146,27 @@ class GlobalSettings(Document):
 	last_age = IntField()
 	no_of_interations = IntField()
 	rnd_seed_setting = StringField(max_length=2)
+	#STEP3
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
+	#STEP4
 	bioParam = EmbeddedDocumentListField(BioParameter)
+	#STEP5
 	simple_spawning = DecimalField()
 	mortality = EmbeddedDocumentListField(Mortality)
+	#STEP6
+	recruitTypeStock1 = StringField(max_length=2)
+	formulaStock1 = StringField(max_length=2)
+	fml1MbhmSSB0 = DecimalField()
+	fml1MbhmR0 = DecimalField()
+	fml1MbhmSteep = DecimalField()
+	cv1Recruit = DecimalField()
+
+	recruitTypeStock2 = StringField(max_length=2)
+	formulaStock2 = StringField(max_length=2)
+	fml2MbhmSSB0 = DecimalField()
+	fml2MbhmR0 = DecimalField()
+	fml2MbhmSteep = DecimalField()
+	cv2Recruit = DecimalField()
 
 class ProcessGenInput(Document):
 

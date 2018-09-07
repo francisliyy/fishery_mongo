@@ -1759,12 +1759,9 @@ $(function() {
 	getMortality();
 	$("#form-recruitment input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1'],input[name^='auto1']").prop('disabled','disabled');
 	$("#form-recruitment input[name='historySt2'],input[name^='hst2'],input[name='formulaStock2'],input[name^='fml2'],input[name^='auto2']").prop('disabled','disabled');
-    $("input[name='recruitTypeStock1']:checked").val()==1&&$("#form-recruitment input[name='historySt1']").prop('disabled','')&&initHistroySt(1);
-    $("input[name='recruitTypeStock2']:checked").val()==1&&$("#form-recruitment input[name='historySt2']").prop('disabled','')&&initHistroySt(2);
-    $("input[name='recruitTypeStock1']:checked").val()==2&&$("#form-recruitment input[name='formulaStock1']").prop('disabled','')&&initFormulaStock(1);
-    $("input[name='recruitTypeStock2']:checked").val()==2&&$("#form-recruitment input[name='formulaStock2']").prop('disabled','')&&initFormulaStock(2);
-    $("input[name='recruitTypeStock1']:checked").val()==3&&$("#form-recruitment input[name^='auto1']").prop('disabled','');
-    $("input[name='recruitTypeStock2']:checked").val()==3&&$("#form-recruitment input[name^='auto2']").prop('disabled','');
+    $("input[name='recruitTypeStock1']:checked").val()==2&&$("#form-recruitment input[name='formulaStock1']").prop('disabled','disabled')&&initFormulaStock(1);
+    $("input[name='recruitTypeStock2']:checked").val()==2&&$("#form-recruitment input[name='formulaStock2']").prop('disabled','disabled')&&initFormulaStock(2);
+
     initBioPoints();
     initHrtPoints();
     /* initialization end*/
