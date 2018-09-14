@@ -62,7 +62,7 @@ storeGlobalSetting<-function(store_path,folder_name){
   #direct_ofl <- "OFL"
   # Extract report Files from directories
   dat_ofl <- SS_output(dir = direct_ofl,printstats = T, covar=T, cormax=0.70, forecast=F,printhighcor=50, printlowcor=50)
-  
+  base<-dat_ofl
   ########################################################
   #Step 3 initial population, abundance unit 1000  #######
   ########################################################
