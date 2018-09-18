@@ -36,9 +36,6 @@ import mongoengine
 def get_user():
     return current_user.id
 
-class GlobalSettignsView(ModelView):
-    datamodel = MongoEngineInterface(GlobalSettings)
-
 class GuestProcessView(ModelView):
 
     datamodel = MongoEngineInterface(Process)
@@ -786,7 +783,6 @@ appbuilder.add_view_no_menu(ProStepView())
 
 appbuilder.add_view(GuestProcessView,"Guest MSE Management", icon='fa-folder-open-o', category='Guest MSE',category_icon="fa-envelope")
 appbuilder.add_view(GuestProcessCmpView,"Guest MSE Comparison", icon='fa-folder-open-o', category='Guest MSE',category_icon="fa-envelope")
-appbuilder.add_view(GlobalSettignsView,"Global Settings", icon='fa-folder-open-o', category='Global',category_icon="fa-envelope"),
 
 appbuilder.security_cleanup()
 
