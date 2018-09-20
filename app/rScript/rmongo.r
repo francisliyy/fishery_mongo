@@ -55,7 +55,7 @@ getRondomFile<-function(file_id,store_path){
 
 # This function is used for save into MongoDb
 storeGlobalSetting<-function(store_path,folder_name){
-  setwd(store_path)
+ # setwd(store_path)
   require(r4ss)
   direct_ofl <- folder_name
   #setwd("/Users/yli120/")
@@ -200,6 +200,7 @@ storeGlobalSetting<-function(store_path,folder_name){
 function(file_id,store_path){
   library("rmongodb")
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "fishery")
+  print(mongo.is.connected(mongo))
   gridfs <- mongo.gridfs.create(mongo, "fishery")
   gf <- mongo.gridfs.find(gridfs, query=list('_id' = mongo.oid.from.string(file_id)))
   
@@ -208,11 +209,13 @@ function(file_id,store_path){
     filename <- mongo.gridfile.get.filename(gf)
     print(filename)
     #store file 
-    setwd(store_path)
+    #setwd(store_path)
     downfile <- file(filename)
     mongo.gridfile.pipe(gf, downfile)
     mongo.gridfile.destroy(gf)
     unzip(filename)
+  }else{
+    print("in else")
   }
   mongo.gridfs.destroy(gridfs)
   split_filename<-unlist(strsplit(filename, "\\."))
