@@ -13,7 +13,7 @@
     <div class="row">
       <div class="lead well" style="padding-top: 0.1em; padding-left: 2em; padding-right: 2em;">
       <p>
-        <h2>Professional version : {{process_name}}</h2>
+        <h2>Simple version : {{process_name}}</h2>
         {{process_description}}. <a href="{{url_for('GuestProcessView.list')}}" class="btn btn-warning" role="button" aria-pressed="true">Return</a>
       </p>
       </div>
@@ -24,9 +24,8 @@
           Follow the Management Options below:
         </p>
         <ol class="acc-wizard-sidebar">
+          <li class="acc-wizard-todo"><a href="#stockassessment">Stock Assessment Model Input</a></li>
           <li class="acc-wizard-todo"><a href="#generalinput">Genral Input</a></li>
-          <li class="acc-wizard-todo"><a href="#stockassessment1">Stock Assessment Model Input1</a></li>
-          <li class="acc-wizard-todo"><a href="#stockassessment2">Stock Assessment Model Input2</a></li>
           <li class="acc-wizard-todo"><a href="#ibParam">Initial Population</a></li>
           <li class="acc-wizard-todo"><a href="#bioParam">Biological Parameters</a></li>
           <li class="acc-wizard-todo"><a href="#naturalmortality">Natural Mortality</a></li>
@@ -39,7 +38,40 @@
       <div class="col-md-9" style="padding-right: 2em;">
         <div id="accordion-demo" class="panel-group">
 
-          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfilename="{{'' if process_step1['rnd_seed_file'] is none else process_step1['rnd_seed_file'].name}}" data-stock1filename="{{'' if process_step1['stock1_filepath'] is none else process_step1['stock1_filepath'].name}}" data-stock2filename="{{'' if process_step1['stock2_filepath'] is none else process_step1['stock2_filepath'].name}}"></div>
+          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfiles="{{process_rndfilenames}}"></div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#stockassessment" data-parent="#accordion-demo" data-toggle="collapse">
+                  Stock Assessment Model Input
+                </a>
+              </h4>
+            </div>
+            <div id="stockassessment" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-stockassessment">
+                  <h4>Stock1:</h4>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Model Type</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_model_type" disabled id="mt1SS3" value="1" {{ 'checked' if process_step1['stock1_model_type']=='1'}}> Stock Synthesis 3
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_model_type" disabled id="mt1VPA" value="2" {{ 'checked' if process_step1['stock1_model_type']=='2'}}> Virtual Population Analysis
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_model_type" disabled id="mt1Scaa" value="3" {{ 'checked' if process_step1['stock1_model_type']=='3'}}> Statistical-catch-at-age
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">Input File</label> 
+                    <div class="col-md-6 col-sm-6 input-group" id="stock1_filepath">Using the latest base-case GoM red snapper stock assessment</div>
+                  </div>                 
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
 
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -56,22 +88,22 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Time Step</label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="1monthRadio" value="M" {{'checked' if process_step1['time_step']=='M'}}> 1 month
+                      <input type="radio" name="time_step" disabled id="1monthRadio" value="M" {{ 'checked' if process_step1['time_step']=='M'}}> 1 month
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="1seasonRadio" value="S" {{ 'checked' if process_step1['time_step']=='S'}}> 1 season
+                      <input type="radio" name="time_step" disabled id="1seasonRadio" value="S" {{ 'checked' if process_step1['time_step']=='S'}}> 1 season
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="halfYearRadio" value="HY" {{ 'checked' if process_step1['time_step']=='HY'}}> half year
+                      <input type="radio" name="time_step" disabled id="halfYearRadio" value="HY" {{ 'checked' if process_step1['time_step']=='HY'}}> half year
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="time_step" id="1YearRadio" value="Y" {{ 'checked' if process_step1['time_step']=='Y'}}> 1 year
+                      <input type="radio" name="time_step" disabled id="1YearRadio" value="Y" {{ 'checked' if process_step1['time_step']=='Y'}}> 1 year
                     </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Start Projection</label>
                     <div class='col-md-5 input-group date' id='start_projection' name='start_projection'>
-                      <input type='text' class="form-control" value="{{process_step1['start_projection']}}"/>
+                      <input type='text' class="form-control" value="{{process_step1['start_projection']}}" readonly="readonly"/>
                       <span class="input-group-addon">
                           <span class="glyphicon glyphicon-calendar"></span>
                       </span>
@@ -80,167 +112,77 @@
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Short-term Management&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="col-md-3 input-group">   
-                      <input title="short term Management" maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3" value="{{process_step1['short_term_mgt'] if process_step1['short_term_mgt'] != None else ''}}"/> 
+                      <input title="short term Management" maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="short_term_mgt" name="short_term_mgt" placeholder="3" value="{{process_step1['short_term_mgt'] if process_step1['short_term_mgt'] != None else ''}}" readonly="readonly"/> 
                     </div> 
                     <div class="col-md-2 input-group">      
                       <select id="short_term_unit" name="short_term_unit" class="form-control">
-                              <option value="Y" {{'selected' if process_step1['short_term_unit']=='Y'}}>Years</option>
-                              <option value="S" {{'selected' if process_step1['short_term_unit']=='S'}}>Seasons</option>
-                              <option value="M" {{'selected' if process_step1['short_term_unit']=='M'}}>Months</option>
+                              <option value="Y" disabled {{'selected' if process_step1['short_term_unit']=='Y'}}>Years</option>
+                              <option value="S" disabled {{'selected' if process_step1['short_term_unit']=='S'}}>Seasons</option>
+                              <option value="M" disabled {{'selected' if process_step1['short_term_unit']=='M'}}>Months</option>
                       </select>
                     </div>        
                   </div>
                   <div class="form-group form-inline">
                     <label class="col-md-3 control-label">Long-term Management&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="col-md-3 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="long_term_mgt" name="long_term_mgt" placeholder="3" value="{{process_step1['long_term_mgt'] if process_step1['long_term_mgt'] != None else ''}}"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="long_term_mgt" name="long_term_mgt" placeholder="3" value="{{process_step1['long_term_mgt'] if process_step1['long_term_mgt'] != None else ''}}" readonly="readonly"/> 
                     </div> 
                     <div class="col-md-2 input-group">      
                       <select id="long_term_unit" name="long_term_unit" class="form-control">
-                              <option value="Y" {{'selected' if process_step1['long_term_unit']=='Y'}}>Years</option>
-                              <option value="S" {{'selected' if process_step1['long_term_unit']=='S'}}>Seasons</option>
-                              <option value="M" {{'selected' if process_step1['long_term_unit']=='M'}}>Months</option>
+                              <option value="Y" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Years</option>
+                              <option value="S" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Seasons</option>
+                              <option value="M" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Months</option>
                       </select>
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 col-sm-3 control-label">Stock per Management Unit</label>
                     <div class="col-md-5 col-sm-5 input-group">   
-                      <input maxlength="6" type="number" class="form-control" style="border-radius: 4px" id="stock_per_mgt_unit" name="stock_per_mgt_unit" placeholder="2" value="{{process_step1['stock_per_mgt_unit'] if process_step1['stock_per_mgt_unit'] != None else ''}}"/> 
+                      <input maxlength="6" type="number" class="form-control" style="border-radius: 4px" id="stock_per_mgt_unit" name="stock_per_mgt_unit" placeholder="2" value="{{process_step1['stock_per_mgt_unit'] if process_step1['stock_per_mgt_unit'] != None else ''}}" readonly="readonly" /> 
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Mixing Pattern</label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixing_pattern" id="constptn" value="1" {{ 'checked' if process_step1['mixing_pattern']=='1'}}> Constants
+                      <input type="radio" name="mixing_pattern" id="nomixing" value="0" disabled {{ 'checked' if process_step1['mixing_pattern']=='0'}}> No mixing
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixing_pattern" id="sameptn" value="2" {{ 'checked' if process_step1['mixing_pattern']=='2'}}> Same over years
+                      <input type="radio" name="mixing_pattern" id="constptn" value="1" disabled {{ 'checked' if process_step1['mixing_pattern']=='1'}}> Constants
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixing_pattern" id="timeptn" value="3" {{ 'checked' if process_step1['mixing_pattern']=='3'}}> Time varies
+                      <input type="radio" name="mixing_pattern" id="sameptn" value="2" disabled {{ 'checked' if process_step1['mixing_pattern']=='2'}}> Same over years
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="mixing_pattern" id="timeptn" value="3" disabled {{ 'checked' if process_step1['mixing_pattern']=='3'}}> Time varies
                     </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 col-sm-3 control-label">Last Age in the Plus Group</label>
                     <div class="col-md-5 col-sm-5 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="last_age" name="last_age" placeholder="20" value="{{process_step1['last_age'] if process_step1['last_age'] != None else ''}}"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="last_age" name="last_age" placeholder="20" value="{{process_step1['last_age'] if process_step1['last_age'] != None else ''}}" readonly="readonly" /> 
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 col-sm-3 control-label">Number of </br>Iteratons</label>
                     <div class="col-md-5 col-sm-5 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="no_of_interations" name="no_of_interations" placeholder="1000" value="{{process_step1['no_of_interations'] if process_step1['no_of_interations'] != None else ''}}"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="no_of_interations" name="no_of_interations" placeholder="100" value="{{process_step1['no_of_interations'] if process_step1['no_of_interations'] != None else ''}}" readonly="readonly" /> 
                     </div>              
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Random Seed Setting</label>
-                    <div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div>
-                    <!-- <div class="col-md-5 input-group">   
-                                   <input type="file" class="form-control" style="border-radius: 4px" id="rnd_seed_file"/> 
-                                 </div>  -->             
+                    <!--div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div-->
+                    <label class="radio-inline">
+                      <input type="radio" name="rnd_seed_setting" id="current_time" value="0" disabled {{ 'checked' if process_step1['rnd_seed_setting']=='0'}}> Current Time
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="rnd_seed_setting" id="self_determined" value="1" disabled {{ 'checked' if process_step1['rnd_seed_setting']=='1'}}> Self-Determined
+                    </label>
+         
                   </div>
                   {% endif %}
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#generalinput -->
-          </div> <!-- /.panel.panel-default -->
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="#stockassessment1" data-parent="#accordion-demo" data-toggle="collapse">
-                  Stock Assessment Model Input 1
-                </a>
-              </h4>
-            </div>
-            <div id="stockassessment1" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <form id="form-stockassessment1">
-                  <h2>Mixing matrix</h2>
-                  <h4>From/To
-                      <button style="margin-left: 60px" type="button" class="btn btn-danger">Standardize</button>
-                  </h4>
-                  <div class="form-group" style="height:34px">
-                    <label class="col-md-2 col-sm-2 control-label"></label>
-                    <label class="col-md-4 col-sm-4 control-label">Unit 1</label>  
-                    <label class="col-md-4 col-sm-4 control-label">Unit 2</label>           
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="col-md-2 col-sm-2 control-label">Unit 1</label>
-                    <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit1to1" name="unit1to1" value="{{process_step1['unit1to1'] if process_step1['unit1to1'] != None else ''}}" placeholder="3"/>
-                    </div>
-                    <div class="col-md-1 col-sm-1 input-group">%</div> 
-                    <div class="col-md-2 col-sm-2 input-group">      
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit1to2" name="unit1to2" value="{{process_step1['unit1to2'] if process_step1['unit1to2'] != None else ''}}" placeholder="3"/>
-                    </div>
-                    <div class="col-md-2 col-sm-2 input-group">%</div>              
-                  </div>
-                  <div class="form-group form-inline">
-                    <label class="col-md-2 col-sm-2 control-label">Unit 2</label>
-                    <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit2to1" name="unit2to1" value="{{process_step1['unit2to1'] if process_step1['unit2to1'] != None else ''}}" placeholder="3"/>
-                    </div> 
-                    <div class="col-md-1 col-sm-1 input-group">%</div>   
-                    <div class="col-md-2 col-sm-2 input-group">      
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="unit2to2" name="unit2to2" value="{{process_step1['unit2to2'] if process_step1['unit2to2'] != None else ''}}" placeholder="3"/>
-                    </div>
-                    <div class="col-md-2 col-sm-2 input-group">%</div>   
-                  </div>
-                </form>
-              </div> <!--/.panel-body -->
-            </div> <!-- /#addwizard -->
-          </div> <!-- /.panel.panel-default -->
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="#stockassessment2" data-parent="#accordion-demo" data-toggle="collapse">
-                  Stock Assessment Model Input 2
-                </a>
-              </h4>
-            </div>
-            <div id="stockassessment2" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <form id="form-stockassessment2">
-                  <h4>Stock1:</h4>
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">Model Type</label>
-                    <label class="radio-inline">
-                      <input type="radio" name="stock1_model_type" id="mt1SS3" value="1" {{ 'checked' if process_step1['stock1_model_type']=='1'}}> Stock Synthesis 3
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="stock1_model_type" id="mt1VPA" value="2" {{ 'checked' if process_step1['stock1_model_type']=='2'}}> Virtual Population Analysis
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="stock1_model_type" id="mt1Scaa" value="3" {{ 'checked' if process_step1['stock1_model_type']=='3'}}> Statistical-catch-at-age
-                    </label>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">Input file path</label> 
-                    <div class="col-md-5 col-sm-5 input-group" id="stock1_filepath">Upload</div>
-                  </div>
-                  <h4>Stock2:</h4>
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">Model Type</label>
-                    <label class="radio-inline">
-                      <input type="radio" name="stock2_model_type" id="mt2SS3" value="1" {{ 'checked' if process_step1['stock2_model_type']=='1'}}> Stock Synthesis 3
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="stock2_model_type" id="mt2VPA" value="2" {{ 'checked' if process_step1['stock2_model_type']=='2'}}> Virtual Population Analysis
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="stock2_model_type" id="mt2Scaa" value="3" {{ 'checked' if process_step1['stock2_model_type']=='3'}}> Statistical-catch-at-age
-                    </label>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-2 control-label">Input file path</label>
-                    <div class="col-md-5 col-sm-5 input-group" id="stock2_filepath">Upload</div>
-                  </div>                  
-                </form>
-              </div> <!--/.panel-body -->
-            </div> <!-- /#adjusthtml -->
           </div> <!-- /.panel.panel-default -->
 
           <div class="panel panel-default">
@@ -296,24 +238,10 @@
                 <form id="form-naturalmortality">
                   <h4>Constant natural mortality
                     <button id="mortality-pre-btn" style="margin-left: 60px" type="button" class="btn btn-disable">&lt;&lt;&nbsp;Decrease complexity</button>
-                    <button id="mortality-next-btn" style="margin-left: 30px" type="button" class="btn btn-danger">Increase complexity&nbsp;&gt;&gt;</button>
+                    <button id="mortality-next-btn" style="margin-left: 30px" type="button" class="btn btn-disable">Increase complexity&nbsp;&gt;&gt;</button>
                     <div id="hidden-mortality" data-mortalitycomplex="{{process_step1['mortality_complexity'] if process_step1['mortality_complexity'] != None else '1'}}"></div>
                   </h4>
-                  <div id="simpleMortality">
-                    <div class="form-group form-inline">
-                      <label class="col-md-3 col-sm-3 control-label">Mean</label>
-                      <div class="col-md-4 col-sm-4 input-group">   
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_mean" name="simple_mean" value="{{process_step1['simple_mean'] if process_step1['simple_mean'] != None else ''}}" placeholder="0.2"/> 
-                      </div>             
-                    </div>
-                    <div class="form-group form-inline">
-                      <label class="col-md-3 col-sm-3 control-label">CV</label>
-                      <div class="col-md-4 col-sm-4 input-group">   
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_cv" name="simple_cv" value="{{process_step1['simple_cv'] if process_step1['simple_cv'] != None else ''}}" placeholder="20"/>
-                      </div>
-                      <div class="col-md-1 input-group">%
-                      </div>              
-                    </div>
+                  <div id="simpleMortality">                    
                     <div class="form-group form-inline">
                       <label class="col-md-3 col-sm-3 control-label">Fraction before spawning</label>
                       <div class="col-md-4 col-sm-4 input-group">   
@@ -345,10 +273,10 @@
 
                   <div class="form-group form-inline" ><!-- first part -->
                     <div class="col-md-6 col-sm-6">
-                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="historyStock1" value="1" {{'checked' if process_step1['recruitTypeStock1']=='1'}}>Input from history
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="historyStock1" disabled value="1" {{'checked' if process_step1['recruitTypeStock1']=='1'}}>Input from history
                     </div>
                     <div class="col-md-6 col-sm-6 input-group">
-                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="historyStock2" value="1" {{'checked' if process_step1['recruitTypeStock2']=='1'}}>Input from history
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="historyStock2" disabled value="1" {{'checked' if process_step1['recruitTypeStock2']=='1'}}>Input from history
                     </div>
                   </div>
                   <div class="form-group form-inline" >
@@ -358,7 +286,7 @@
                       </label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_lower" name="hst1_lower" value="{{process_step1['hst1_lower'] if process_step1['hst1_lower'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_lower" name="hst1_lower" value="{{process_step1['hst1_lower'] if process_step1['hst1_lower'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
                       <label class="radio-inline">
@@ -366,7 +294,7 @@
                         </label>
                     </div> 
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_lower" name="hst2_lower" value="{{process_step1['hst2_lower'] if process_step1['hst2_lower'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_lower" name="hst2_lower" value="{{process_step1['hst2_lower'] if process_step1['hst2_lower'] != None else ''}}" placeholder=""/>
                     </div>
                   </div>
                   <div class="form-group form-inline" >
@@ -376,7 +304,7 @@
                       </label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_median" name="hst1_median" value="{{process_step1['hst1_median'] if process_step1['hst1_median'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_median" name="hst1_median" value="{{process_step1['hst1_median'] if process_step1['hst1_median'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
                       <label class="radio-inline">
@@ -384,7 +312,7 @@
                         </label>
                     </div> 
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_median" name="hst2_median" value="{{process_step1['hst2_median'] if process_step1['hst2_median'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_median" name="hst2_median" value="{{process_step1['hst2_median'] if process_step1['hst2_median'] != None else ''}}" placeholder=""/>
                     </div>
                   </div>
                   <div class="form-group form-inline" >
@@ -394,7 +322,7 @@
                       </label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_mean" name="hst1_mean" value="{{process_step1['hst1_mean'] if process_step1['hst1_mean'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_mean" name="hst1_mean" value="{{process_step1['hst1_mean'] if process_step1['hst1_mean'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
                       <label class="radio-inline">
@@ -402,7 +330,7 @@
                         </label>
                     </div> 
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_mean" name="hst2_mean" value="{{process_step1['hst2_mean'] if process_step1['hst2_mean'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_mean" name="hst2_mean" value="{{process_step1['hst2_mean'] if process_step1['hst2_mean'] != None else ''}}" placeholder=""/>
                     </div>
                   </div>
                   <div class="form-group form-inline" >
@@ -412,7 +340,7 @@
                       </label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_upper" name="hst1_upper" value="{{process_step1['hst1_upper'] if process_step1['hst1_upper'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_upper" name="hst1_upper" value="{{process_step1['hst1_upper'] if process_step1['hst1_upper'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
                       <label class="radio-inline">
@@ -420,7 +348,7 @@
                         </label>
                     </div> 
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_upper" name="hst2_upper" value="{{process_step1['hst2_upper'] if process_step1['hst2_upper'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_upper" name="hst2_upper" value="{{process_step1['hst2_upper'] if process_step1['hst2_upper'] != None else ''}}" placeholder=""/>
                     </div>
                   </div>
                   <div class="form-group form-inline" >
@@ -430,7 +358,7 @@
                       </label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="5" type="number" class="input-txt form-control" id="hst1_other" name="hst1_other" value="{{process_step1['hst1_other'] if process_step1['hst1_other'] != None else ''}}" placeholder="100"/><span style="line-height: 34px">&nbsp;%</span>
+                      <input maxlength="5" type="number" class="input-txt form-control" id="hst1_other" name="hst1_other" value="{{process_step1['hst1_other'] if process_step1['hst1_other'] != None else ''}}" placeholder=""/><span style="line-height: 34px">&nbsp;%</span>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group" style="margin-left: 40px">
                       <label class="radio-inline">
@@ -438,7 +366,7 @@
                         </label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="5" type="number" class="input-txt form-control" id="hst2_other" name="hst2_other" value="{{process_step1['hst2_other'] if process_step1['hst2_other'] != None else ''}}" placeholder="100"/><span style="line-height: 34px">&nbsp;%
+                      <input maxlength="5" type="number" class="input-txt form-control" id="hst2_other" name="hst2_other" value="{{process_step1['hst2_other'] if process_step1['hst2_other'] != None else ''}}" placeholder=""/><span style="line-height: 34px">&nbsp;%
                     </div>
                   </div>
                   <div class="form-group form-inline" >
@@ -446,33 +374,33 @@
                       <button style="margin: 0 40px 0 10px" type="button" class="btn btn-danger">Calculate</button>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_cal" name="hst1_cal" value="{{process_step1['hst1_cal'] if process_step1['hst1_cal'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_cal" name="hst1_cal" value="{{process_step1['hst1_cal'] if process_step1['hst1_cal'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group" style="margin-left: 10px">
                       <button style="margin: 0 40px 0 10px" type="button" class="btn btn-danger">Calculate</button>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_cal" name="hst2_cal" value="{{process_step1['hst2_cal'] if process_step1['hst2_cal'] != None else ''}}" placeholder="10000000"/>
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst2_cal" name="hst2_cal" value="{{process_step1['hst2_cal'] if process_step1['hst2_cal'] != None else ''}}" placeholder=""/>
                     </div>
                   </div><!--/.first part -->
 
                   <div class="form-group form-inline" ><!-- second part -->
                     <div class="col-md-6 col-sm-6">
-                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="formulaStock1" value="2" {{'checked' if process_step1['recruitTypeStock1']=='2'}}>Formula
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="formulaStock1" disabled value="2" {{'checked' if process_step1['recruitTypeStock1']=='2'}}>Formula
                     </div>
                     <div class="col-md-6 col-sm-6 input-group">
-                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="fomulaStock2" value="2" {{'checked' if process_step1['recruitTypeStock2']=='2'}}>Formula
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="fomulaStock2" disabled value="2" {{'checked' if process_step1['recruitTypeStock2']=='2'}}>Formula
                     </div>
                   </div>
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio1" value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Beverton-Holt Mode
+                          <input type="radio" name="formulaStock1" id="fml1radio1" disabled value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Beverton-Holt Mode
                       </label>
                     </div>
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline">
-                          <input type="radio" name="formulaStock2" id="fml2radio1" value="1" {{'checked' if process_step1['formulaStock2']=='1'}}>Beverton-Holt Mode
+                          <input type="radio" name="formulaStock2" id="fml2radio1" disabled value="1" {{'checked' if process_step1['formulaStock2']=='1'}}>Beverton-Holt Mode
                         </label>
                     </div>
                   </div>
@@ -481,36 +409,36 @@
                       <label class="control-label">alpha</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Bmalpha1" name="fml1Bmalpha1" value="{{process_step1['fml1Bmalpha1'] if process_step1['fml1Bmalpha1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Bmalpha1" name="fml1Bmalpha1" value="{{process_step1['fml1Bmalpha1'] if process_step1['fml1Bmalpha1'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group"> 
                       <label class="col-md-1 control-label">beta</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Bmbeta1" name="fml1Bmbeta1" value="{{process_step1['fml1Bmbeta1'] if process_step1['fml1Bmbeta1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Bmbeta1" name="fml1Bmbeta1" value="{{process_step1['fml1Bmbeta1'] if process_step1['fml1Bmbeta1'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
                       <label class="control-label">alpha</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Bmalpha1" name="fml2Bmalpha1" value="{{process_step1['fml2Bmalpha1'] if process_step1['fml2Bmalpha1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Bmalpha1" name="fml2Bmalpha1" value="{{process_step1['fml2Bmalpha1'] if process_step1['fml2Bmalpha1'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group"> 
                       <label class="col-md-1 control-label">beta</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Bmbeta1" name="fml2Bmbeta1" value="{{process_step1['fml2Bmbeta1'] if process_step1['fml2Bmbeta1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Bmbeta1" name="fml2Bmbeta1" value="{{process_step1['fml2Bmbeta1'] if process_step1['fml2Bmbeta1'] != None else ''}}" placeholder=""/> 
                     </div>             
                   </div>
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio2" value="2" {{'checked' if process_step1['formulaStock1']=='2'}}>Ricker Mode
+                          <input type="radio" name="formulaStock1" id="fml1radio2" disabled value="2" {{'checked' if process_step1['formulaStock1']=='2'}}>Ricker Mode
                       </label>
                     </div>
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline">
-                          <input type="radio" name="formulaStock2" id="fml2radio2" value="2" {{'checked' if process_step1['formulaStock2']=='2'}}>Ricker Mode
+                          <input type="radio" name="formulaStock2" id="fml2radio2" disabled value="2" {{'checked' if process_step1['formulaStock2']=='2'}}>Ricker Mode
                         </label>
                     </div>
                   </div>
@@ -519,36 +447,36 @@
                       <label class="control-label">alpha</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Rmalpha1" name="fml1Rmalpha1" value="{{process_step1['fml1Rmalpha1'] if process_step1['fml1Rmalpha1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Rmalpha1" name="fml1Rmalpha1" value="{{process_step1['fml1Rmalpha1'] if process_step1['fml1Rmalpha1'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group"> 
                       <label class="col-md-1 control-label">beta</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Rmbeta1" name="fml1Rmbeta1" value="{{process_step1['fml1Rmbeta1'] if process_step1['fml1Rmbeta1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1Rmbeta1" name="fml1Rmbeta1" value="{{process_step1['fml1Rmbeta1'] if process_step1['fml1Rmbeta1'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
                       <label class="control-label">alpha</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Rmalpha1" name="fml2Rmalpha1" value="{{process_step1['fml2Rmalpha1'] if process_step1['fml2Rmalpha1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Rmalpha1" name="fml2Rmalpha1" value="{{process_step1['fml2Rmalpha1'] if process_step1['fml2Rmalpha1'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group"> 
                       <label class="col-md-1 control-label">beta</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Rmbeta1" name="fml2Rmbeta1" value="{{process_step1['fml2Rmbeta1'] if process_step1['fml2Rmbeta1'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2Rmbeta1" name="fml2Rmbeta1" value="{{process_step1['fml2Rmbeta1'] if process_step1['fml2Rmbeta1'] != None else ''}}" placeholder=""/> 
                     </div>             
                   </div>
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio3" value="3" {{'checked' if process_step1['formulaStock1']=='3'}}>Moderfied Beverton-Holy Mode
+                          <input type="radio" name="formulaStock1" id="fml1radio3" disabled value="3" {{'checked' if process_step1['formulaStock1']=='3'}}>Moderfied Beverton-Holt Model
                       </label>
                     </div>
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline">
-                          <input type="radio" name="formulaStock2" id="fml2radio3" value="3" {{'checked' if process_step1['formulaStock2']=='3'}}>Moderfied Beverton-Holy Mode
+                          <input type="radio" name="formulaStock2" id="fml2radio3" disabled value="3" {{'checked' if process_step1['formulaStock2']=='3'}}>Moderfied Beverton-Holt Model
                         </label>
                     </div>
                   </div>
@@ -556,26 +484,28 @@
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
                       <label class="control-label">SSB0</label>
                     </div>
-                    <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmSSB0" name="fml1MbhmSSB0" value="{{process_step1['fml1MbhmSSB0'] if process_step1['fml1MbhmSSB0'] != None else ''}}" placeholder="3"/> 
-                    </div>
-                    <div class="col-md-1 col-sm-1 input-group"> 
-                      <label class="col-md-1 control-label">R0</label>
-                    </div>
-                    <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmR0" name="fml1MbhmR0" value="{{process_step1['fml1MbhmR0'] if process_step1['fml1MbhmR0'] != None else ''}}" placeholder="3"/> 
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmSSB0" name="fml1MbhmSSB0" value="{{process_step1['fml1MbhmSSB0'] if process_step1['fml1MbhmSSB0'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
                       <label class="control-label">SSB0</label>
                     </div>
-                    <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmSSB0" name="fml2MbhmSSB0" value="{{process_step1['fml2MbhmSSB0'] if process_step1['fml2MbhmSSB0'] != None else ''}}" placeholder="3"/> 
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmSSB0" name="fml2MbhmSSB0" value="{{process_step1['fml2MbhmSSB0'] if process_step1['fml2MbhmSSB0'] != None else ''}}" placeholder=""/> 
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px"> 
+                      <label class="control-label">R0</label>
                     </div>
-                    <div class="col-md-1 col-sm-1 input-group"> 
-                      <label class="col-md-1 control-label">R0</label>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmR0" name="fml1MbhmR0" value="{{process_step1['fml1MbhmR0'] if process_step1['fml1MbhmR0'] != None else ''}}" placeholder=""/> 
                     </div>
-                    <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmR0" name="fml2MbhmR0" value="{{process_step1['fml2MbhmR0'] if process_step1['fml2MbhmR0'] != None else ''}}" placeholder="3"/> 
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 115px"> 
+                      <label class="control-label">R0</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmR0" name="fml2MbhmR0" value="{{process_step1['fml2MbhmR0'] if process_step1['fml2MbhmR0'] != None else ''}}" placeholder=""/> 
                     </div>             
                   </div>
                   <div class="form-group form-inline">
@@ -583,22 +513,22 @@
                       <label class="control-label">Steepnes</label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmSteep" name="fml1MbhmSteep" value="{{process_step1['fml1MbhmSteep'] if process_step1['fml1MbhmSteep'] != None else ''}}" placeholder="3"/> 
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmSteep" name="fml1MbhmSteep" value="{{process_step1['fml1MbhmSteep'] if process_step1['fml1MbhmSteep'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 115px"> 
                       <label class="control-label">Steepnes</label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmSteep" name="fml2MbhmSteep" value="{{process_step1['fml2MbhmSteep'] if process_step1['fml2MbhmSteep'] != None else ''}}" placeholder="3"/> 
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml2MbhmSteep" name="fml2MbhmSteep" value="{{process_step1['fml2MbhmSteep'] if process_step1['fml2MbhmSteep'] != None else ''}}" placeholder=""/> 
                     </div>             
                   </div><!--/.second part -->
 
                   <div class="form-group form-inline" ><!-- third part -->
                     <div class="col-md-6 col-sm-6 ">
-                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="autoStock1" value="3" {{'checked' if process_step1['recruitTypeStock1']=='3'}}>Auto correlated
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock1" id="autoStock1" disabled value="3" {{'checked' if process_step1['recruitTypeStock1']=='3'}}>Auto correlated
                     </div>
                     <div class="col-md-6 col-sm-6 input-group">
-                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="autoStock2" value="3" {{'checked' if process_step1['recruitTypeStock2']=='3'}}>Auto correlated
+                      <input type="radio" style="margin-right: 10px" name="recruitTypeStock2" id="autoStock2" disabled value="3" {{'checked' if process_step1['recruitTypeStock2']=='3'}}>Auto correlated
                     </div>
                   </div>
                   <div class="form-group form-inline">
@@ -606,25 +536,25 @@
                       <label class="control-label">R0</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1R0" name="auto1R0" value="{{process_step1['auto1R0'] if process_step1['auto1R0'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1R0" name="auto1R0" value="{{process_step1['auto1R0'] if process_step1['auto1R0'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group"> 
                       <label class="col-md-1 control-label">h</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1h" name="auto1h" value="{{process_step1['auto1h'] if process_step1['auto1h'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1h" name="auto1h" value="{{process_step1['auto1h'] if process_step1['auto1h'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 110px">
                       <label class="control-label">R0</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2R0" name="auto2R0" value="{{process_step1['auto2R0'] if process_step1['auto2R0'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2R0" name="auto2R0" value="{{process_step1['auto2R0'] if process_step1['auto2R0'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group"> 
                       <label class="col-md-1 control-label">h</label>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2h" name="auto2h" value="{{process_step1['auto2h'] if process_step1['auto2h'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2h" name="auto2h" value="{{process_step1['auto2h'] if process_step1['auto2h'] != None else ''}}" placeholder=""/> 
                     </div>             
                   </div>
                   <div class="form-group form-inline">
@@ -632,13 +562,13 @@
                       <label class="control-label">Rave</label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1Rave" name="auto1Rave" value="{{process_step1['auto1Rave'] if process_step1['auto1Rave'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto1Rave" name="auto1Rave" value="{{process_step1['auto1Rave'] if process_step1['auto1Rave'] != None else ''}}" placeholder=""/> 
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 115px"> 
                       <label class="control-label">Rave</label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2Rave" name="auto2Rave" value="{{process_step1['auto2Rave'] if process_step1['auto2Rave'] != None else ''}}" placeholder="3"/> 
+                      <input maxlength="3" type="number" class="form-control" style="border-radius: 4px" id="auto2Rave" name="auto2Rave" value="{{process_step1['auto2Rave'] if process_step1['auto2Rave'] != None else ''}}" placeholder=""/> 
                     </div>             
                   </div><!--/.third part -->
 
@@ -647,14 +577,14 @@
                       <label class="control-label">CV for recruitment</label>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="cv1Recruit" name="cv1Recruit" value="{{process_step1['cv1Recruit'] if process_step1['cv1Recruit'] != None else ''}}" placeholder="3"/>
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="cv1Recruit" name="cv1Recruit" value="{{process_step1['cv1Recruit'] if process_step1['cv1Recruit'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="width:5px">%</div>
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 88px"> 
                       <label class="control-label">CV for recruitment</label>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="cv2Recruit" name="cv2Recruit" value="{{process_step1['cv2Recruit'] if process_step1['cv2Recruit'] != None else ''}}" placeholder="3"/>
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="cv2Recruit" name="cv2Recruit" value="{{process_step1['cv2Recruit'] if process_step1['cv2Recruit'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group" style="width:5px">%</div>           
                   </div>                  
@@ -995,7 +925,9 @@
         </div>
       </div>
     </div>
+
     <hr>
+
     <div id="process-result" class="row acc-wizard">
       <div class="col-md-3" style="padding-left: 2em;">
         <p style="margin-bottom: 2em;">
@@ -1082,7 +1014,7 @@
 
 {% endblock %}
 {% block tail_js %}
-	  {{super()}}
+    {{super()}}
     <script type="text/javascript">
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
@@ -1095,7 +1027,7 @@
     <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/echarts/dist/echarts.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/jquery-validation/dist/jquery.validate.js')}}"></script>
-    <script src="{{url_for('static',filename='assets/javascript/process.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process_guest.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>    
 {% endblock %}
 

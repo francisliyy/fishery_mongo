@@ -78,7 +78,7 @@ class GuestProcessView(ModelView):
                 rndfilenames.append(file.name)
 
         if item.process_simple is True:
-            return self.render_template('/process_simple.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name,process_description=item.process_description)
+            return self.render_template('/process_guest.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name,process_description=item.process_description)
         else:
             return self.render_template('/process_guest.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name, process_description=item.process_description)
 
