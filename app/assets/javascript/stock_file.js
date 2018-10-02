@@ -11,7 +11,7 @@ $(function() {
 
              	$.ajax({
 		            cache: false,
-		            url: 'http://gomredsnappermsetool.fiu.edu:8000/defaultFile',
+		            url: 'http://localhost:8000/defaultFile',
 		            crossDomain: true,
 		            type: "POST",
 		            dataType: "json",

@@ -55,7 +55,7 @@ getRondomFile<-function(file_id,store_path){
 
 # This function is used for save into MongoDb
 storeGlobalSetting<-function(store_path,folder_name){
- # setwd(store_path)
+  setwd(store_path)
   require(r4ss)
   direct_ofl <- folder_name
   #setwd("/Users/yli120/")
@@ -177,7 +177,7 @@ storeGlobalSetting<-function(store_path,folder_name){
   ########################################################
 
   library("rmongodb")
-  mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "fishery")
+  mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   start_projection <- as.Date('2017/01/01')
   jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson
                     ,',"bioParam":',bioParamJson,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
@@ -185,8 +185,8 @@ storeGlobalSetting<-function(store_path,folder_name){
                     ,',"recruitTypeStock2":"2","formulaStock2":"3","fml2MbhmSSB0":',SSB0_2,',"fml2MbhmR0":',R0_2,',"fml2MbhmSteep":',steepness,',"cv2Recruit":',30
                     ,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
-  mongo.remove(mongo,"fishery.global_settings")
-  mongo.insert(mongo,"fishery.global_settings",global_content)
+  mongo.remove(mongo,"admin.global_settings")
+  mongo.insert(mongo,"admin.global_settings",global_content)
 
 }
 
@@ -199,9 +199,9 @@ storeGlobalSetting<-function(store_path,folder_name){
 #' @post /defaultFile
 function(file_id,store_path){
   library("rmongodb")
-  mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "fishery")
+  mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   print(mongo.is.connected(mongo))
-  gridfs <- mongo.gridfs.create(mongo, "fishery")
+  gridfs <- mongo.gridfs.create(mongo, "admin")
   gf <- mongo.gridfs.find(gridfs, query=list('_id' = mongo.oid.from.string(file_id)))
   
   if( !is.null(gf)){
@@ -209,7 +209,7 @@ function(file_id,store_path){
     filename <- mongo.gridfile.get.filename(gf)
     print(filename)
     #store file 
-    #setwd(store_path)
+    setwd(store_path)
     downfile <- file(filename)
     mongo.gridfile.pipe(gf, downfile)
     mongo.gridfile.destroy(gf)
