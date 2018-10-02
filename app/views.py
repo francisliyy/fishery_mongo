@@ -738,6 +738,16 @@ class ProStepView(BaseView):
         prs.save()
         return Response(json.dumps({'status':1}), mimetype='application/json')
 
+    @expose('/setDefault/<string:pk>', methods = ['PUT'])
+    @has_access
+    def setDefault(self,pk):
+        
+        stockFile = StockFile.objects(id=pk).first()
+        print(stockFile)
+        stockFile.default_file = True
+        stockFile.save()
+        return Response(json.dumps({'status':1}), mimetype='application/json')
+
 class StockFileView(ModelView):
 
     datamodel = MongoEngineInterface(StockFile)
@@ -769,7 +779,6 @@ class StockFileView(ModelView):
         response = make_response(file)
         response.headers["Content-Disposition"] = "attachment; filename={0}".format(item.file.name)
         return response
-
 
 
 """

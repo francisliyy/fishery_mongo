@@ -7,6 +7,7 @@ $(function() {
              	$("#mask").addClass('lmask');
 
              	var fileid = $(this).data('fileid');
+             	var sfid = $(this).data('sfid');
              	console.log(fileid);
 
              	$.ajax({
@@ -19,6 +20,17 @@ $(function() {
 		            success: function(data) 
 		            {
 		                 $("#mask").removeClass('lmask');
+		                 $.ajax({
+				            cache: false,
+				            url: $SCRIPT_ROOT+'/prostepview/setDefault/'+sfid,
+				            type: "PUT",
+				            dataType: "json",
+				            data: {},
+				            success: function(data) 
+				            {
+				                 
+				            }
+				        });
 		            }
 		        });
 
