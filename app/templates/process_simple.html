@@ -241,7 +241,7 @@
                     <button id="mortality-next-btn" style="margin-left: 30px" type="button" class="btn btn-disable">Increase complexity&nbsp;&gt;&gt;</button>
                     <div id="hidden-mortality" data-mortalitycomplex="{{process_step1['mortality_complexity'] if process_step1['mortality_complexity'] != None else '1'}}"></div>
                   </h4>
-                  <div id="simpleMortality">                    
+                  <div id="simpleMortality" style="margin-top:30px ">                    
                     <div class="form-group form-inline">
                       <label class="col-md-3 col-sm-3 control-label">Fraction before spawning</label>
                       <div class="col-md-4 col-sm-4 input-group">   
@@ -605,117 +605,43 @@
             <div id="mgtopt1" class="panel-collapse collapse in">
               <div class="panel-body">
                 <form id="form-mgtopt1">
-                  <h4>Biological reference points</h4>
+                  <h4>Biological Reference Points</h4>
+                  
                   <div class="form-group">
-                    <label class="col-md-4 control-label">Biomass-based reference points</label>
-                    <div class="col-md-5 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="bio_biomass_points" name="bio_biomass_points" value="{{process_step1['bio_biomass_points'] if process_step1['bio_biomass_points'] != None else ''}}" placeholder="2"/> 
-                    </div>              
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label">Harvest reference points</label>
+                    <label class="col-md-2 radio-inline" >SSB</label>
                     <div class="col-md-7 col-sm-7 input-group">  
-                      <label class="radio-inline" >
-                        <input type="radio" name="bio_harvest_radio" id="catchRadio" {{'checked' if process_step1['bio_harvest_radio']=='C'}} value="C">Catch-based
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 10px" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
-                      <span style="margin-left:5px;width:5px">mt</span>
+                       
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
+                      <span style="margin-left:5px;width:5px">eggs</span>
                     </div>                                  
                   </div>
                   <div class="form-group">
+                    <label class="col-md-2 radio-inline" >F</label>
+                    <div class="col-md-7 col-sm-7 input-group"> 
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>    
+                      <span style="margin-left:5px;width:5px">years<sup>-1</sup></span>                  
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <h4>Fishes Status</h4>
                     <label class="col-md-4 control-label"></label>
-                    <div class="col-md-7 col-sm-7 input-group">  
-                      <label class="radio-inline" >
-                        <input type="radio" name="bio_harvest_radio" id="fbaseRadio" {{'checked' if process_step1['bio_harvest_radio']=='F'}} value="F">F-based
-                      </label> 
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>                      
-                    </div>                                  
+                    <div id="colorChart" class="col-md-7 input-group" style="height:400px">
+                    </div>
                   </div>
                   <div class="form-group">
                     <h4>Harvest control rule</h4>
                     <label class="col-md-4 control-label"></label>
                     <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="contCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CC' or process_step1['hrt_harvest_rule'] is none}} value="CC"> Constant catch
+                      <input type="radio" name="hrt_harvest_rule" id="contCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CC' or process_step1['hrt_harvest_rule'] is none}} value="CC"> Constant C
                     </label>
                     <label class="radio-inline">
                       <input type="radio" name="hrt_harvest_rule" id="contFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CF'}} value="CF"> Constant F
                     </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="linearCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='LC'}} value="LC"> Linear catch
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="linearFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='LF'}} value="LF"> Linear F
-                    </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-4 control-label"></label>
-                    <div class="col-md-5 input-group">
-                      <img id="hr_rule_pic" style="width: 400px ; height: 300px" src="{{url_for('static',filename='assets/images/harvestCtlRule/CC.png')}}"></img>
-                    </div>                    
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label">Biomass-based reference points</label>
-                    <div class="col-md-6 input-group">  
-                      <label class="radio-inline" >
-                        Threshold I
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="hrt_threshold1" name="hrt_threshold1" value="{{process_step1['hrt_threshold1'] if process_step1['hrt_threshold1'] != None else ''}}" placeholder=""/>
-                      <span style="width: 5px;margin-left: 5px">mt</span>                     
-                    </div>                                  
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-6 input-group">  
-                      <label class="radio-inline" >
-                        Threshold II
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" id="hrt_threshold2" name="hrt_threshold2" value="{{process_step1['hrt_threshold2'] if process_step1['hrt_threshold2'] != None else ''}}" placeholder=""/>
-                      <span style="width:5px;margin-left: 5px">mt</span>                     
-                    </div>                                  
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label">Harvest reference points</label>
-                    <div class="col-md-8 input-group">
-                      <label class="radio-inline" >
-                        <input type="radio" name="hrt_harvest_radio" id="cRadio" {{'checked' if process_step1['hrt_harvest_radio']=='C'}} value="C">Catch-based
-                      </label>  
-                      <label class="radio-inline" >
-                        Threshold I
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_catch_thh1" id="hst_catch_thh1" value="{{process_step1['hst_catch_thh1'] if process_step1['hst_catch_thh1'] != None else ''}}" placeholder=""/>
-                      <span style="width:5px;margin-left: 5px">mt</span>                   
-                    </div>                                  
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-8 input-group">  
-                      <label class="radio-inline" style="margin-left: 110px">
-                        Threshold II
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" name="hst_catch_thh2" id="hst_catch_thh2" value="{{process_step1['hst_catch_thh2'] if process_step1['hst_catch_thh2'] != None else ''}}" placeholder=""/>
-                      <span style="width:5px;margin-left: 5px">mt</span>                     
-                    </div>                                  
-                  </div>  
-                  <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-8 input-group">
-                      <label class="radio-inline" >
-                        <input type="radio" name="hrt_harvest_radio" id="fRadio" {{'checked' if process_step1['hrt_harvest_radio']=='F'}} value="F">F-based
-                      </label>  
-                      <label class="radio-inline" style="margin-left: 40px">
-                        Threshold I
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" name="hst_f_thh1" id="hst_f_thh1" value="{{process_step1['hst_f_thh1'] if process_step1['hst_f_thh1'] != None else ''}}" placeholder=""/>                     
-                    </div>                                  
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-8 input-group">  
-                      <label class="radio-inline" style="margin-left: 110px">
-                        Threshold II
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 36px" name="hst_f_thh2" id="hst_f_thh2" value="{{process_step1['hst_f_thh2'] if process_step1['hst_f_thh2'] != None else ''}}" placeholder=""/>                     
-                    </div>                                  
+                    <div id="ruleChart" class="col-md-7 input-group" style="height:400px">
+                    </div>                   
                   </div>
                 </form>
               </div> <!--/.panel-body -->

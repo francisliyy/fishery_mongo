@@ -1,9 +1,146 @@
 $(function() {
 
+    var colorChart = echarts.init(document.getElementById('colorChart'));
+    var ruleChart = echarts.init(document.getElementById('ruleChart'));
+    var colorChartOption = {
+    	    color:[ 
+			    '#32cd32'
+			], 
+		    tooltip : {
+		        trigger: 'item',
+		        formatter:function(params){
+		        	return params.data;
+		        }
+		    },
+		    xAxis : [
+		        {
+		            type : 'value',
+		          min:0,
+		            max:2,
+		            name:'SSB',
+		          axisLabel:{
+		            show:true,
+		            formatter: function(value){
+		              if(value==1) return 'MSSF';
+		          },
+		          },
+		          splitNumber:2,
+		          splitLine:{show:true},
+		          splitArea:{
+		            show:true,
+		            areaStyle:{
+		                     color: [
+		        'rgb(206, 245, 121,0.3)',    
+		        'rgb(245, 121, 222,0.3)',
+		  
+		    		]}}
+		        }
+		    ],
+		    yAxis : [
+		        {
+		          type : 'value',
+		          name:'F',
+		          min:0,
+		          max:2,
+		          axisLabel:{
+		            show:true,
+		            formatter: function(value){
+		              if(value==1) return 'MFMT';
+		            }
+		          },
+		          splitNumber:2,
+		          splitLine:{show:true},
+		          splitArea:{
+		            show:true,
+		             areaStyle:{
+		                     color: [
+		        'rgb(245, 121, 222,0.3)',
+		        'rgb(206, 245, 121,0.3)', 
+		    		]}}
+		        }
+		    ],
+		    series : [
+		        {
+		          name:'2016',
+		          type:'scatter',
+		          data:[[1.40854,0.823]],
+		          itemStyle:{
+		          normal:{
+		              label:{
+		                show:true,
+		                position:'right',
+		                formatter:function(params){
+		                  return params.seriesName;
+		                }
+		              }
+		            }
+                  }
+                },
+            ]
+        };
+
+    var ruleChartOption = {
+    	    color:['#87cefa'],
+		    tooltip : {
+		        trigger: 'item',
+		        formatter:function(params){
+		        	return params.data;
+		        }
+		    },
+		    xAxis : [
+		        {
+		          type : 'value',
+		          min:0,
+		          max:2,
+		          name:'SSB',
+		          splitNumber:2,
+		          axisLabel:{show:false},
+		          splitLine:{show:false},
+
+		        }
+		    ],
+		    yAxis : [
+		        {
+		          type : 'value',
+		          name:'F',
+		          min:0,
+		          max:2,
+		          splitNumber:2,
+		          axisLabel:{show:false},
+		          splitLine:{show:false},		         
+		        }
+		    ],
+		    series : [
+		        {
+		          type:'line',
+		          data:[[0,1],[2,1]],
+		          markLine:{
+		          	itemStyle:{normal:{color:'#dc143c'}},
+		          	data:[
+		          		[
+		          		  {name:'',xAxis:0,yAxis:1},
+		          		  {name:'',xAxis:2,yAxis:1},
+		          		]
+		          	],
+		          },
+		          itemStyle:{
+		          normal:{
+		              areaStyle: {type: 'default'}
+		            }
+                  }
+                },
+            ]
+        };
+    colorChart.setOption(colorChartOption);
+    ruleChart.setOption(ruleChartOption);
+
+
+
 	var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
 	var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
 	var ssbChart1 = echarts.init(document.getElementById('ssb-chart-1'));
 	var fChart1 = echarts.init(document.getElementById('f-chart-1'));
+
 
 	$.ajax({
 		url: $SCRIPT_ROOT+'/prostepview/getEchartData',

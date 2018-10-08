@@ -1237,8 +1237,7 @@ $(function() {
 	    	data: {},
 	    })
 	    .done(function(result) {
-	    	var inputdata=result.iniPopu||result;
-	    	$("#table-ibParam").parent('.bootstrap-table').css('margin-bottom', '30px');
+	    	var inputdata=result.iniPopu||result;	    	
 			$("#table-ibParam").bootstrapTable({
 		    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
 		    	//dataType:'json',
@@ -1290,7 +1289,7 @@ $(function() {
 		    				title:"CV (Normal Dist.)",
 		    				field:"cv_1",
 		    				formatter: function(value, row, index, field) {
-						        	return parseFloat(value||0)*100.00;
+						        	return parseFloat(value||0);
 								},
 		    				editable: {
 			                    type: 'text',
@@ -1319,7 +1318,7 @@ $(function() {
 		    				title:"CV (Normal Dist.)",
 		    				field:"cv_2",
 		    				formatter: function(value, row, index, field) {
-						        	return parseFloat(value||0)*100.00;
+						        	return parseFloat(value||0);
 								},
 		    				editable: {
 			                    type: 'text',
@@ -1356,6 +1355,7 @@ $(function() {
 	    .always(function() {
 	    	console.log("complete");
 	    	$("#mask").removeClass('lmask');
+	    	$("#table-ibParam").parent('.bootstrap-table').css('margin-bottom', '30px');
 	    });
         
 	}
@@ -1373,7 +1373,6 @@ $(function() {
 	    })
 	    .done(function(result) {
 	    	var inputdata=result.bioParam||result;
-	    	$("#table-bioParam").parent('.bootstrap-table').css('margin-bottom', '30px');
 			$("#table-bioParam").bootstrapTable({
 		    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
 		    	//dataType:'json',
@@ -1485,6 +1484,7 @@ $(function() {
 	    .always(function() {
 	    	console.log("complete");
 	    	$("#mask").removeClass('lmask');
+	    	$("#table-bioParam").parent('.bootstrap-table').css('margin-bottom', '30px');
 	    });
         
 	}
@@ -1503,8 +1503,7 @@ $(function() {
 	    	data: {},
 	    })
 	    .done(function(result) {
-	    	var inputdata=result.mortality||result;
-	    	$("#table-mortality").parent('.bootstrap-table').css('margin-bottom', '30px');
+	    	var inputdata=result.mortality||result;	    	
 			$("#table-mortality").bootstrapTable({
 		    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
 		    	//dataType:'json',
@@ -1616,6 +1615,7 @@ $(function() {
 	    .always(function() {
 	    	console.log("complete");
 	    	$("#mask").removeClass('lmask');
+	    	$("#table-mortality").parent('.bootstrap-table').css('margin-bottom', '30px');
 	    });
         
 	}
