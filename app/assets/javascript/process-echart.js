@@ -115,11 +115,17 @@ $(function() {
 		          type:'line',
 		          data:[[0,1],[2,1]],
 		          markLine:{
+		          	symbol:['none','arrow'],
 		          	itemStyle:{normal:{color:'#dc143c'}},
 		          	data:[
+		          		  {yAxis:1,lineStyle:{type:'solid'}},
 		          		[
-		          		  {name:'',xAxis:0,yAxis:1},
-		          		  {name:'',xAxis:2,yAxis:1},
+		          		  {name:'',xAxis:1,yAxis:1.3},
+		          		  {name:'',xAxis:1,yAxis:1},
+		          		],
+		          		[
+		          		  {name:'',xAxis:1,yAxis:0.7},
+		          		  {name:'',xAxis:1,yAxis:1},
 		          		]
 		          	],
 		          },
