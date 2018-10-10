@@ -136,3 +136,7 @@ label.error{
     width: auto !important;
   }
 }
+/*slider bar*/
+#ex1Slider .slider-selection {
+  background: #BABABA;
+}

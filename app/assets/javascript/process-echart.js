@@ -82,7 +82,7 @@ $(function() {
     var ruleChartOption = {
     	    color:['#87cefa'],
 		    tooltip : {
-		        trigger: 'item',
+		        trigger: 'axis',
 		        formatter:function(params){
 		        	return params.data;
 		        }
@@ -95,6 +95,7 @@ $(function() {
 		          name:'SSB',
 		          splitNumber:2,
 		          axisLabel:{show:false},
+		          axisTick:{show:false},
 		          splitLine:{show:false},
 
 		        }
@@ -103,29 +104,32 @@ $(function() {
 		        {
 		          type : 'value',
 		          name:'F',
-		          min:0,
-		          max:2,
-		          splitNumber:2,
+		          min:0.03,
+		          max:0.08,
 		          axisLabel:{show:false},
+		          axisTick:{show:false},
 		          splitLine:{show:false},		         
 		        }
 		    ],
 		    series : [
 		        {
 		          type:'line',
-		          data:[[0,1],[2,1]],
+		          data:[[0,0.0500],[2,0.0500]],
 		          markLine:{
 		          	symbol:['none','arrow'],
 		          	itemStyle:{normal:{color:'#dc143c'}},
 		          	data:[
-		          		  {yAxis:1,lineStyle:{type:'solid'}},
 		          		[
-		          		  {name:'',xAxis:1,yAxis:1.3},
-		          		  {name:'',xAxis:1,yAxis:1},
+		          		  {name:'',xAxis:0,yAxis:0.0500},
+		          		  {name:'',xAxis:2,yAxis:0.0500},
 		          		],
 		          		[
-		          		  {name:'',xAxis:1,yAxis:0.7},
-		          		  {name:'',xAxis:1,yAxis:1},
+		          		  {name:'',xAxis:1,yAxis:0.0550},
+		          		  {name:'',xAxis:1,yAxis:0.0500},
+		          		],
+		          		[
+		          		  {name:'',xAxis:1,yAxis:0.0450},
+		          		  {name:'',xAxis:1,yAxis:0.0500},
 		          		]
 		          	],
 		          },
@@ -133,12 +137,37 @@ $(function() {
 		          normal:{
 		              areaStyle: {type: 'default'}
 		            }
-                  }
+                  },
+                  label:{show:true}
+                },
+                {
+		          type:'line',
+		          data:[[0,0.0588],[2,0.0588]],
+		          label:{show:true}
                 },
             ]
         };
     colorChart.setOption(colorChartOption);
     ruleChart.setOption(ruleChartOption);
+
+    $('#ex1').slider({
+
+		formatter: function(value) {
+
+			ruleChartOption.series[0].data=[];
+    		ruleChartOption.series[0].data.push([0,value]);
+    		ruleChartOption.series[0].data.push([2,value]);
+    		ruleChartOption.series[0].markLine.data[0][0].yAxis=value;
+    		ruleChartOption.series[0].markLine.data[0][1].yAxis=value;
+    		ruleChartOption.series[0].markLine.data[1][0].yAxis=value+0.005;
+    		ruleChartOption.series[0].markLine.data[1][1].yAxis=value;
+    		ruleChartOption.series[0].markLine.data[2][0].yAxis=value-0.005;
+    		ruleChartOption.series[0].markLine.data[2][1].yAxis=value;
+    		ruleChart.setOption(ruleChartOption);
+
+			return 'Current value: ' + value;
+		}
+	});
 
 
 
