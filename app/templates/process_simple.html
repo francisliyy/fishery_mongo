@@ -31,9 +31,7 @@
           <li class="acc-wizard-todo"><a href="#bioParam">Biological Parameters</a></li>
           <li class="acc-wizard-todo"><a href="#naturalmortality">Natural Mortality</a></li>
           <li class="acc-wizard-todo"><a href="#recruitment">Recruitment</a></li>
-          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options Part1</a></li>
-          <li class="acc-wizard-todo"><a href="#mgtopt2">Management Options Part2</a></li>
-          <li class="acc-wizard-todo"><a href="#mgtopt3">Management Options Part3</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options</a></li>
         </ol>
       </div>
       <div class="col-md-9" style="padding-right: 2em;">
@@ -131,8 +129,8 @@
                     <div class="col-md-2 input-group">      
                       <select id="long_term_unit" name="long_term_unit" class="form-control">
                               <option value="Y" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Years</option>
-                              <option value="S" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Seasons</option>
-                              <option value="M" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Months</option>
+                              <option value="S" disabled {{'selected' if process_step1['long_term_unit']=='S'}}>Seasons</option>
+                              <option value="M" disabled {{'selected' if process_step1['long_term_unit']=='M'}}>Months</option>
                       </select>
                     </div>              
                   </div>
@@ -396,12 +394,12 @@
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio1" disabled value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Beverton-Holt Mode
+                          <input type="radio" name="formulaStock1" id="fml1radio1" disabled value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Beverton-Holt Model
                       </label>
                     </div>
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline">
-                          <input type="radio" name="formulaStock2" id="fml2radio1" disabled value="1" {{'checked' if process_step1['formulaStock2']=='1'}}>Beverton-Holt Mode
+                          <input type="radio" name="formulaStock2" id="fml2radio1" disabled value="1" {{'checked' if process_step1['formulaStock2']=='1'}}>Beverton-Holt Model
                         </label>
                     </div>
                   </div>
@@ -434,12 +432,12 @@
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio2" disabled value="2" {{'checked' if process_step1['formulaStock1']=='2'}}>Ricker Mode
+                          <input type="radio" name="formulaStock1" id="fml1radio2" disabled value="2" {{'checked' if process_step1['formulaStock1']=='2'}}>Ricker Model
                       </label>
                     </div>
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline">
-                          <input type="radio" name="formulaStock2" id="fml2radio2" disabled value="2" {{'checked' if process_step1['formulaStock2']=='2'}}>Ricker Mode
+                          <input type="radio" name="formulaStock2" id="fml2radio2" disabled value="2" {{'checked' if process_step1['formulaStock2']=='2'}}>Ricker Model
                         </label>
                     </div>
                   </div>
@@ -599,7 +597,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#mgtopt1" data-parent="#accordion-demo" data-toggle="collapse">
-                  Management Options Part1
+                  Management Options
                 </a>
               </h4>
             </div>
@@ -650,22 +648,7 @@
                     <div id="ruleChart" class="col-md-7 input-group" style="height:400px">
                     </div>                                       
                   </div>
-                </form>
-              </div> <!--/.panel-body -->
-            </div> <!-- /#adjusthtml -->
-          </div> <!-- /.panel.panel-default -->
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="#mgtopt2" data-parent="#accordion-demo" data-toggle="collapse">
-                  Management Options Part2
-                </a>
-              </h4>
-            </div>
-            <div id="mgtopt2" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <form id="form-mgtopt2">
                   <h4>Allocation among sectors</h4>
                   <div class="form-group" style="height:34px">                    
                     <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Recreational</label> 
@@ -681,175 +664,9 @@
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
                     <div class="col-md-1 col-sm-1 input-group">
-                     <button style="margin-left: 40px" type="button" class="btn btn-danger">Include bycatch</button> 
                     </div>             
                   </div>
-                  <h4>Allocation among fleets</h4>
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-3 col-sm-3 control-label">Recreational</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
-                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
-                  </div>
-                  {% for num in range(0,4) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 col-sm-2 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_rec_stock_{{num}}" name="fleet_rec_stock_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['stock'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_rec_fleet_{{num}}" name="fleet_rec_fleet_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['fleet'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control input-txt" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['allocation'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 col-sm-1 input-group" style="width: 5px;margin-left: 5px">%</div>            
-                  </div>
-                  {% endfor%}
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-3 col-sm-3 control-label">Commercail</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
-                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
-                  </div>
-                  {% for num in range(0,4) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 col-sm-2 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_com_stock_{{num}}" name="fleet_com_stock_{{num}}" value="{{process_step1['fleet_com_stock'][num]['stock'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_com_fleet_{{num}}" name="fleet_com_fleet_{{num}}" value="{{process_step1['fleet_com_stock'][num]['fleet'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control input-txt" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" value="{{process_step1['fleet_com_stock'][num]['allocation'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 5px;width: 5px">%</div>            
-                  </div>
-                  {% endfor%}
-                  <div class="form-group form-inline">
-                    <button style="" type="button" class="btn btn-danger">Include bycatch</button>
-                  </div>
-                  <h4>Recreational fishing season</h4>
-                  <div class="form-group form-inline">
-                    <div class="col-md-1 input-group" style="margin-left: 60px">
-                      <label class="control-label">Start</label>
-                    </div>
-                    <div class='col-md-3 input-group date' id='fishingStartDate' name='fishingStartDate'>
-                      <input type='text' id="fishingStartDateTxt" name="fishingStartDateTxt" class="form-control" value="{{process_step1['fishingStartDate']}}"/>
-                      <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
-                    </div>
-                    <div class="col-md-1 input-group" style="margin-left: 115px"> 
-                      <label class="control-label">End</label>
-                    </div>
-                    <div class='col-md-3 input-group date' id='fishingEndDate' name='fishingEndDate'>
-                      <input type='text' id="fishingEndDateTxt" name="fishingEndDateTxt" class="form-control" value="{{process_step1['fishingEndDate']}}"/>
-                      <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
-                    </div>            
-                  </div>
-                 
-                </form>
-              </div> <!--/.panel-body -->
-            </div> <!-- /#adjusthtml -->
-          </div> <!-- /.panel.panel-default -->
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="#mgtopt3" data-parent="#accordion-demo" data-toggle="collapse">
-                  Management Options Part3
-                </a>
-              </h4>
-            </div>
-            <div id="mgtopt3" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <form id="form-mgtopt3">
-                  <h4>Landing ratios among states</h4>
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
-                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
-                  </div>
-                  <div class="form-group" style="height:34px">
-                    <label class="col-md-2 control-label">Stock</label> 
-                    <label class="col-md-2 control-label">State</label> 
-                    <label class="col-md-2 control-label">Loading ratios</label>
-                    <label class="col-md-2 control-label">Stock</label> 
-                    <label class="col-md-2 control-label">State</label> 
-                    <label class="col-md-2 control-label">Loading ratios</label>
-                  </div>
-                  {% for num in range(0,6) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group">
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:80px;" id="ratio_rec_stock_{{num}}" name="ratio_rec_stock_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['stock'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input maxlength="5" type="text" class="form-control" style="border-radius: 4px;width:100px;" id="ratio_rec_state_{{num}}" name="ratio_rec_state_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['state'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_rec_ratio_{{num}}" name="ratio_rec_ratio_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['ratio'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="width:30px;margin-left: 0px">%</div> 
-                    <div class="col-md-2 input-group">   
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:80px;" id="ratio_com_stock_{{num}}" name="ratio_com_stock_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['stock'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input maxlength="5" type="text" class="form-control" style="border-radius: 4px;width:100px;" id="ratio_com_state_{{num}}" name="ratio_com_state_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['state'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_com_ratio_{{num}}" name="ratio_com_ratio_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['ratio'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="width:10px;margin-left: 0px">%</div>     
-                  </div>
-                  {% endfor%}
-                  <h4>Discard ratio</h4>
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
-                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
-                  </div>
-                  <div class="form-group" style="height:34px">
-                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
-                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
-                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
-                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
-                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
-                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
-                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
-                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
-                  </div>
-                  {% for num in range(0,6) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-1 input-group">
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_rec_stock_{{num}}" name="discard_rec_stock_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['stock'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_fleet_{{num}}" name="discard_rec_fleet_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['fleet'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_oc_{{num}}" name="discard_rec_oc_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['oc'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_ratio_{{num}}" name="discard_rec_ratio_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['ratio'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="margin: 0 15px 0 0">%</div>
-                    <div class="col-md-1 input-group">
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_com_stock_{{num}}" name="discard_com_stock_{{num}}" value="{{process_step1['discard_com_ratio'][num]['stock'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_fleet_{{num}}" name="discard_com_fleet_{{num}}" value="{{process_step1['discard_com_ratio'][num]['fleet'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px; " id="discard_com_oc_{{num}}" name="discard_com_oc_{{num}}" value="{{process_step1['discard_com_ratio'][num]['oc'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_ratio_{{num}}" name="discard_com_ratio_{{num}}" value="{{process_step1['discard_com_ratio'][num]['ratio'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="width: 10px;margin: 0 15px 0 0">%</div>          
-                  </div>
-                  {% endfor%}
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->
@@ -886,8 +703,8 @@
             </div>
             <div id="bio" class="panel-collapse collapse in">
               <div class="panel-body">
-                <div id="bio-chart-1" class="echart-size">
-                </div>
+                  <div id="bio-chart-1" class="echart-size">
+                  </div>
               </div> <!--/.panel-body -->
             </div> <!-- /#generalinput -->
           </div> <!-- /.panel.panel-default -->

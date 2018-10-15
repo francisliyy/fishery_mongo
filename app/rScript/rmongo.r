@@ -179,7 +179,7 @@ storeGlobalSetting<-function(store_path,folder_name){
   library("rmongodb")
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   start_projection <- as.Date('2017/01/01')
-  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":15,"short_term_unit":"Y","long_term_mgt":60,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson
+  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":3,"short_term_unit":"Y","long_term_mgt":20,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson
                     ,',"bioParam":',bioParamJson,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',SSB0_1,',"fml1MbhmR0":',R0_1,',"fml1MbhmSteep":',steepness,',"cv1Recruit":',30
                     ,',"recruitTypeStock2":"2","formulaStock2":"3","fml2MbhmSSB0":',SSB0_2,',"fml2MbhmR0":',R0_2,',"fml2MbhmSteep":',steepness,',"cv2Recruit":',30

@@ -754,12 +754,12 @@ class StockFileView(ModelView):
 
     list_template = 'stock_file.html'
 
-    label_columns = {'file_name': 'File Name','description':'Description','download': 'Download'}
-    add_columns =  ['file', 'description']
-    edit_columns = ['file', 'description']
-    list_columns = ['file_name', 'description', 'created_by', 'created_on', 'changed_by', 'changed_on','is_default','download']
+    label_columns = {'file_name': 'File Name','ssb_msy':'SSB(msy)','f_msy':'F(msy)','description':'Description','download': 'Download'}
+    add_columns =  ['file','ssb_msy','f_msy', 'description']
+    edit_columns = ['file', 'description','f_msy', 'description']
+    list_columns = ['file_name', 'description','ssb_msy','f_msy', 'created_by', 'created_on', 'changed_by', 'changed_on','is_default','download']
     show_fieldsets = [
-        ('Info', {'fields': ['file_name', 'description', 'default_file', 'download']}),
+        ('Info', {'fields': ['file_name','ssb_msy','f_msy', 'description', 'default_file', 'download']}),
         ('Audit', {'fields': ['created_by', 'created_on', 'changed_by', 'changed_on'], 'expanded': False})
     ]
     formatters_columns = {'created_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S"),'changed_on': lambda x: x.strftime("%Y-%m-%d %H:%M:%S") }

@@ -1,5 +1,5 @@
 from mongoengine import Document, EmbeddedDocument
-from mongoengine import BooleanField,DateTimeField, StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField,EmbeddedDocumentListField
+from mongoengine import BooleanField,DateTimeField,FloatField,StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField,EmbeddedDocumentListField
 from flask import Markup, url_for
 from flask_appbuilder.models.decorators import renders
 #from flask_appbuilder.security.mongoengine.models import *
@@ -19,6 +19,8 @@ class StockFile(Document):
 	file = FileField(required=True)
 	description = StringField(max_length=500)
 	default_file = BooleanField(default=False)
+	ssb_msy = FloatField()
+	f_msy = FloatField()
 	created_by = ReferenceField("User",reqired=True)
 	created_on = DateTimeField(default=datetime.datetime.now, nullable=False)
 	changed_by = ReferenceField("User",reqired=True)
