@@ -610,14 +610,14 @@
                     <label class="col-md-2 radio-inline" >SSB<sub>MSY</sub></label>
                     <div class="col-md-7 col-sm-7 input-group">  
                        
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
                       <span style="margin-left:5px;width:5px">eggs</span>
                     </div>                                  
                   </div>
                   <div class="form-group">
                     <label class="col-md-2 radio-inline" >F<sub>MSY</sub></label>
                     <div class="col-md-7 col-sm-7 input-group"> 
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>    
+                      <input maxlength="10" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>    
                       <span style="margin-left:5px;width:5px">years<sup>-1</sup></span>                  
                     </div>                                  
                   </div>
@@ -631,10 +631,10 @@
                     <h4>Harvest control rule</h4>
                     <label class="col-md-4 control-label"></label>
                     <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="contCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CC' or process_step1['hrt_harvest_rule'] is none}} value="CC"> Constant C
+                      <input type="radio" name="hrt_harvest_rule" disabled id="contCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CC' or process_step1['hrt_harvest_rule'] is none}} value="CC"> Constant C
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="contFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CF'}} value="CF"> Constant F
+                      <input type="radio" name="hrt_harvest_rule" disabled id="contFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CF'}} value="CF"> Constant F
                     </label>
                   </div>
                   <div class="form-group">

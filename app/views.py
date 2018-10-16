@@ -180,6 +180,10 @@ class ProcessView(ModelView):
             step1.fml2MbhmSteep = global_settings.fml2MbhmSteep
             step1.cv2Recruit = global_settings.cv2Recruit
 
+            step1.bio_catch_mt = global_settings.ssb_msy
+            step1.bio_f_percent = global_settings.f_msy
+            step1.hrt_harvest_rule = global_settings.hrt_harvest_rule
+
             step1.save()            
 
 

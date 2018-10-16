@@ -1160,52 +1160,7 @@ $(function() {
 	/* part 7 recruitment end */
 
 	/* part 8 Management Options Part I start */
-	function initBioPoints(){
-		if($("input[name='bio_harvest_radio']:checked").val()=='C'){
-			$("#bio_catch_mt").prop('disabled', '');
-			$("#bio_f_percent").prop('disabled', 'disabled');
-		}else{
-			$("#fbaseRadio").prop('checked', true);
-			$("#bio_catch_mt").prop('disabled', 'disabled');
-			$("#bio_f_percent").prop('disabled', '');
-		}
-	}
 
-	function initHrtPoints(){
-		if($("input[name='hrt_harvest_radio']:checked").val()=='C'){
-			$("#hst_catch_thh1").prop('disabled', '');
-			$("#hst_catch_thh2").prop('disabled', '');
-			$("#hst_f_thh1").prop('disabled', 'disabled');
-			$("#hst_f_thh2").prop('disabled', 'disabled');
-		}else{
-			$("#fRadio").prop('checked',true);
-			$("#hst_catch_thh1").prop('disabled', 'disabled');
-			$("#hst_catch_thh2").prop('disabled', 'disabled');
-			$("#hst_f_thh1").prop('disabled', '');
-			$("#hst_f_thh2").prop('disabled', '');
-		}
-	}
-
-
-
-	$("input[name='hrt_harvest_rule']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		$("#hr_rule_pic").prop("src", $SCRIPT_ROOT+"/static/assets/images/harvestCtlRule/"+$("input[name='hrt_harvest_rule']:checked").val()+".png")
-		
-	});
-
-	$("input[name='bio_harvest_radio']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		initBioPoints();
-	});
-
-	$("input[name='hrt_harvest_radio']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		initHrtPoints();
-	});
 	/* part 8 Management Options Part I end */
 
 	/* initialization start*/
@@ -1218,8 +1173,6 @@ $(function() {
     $("input[name='recruitTypeStock1']:checked").val()==2&&$("#form-recruitment input[name='formulaStock1']").prop('disabled','disabled')&&initFormulaStock(1);
     $("input[name='recruitTypeStock2']:checked").val()==2&&$("#form-recruitment input[name='formulaStock2']").prop('disabled','disabled')&&initFormulaStock(2);
 
-    initBioPoints();
-    initHrtPoints();
     /* initialization end*/
 	
 

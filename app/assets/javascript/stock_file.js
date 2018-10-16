@@ -8,6 +8,8 @@ $(function() {
 
              	var fileid = $(this).data('fileid');
              	var sfid = $(this).data('sfid');
+             	var ssb_msy = $(this).data('ssbmsy');
+             	var f_msy = $(this).data('fmsy');
              	console.log(fileid);
 
              	$.ajax({
@@ -16,7 +18,7 @@ $(function() {
 		            crossDomain: true,
 		            type: "POST",
 		            dataType: "json",
-		            data: JSON.stringify({"file_id":fileid,"store_path":"~/msedata/"}),
+		            data: JSON.stringify({"file_id":fileid,"store_path":"~/msedata/","ssb_msy":ssb_msy,"f_msy":f_msy}),
 		            success: function(data) 
 		            {
 		                 $("#mask").removeClass('lmask');

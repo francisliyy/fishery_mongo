@@ -29,9 +29,9 @@ class StockFile(Document):
 
 	def is_default(self):
 		if self.default_file is True:
-			return Markup('<input type="radio" name="defaultfile" data-sfid="'+str(self.id)+'" data-fileid="'+str(self.file._id)+'" checked>')
+			return Markup('<input type="radio" name="defaultfile" data-sfid="'+str(self.id)+'" data-fileid="'+str(self.file._id)+'" data-ssbmsy="'+str(self.ssb_msy)+'" data-fmsy="'+str(self.f_msy)+'" checked>')
 		else:	
-			return Markup('<input type="radio" name="defaultfile" data-sfid="'+str(self.id)+'" data-fileid="'+str(self.file._id)+'" >')
+			return Markup('<input type="radio" name="defaultfile" data-sfid="'+str(self.id)+'" data-fileid="'+str(self.file._id)+'" data-ssbmsy="'+str(self.ssb_msy)+'" data-fmsy="'+str(self.f_msy)+'" >')
 
 	def download(self):
 		if self.file:
@@ -169,6 +169,11 @@ class GlobalSettings(Document):
 	fml2MbhmR0 = DecimalField()
 	fml2MbhmSteep = DecimalField()
 	cv2Recruit = DecimalField()
+	#step7
+	ssb_msy = DecimalField()
+	f_msy = DecimalField(precision=4)
+	hrt_harvest_rule = StringField(max_length=2)
+
 
 class ProcessGenInput(Document):
 
@@ -263,12 +268,15 @@ class ProcessGenInput(Document):
 
 	cv2Recruit = DecimalField()
 	#step8
+	bio_catch_mt = DecimalField()
+	bio_f_percent = DecimalField(precision=4)
+	hrt_harvest_rule = StringField(max_length=2)
+
 	bio_biomass_points = DecimalField()
 	bio_harvest_radio = StringField(max_length=2)
-	bio_catch_mt = DecimalField()
-	bio_f_percent = DecimalField()
 
-	hrt_harvest_rule = StringField(max_length=2)
+
+	
 	hrt_threshold1 = DecimalField()
 	hrt_threshold2 = DecimalField()
 	hrt_harvest_radio = StringField(max_length=2)

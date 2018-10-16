@@ -54,7 +54,7 @@ getRondomFile<-function(file_id,store_path){
 }
 
 # This function is used for save into MongoDb
-storeGlobalSetting<-function(store_path,folder_name){
+storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   setwd(store_path)
   require(r4ss)
   direct_ofl <- folder_name
@@ -183,7 +183,7 @@ storeGlobalSetting<-function(store_path,folder_name){
                     ,',"bioParam":',bioParamJson,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',SSB0_1,',"fml1MbhmR0":',R0_1,',"fml1MbhmSteep":',steepness,',"cv1Recruit":',30
                     ,',"recruitTypeStock2":"2","formulaStock2":"3","fml2MbhmSSB0":',SSB0_2,',"fml2MbhmR0":',R0_2,',"fml2MbhmSteep":',steepness,',"cv2Recruit":',30
-                    ,'}',sep = "")
+                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF"}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")
   mongo.insert(mongo,"admin.global_settings",global_content)
@@ -197,7 +197,7 @@ storeGlobalSetting<-function(store_path,folder_name){
 #' @param store_path file saved directory
 #' @serializer unboxedJSON
 #' @post /defaultFile
-function(file_id,store_path){
+function(file_id,store_path,ssb_msy,f_msy){
   library("rmongodb")
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   print(mongo.is.connected(mongo))
@@ -219,7 +219,7 @@ function(file_id,store_path){
   }
   mongo.gridfs.destroy(gridfs)
   split_filename<-unlist(strsplit(filename, "\\."))
-  storeGlobalSetting(store_path,split_filename[1])
+  storeGlobalSetting(store_path,split_filename[1],ssb_msy,f_msy)
 }
 
 #* Echo back the input,for testing the service is ready or not
