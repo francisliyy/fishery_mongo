@@ -618,8 +618,6 @@ $(function() {
     	format:'YYYY-MM-DD',
     });
 
-    /** keep it for future use, implemented multiple file upload.
-
     $("#rnd_seed_file").uploadFile({
 		url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
 	    //maxFileCount: 1,                		   //上传文件个数（多个时修改此处
@@ -678,7 +676,7 @@ $(function() {
 	        // }
 	    }
 	});
-	**/
+
 
 	/*part 2 general input end */
 
@@ -742,22 +740,6 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"CV (Normal Dist.)",
-		    				field:"cv_1",
-		    				formatter: function(value, row, index, field) {
-						        	return parseFloat(value||0);
-								},
-		    				editable: {
-			                    type: 'text',
-			                    title: 'CV 1',			                    
-			                    validate: function (v) {
-			                        if (isNaN(v)) return 'CV must be number';
-			                        var stockmean = parseFloat(v);
-			                        if (stockmean <= 0) return 'CV must larger than 0';
-				                }
-		                    }
-		    			},
-		    			{
 		    				title:"Stock 2 mean",
 		    				field:"stock_2_mean",
 		    				editable: {
@@ -767,22 +749,6 @@ $(function() {
 			                        if (isNaN(v)) return 'Stock 2 mean must be number';
 			                        var stockmean = parseFloat(v);
 			                        if (stockmean <= 0) return 'Stock 2 mean must larger than 0';
-				                }
-		                    }
-		    			},
-		    			{
-		    				title:"CV (Normal Dist.)",
-		    				field:"cv_2",
-		    				formatter: function(value, row, index, field) {
-						        	return parseFloat(value||0);
-								},
-		    				editable: {
-			                    type: 'text',
-			                    title: 'CV 2',			                    
-			                    validate: function (v) {
-			                        if (isNaN(v)) return 'CV must be number';
-			                        var stockmean = parseFloat(v);
-			                        if (stockmean <= 0) return 'CV must larger than 0';
 				                }
 		                    }
 		    			},
@@ -1007,6 +973,7 @@ $(function() {
 				                }
 		                    }
 		    			},
+		    			/*
 		    			{
 		    				title:"CV 1 (Log-normal Dist.)",
 		    				field:"cv_mean_1",
@@ -1020,6 +987,7 @@ $(function() {
 				                }
 		                    }
 		    			},
+		    			*/
 		    			{
 		    				title:"Mean 2",
 		    				field:"mean_2",
@@ -1030,19 +998,6 @@ $(function() {
 			                        if (isNaN(v)) return 'Mean must be number';
 			                        var stockmean = parseFloat(v);
 			                        if (stockmean <= 0) return 'Mean must larger than 0';
-				                }
-		                    }
-		    			},
-		    			{
-		    				title:"CV 2 (Log-normal Dist.)",
-		    				field:"cv_mean_2",
-		    				editable: {
-			                    type: 'text',
-			                    title: 'CV (Log-normal Dist.)',
-			                    validate: function (v) {
-			                        if (isNaN(v)) return 'CV must be number';
-			                        var stockmean = parseFloat(v);
-			                        if (stockmean <= 0) return 'CV must larger than 0';
 				                }
 		                    }
 		    			},

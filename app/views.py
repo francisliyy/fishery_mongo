@@ -163,8 +163,11 @@ class ProcessView(ModelView):
             step1.last_age = global_settings.last_age
             step1.no_of_interations = global_settings.no_of_interations
             step1.rnd_seed_setting = global_settings.rnd_seed_setting
+            step1.sample_size = global_settings.sample_size
 
+            step1.ip_cv = global_settings.ip_cv
             step1.simple_spawning = global_settings.simple_spawning
+            step1.nm_cv = global_settings.nm_cv
 
             step1.recruitTypeStock1 = global_settings.recruitTypeStock1
             step1.formulaStock1 = global_settings.formulaStock1
@@ -188,9 +191,9 @@ class ProcessView(ModelView):
 
 
             #add default rnd file
-            rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/test.csv'),'rb')
+            rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/seed.csv'),'rb')
             onefile = mongoengine.fields.GridFSProxy()
-            onefile.put(rndfile,content_type='csv',filename = 'test.csv')
+            onefile.put(rndfile,content_type='csv',filename = 'seed.csv')
             step1.rnd_seed_file.append(onefile)
             step1.save()
 

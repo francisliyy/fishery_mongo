@@ -4,7 +4,7 @@ $(function() {
     var ruleChart = echarts.init(document.getElementById('ruleChart'));
     var colorChartOption = {
     	    color:[ 
-			    '#32cd32'
+			    '#1e90ff'
 			], 
 		    tooltip : {
 		        trigger: 'item',

@@ -147,13 +147,16 @@ class GlobalSettings(Document):
 	mixing_pattern = StringField(max_length=2)
 	last_age = IntField()
 	no_of_interations = IntField()
+	sample_size = IntField()
 	rnd_seed_setting = StringField(max_length=2)
 	#STEP3
+	ip_cv = DecimalField()
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 	#STEP4
 	bioParam = EmbeddedDocumentListField(BioParameter)
 	#STEP5
 	simple_spawning = DecimalField()
+	nm_cv = DecimalField()
 	mortality = EmbeddedDocumentListField(Mortality)
 	#STEP6
 	recruitTypeStock1 = StringField(max_length=2)
@@ -195,6 +198,7 @@ class ProcessGenInput(Document):
 	mixing_pattern = StringField(max_length=2)
 	last_age = IntField()
 	no_of_interations = IntField()
+	sample_size = IntField()
 	rnd_seed_setting = StringField(max_length=2)
 	rnd_seed_file = ListField(FileField())
 	#step2
@@ -208,6 +212,7 @@ class ProcessGenInput(Document):
 	stock2_model_type = StringField(max_length=2)
 	stock2_filepath = FileField()
 	#step4
+	ip_cv = DecimalField()
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 	#step5
 	bioParam = EmbeddedDocumentListField(BioParameter)
@@ -215,6 +220,7 @@ class ProcessGenInput(Document):
 	mortality_complexity = IntField()
 
 	simple_spawning = DecimalField()
+	nm_cv = DecimalField()
 
 	mortality = EmbeddedDocumentListField(Mortality)
 	#step7

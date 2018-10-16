@@ -68,9 +68,10 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   ########################################################
   age_1<-base$agebins
   stock_1_mean<-base$natage[(base$natage$Area==1)&(base$natage$Yr==base$endyr)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
-  cv_N_1<-rep(0.2,length(base$agebins))
+  ip_cv<-0.2
+  cv_N_1<-rep(ip_cv,length(base$agebins))
   stock_2_mean<-base$natage[(base$natage$Area==2)&(base$natage$Yr==base$endyr)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
-  cv_N_2<-rep(0.2,length(base$agebins))
+  cv_N_2<-rep(ip_cv,length(base$agebins))
   iniPopu<-cbind(age_1,t(stock_1_mean),cv_N_1,t(stock_2_mean),cv_N_2)
   colnames(iniPopu) <- c("age_1", "stock_1_mean", "cv_1", "stock_2_mean", "cv_2")
   library("RJSONIO")
@@ -127,9 +128,9 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
     M_1<-M
     M_2<-M
   }
-  
-  cv_M_1<-rep(0.2,length(base$agebins))
-  cv_M_2<-rep(0.2,length(base$agebins))
+  nm_cv<-0.2
+  cv_M_1<-rep(nm_cv,length(base$agebins))
+  cv_M_2<-rep(nm_cv,length(base$agebins))
   
   #Step 5 natural mortality
   natM<-cbind(age_1, t(M_1),cv_M_1,t(M_2),cv_M_2)
@@ -179,8 +180,8 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   library("rmongodb")
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   start_projection <- as.Date('2017/01/01')
-  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":3,"short_term_unit":"Y","long_term_mgt":20,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"rnd_seed_setting":"0","iniPopu":',iniPopuJson
-                    ,',"bioParam":',bioParamJson,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
+  jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":3,"short_term_unit":"Y","long_term_mgt":20,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"sample_size":1000,"rnd_seed_setting":"0","iniPopu":',iniPopuJson
+                    ,',"ip_cv":',ip_cv,',"bioParam":',bioParamJson,',"nm_cv":',nm_cv,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',SSB0_1,',"fml1MbhmR0":',R0_1,',"fml1MbhmSteep":',steepness,',"cv1Recruit":',30
                     ,',"recruitTypeStock2":"2","formulaStock2":"3","fml2MbhmSSB0":',SSB0_2,',"fml2MbhmR0":',R0_2,',"fml2MbhmSteep":',steepness,',"cv2Recruit":',30
                     ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF"}',sep = "")
