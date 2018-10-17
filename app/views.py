@@ -755,6 +755,23 @@ class ProStepView(BaseView):
         stockFile.save()
         return Response(json.dumps({'status':1}), mimetype='application/json')
 
+    @expose('/getVisitors')
+    def getVisitors(self):
+
+        pgi = ProcessGenInput.objects(id=pk).first()
+
+        if pgi.mortality != None and len(pgi.mortality)>0:
+            return Response(pgi.to_json(), mimetype='application/json')
+
+        else:
+            global_settings = GlobalSettings.objects.first()                     
+
+            pgi.mortality = global_settings.mortality
+
+            pgi.save()
+
+            return Response(pgi.to_json(), mimetype='application/json')
+
 class StockFileView(ModelView):
 
     datamodel = MongoEngineInterface(StockFile)

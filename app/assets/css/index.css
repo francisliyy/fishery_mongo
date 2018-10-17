@@ -1,0 +1,36 @@
+.stats-number {
+    width: 90%;
+    margin: 0 auto;
+    padding: 3px;
+    color: #007abf;
+    font-size: 42px;
+    font-weight: 700;
+    border-bottom: 1px #e0e0e0 solid;
+}
+.stats-label {
+    width: 90%;
+    margin: 0 auto;
+    padding: 6px 3px 3px;
+    color: #006199;
+    font-size: 14px;
+    border-top: 1px #f2f2f2 solid;
+}
+.img-rounded {
+	border-radius: 6px;
+	height: 40px;
+    font-size: 11px;
+    line-height: 1.36364;
+    font-weight: 400;
+    letter-spacing: -.008em;
+    background-color: #f2f2f2;
+    color: #333;
+    min-width: 1024px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+.copyright{
+    border-top: 1px solid #d6d6d6;
+    color: #888;
+    padding: 13px 0 17px;
+}
