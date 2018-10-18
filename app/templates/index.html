@@ -23,9 +23,9 @@
 	  </thead>
 	  <tbody>
 	    <tr>
-	      <td class="stats-number" style="width:33.3%;text-align: center">1000</td>
-	      <td class="stats-number" style="width:33.3%;text-align: center">500</td>
-	      <td class="stats-number" style="text-align: center">50</td>
+	      <td id="vistors_count" class="stats-number" style="width:33.3%;text-align: center">1000</td>
+	      <td id="registed_count" class="stats-number" style="width:33.3%;text-align: center">500</td>
+	      <td id="mse_count" class="stats-number" style="text-align: center">50</td>
 	    </tr>
 	  </tbody>
 	</table>
@@ -80,4 +80,12 @@ Christina Verlinde</br>Florida Sea Grant</br>
 <div class="copyright">
 	Copyright &copy; Florida International University Fisheries and Ecosystem Assessment Lab 2018-2020
 </div>
+{% endblock %}
+{% block tail_js %}
+	  {{super()}}
+    <script type="text/javascript">
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script src="{{url_for('static',filename='assets/framework/easy-number-animate/dist/jquery.easy_number_animate.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/index.js')}}"></script>   
 {% endblock %}

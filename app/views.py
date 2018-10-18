@@ -3,6 +3,7 @@ from flask.ext.appbuilder import ModelView
 from flask.ext.appbuilder.models.mongoengine.interface import MongoEngineInterface
 from flask_appbuilder.models.mongoengine.filters import FilterEqual,FilterEqualFunction
 from flask_appbuilder.actions import action
+from flask_appbuilder.security.mongoengine.models import User,RegisterUser
 from app import appbuilder
 from flask_appbuilder import BaseView, expose, has_access
 from flask_login import current_user
@@ -758,19 +759,13 @@ class ProStepView(BaseView):
     @expose('/getVisitors')
     def getVisitors(self):
 
-        pgi = ProcessGenInput.objects(id=pk).first()
+        login_count = User.objects.sum('login_count')
 
-        if pgi.mortality != None and len(pgi.mortality)>0:
-            return Response(pgi.to_json(), mimetype='application/json')
+        registed_count = User.objects.count()
 
-        else:
-            global_settings = GlobalSettings.objects.first()                     
+        mse_count = Process.objects.count()
 
-            pgi.mortality = global_settings.mortality
-
-            pgi.save()
-
-            return Response(pgi.to_json(), mimetype='application/json')
+        return Response(json.dumps({'login_count':login_count,'registed_count':registed_count,'mse_count':mse_count}), mimetype='application/json')
 
 class StockFileView(ModelView):
 
