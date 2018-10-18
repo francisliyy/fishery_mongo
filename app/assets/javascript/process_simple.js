@@ -298,6 +298,8 @@ $(function() {
 	      sec_recreational:{
 	      	required: true,
 	      	number:true,
+	      	min:0,
+	      	max:100,
 	      },
 	      sec_commercial:{
 	      	required: true,
@@ -727,11 +729,11 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 1 mean",
+		    				title:"Stock 1 mean(1000s)",
 		    				field:"stock_1_mean",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Stock 1 mean',
+			                    title: 'Stock 1 mean(1000s)',
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'Stock 1 mean must be number';
 			                        var stockmean = parseFloat(v);
@@ -740,11 +742,11 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"Stock 2 mean",
+		    				title:"Stock 2 mean(1000s)",
 		    				field:"stock_2_mean",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Stock 2 mean',
+			                    title: 'Stock 2 mean(1000s)',
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'Stock 2 mean must be number';
 			                        var stockmean = parseFloat(v);
@@ -830,7 +832,7 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 1 Weight-at-age",
+		    				title:"Stock 1 Weight-at-age(kg)",
 		    				field:"weight_at_age_1",
 		    				editable: {
 			                    type: 'text',
@@ -843,7 +845,7 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"Stock 1 Fecundity",
+		    				title:"Stock 1 Fecundity</br>(# of eggs)",
 		    				field:"fec_at_age_1",
 		    				editable: {
 			                    type: 'text',
@@ -856,7 +858,7 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"Stock 2 Weight-at-age",
+		    				title:"Stock 2 Weight-at-age(kg)",
 		    				field:"weight_at_age_2",
 		    				editable: {
 			                    type: 'text',
@@ -869,7 +871,7 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"Stock 2 Fecundity",
+		    				title:"Stock 2 Fecundity</br>(# of eggs)",
 		    				field:"fec_at_age_2",
 		    				editable: {
 			                    type: 'text',
@@ -1117,6 +1119,16 @@ $(function() {
 	/* part 8 Management Options Part I start */
 
 	/* part 8 Management Options Part I end */
+
+	$('#sec_recreational').on('input',function(e) {
+		cur_value = parseInt($(this).val());
+		console.log(cur_value);
+		if(cur_value>=0&&cur_value<=100){
+			$('#sec_commercial').val(100-cur_value);
+		}
+
+	});
+
 
 	/* initialization start*/
 	//$("#start_projection").find("input").val(moment('2017-01-01').format('YYYY-MM-DD'));

@@ -208,16 +208,17 @@
             <div id="ibParam" class="panel-collapse collapse in">
               <div class="panel-body">
                 <form id="form-ibParam">
-                    <div class="form-group form-inline">
+
+                  <!-- <table id="table-ibParam" data-toggle="table"> -->
+                  <table id="table-ibParam">
+                      
+                  </table>  
+                  <div class="form-group form-inline" style="margin-top: 15px">
                       <label class="col-md-3 col-sm-3 control-label">CV (Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv" name="ip_cv" value="{{process_step1['ip_cv'] if process_step1['ip_cv'] != None else ''}}" placeholder=""/>
                       </div>             
-                    </div>
-                  <!-- <table id="table-ibParam" data-toggle="table"> -->
-                  <table id="table-ibParam">
-                      
-                  </table>                  
+                    </div>                
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->
@@ -266,16 +267,17 @@
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="simple_spawning" name="simple_spawning" value="{{process_step1['simple_spawning'] if process_step1['simple_spawning'] != None else ''}}" placeholder="0.83"/>
                       </div>             
                     </div>
-                    <div class="form-group form-inline">
+
+                  </div> 
+                  <table id="table-mortality">
+                      
+                  </table>
+                    <div class="form-group form-inline" style="margin-top: 15px">
                       <label class="col-md-3 col-sm-3 control-label">CV (Log-normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="nm_cv" name="nm_cv" value="{{process_step1['nm_cv'] if process_step1['nm_cv'] != None else ''}}" placeholder=""/>
                       </div>             
                     </div>
-                  </div> 
-                  <table id="table-mortality">
-                      
-                  </table>
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->
@@ -635,14 +637,14 @@
                     <label class="col-md-2 radio-inline" >SSB<sub>MSY</sub></label>
                     <div class="col-md-7 col-sm-7 input-group">  
                        
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
+                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
                       <span style="margin-left:5px;width:5px">eggs</span>
                     </div>                                  
                   </div>
                   <div class="form-group">
                     <label class="col-md-2 radio-inline" >F<sub>MSY</sub></label>
                     <div class="col-md-7 col-sm-7 input-group"> 
-                      <input maxlength="10" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>    
+                      <input maxlength="10" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>    
                       <span style="margin-left:5px;width:5px">years<sup>-1</sup></span>                  
                     </div>                                  
                   </div>
@@ -681,11 +683,11 @@
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_recreational" name="sec_recreational" value="{{process_step1['sec_recreational'] if process_step1['sec_recreational'] != None else ''}}" placeholder="3"/>
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_recreational" name="sec_recreational" value="{{process_step1['sec_recreational'] if process_step1['sec_recreational'] != None else ''}}" placeholder="3" />
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div> 
                     <div class="col-md-2 col-sm-2 input-group">      
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_commercial" name="sec_commercial" value="{{process_step1['sec_commercial'] if process_step1['sec_commercial'] != None else ''}}" placeholder="3"/>
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" readonly id="sec_commercial" name="sec_commercial" value="{{process_step1['sec_commercial'] if process_step1['sec_commercial'] != None else ''}}" placeholder="3"/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
                     <div class="col-md-1 col-sm-1 input-group">
