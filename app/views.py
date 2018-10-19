@@ -187,6 +187,8 @@ class ProcessView(ModelView):
             step1.bio_catch_mt = global_settings.ssb_msy
             step1.bio_f_percent = global_settings.f_msy
             step1.hrt_harvest_rule = global_settings.hrt_harvest_rule
+            step1.sec_recreational = global_settings.sec_recreational
+            step1.sec_commercial = global_settings.sec_commercial
 
             step1.save()            
 

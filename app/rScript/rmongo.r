@@ -184,7 +184,7 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
                     ,',"ip_cv":',ip_cv,',"bioParam":',bioParamJson,',"nm_cv":',nm_cv,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',SSB0_1,',"fml1MbhmR0":',R0_1,',"fml1MbhmSteep":',steepness,',"cv1Recruit":',30
                     ,',"recruitTypeStock2":"2","formulaStock2":"3","fml2MbhmSSB0":',SSB0_2,',"fml2MbhmR0":',R0_2,',"fml2MbhmSteep":',steepness,',"cv2Recruit":',30
-                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF"}',sep = "")
+                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF","sec_recreational":49,"sec_commercial":51}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")
   mongo.insert(mongo,"admin.global_settings",global_content)

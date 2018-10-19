@@ -176,6 +176,8 @@ class GlobalSettings(Document):
 	ssb_msy = DecimalField()
 	f_msy = DecimalField(precision=4)
 	hrt_harvest_rule = StringField(max_length=2)
+	sec_recreational = DecimalField()
+	sec_commercial = DecimalField()
 
 
 class ProcessGenInput(Document):
