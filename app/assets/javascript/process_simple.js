@@ -454,10 +454,9 @@ $(function() {
 					return false;
 				};
 				var data = {};
+				//var bio_biomass_points = $("#bio_biomass_points").val()||0;
 
-				var bio_biomass_points = $("#bio_biomass_points").val()||0;
-
-				var bio_harvest_radio = $('input[name=bio_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
+				//var bio_harvest_radio = $('input[name=bio_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
 				var bio_catch_mt = $("#bio_catch_mt:enabled").val()||0;
 				var bio_f_percent = $("#bio_f_percent:enabled").val()||0;
 
@@ -471,6 +470,7 @@ $(function() {
 				var hst_f_thh1 = $("#hst_f_thh1:enabled").val()||0;
 				var hst_f_thh2 = $('#hst_f_thh2:enabled').val()||0;
 
+				var bio_f_percent = $("#ex1").val()||0.0588;
 				var sec_recreational = $("#sec_recreational").val()||0;
 				var sec_commercial = $("#sec_commercial").val()||0;
 
@@ -480,10 +480,7 @@ $(function() {
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify({'bio_biomass_points':bio_biomass_points,'bio_harvest_radio':bio_harvest_radio,'bio_catch_mt':bio_catch_mt,
-		        'bio_f_percent':bio_f_percent,'hrt_harvest_rule':hrt_harvest_rule,'hrt_threshold1':hrt_threshold1,'hrt_threshold2':hrt_threshold2,
-		        'hrt_harvest_radio':hrt_harvest_radio,'hst_catch_thh1':hst_catch_thh1,'hst_catch_thh2':hst_catch_thh2,'hst_f_thh1':hst_f_thh1,
-		        'hst_f_thh2':hst_f_thh2,"sec_recreational":sec_recreational,"sec_commercial":sec_commercial}),
+		            data: JSON.stringify({'bio_f_percent':bio_f_percent,"sec_recreational":sec_recreational,"sec_commercial":sec_commercial}),
 		            success: function(data) 
 		            {
 		                 if(data.status=1){

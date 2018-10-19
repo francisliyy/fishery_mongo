@@ -277,7 +277,7 @@ class ProcessGenInput(Document):
 	cv2Recruit = DecimalField()
 	#step8
 	bio_catch_mt = DecimalField()
-	bio_f_percent = DecimalField(precision=4)
+	bio_f_percent = FloatField()
 	hrt_harvest_rule = StringField(max_length=2)
 
 	bio_biomass_points = DecimalField()

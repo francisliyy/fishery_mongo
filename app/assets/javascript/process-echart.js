@@ -164,6 +164,7 @@ $(function() {
     		ruleChartOption.series[0].markLine.data[2][0].yAxis=value-0.005;
     		ruleChartOption.series[0].markLine.data[2][1].yAxis=value;
     		ruleChart.setOption(ruleChartOption);
+    		$("#bio_f_percent").val(parseFloat(value/0.75).toPrecision(3));
 
 			return 'Current value: ' + value;
 		}

@@ -412,26 +412,19 @@ class ProStepView(BaseView):
     @expose('/step8/<string:pk>', methods = ['PUT'])
     @has_access
     def step8(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()    		
-    		inputparam = request.get_json()
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()    		
+            inputparam = request.get_json()
 
-    		pgi.bio_biomass_points = float(inputparam['bio_biomass_points']);
-    		pgi.bio_harvest_radio = inputparam['bio_harvest_radio'];
-    		pgi.bio_catch_mt = float(inputparam['bio_catch_mt']);
-    		pgi.bio_f_percent = float(inputparam['bio_f_percent']);
-    		pgi.hrt_harvest_rule = inputparam['hrt_harvest_rule'];
-    		pgi.hrt_threshold1 = float(inputparam['hrt_threshold1']);
-    		pgi.hrt_threshold2 = float(inputparam['hrt_threshold2']);
-    		pgi.hrt_harvest_radio = inputparam['hrt_harvest_radio'];
-    		pgi.hst_catch_thh1 = float(inputparam['hst_catch_thh1']);
-    		pgi.hst_catch_thh2 = float(inputparam['hst_catch_thh2']);
-    		pgi.hst_f_thh1 = float(inputparam['hst_f_thh1']);
-    		pgi.hst_f_thh2 = float(inputparam['hst_f_thh2']);
+            pgi.bio_f_percent = float(inputparam['bio_f_percent'])/0.75;
+            pgi.sec_commercial = inputparam['sec_commercial'];
+            pgi.sec_recreational = inputparam['sec_recreational'];
 
-    		pgi.save()
+            print(pgi.sec_commercial)
 
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+            pgi.save()
+
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
         #process step9
     @expose('/step9/<string:pk>', methods = ['PUT'])
