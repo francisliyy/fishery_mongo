@@ -176,21 +176,15 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Random Seed Setting</label>
                     <!--div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div-->
-                    <label class="radio-inline">
-                      <input type="radio" name="rnd_seed_setting" id="current_time" value="0" disabled {{ 'checked' if process_step1['rnd_seed_setting']=='0'}}> Current Time
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="rnd_seed_setting" id="self_determined" value="1" disabled {{ 'checked' if process_step1['rnd_seed_setting']=='1'}}> Self-Determined
-                    </label>
-         
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-3 control-label"></label>
+                    <div class="form-group">
                     <div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div>
                     <!-- <div class="col-md-5 input-group">   
                                    <input type="file" class="form-control" style="border-radius: 4px" id="rnd_seed_file"/> 
                                  </div>  -->             
                   </div>
+         
+                  </div>
+                  
                   {% endif %}
                 </form>
               </div> <!--/.panel-body -->

@@ -59,7 +59,7 @@ function drawChart(chartdata){
 		        show:false,
 		    },
 		    grid: {
-		        left: '3%',
+		        left: '7%',
 		        right: '4%',
 		        bottom: '3%',
 		        containLabel: true
@@ -75,7 +75,8 @@ function drawChart(chartdata){
 		        data: comm_xAxisData,
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'Annual Commercial Catch(mt)',
 		    },
 		    series: [
 		        {
@@ -176,7 +177,8 @@ function drawChart(chartdata){
 		        data: recr_xAxisData,
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'Annual Catch(mt)',
 		    },
 		    series: [
 		        {
@@ -224,7 +226,7 @@ function drawChart(chartdata){
 		    ]
 		};
 		sprChart1.setOption(recr_option);
-debugger;
+
 		$.each(JSON.parse(chartdata),function(index, el) {
         	ssb_xAxisData.push(el.year);
 			ssb_low_data.push(el.SSB_total_025);
@@ -277,7 +279,8 @@ debugger;
 		        data: ssb_xAxisData,
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'Stock Spawning Biomass(No. of Eggs)',
 		    },
 		    series: [
 		        {
@@ -362,7 +365,7 @@ debugger;
 		        show:false,
 		    },
 		    grid: {
-		        left: '3%',
+		        left: '7%',
 		        right: '4%',
 		        bottom: '3%',
 		        containLabel: true
@@ -378,7 +381,8 @@ debugger;
 		        data: f_xAxisData,
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'General Annual Fishing Mortality(year'+'-1'.sup()+')',
 		    },
 		    series: [
 		        {
@@ -459,7 +463,7 @@ debugger;
 		        show:false,
 		    },
 		    grid: {
-		        left: '3%',
+		        left: '5%',
 		        right: '4%',
 		        bottom: '3%',
 		        containLabel: true
@@ -475,7 +479,8 @@ debugger;
 		        data: [],
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'Annual Commercial Catch(mt)',
 		    },
 		    series: [
 		        {
@@ -570,7 +575,8 @@ debugger;
 		        data: [],
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'Annual Catch(mt)',
 		    },
 		    series: [
 		        {
@@ -665,7 +671,8 @@ debugger;
 		        data: [],
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'Stock Spawning Biomass(No. of Eggs)',
 		    },
 		    series: [
 		        {
@@ -744,7 +751,7 @@ debugger;
 		        show:false,
 		    },
 		    grid: {
-		        left: '3%',
+		        left: '7%',
 		        right: '4%',
 		        bottom: '3%',
 		        containLabel: true
@@ -760,7 +767,8 @@ debugger;
 		        data: [],
 		    },
 		    yAxis: {
-		        type: 'value'
+		        type: 'value',
+		        name: 'General Annual Fishing Mortality(year'+'-1'.sup()+')',
 		    },
 		    series: [
 		        {

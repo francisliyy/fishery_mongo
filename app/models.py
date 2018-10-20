@@ -174,7 +174,7 @@ class GlobalSettings(Document):
 	cv2Recruit = DecimalField()
 	#step7
 	ssb_msy = DecimalField()
-	f_msy = DecimalField(precision=4)
+	f_msy = FloatField()
 	hrt_harvest_rule = StringField(max_length=2)
 	sec_recreational = DecimalField()
 	sec_commercial = DecimalField()
