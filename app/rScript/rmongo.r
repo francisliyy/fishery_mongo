@@ -179,7 +179,7 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
 
   library("rmongodb")
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
-  start_projection <- as.Date('2017/01/01')
+  start_projection <- as.Date('2016/01/01')
   jsondata <- paste('{"stock1_model_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":3,"short_term_unit":"Y","long_term_mgt":20,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"sample_size":1000,"rnd_seed_setting":"0","iniPopu":',iniPopuJson
                     ,',"ip_cv":',ip_cv,',"bioParam":',bioParamJson,',"nm_cv":',nm_cv,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',SSB0_1,',"fml1MbhmR0":',R0_1,',"fml1MbhmSteep":',steepness,',"cv1Recruit":',30
@@ -479,7 +479,7 @@ function(store_path,seed_file,F_plan,comm){
   imple_error<-0.2
   
   #ratio between commercial and recreational fisheries
-  Ratio_comm<-comm # in the future, can input from the dialog box
+  Ratio_comm<-as.numeric(comm)/100.00 # in the future, can input from the dialog box
   Ratio_rec<-1-Ratio_comm
   
   Function_comm_relF<-function(F0){
@@ -512,20 +512,17 @@ function(store_path,seed_file,F_plan,comm){
   F_general<-matrix(rep(0,Simrun_Num*Runtime_long), ncol=Runtime_long)
   Catch_general<-matrix(rep(0,Simrun_Num*Runtime_long), ncol=Runtime_long)
   Year_to_green<-rep(Runtime_long,Simrun_Num)
-  
   #distribution of N distribution
   stock_1_dis_temp<-stock_1_mean/sum(stock_1_mean)
   stock_1_dis<-stock_1_dis_temp
   for(i.dist in 2:length(stock_1_mean)){
     stock_1_dis[i.dist]<-stock_1_dis[i.dist-1]+stock_1_dis_temp[i.dist]
   }
-  
   stock_2_dis_temp<-stock_2_mean/sum(stock_2_mean)
   stock_2_dis<-stock_2_dis_temp
   for(i.dist in 2:length(stock_2_mean)){
     stock_2_dis[i.dist]<-stock_2_dis[i.dist-1]+stock_2_dis_temp[i.dist]
   }
-  
   for (i.run in 1:Simrun_Num){
     set.seed(as.numeric(seed_input[i.run]))
     green_flag<-0
@@ -655,46 +652,68 @@ function(store_path,seed_file,F_plan,comm){
     }
     
   }
-  
   #save the following matrix to the 
   
   SSB_1_mean<-colMeans(SSB_1)
   SSB_1_sd<-apply(SSB_1, 2,sd)
   SSB_1_median<-apply(SSB_1, 2,median)
+  SSB_1_975<-apply(SSB_1, 2, quantile, probs=0.975)
+  SSB_1_025<-apply(SSB_1, 2, quantile, probs=0.025)
   
   SSB_2_mean<-colMeans(SSB_2)
   SSB_2_sd<-apply(SSB_2, 2,sd)
   SSB_2_median<-apply(SSB_2, 2,median)
+  SSB_2_975<-apply(SSB_2, 2, quantile, probs=0.975)
+  SSB_2_025<-apply(SSB_2, 2, quantile, probs=0.025)
   
   SSB_total<-SSB_1+SSB_2
   SSB_total_mean<-colMeans(SSB_total)
   SSB_total_sd<-apply(SSB_total, 2,sd)
   SSB_total_median<-apply(SSB_total, 2,median)
+  SSB_total_975<-apply(SSB_total, 2, quantile, probs=0.975)
+  SSB_total_025<-apply(SSB_total, 2, quantile, probs=0.025)
   
   Catch_comm_mean<-colMeans(Catch_comm)
   Catch_comm_sd<-apply(Catch_comm, 2,sd)
   Catch_comm_median<-apply(Catch_comm, 2,median)
+  Catch_comm_975<-apply(Catch_comm, 2, quantile, probs=0.975)
+  Catch_comm_025<-apply(Catch_comm, 2, quantile, probs=0.025)
   
   Catch_recr_mean<-colMeans(Catch_recr)
   Catch_recr_sd<-apply(Catch_recr, 2,sd)
   Catch_recr_median<-apply(Catch_recr, 2,median)
+  Catch_recr_975<-apply(Catch_recr, 2, quantile, probs=0.975)
+  Catch_recr_025<-apply(Catch_recr, 2, quantile, probs=0.025)
   
   F_general_mean<-colMeans(F_general)
   F_general_sd<-apply(F_general, 2,sd)
   F_general_median<-apply(F_general, 2,median)
+  F_general_975<-apply(F_general, 2, quantile, probs=0.975)
+  F_general_025<-apply(F_general, 2, quantile, probs=0.025)
   
   Catch_general_mean<-colMeans(Catch_general)
   Catch_general_sd<-apply(Catch_general, 2,sd)
   Catch_general_median<-apply(Catch_general, 2,median)
+  Catch_general_975<-apply(Catch_general, 2, quantile, probs=0.975)
+  Catch_general_025<-apply(Catch_general, 2, quantile, probs=0.025)
   
   Year_to_green_mean<-mean(Year_to_green)
   Year_to_green_sd<-sd(Year_to_green)
   Year_to_green_median<-median(Year_to_green)
+  Year_to_green_975<-quantile(Year_to_green,0.975)
+  Year_to_green_025<-quantile(Year_to_green,0.025)
   
   total_catch_MSEcomp<-sum(Catch_general_median)
   catch_var_MSEcomp<-sd(Catch_general_median)
   terminal_SSB_MSEcomp<-SSB_total_median[Runtime_long]
   lowest_SSB_MSEcomp<-min(SSB_total_median)
+  
+  resultlist<-cbind(c(2016:2035),Catch_comm_median,Catch_comm_975,Catch_comm_025,Catch_recr_median,Catch_recr_975,Catch_recr_025,SSB_total_median,SSB_total_975,SSB_total_025,F_general_median,F_general_975,F_general_025)
+  colnames(resultlist) <- c("year","Catch_comm_median", "Catch_comm_975", "Catch_comm_025", "Catch_recr_median", "Catch_recr_975", "Catch_recr_025", "SSB_total_median", "SSB_total_975","SSB_total_025","F_general_median","F_general_975","F_general_025")
+  library("RJSONIO")
+  library("plyr")
+  resultJson<-toJSON(unname(alply(resultlist,1,identity)))
+  return(resultJson)
   
 }
 

@@ -1,3 +1,817 @@
+function drawChart(chartdata){
+    var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
+	var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
+	var ssbChart1 = echarts.init(document.getElementById('ssb-chart-1'));
+	var fChart1 = echarts.init(document.getElementById('f-chart-1'));
+
+	var comm_xAxisData = [];
+    var comm_low_data = [];
+    var comm_median_data = [];
+    var comm_high_data = [];
+    var recr_xAxisData = [];
+    var recr_low_data = [];
+    var recr_median_data = [];
+    var recr_high_data = [];
+    var ssb_xAxisData = [];
+    var ssb_low_data = [];
+    var ssb_median_data = [];
+    var ssb_high_data = [];
+    var f_xAxisData = [];
+    var f_low_data = [];
+    var f_median_data = [];
+    var f_high_data = [];
+
+	if(chartdata){
+
+        $.each(JSON.parse(chartdata),function(index, el) {
+        	comm_xAxisData.push(el.year);
+			comm_low_data.push(el.Catch_comm_025);
+			comm_median_data.push(el.Catch_comm_median);
+			comm_high_data.push(el.Catch_comm_975);
+        });
+		comm_option = {
+		    title: {
+		        text: 'Commercial Catch'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: comm_xAxisData,
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:comm_low_data,
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:comm_median_data
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:comm_high_data,
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		bioChart1.setOption(comm_option);
+
+        $.each(JSON.parse(chartdata),function(index, el) {
+        	recr_xAxisData.push(el.year);
+			recr_low_data.push(el.Catch_recr_025);
+			recr_median_data.push(el.Catch_recr_median);
+			recr_high_data.push(el.Catch_recr_975);
+        });
+		recr_option = {
+		    title: {
+		        text: 'Recreational Catch'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: recr_xAxisData,
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:recr_low_data,
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:recr_median_data
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:recr_high_data,
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		sprChart1.setOption(recr_option);
+debugger;
+		$.each(JSON.parse(chartdata),function(index, el) {
+        	ssb_xAxisData.push(el.year);
+			ssb_low_data.push(el.SSB_total_025);
+			ssb_median_data.push(el.SSB_total_median);
+			ssb_high_data.push(el.SSB_total_975);
+        });
+		ssb_option = {
+		    title: {
+		        text: 'Total SSB'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: ssb_xAxisData,
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:ssb_low_data,
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:ssb_median_data
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:ssb_high_data,
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		ssbChart1.setOption(ssb_option);
+
+		$.each(JSON.parse(chartdata),function(index, el) {
+        	f_xAxisData.push(el.year);
+			f_low_data.push(el.F_general_025);
+			f_median_data.push(el.F_general_median);
+			f_high_data.push(el.F_general_975);
+        });
+		f_option = {
+		    title: {
+		        text: 'General F'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: f_xAxisData,
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:f_low_data,
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:f_median_data
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:f_high_data,
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		fChart1.setOption(f_option);
+
+	}else{
+
+		comm_option = {
+		    title: {
+		        text: 'Commercial Catch'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: [],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:[],
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:[]
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:[],
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		bioChart1.setOption(comm_option);
+
+		recr_option = {
+		    title: {
+		        text: 'Recreational Catch'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: [],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:[],
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:[]
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:[],
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		sprChart1.setOption(recr_option);
+
+		ssb_option = {
+		    title: {
+		        text: 'Total SSB'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: [],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:[],
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:[]
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:[],
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		ssbChart1.setOption(ssb_option);
+
+		f_option = {
+		    title: {
+		        text: 'General F'
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        axisPointer: {
+	                type: 'cross',
+	                animation: false,
+	                label: {
+	                    backgroundColor: '#ccc',
+	                    borderColor: '#aaa',
+	                    borderWidth: 1,
+	                    shadowBlur: 0,
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 0,
+	                    textStyle: {
+	                        color: '#222'
+	                    }
+	                }
+	            },
+	            formatter: function (params) {
+	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+	            }
+		    },
+		    legend: {
+		        data:['F_std','HL_E','HL_W'],
+		        show:false,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    toolbox: {
+		        feature: {
+		            saveAsImage: {title:'saveAsImage'}
+		        }
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: [],
+		    },
+		    yAxis: {
+		        type: 'value'
+		    },
+		    series: [
+		        {
+		            name:'Lower 2.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            symbol: 'none',
+		            data:[],
+		        },
+		        {
+		            name:'Median',
+		            type:'line',    
+		            lineStyle: {
+		                normal: {
+		                    
+		                }
+		            },   
+		            showSymbol: false,     
+		            data:[]
+		        },
+		        {
+		            name:'Upper 97.5%',
+		            type:'line',
+		            stack: '1',
+		            lineStyle: {
+		                normal: {
+		                    opacity: 0
+		                }
+		            },
+		            areaStyle: {
+		                normal: {
+		                    color: '#ccc',
+		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+		                }
+		            },
+		            data:[],
+		            symbol: 'none'
+
+		        }
+		    ]
+		};
+		fChart1.setOption(f_option);
+	}
+
+}
+
 $(function() {
 
     var colorChart = echarts.init(document.getElementById('colorChart'));
@@ -170,362 +984,6 @@ $(function() {
 		}
 	});
 
-
-
-	var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
-	var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
-	var ssbChart1 = echarts.init(document.getElementById('ssb-chart-1'));
-	var fChart1 = echarts.init(document.getElementById('f-chart-1'));
-
-
-	$.ajax({
-		url: $SCRIPT_ROOT+'/prostepview/getEchartData',
-		type: 'GET',
-	})
-	.done(function(edata) {
-		var xAxisData = [];
-        var F_std_data = [];
-        var HL_E_data = [];
-        var HL_W_data = [];
-        $.each(edata,function(index, el) {
-        	xAxisData.push(el.Yr);
-			F_std_data.push(el.F_std);
-			HL_E_data.push(el.HL_E);
-			HL_W_data.push(el.HL_W);
-        });
-		option = {
-		    title: {
-		        text: 'Ending year expected growth(with 95% intervals)'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value'
-		    },
-		    series: [
-		        {
-		            name:'F_std',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:F_std_data,
-		        },
-		        {
-		            name:'HL_E',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:HL_E_data
-		        },
-		        {
-		            name:'HL_W',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:HL_W_data,
-		            symbol: 'none'
-
-		        }
-		    ]
-		};
-		bioChart1.setOption(option);
-	});
-
-	$.ajax({
-		url: $SCRIPT_ROOT+'/prostepview/getEchartData',
-		type: 'GET',
-	})
-	.done(function(edata) {
-		var xAxisData = [];
-        var F_std_data = [];
-        $.each(edata,function(index, el) {
-        	xAxisData.push(el.Yr);
-			F_std_data.push(el.F_std);
-        });
-		option = {
-		    title: {
-		        text: ''
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-		    },
-		    legend: {
-		        data:['F_std'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value',		        
-		        splitLine:{show:false},
-		    },
-		    series: [
-		        {
-		            name:'F_std',
-		            type:'line',
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },
-		            showAllSymbol: true,
-		            data:F_std_data,
-		            markLine: {
-		                data: [
-		                    {type: 'average', name: 'average'}
-		                ]
-		            },
-		        }
-		    ]
-		};
-		sprChart1.setOption(option);
-	});
-
-	$.ajax({
-		url: $SCRIPT_ROOT+'/prostepview/getSsbAndFEchart',
-		type: 'GET',
-	})
-	.done(function(edata) {
-		var xAxisData = [];
-        var plot_ssb_data = [];
-        $.each(edata,function(index, el) {
-        	xAxisData.push(el.plot_years);
-			plot_ssb_data.push(el.plot_ssb);
-        });
-		option = {
-		    title: {
-		        text: ''
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-		    },
-		    legend: {
-		        data:['SSB'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value',		        
-		        splitLine:{show:false},
-		    },
-		    series: [
-		        {
-		            name:'SSB',
-		            type:'line',
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },
-		            showAllSymbol: true,
-		            data:plot_ssb_data,
-		            markLine: {
-		                data: [
-		                    {type: 'average', name: 'average'}
-		                ],
-		                label:{
-		                	position:'middle',
-		                },
-		            },
-		        }
-		    ]
-		};
-		ssbChart1.setOption(option);
-	});
-
-	$.ajax({
-		url: $SCRIPT_ROOT+'/prostepview/getSsbAndFEchart',
-		type: 'GET',
-	})
-	.done(function(edata) {
-		var xAxisData = [];
-        var plot_F_data = [];
-        $.each(edata,function(index, el) {
-        	xAxisData.push(el.plot_years);
-			plot_F_data.push(el.plot_F);
-        });
-		option = {
-		    title: {
-		        text: ''
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-		    },
-		    legend: {
-		        data:['F'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '5%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value',		        
-		        splitLine:{show:false},
-		    },
-		    series: [
-		        {
-		            name:'F',
-		            type:'line',
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },
-		            showAllSymbol: true,
-		            data:plot_F_data,
-		            markLine: {
-		                data: [
-		                    {type: 'average', name: 'average'}
-		                ]
-		            },
-		        }
-		    ]
-		};
-		fChart1.setOption(option);
-	});
-
-	
+	drawChart();
 
 })

@@ -449,6 +449,9 @@ $(function() {
 		            }
 		        });
 			}else if($panel.prop("id")=='mgtopt1'){
+
+				$("#mask").addClass('lmask');
+
 				console.log('in step8');
 				if(!$("#form-mgtopt1").valid()){
 					return false;
@@ -485,6 +488,19 @@ $(function() {
 		            {
 		                 if(data.status=1){
 		                     console.log("save step8 successfully");
+		                     $.ajax({
+					            cache: false,
+					            url: 'http://localhost:8000/runmse',
+					            crossDomain: true,
+					            type: "POST",
+					            dataType: "json",
+					            data: JSON.stringify({"store_path":"~/","seed_file":"seed.csv","F_plan":0.0588,"comm":sec_commercial}),
+					            success: function(data) 
+					            {
+					                 $("#mask").removeClass('lmask');
+					                 drawChart(data);
+					            }
+					        });
 		                 }
 		            }
 		        });
