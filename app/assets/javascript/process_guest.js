@@ -8,262 +8,35 @@ $(function() {
 			}else if($panel.prop("id")=='stockassessment'){
 				
 			}else if($panel.prop("id")=='ibParam'){
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step4/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            contentType:"application/json",
-		            data: JSON.stringify($("#table-ibParam").bootstrapTable('getData')),
-		            success: function(data) 
-		            {
-		                 if(data.status=1){
-		                     console.log("save step4 successfully");
-		                 }
-		            }
-		        });
+
 			}else if($panel.prop("id")=='bioParam'){
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step5/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            contentType:"application/json",
-		            data: JSON.stringify($("#table-bioParam").bootstrapTable('getData')),
-		            success: function(data) 
-		            {
-		                 if(data.status=1){
-		                     console.log("save step5 successfully");
-		                 }
-		            }
-		        });
+
 			}else if($panel.prop("id")=='naturalmortality'){				
-				var inputdata = {};
-				var simple_spawning = parseFloat($("#simple_spawning").val())||0;
-					inputdata =JSON.stringify({"mortality_complexity":2,
-		            "simple_spawning":simple_spawning,mortality:$("#table-mortality").bootstrapTable('getData')});	
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step6/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            contentType:"application/json",
-		            data: inputdata,
-		            success: function(data) 
-		            {
-		                 if(data.status=1){
-		                     
-		                 }
-		            }
-		        });
+
 			}else if($panel.prop("id")=='recruitment'){
-				console.log('in step7');
-				var data = {};
-				if(!$("#form-recruitment").valid()){
-					return false;
-				};
 
-				//stock1				
-				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'0';
-
-				var historySt1 = $('input[name=historySt1]:checked', '#form-recruitment').val()||'0';
-				var hst1_lower = $("#hst1_lower:enabled").val()||0;
-				var hst1_median = $("#hst1_median:enabled").val()||0;
-				var hst1_mean = $("#hst1_mean:enabled").val()||0;
-				var hst1_upper = $("#hst1_upper:enabled").val()||0;
-				var hst1_other = $('#hst1_other:enabled').val()||0;
-				var hst1_cal = $('#hst1_cal:enabled').val()||0;
-
-				var formulaStock1 = $('input[name=formulaStock1]:checked', '#form-recruitment').val()||'0';
-				var fml1Bmalpha1 = $("#fml1Bmalpha1:enabled").val()||0;
-				var fml1Bmbeta1 = $("#fml1Bmbeta1:enabled").val()||0;
-				var fml1Rmalpha1 = $("#fml1Rmalpha1:enabled").val()||0;
-				var fml1Rmbeta1 = $("#fml1Rmbeta1:enabled").val()||0;
-				var fml1MbhmSSB0 = $("#fml1MbhmSSB0:enabled").val()||0;
-				var fml1MbhmR0 = $("#fml1MbhmR0:enabled").val()||0;
-				var fml1MbhmSteep = $("#fml1MbhmSteep:enabled").val()||0;
-
-				var auto1R0 = $("#auto1R0:enabled").val()||0;
-				var auto1h = $("#auto1h:enabled").val()||0;
-				var auto1Rave = $("#auto1Rave:enabled").val()||0;
-
-				var cv1Recruit = $("#cv1Recruit:enabled").val()||0;
-
-				//stock2
-				var recruitTypeStock2 = $('input[name=recruitTypeStock2]:checked', '#form-recruitment').val()||'0';
-				
-				var historySt2 = $('input[name=historySt2]:checked', '#form-recruitment').val()||'0';
-				var hst2_lower = $("#hst2_lower:enabled").val()||0;
-				var hst2_median = $("#hst2_median:enabled").val()||0;
-				var hst2_mean = $("#hst2_mean:enabled").val()||0;
-				var hst2_upper = $("#hst2_upper:enabled").val()||0;
-				var hst2_other = $('#hst2_other:enabled').val()||0;
-				var hst2_cal = $('#hst2_cal:enabled').val()||0;
-
-				var formulaStock2 = $('input[name=formulaStock2]:checked', '#form-recruitment').val()||'0';
-				var fml2Bmalpha1 = $("#fml2Bmalpha1:enabled").val()||0;
-				var fml2Bmbeta1 = $("#fml2Bmbeta1:enabled").val()||0;
-				var fml2Rmalpha1 = $("#fml2Rmalpha1:enabled").val()||0;
-				var fml2Rmbeta1 = $("#fml2Rmbeta1:enabled").val()||0;
-				var fml2MbhmSSB0 = $("#fml2MbhmSSB0:enabled").val()||0;
-				var fml2MbhmR0 = $("#fml2MbhmR0:enabled").val()||0;
-				var fml2MbhmSteep = $("#fml2MbhmSteep:enabled").val()||0;
-
-				var auto2R0 = $("#auto2R0:enabled").val()||0;
-				var auto2h = $("#auto2h:enabled").val()||0;
-				var auto2Rave = $("#auto2Rave:enabled").val()||0;
-
-				var cv2Recruit = $("#cv2Recruit:enabled").val()||0;
-
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step7/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            contentType:"application/json",
-		            data: JSON.stringify({'recruitTypeStock1':recruitTypeStock1,'historySt1':historySt1,'hst1_lower':hst1_lower,'hst1_median':hst1_median,
-		        'hst1_mean':hst1_mean,'hst1_upper':hst1_upper,'hst1_other':hst1_other,'hst1_cal':hst1_cal,'formulaStock1':formulaStock1,
-		        'fml1Bmalpha1':fml1Bmalpha1,'fml1Bmbeta1':fml1Bmbeta1,'fml1Rmalpha1':fml1Rmalpha1,'fml1Rmbeta1':fml1Rmbeta1,
-		        'fml1MbhmSSB0':fml1MbhmSSB0,'fml1MbhmR0':fml1MbhmR0,'fml1MbhmSteep':fml1MbhmSteep,'auto1R0':auto1R0,'auto1h':auto1h,
-		        'auto1Rave':auto1Rave,'cv1Recruit':cv1Recruit,'recruitTypeStock2':recruitTypeStock2,'historySt2':historySt2,'hst2_lower':hst2_lower,'hst2_median':hst2_median,
-		        'hst2_mean':hst2_mean,'hst2_upper':hst2_upper,'hst2_other':hst2_other,'hst2_cal':hst2_cal,'formulaStock2':formulaStock2,
-		        'fml2Bmalpha1':fml2Bmalpha1,'fml2Bmbeta1':fml2Bmbeta1,'fml2Rmalpha1':fml2Rmalpha1,'fml2Rmbeta1':fml2Rmbeta1,
-		        'fml2MbhmSSB0':fml2MbhmSSB0,'fml2MbhmR0':fml2MbhmR0,'fml2MbhmSteep':fml2MbhmSteep,'auto2R0':auto2R0,'auto2h':auto2h,
-		        'auto2Rave':auto2Rave,'cv2Recruit':cv2Recruit}),
-		            success: function(data) 
-		            {
-		                 if(data.status=1){
-		                     console.log("save step7 successfully");
-		                 }
-		            }
-		        });
 			}else if($panel.prop("id")=='mgtopt1'){
-				console.log('in step8');
-				if(!$("#form-mgtopt1").valid()){
-					return false;
-				};
-				var data = {};
 
-				var bio_biomass_points = $("#bio_biomass_points").val()||0;
+				$("#mask").addClass('lmask');
 
-				var bio_harvest_radio = $('input[name=bio_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
-				var bio_catch_mt = $("#bio_catch_mt:enabled").val()||0;
-				var bio_f_percent = $("#bio_f_percent:enabled").val()||0;
-
-				var hrt_harvest_rule = $('input[name=hrt_harvest_rule]:checked', '#form-mgtopt1').val()||'CC';
-				var hrt_threshold1 = $("#hrt_threshold1").val()||0;
-				var hrt_threshold2 = $("#hrt_threshold2").val()||0;
-
-				var hrt_harvest_radio = $('input[name=hrt_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
-				var hst_catch_thh1 = $("#hst_catch_thh1:enabled").val()||0;
-				var hst_catch_thh2 = $("#hst_catch_thh2:enabled").val()||0;
-				var hst_f_thh1 = $("#hst_f_thh1:enabled").val()||0;
-				var hst_f_thh2 = $('#hst_f_thh2:enabled').val()||0;
-
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step8/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            contentType:"application/json",
-		            data: JSON.stringify({'bio_biomass_points':bio_biomass_points,'bio_harvest_radio':bio_harvest_radio,'bio_catch_mt':bio_catch_mt,
-		        'bio_f_percent':bio_f_percent,'hrt_harvest_rule':hrt_harvest_rule,'hrt_threshold1':hrt_threshold1,'hrt_threshold2':hrt_threshold2,
-		        'hrt_harvest_radio':hrt_harvest_radio,'hst_catch_thh1':hst_catch_thh1,'hst_catch_thh2':hst_catch_thh2,'hst_f_thh1':hst_f_thh1,
-		        'hst_f_thh2':hst_f_thh2}),
-		            success: function(data) 
-		            {
-		                 if(data.status=1){
-		                     console.log("save step8 successfully");
-		                 }
-		            }
-		        });
-			}else if($panel.prop("id")=='mgtopt2'){
-				console.log("in step9");
-				if(!$("#form-mgtopt2").valid()){
-					return false;
-				};
-				var inputdata = {};
-				var sec_recreational = $("#sec_recreational").val()||0;
-				var sec_commercial = $("#sec_commercial").val()||0;
-				var fishingStartDate = $("#fishingStartDate").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
-				var fishingEndDate = $("#fishingEndDate").find("input").val()||moment().startOf('month').format('YYYY-MM-DD');
-				var fleet_rec_stock = [{'stock':$("#fleet_rec_stock_0").val()||'','fleet':$("#fleet_rec_fleet_0").val()||'','allocation':$("#fleet_rec_allocation_0").val()||0},
-									   {'stock':$("#fleet_rec_stock_1").val()||'','fleet':$("#fleet_rec_fleet_1").val()||'','allocation':$("#fleet_rec_allocation_1").val()||0},
-									   {'stock':$("#fleet_rec_stock_2").val()||'','fleet':$("#fleet_rec_fleet_2").val()||'','allocation':$("#fleet_rec_allocation_2").val()||0},
-									   {'stock':$("#fleet_rec_stock_3").val()||'','fleet':$("#fleet_rec_fleet_3").val()||'','allocation':$("#fleet_rec_allocation_3").val()||0}									   
-									  ];
-				var fleet_com_stock = [{'stock':$("#fleet_rec_stock_0").val()||'','fleet':$("#fleet_rec_fleet_0").val()||'','allocation':$("#fleet_rec_allocation_0").val()||0},
-									   {'stock':$("#fleet_com_stock_1").val()||'','fleet':$("#fleet_com_fleet_1").val()||'','allocation':$("#fleet_com_allocation_1").val()||0},
-									   {'stock':$("#fleet_com_stock_2").val()||'','fleet':$("#fleet_com_fleet_2").val()||'','allocation':$("#fleet_com_allocation_2").val()||0},
-									   {'stock':$("#fleet_com_stock_3").val()||'','fleet':$("#fleet_com_fleet_3").val()||'','allocation':$("#fleet_com_allocation_3").val()||0}
-									  ];
 				
-				inputdata =JSON.stringify({"sec_recreational":sec_recreational,"sec_commercial":sec_commercial,"fishingStartDate":fishingStartDate,
-		            "fishingEndDate":fishingEndDate,"fleet_rec_stock":fleet_rec_stock,"fleet_com_stock":fleet_com_stock});	
 
-				$.ajax({
+				var bio_f_percent = $("#ex1").val()||0.0588;
+				var sec_commercial = $("#sec_commercial").val()||0;
+				console.log(bio_f_percent);
+				console.log(sec_commercial);
+
+		        $.ajax({
 		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step9/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
+		            url: 'http://localhost:8000/runmse',
+		            crossDomain: true,
+		            type: "POST",
 		            dataType: "json",
-		            contentType:"application/json",
-		            data: inputdata,
+		            data: JSON.stringify({"store_path":"~/","seed_file":"seed.csv","F_plan":bio_f_percent/0.75,"comm":sec_commercial}),
 		            success: function(data) 
 		            {
-		                 if(data.status=1){
-		                     console.log("save step9 successfully");
-		                 }
-		            }
-		        });
-			}else if($panel.prop("id")=='mgtopt3'){
-				console.log("in step10");
-				if(!$("#form-mgtopt3").valid()){
-					return false;
-				};
-				var inputdata = {};
-				var ratio_rec_ratio = [{'stock':$("#ratio_rec_stock_0").val()||'','state':$("#ratio_rec_state_0").val()||'','ratio':$("#ratio_rec_ratio_0").val()||0},
-									   {'stock':$("#ratio_rec_stock_1").val()||'','state':$("#ratio_rec_state_1").val()||'','ratio':$("#ratio_rec_ratio_1").val()||0},
-									   {'stock':$("#ratio_rec_stock_2").val()||'','state':$("#ratio_rec_state_2").val()||'','ratio':$("#ratio_rec_ratio_2").val()||0},
-									   {'stock':$("#ratio_rec_stock_3").val()||'','state':$("#ratio_rec_state_3").val()||'','ratio':$("#ratio_rec_ratio_3").val()||0},
-									   {'stock':$("#ratio_rec_stock_4").val()||'','state':$("#ratio_rec_state_4").val()||'','ratio':$("#ratio_rec_ratio_4").val()||0},
-									   {'stock':$("#ratio_rec_stock_5").val()||'','state':$("#ratio_rec_state_5").val()||'','ratio':$("#ratio_rec_ratio_5").val()||0}									   
-									  ];
-				var ratio_com_ratio = [{'stock':$("#ratio_com_stock_0").val()||'','state':$("#ratio_com_state_0").val()||'','ratio':$("#ratio_com_ratio_0").val()||0},
-									   {'stock':$("#ratio_com_stock_1").val()||'','state':$("#ratio_com_state_1").val()||'','ratio':$("#ratio_com_ratio_1").val()||0},
-									   {'stock':$("#ratio_com_stock_2").val()||'','state':$("#ratio_com_state_2").val()||'','ratio':$("#ratio_com_ratio_2").val()||0},
-									   {'stock':$("#ratio_com_stock_3").val()||'','state':$("#ratio_com_state_3").val()||'','ratio':$("#ratio_com_ratio_3").val()||0},
-									   {'stock':$("#ratio_com_stock_4").val()||'','state':$("#ratio_com_state_4").val()||'','ratio':$("#ratio_com_ratio_4").val()||0},
-									   {'stock':$("#ratio_com_stock_5").val()||'','state':$("#ratio_com_state_5").val()||'','ratio':$("#ratio_com_ratio_5").val()||0}									   
-									  ];
-				var discard_rec_ratio = [{'stock':$("#discard_rec_stock_0").val()||'','fleet':$("#discard_rec_fleet_0").val()||'','oc':$("#discard_rec_oc_0").val()||'','ratio':$("#discard_rec_ratio_0").val()||0},
-									     {'stock':$("#discard_rec_stock_1").val()||'','fleet':$("#discard_rec_fleet_1").val()||'','oc':$("#discard_rec_oc_1").val()||'','ratio':$("#discard_rec_ratio_1").val()||0},
-									     {'stock':$("#discard_rec_stock_2").val()||'','fleet':$("#discard_rec_fleet_2").val()||'','oc':$("#discard_rec_oc_2").val()||'','ratio':$("#discard_rec_ratio_2").val()||0},
-									     {'stock':$("#discard_rec_stock_3").val()||'','fleet':$("#discard_rec_fleet_3").val()||'','oc':$("#discard_rec_oc_3").val()||'','ratio':$("#discard_rec_ratio_3").val()||0},
-									     {'stock':$("#discard_rec_stock_4").val()||'','fleet':$("#discard_rec_fleet_4").val()||'','oc':$("#discard_rec_oc_4").val()||'','ratio':$("#discard_rec_ratio_4").val()||0},
-									     {'stock':$("#discard_rec_stock_5").val()||'','fleet':$("#discard_rec_fleet_5").val()||'','oc':$("#discard_rec_oc_5").val()||'','ratio':$("#discard_rec_ratio_5").val()||0}									   
-									    ];
-				var discard_com_ratio = [{'stock':$("#discard_com_stock_0").val()||'','fleet':$("#discard_com_fleet_0").val()||'','oc':$("#discard_com_oc_0").val()||'','ratio':$("#discard_com_ratio_0").val()||0},
-									     {'stock':$("#discard_com_stock_1").val()||'','fleet':$("#discard_com_fleet_1").val()||'','oc':$("#discard_com_oc_1").val()||'','ratio':$("#discard_com_ratio_1").val()||0},
-									     {'stock':$("#discard_com_stock_2").val()||'','fleet':$("#discard_com_fleet_2").val()||'','oc':$("#discard_com_oc_2").val()||'','ratio':$("#discard_com_ratio_2").val()||0},
-									     {'stock':$("#discard_com_stock_3").val()||'','fleet':$("#discard_com_fleet_3").val()||'','oc':$("#discard_com_oc_3").val()||'','ratio':$("#discard_com_ratio_3").val()||0},
-									     {'stock':$("#discard_com_stock_4").val()||'','fleet':$("#discard_com_fleet_4").val()||'','oc':$("#discard_com_oc_4").val()||'','ratio':$("#discard_com_ratio_4").val()||0},
-									     {'stock':$("#discard_com_stock_5").val()||'','fleet':$("#discard_com_fleet_5").val()||'','oc':$("#discard_com_oc_5").val()||'','ratio':$("#discard_com_ratio_5").val()||0}									   
-									    ];
-				inputdata =JSON.stringify({"ratio_rec_ratio":ratio_rec_ratio,"ratio_com_ratio":ratio_com_ratio,"discard_rec_ratio":discard_rec_ratio,
-		            "discard_com_ratio":discard_com_ratio});	
-
-				$.ajax({
-		            cache: false,
-		            url: $SCRIPT_ROOT+'/prostepview/step10/'+$("#step1_id").data("step1id"),
-		            type: "PUT",
-		            dataType: "json",
-		            contentType:"application/json",
-		            data: inputdata,
-		            success: function(data) 
-		            {
-		                 if(data.status=1){
-		                     console.log("save step10 successfully");
-		                 }
+		                 $("#mask").removeClass('lmask');
+		                 drawChart(data);
 		            }
 		        });
 			}
@@ -273,9 +46,6 @@ $(function() {
 	$("#process-result").accwizard({
 
 	});
-
-	
-	/*part 1 Stock Assessment Model Input 2 end*/
 
 	/*part 2 general input start */
     $('#start_projection').datetimepicker({
@@ -292,6 +62,66 @@ $(function() {
     	format:'YYYY-MM-DD',
     });
 
+    $("#rnd_seed_file").uploadFile({
+		url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
+	    maxFileCount: 1,                		   //上传文件个数（多个时修改此处
+	    allowedTypes: 'csv',  				       //允许上传的文件式
+	    showFileSize: false,
+	    showDone: false,                           //是否显示"Done"(完成)按钮
+	    showDelete: false,                          //是否显示"Delete"(删除)按钮
+	    showDownload:true,
+	    statusBarWidth:600,
+		downloadCallback:function(data){		
+	        window.open($SCRIPT_ROOT+'/prostepview/rndSeedFile/download/'+$("#step1_id").data("step1id")+"/"+data[0])
+		},
+	    onLoad: function(obj)
+	    {
+	    	var filenames = $("#step1_id").data("rndfiles");
+	    	var initfiles = setInterval(function(){
+	    		if (typeof obj.createProgress !== "undefined") {
+		    		filenames.forEach(function(ele){
+		    			obj.createProgress(ele);
+		    		});
+		    		clearInterval(initfiles);
+	    		}
+	    	},3000)
+	    	
+	    	//filename&&obj.createProgress(filename);
+	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
+	               //createProgress方法可以创建一个已上传的文件
+	    },
+	    deleteCallback: function(data,pd)
+	    {
+	        //文件删除时的回调方法。
+	        //如：以下ajax方法为调用服务器端删除方法删除服务器端的文件
+	        $.ajax({
+	            cache: false,
+	            url: $SCRIPT_ROOT+'/prostepview/rndSeedFile/'+$("#step1_id").data("step1id"),
+	            type: "DELETE",
+	            dataType: "json",
+	            contentType:"application/json",
+	            data:JSON.stringify({'filename':data[0]}),
+	            success: function(data) 
+	            {
+	                if(!data){
+	                    pd.statusbar.hide();        //删除成功后隐藏进度条等
+	                 }else{
+	                    console.log(data.message);  //打印服务器返回的错误信息
+	                 }
+	              }
+	        }); 
+	    },
+	    onSuccess: function(files,data,xhr,pd)
+	    {
+	    	//$(".ajax-file-upload-statusbar").width("600px");
+	        //上传成功后的回调方法。本例中是将返回的文件名保到一个hidden类开的input中，以便后期数据处理
+	        // if(data&&data.code===0){
+	        //     console.log(data);
+	        // }
+	    }
+	});
+
+
 	/*part 2 general input end */
 
 	/* part 4 initial population start */
@@ -305,8 +135,7 @@ $(function() {
 	    	data: {},
 	    })
 	    .done(function(result) {
-	    	var inputdata=result.iniPopu||result;
-	    	$("#table-ibParam").parent('.bootstrap-table').css('margin-bottom', '30px');
+	    	var inputdata=result.iniPopu||result;	    	
 			$("#table-ibParam").bootstrapTable({
 		    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
 		    	//dataType:'json',
@@ -342,30 +171,12 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 1 mean",
+		    				title:"Stock 1 mean(1000s)",
 		    				field:"stock_1_mean",
-		    				editable:false,
 		    			},
 		    			{
-		    				title:"CV (Normal Dist.)",
-		    				field:"cv_1",
-		    				formatter: function(value, row, index, field) {
-						        	return parseFloat(value||0)*100.00;
-								},
-		    				editable:false,
-		    			},
-		    			{
-		    				title:"Stock 2 mean",
+		    				title:"Stock 2 mean(1000s)",
 		    				field:"stock_2_mean",
-		    				editable:false,
-		    			},
-		    			{
-		    				title:"CV (Normal Dist.)",
-		    				field:"cv_2",
-		    				formatter: function(value, row, index, field) {
-						        	return parseFloat(value||0)*100.00;
-								},
-		    				editable:false,
 		    			},
 		    		],
 		    	],
@@ -392,6 +203,7 @@ $(function() {
 	    .always(function() {
 	    	console.log("complete");
 	    	$("#mask").removeClass('lmask');
+	    	$("#table-ibParam").parent('.bootstrap-table').css('margin-bottom', '30px');
 	    });
         
 	}
@@ -409,7 +221,6 @@ $(function() {
 	    })
 	    .done(function(result) {
 	    	var inputdata=result.bioParam||result;
-	    	$("#table-bioParam").parent('.bootstrap-table').css('margin-bottom', '30px');
 			$("#table-bioParam").bootstrapTable({
 		    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
 		    	//dataType:'json',
@@ -445,24 +256,20 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 1 Weight-at-age",
+		    				title:"Stock 1 Weight-at-age(kg)",
 		    				field:"weight_at_age_1",
-		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 1 Fecundity",
+		    				title:"Stock 1 Fecundity</br>(# of eggs)",
 		    				field:"fec_at_age_1",
-		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 2 Weight-at-age",
+		    				title:"Stock 2 Weight-at-age(kg)",
 		    				field:"weight_at_age_2",
-		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 2 Fecundity",
+		    				title:"Stock 2 Fecundity</br>(# of eggs)",
 		    				field:"fec_at_age_2",
-		    				editable:false,
 		    			},
 		    		],
 		    	],
@@ -489,6 +296,7 @@ $(function() {
 	    .always(function() {
 	    	console.log("complete");
 	    	$("#mask").removeClass('lmask');
+	    	$("#table-bioParam").parent('.bootstrap-table').css('margin-bottom', '30px');
 	    });
         
 	}
@@ -507,8 +315,7 @@ $(function() {
 	    	data: {},
 	    })
 	    .done(function(result) {
-	    	var inputdata=result.mortality||result;
-	    	$("#table-mortality").parent('.bootstrap-table').css('margin-bottom', '30px');
+	    	var inputdata=result.mortality||result;	    	
 			$("#table-mortality").bootstrapTable({
 		    	//url: $SCRIPT_ROOT+'/processview/getTableData/',         //请求后台的URL（*）
 		    	//dataType:'json',
@@ -544,24 +351,27 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Mean 1",
+		    				title:"Mean 1(year<sup>-1</sup>)",
 		    				field:"mean_1",
-		    				editable:false,
 		    			},
+		    			/*
 		    			{
 		    				title:"CV 1 (Log-normal Dist.)",
 		    				field:"cv_mean_1",
-		    				editable:false,
+		    				editable: {
+			                    type: 'text',
+			                    title: 'CV (Log-normal Dist.)',
+			                    validate: function (v) {
+			                        if (isNaN(v)) return 'CV must be number';
+			                        var stockmean = parseFloat(v);
+			                        if (stockmean <= 0) return 'CV must larger than 0';
+				                }
+		                    }
 		    			},
+		    			*/
 		    			{
-		    				title:"Mean 2",
+		    				title:"Mean 2(year<sup>-1</sup>)",
 		    				field:"mean_2",
-		    				editable:false,
-		    			},
-		    			{
-		    				title:"CV 2 (Log-normal Dist.)",
-		    				field:"cv_mean_2",
-		    				editable:false,
 		    			},
 		    		],
 		    	],
@@ -588,6 +398,7 @@ $(function() {
 	    .always(function() {
 	    	console.log("complete");
 	    	$("#mask").removeClass('lmask');
+	    	$("#table-mortality").parent('.bootstrap-table').css('margin-bottom', '30px');
 	    });
         
 	}
@@ -595,133 +406,11 @@ $(function() {
 	/* part 6 natural mortality end */
 
 	/* part 7 recruitment start */
-	function initHistroySt(stock){
-		$("input[name^='hst"+stock+"']").prop('disabled','disabled');
-		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"_lower").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==2&&$("#hst"+stock+"_median").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"_mean").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"_upper").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"_other").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()!=0&&$("#hst"+stock+"_cal").prop('disabled','');
-	}
-
-	function initFormulaStock(stock){
-		$("input[name^='fml"+stock+"']").prop('disabled','disabled');
-		$("input[name='formulaStock"+stock+"']:checked").val()==1&&$("[name^='fml"+stock+"Bm']").prop('disabled','');
-		$("input[name='formulaStock"+stock+"']:checked").val()==2&&$("[name^='fml"+stock+"Rm']").prop('disabled','');
-		$("input[name='formulaStock"+stock+"']:checked").val()==3&&$("[name^='fml"+stock+"Mbhm']").prop('disabled','');
-	}
-
-	$("input[name='recruitTypeStock1']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		$("#form-recruitment input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1'],input[name^='auto1']").prop('disabled','disabled');
-		
-		if($("input[name='recruitTypeStock1']:checked").val()==1){
-
-			$("#form-recruitment input[name='historySt1']").prop('disabled','');
-			initHistroySt(1);
-
-		}else if($("input[name='recruitTypeStock1']:checked").val()==2){
-			
-			$("#form-recruitment input[name='formulaStock1']").prop('disabled','');
-			initFormulaStock(1);
-
-		}else{
-
-			$("#form-recruitment input[name^='auto1']").prop('disabled','');
-
-		}
-	
-	});
-
-	$("input[name='historySt1']").on('change', function(event) {
-		initHistroySt(1);
-	});
-
-	$("input[name='formulaStock1']").on('change', function(event) {
-		initFormulaStock(1);
-	});
-
-	$("input[name='recruitTypeStock2']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		$("#form-recruitment input[name='historySt2'],input[name^='hst2'],input[name='formulaStock2'],input[name^='fml2'],input[name^='auto2']").prop('disabled','disabled');
-		
-		if($("input[name='recruitTypeStock2']:checked").val()==1){
-
-			$("#form-recruitment input[name='historySt2']").prop('disabled','');
-			initHistroySt(2);
-
-		}else if($("input[name='recruitTypeStock2']:checked").val()==2){
-			
-			$("#form-recruitment input[name='formulaStock2']").prop('disabled','');
-			initFormulaStock(2);
-
-		}else{
-
-			$("#form-recruitment input[name^='auto2']").prop('disabled','');
-
-		}
-	});
-
-	$("input[name='historySt2']").on('change', function(event) {
-		initHistroySt(2);
-	});
-
-	$("input[name='formulaStock2']").on('change', function(event) {
-		initFormulaStock(2);
-	});
 
 	/* part 7 recruitment end */
 
 	/* part 8 Management Options Part I start */
-	function initBioPoints(){
-		if($("input[name='bio_harvest_radio']:checked").val()=='C'){
-			$("#bio_catch_mt").prop('disabled', '');
-			$("#bio_f_percent").prop('disabled', 'disabled');
-		}else{
-			$("#fbaseRadio").prop('checked', true);
-			$("#bio_catch_mt").prop('disabled', 'disabled');
-			$("#bio_f_percent").prop('disabled', '');
-		}
-	}
 
-	function initHrtPoints(){
-		if($("input[name='hrt_harvest_radio']:checked").val()=='C'){
-			$("#hst_catch_thh1").prop('disabled', '');
-			$("#hst_catch_thh2").prop('disabled', '');
-			$("#hst_f_thh1").prop('disabled', 'disabled');
-			$("#hst_f_thh2").prop('disabled', 'disabled');
-		}else{
-			$("#fRadio").prop('checked',true);
-			$("#hst_catch_thh1").prop('disabled', 'disabled');
-			$("#hst_catch_thh2").prop('disabled', 'disabled');
-			$("#hst_f_thh1").prop('disabled', '');
-			$("#hst_f_thh2").prop('disabled', '');
-		}
-	}
-
-
-
-	$("input[name='hrt_harvest_rule']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		$("#hr_rule_pic").prop("src", $SCRIPT_ROOT+"/static/assets/images/harvestCtlRule/"+$("input[name='hrt_harvest_rule']:checked").val()+".png")
-		
-	});
-
-	$("input[name='bio_harvest_radio']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		initBioPoints();
-	});
-
-	$("input[name='hrt_harvest_radio']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
-		initHrtPoints();
-	});
 	/* part 8 Management Options Part I end */
 
 	/* initialization start*/
@@ -731,9 +420,6 @@ $(function() {
 	getMortality();
 	$("#form-recruitment input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1'],input[name^='auto1']").prop('disabled','disabled');
 	$("#form-recruitment input[name='historySt2'],input[name^='hst2'],input[name='formulaStock2'],input[name^='fml2'],input[name^='auto2']").prop('disabled','disabled');
-
-    initBioPoints();
-    initHrtPoints();
     /* initialization end*/
 	
 

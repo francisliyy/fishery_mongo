@@ -365,7 +365,7 @@ function drawChart(chartdata){
 		        show:false,
 		    },
 		    grid: {
-		        left: '7%',
+		        left: '10%',
 		        right: '4%',
 		        bottom: '3%',
 		        containLabel: true
@@ -382,7 +382,7 @@ function drawChart(chartdata){
 		    },
 		    yAxis: {
 		        type: 'value',
-		        name: 'General Annual Fishing Mortality(year'+'-1'.sup()+')',
+		        name: 'General Annual Fishing Mortality(year \u207B\u00B9)',
 		    },
 		    series: [
 		        {
@@ -751,7 +751,7 @@ function drawChart(chartdata){
 		        show:false,
 		    },
 		    grid: {
-		        left: '7%',
+		        left: '10%',
 		        right: '4%',
 		        bottom: '3%',
 		        containLabel: true
@@ -768,7 +768,7 @@ function drawChart(chartdata){
 		    },
 		    yAxis: {
 		        type: 'value',
-		        name: 'General Annual Fishing Mortality(year'+'-1'.sup()+')',
+		        name: 'General Annual Fishing Mortality(year \u207B\u00B9)',
 		    },
 		    series: [
 		        {

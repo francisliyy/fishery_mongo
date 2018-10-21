@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css')}}"></link>
     <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/bootstrap-table/dist/bootstrap-table.min.css')}}"></link>
     <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/jquery-file-upload/css/uploadfile.css')}}"></link>
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css')}}"></link>
     <link rel="stylesheet" href="{{url_for('static',filename='assets/css/common.css')}}"></link>
 {% endblock %}
 {% block content %}
@@ -13,7 +14,7 @@
     <div class="row">
       <div class="lead well" style="padding-top: 0.1em; padding-left: 2em; padding-right: 2em;">
       <p>
-        <h2>Simple version : {{process_name}}</h2>
+        <h2>Guest simple version : {{process_name}}</h2>
         {{process_description}}. <a href="{{url_for('GuestProcessView.list')}}" class="btn btn-warning" role="button" aria-pressed="true">Return</a>
       </p>
       </div>
@@ -30,9 +31,7 @@
           <li class="acc-wizard-todo"><a href="#bioParam">Biological Parameters</a></li>
           <li class="acc-wizard-todo"><a href="#naturalmortality">Natural Mortality</a></li>
           <li class="acc-wizard-todo"><a href="#recruitment">Recruitment</a></li>
-          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options Part1</a></li>
-          <li class="acc-wizard-todo"><a href="#mgtopt2">Management Options Part2</a></li>
-          <li class="acc-wizard-todo"><a href="#mgtopt3">Management Options Part3</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options</a></li>
         </ol>
       </div>
       <div class="col-md-9" style="padding-right: 2em;">
@@ -130,8 +129,8 @@
                     <div class="col-md-2 input-group">      
                       <select id="long_term_unit" name="long_term_unit" class="form-control">
                               <option value="Y" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Years</option>
-                              <option value="S" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Seasons</option>
-                              <option value="M" disabled {{'selected' if process_step1['long_term_unit']=='Y'}}>Months</option>
+                              <option value="S" disabled {{'selected' if process_step1['long_term_unit']=='S'}}>Seasons</option>
+                              <option value="M" disabled {{'selected' if process_step1['long_term_unit']=='M'}}>Months</option>
                       </select>
                     </div>              
                   </div>
@@ -169,16 +168,23 @@
                     </div>              
                   </div>
                   <div class="form-group">
+                    <label class="col-md-3 col-sm-3 control-label">effective sample size for initial distribution</label>
+                    <div class="col-md-5 col-sm-5 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="sample_size" name="sample_size" placeholder="100" value="{{process_step1['sample_size'] if process_step1['sample_size'] != None else ''}}" readonly="readonly" /> 
+                    </div>              
+                  </div>
+                  <div class="form-group">
                     <label class="col-md-3 control-label">Random Seed Setting</label>
                     <!--div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div-->
-                    <label class="radio-inline">
-                      <input type="radio" name="rnd_seed_setting" id="current_time" value="0" disabled {{ 'checked' if process_step1['rnd_seed_setting']=='0'}}> Current Time
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="rnd_seed_setting" id="self_determined" value="1" disabled {{ 'checked' if process_step1['rnd_seed_setting']=='1'}}> Self-Determined
-                    </label>
+                    <div class="form-group">
+                    <div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div>
+                    <!-- <div class="col-md-5 input-group">   
+                                   <input type="file" class="form-control" style="border-radius: 4px" id="rnd_seed_file"/> 
+                                 </div>  -->             
+                  </div>
          
                   </div>
+                  
                   {% endif %}
                 </form>
               </div> <!--/.panel-body -->
@@ -196,10 +202,17 @@
             <div id="ibParam" class="panel-collapse collapse in">
               <div class="panel-body">
                 <form id="form-ibParam">
+
                   <!-- <table id="table-ibParam" data-toggle="table"> -->
                   <table id="table-ibParam">
                       
-                  </table>                  
+                  </table>  
+                  <div class="form-group form-inline" style="margin-top: 15px">
+                      <label class="col-md-3 col-sm-3 control-label">CV (Normal Dist.)</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" disabled id="ip_cv" name="ip_cv" value="{{process_step1['ip_cv'] if process_step1['ip_cv'] != None else ''}}" placeholder=""/>
+                      </div>             
+                    </div>                
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->
@@ -241,17 +254,25 @@
                     <button id="mortality-next-btn" style="margin-left: 30px" type="button" class="btn btn-disable">Increase complexity&nbsp;&gt;&gt;</button>
                     <div id="hidden-mortality" data-mortalitycomplex="{{process_step1['mortality_complexity'] if process_step1['mortality_complexity'] != None else '1'}}"></div>
                   </h4>
-                   <div id="simpleMortality" style="margin-top:30px ">
+ 
+                  <table id="table-mortality">
+                  </table>
+                  <div id="simpleMortality" style="margin-top:30px ">
+                    <div class="form-group form-inline">
+                      <label class="col-md-3 col-sm-3 control-label">CV (Log-normal Dist.)</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" disabled id="nm_cv" name="nm_cv" value="{{process_step1['nm_cv'] if process_step1['nm_cv'] != None else ''}}" placeholder=""/>
+                      </div>             
+                    </div>                    
                     <div class="form-group form-inline">
                       <label class="col-md-3 col-sm-3 control-label">Fraction before spawning</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" disabled id="simple_spawning" name="simple_spawning" value="{{process_step1['simple_spawning'] if process_step1['simple_spawning'] != None else ''}}" placeholder="0.83"/>
                       </div>             
                     </div>
+
                   </div>
-                  <table id="table-mortality">
-                      
-                  </table>
+
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->
@@ -395,12 +416,12 @@
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio1" disabled value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Beverton-Holt Mode
+                          <input type="radio" name="formulaStock1" id="fml1radio1" disabled value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Beverton-Holt Model
                       </label>
                     </div>
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline">
-                          <input type="radio" name="formulaStock2" id="fml2radio1" disabled value="1" {{'checked' if process_step1['formulaStock2']=='1'}}>Beverton-Holt Mode
+                          <input type="radio" name="formulaStock2" id="fml2radio1" disabled value="1" {{'checked' if process_step1['formulaStock2']=='1'}}>Beverton-Holt Model
                         </label>
                     </div>
                   </div>
@@ -433,12 +454,12 @@
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio2" disabled value="2" {{'checked' if process_step1['formulaStock1']=='2'}}>Ricker Mode
+                          <input type="radio" name="formulaStock1" id="fml1radio2" disabled value="2" {{'checked' if process_step1['formulaStock1']=='2'}}>Ricker Model
                       </label>
                     </div>
                     <div class="col-md-5 col-sm-5 input-group" style="margin-left: 50px">
                       <label class="radio-inline">
-                          <input type="radio" name="formulaStock2" id="fml2radio2" disabled value="2" {{'checked' if process_step1['formulaStock2']=='2'}}>Ricker Mode
+                          <input type="radio" name="formulaStock2" id="fml2radio2" disabled value="2" {{'checked' if process_step1['formulaStock2']=='2'}}>Ricker Model
                         </label>
                     </div>
                   </div>
@@ -598,77 +619,58 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#mgtopt1" data-parent="#accordion-demo" data-toggle="collapse">
-                  Management Options Part1
+                  Management Options
                 </a>
               </h4>
             </div>
             <div id="mgtopt1" class="panel-collapse collapse in">
               <div class="panel-body">
                 <form id="form-mgtopt1">
-                  <h4>Biological reference points</h4>
+                  <h4>Biological Reference Points</h4>
+                  
                   <div class="form-group">
-                    <label class="col-md-4 control-label">Biomass-based Reference Points</label>
-                    <div class="col-md-5 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="bio_biomass_points" name="bio_biomass_points" value="{{process_step1['bio_biomass_points'] if process_step1['bio_biomass_points'] != None else ''}}" placeholder="2"/> 
-                    </div>              
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 control-label">Harvest reference points</label>
+                    <label class="col-md-2 radio-inline" >SSB<sub>MSY</sub></label>
                     <div class="col-md-7 col-sm-7 input-group">  
-                      <label class="radio-inline" >
-                        <input type="radio" name="bio_harvest_radio" id="catchRadio" {{'checked' if process_step1['bio_harvest_radio']=='C'}} value="C">Catch-based
-                      </label> 
-                      <input maxlength="8" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 10px" id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
-                      <span style="margin-left:5px;width:5px">mt</span>
+                       
+                      <input maxlength="20" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_catch_mt" name="bio_catch_mt" value="{{process_step1['bio_catch_mt'] if process_step1['bio_catch_mt'] != None else ''}}" placeholder=""/>
+                      <span style="margin-left:5px;width:5px">eggs</span>
                     </div>                                  
                   </div>
                   <div class="form-group">
+                    <label class="col-md-2 radio-inline" >F<sub>MSY</sub></label>
+                    <div class="col-md-7 col-sm-7 input-group"> 
+                      <input maxlength="10" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>    
+                      <span style="margin-left:5px;width:5px">years<sup>-1</sup></span>                  
+                    </div>                                  
+                  </div>
+                  <div class="form-group">
+                    <h4>Fishes Status</h4>
                     <label class="col-md-4 control-label"></label>
-                    <div class="col-md-7 col-sm-7 input-group">  
-                      <label class="radio-inline" >
-                        <input type="radio" name="bio_harvest_radio" id="fbaseRadio" {{'checked' if process_step1['bio_harvest_radio']=='F'}} value="F">F-based
-                      </label> 
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;margin-left: 40px" id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>                      
-                    </div>                                  
+                    <div id="colorChart" class="col-md-7 input-group" style="height:400px">
+                    </div>
                   </div>
                   <div class="form-group">
                     <h4>Harvest control rule</h4>
                     <label class="col-md-4 control-label"></label>
                     <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="contCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CC' or process_step1['hrt_harvest_rule'] is none}} value="CC"> Constant catch
+                      <input type="radio" name="hrt_harvest_rule" disabled id="contCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CC' or process_step1['hrt_harvest_rule'] is none}} value="CC"> Constant C
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="contFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CF'}} value="CF"> Constant F
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="linearCRadio" {{'checked' if process_step1['hrt_harvest_rule']=='LC'}} value="LC"> Linear catch
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="hrt_harvest_rule" id="linearFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='LF'}} value="LF"> Linear F
+                      <input type="radio" name="hrt_harvest_rule" disabled id="contFRadio" {{'checked' if process_step1['hrt_harvest_rule']=='CF'}} value="CF"> Constant F
                     </label>
                   </div>
                   <div class="form-group">
                     <label class="col-md-4 control-label"></label>
-                    <div class="col-md-5 input-group">
-                      <img id="hr_rule_pic" style="width: 400px ; height: 300px" src="{{url_for('static',filename='assets/images/harvestCtlRule/CC.png')}}"></img>
-                    </div>                    
+                    <div class="col-md-7 col-sm-7 input-group well" style="margin-bottom: -20px" align="center">
+                      <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0.03" data-slider-max="0.08" data-slider-step="0.0002" data-slider-enabled="false" data-slider-value="{{process_step1['bio_f_percent']*0.75}}"/>
+                    </div>
                   </div>
-                </form>
-              </div> <!--/.panel-body -->
-            </div> <!-- /#adjusthtml -->
-          </div> <!-- /.panel.panel-default -->
+                  <div class="form-group">
+                    <label class="col-md-4 control-label"></label>
+                    <div id="ruleChart" class="col-md-7 input-group" style="height:400px">
+                    </div>                                       
+                  </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="#mgtopt2" data-parent="#accordion-demo" data-toggle="collapse">
-                  Management Options Part2
-                </a>
-              </h4>
-            </div>
-            <div id="mgtopt2" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <form id="form-mgtopt2">
                   <h4>Allocation among sectors</h4>
                   <div class="form-group" style="height:34px">                    
                     <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Recreational</label> 
@@ -676,183 +678,17 @@
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_recreational" name="sec_recreational" value="{{process_step1['sec_recreational'] if process_step1['sec_recreational'] != None else ''}}" placeholder="3"/>
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" disabled id="sec_recreational" name="sec_recreational" value="{{process_step1['sec_recreational'] if process_step1['sec_recreational'] != None else ''}}" placeholder="3" />
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div> 
                     <div class="col-md-2 col-sm-2 input-group">      
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_commercial" name="sec_commercial" value="{{process_step1['sec_commercial'] if process_step1['sec_commercial'] != None else ''}}" placeholder="3"/>
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" readonly id="sec_commercial" name="sec_commercial" value="{{process_step1['sec_commercial'] if process_step1['sec_commercial'] != None else ''}}" placeholder="3"/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
                     <div class="col-md-1 col-sm-1 input-group">
-                     <button style="margin-left: 40px" type="button" class="btn btn-danger">Include bycatch</button> 
                     </div>             
                   </div>
-                  <h4>Allocation among fleets</h4>
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-3 col-sm-3 control-label">Recreational</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
-                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
-                  </div>
-                  {% for num in range(0,4) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 col-sm-2 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_rec_stock_{{num}}" name="fleet_rec_stock_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['stock'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_rec_fleet_{{num}}" name="fleet_rec_fleet_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['fleet'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control input-txt" id="fleet_rec_allocation_{{num}}" name="fleet_rec_allocation_{{num}}" value="{{process_step1['fleet_rec_stock'][num]['allocation'] if process_step1['fleet_rec_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 col-sm-1 input-group" style="width: 5px;margin-left: 5px">%</div>            
-                  </div>
-                  {% endfor%}
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-3 col-sm-3 control-label">Commercail</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Stock</label> 
-                    <label class="col-md-3 col-sm-3 control-label">Fleet</label>
-                    <label class="col-md-3 col-sm-3 control-label">Allocation</label>           
-                  </div>
-                  {% for num in range(0,4) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 col-sm-2 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_com_stock_{{num}}" name="fleet_com_stock_{{num}}" value="{{process_step1['fleet_com_stock'][num]['stock'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input maxlength="8" type="number" class="form-control input-txt" id="fleet_com_fleet_{{num}}" name="fleet_com_fleet_{{num}}" value="{{process_step1['fleet_com_stock'][num]['fleet'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 col-sm-2 input-group">   
-                      <input maxlength="5" type="number" class="form-control input-txt" id="fleet_com_allocation_{{num}}" name="fleet_com_allocation_{{num}}" value="{{process_step1['fleet_com_stock'][num]['allocation'] if process_step1['fleet_com_stock']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 5px;width: 5px">%</div>            
-                  </div>
-                  {% endfor%}
-                  <div class="form-group form-inline">
-                    <button style="" type="button" class="btn btn-danger">Include bycatch</button>
-                  </div>
-                  <h4>Recreational fishing season</h4>
-                  <div class="form-group form-inline">
-                    <div class="col-md-1 input-group" style="margin-left: 60px">
-                      <label class="control-label">Start</label>
-                    </div>
-                    <div class='col-md-3 input-group date' id='fishingStartDate' name='fishingStartDate'>
-                      <input type='text' id="fishingStartDateTxt" name="fishingStartDateTxt" class="form-control" value="{{process_step1['fishingStartDate']}}"/>
-                      <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
-                    </div>
-                    <div class="col-md-1 input-group" style="margin-left: 115px"> 
-                      <label class="control-label">End</label>
-                    </div>
-                    <div class='col-md-3 input-group date' id='fishingEndDate' name='fishingEndDate'>
-                      <input type='text' id="fishingEndDateTxt" name="fishingEndDateTxt" class="form-control" value="{{process_step1['fishingEndDate']}}"/>
-                      <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
-                    </div>            
-                  </div>
-                 
-                </form>
-              </div> <!--/.panel-body -->
-            </div> <!-- /#adjusthtml -->
-          </div> <!-- /.panel.panel-default -->
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a href="#mgtopt3" data-parent="#accordion-demo" data-toggle="collapse">
-                  Management Options Part3
-                </a>
-              </h4>
-            </div>
-            <div id="mgtopt3" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <form id="form-mgtopt3">
-                  <h4>Landing ratios among states</h4>
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
-                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
-                  </div>
-                  <div class="form-group" style="height:34px">
-                    <label class="col-md-2 control-label">Stock</label> 
-                    <label class="col-md-2 control-label">State</label> 
-                    <label class="col-md-2 control-label">Loading ratios</label>
-                    <label class="col-md-2 control-label">Stock</label> 
-                    <label class="col-md-2 control-label">State</label> 
-                    <label class="col-md-2 control-label">Loading ratios</label>
-                  </div>
-                  {% for num in range(0,6) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-2 input-group">
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:80px;" id="ratio_rec_stock_{{num}}" name="ratio_rec_stock_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['stock'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input maxlength="5" type="text" class="form-control" style="border-radius: 4px;width:100px;" id="ratio_rec_state_{{num}}" name="ratio_rec_state_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['state'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_rec_ratio_{{num}}" name="ratio_rec_ratio_{{num}}" value="{{process_step1['ratio_rec_ratio'][num]['ratio'] if process_step1['ratio_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="width:30px;margin-left: 0px">%</div> 
-                    <div class="col-md-2 input-group">   
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:80px;" id="ratio_com_stock_{{num}}" name="ratio_com_stock_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['stock'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-2 input-group">   
-                      <input maxlength="5" type="text" class="form-control" style="border-radius: 4px;width:100px;" id="ratio_com_state_{{num}}" name="ratio_com_state_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['state'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:65px;" id="ratio_com_ratio_{{num}}" name="ratio_com_ratio_{{num}}" value="{{process_step1['ratio_com_ratio'][num]['ratio'] if process_step1['ratio_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="width:10px;margin-left: 0px">%</div>     
-                  </div>
-                  {% endfor%}
-                  <h4>Discard ratio</h4>
-                  <div class="form-group" style="height:34px">                    
-                    <label class="col-md-6 col-sm-6 control-label">Recreational</label> 
-                    <label class="col-md-6 col-sm-6 control-label">Commercial</label>            
-                  </div>
-                  <div class="form-group" style="height:34px">
-                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
-                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
-                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
-                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
-                    <label class="col-md-1 col-sm-1 control-label">Stock</label> 
-                    <label class="col-md-1 col-sm-1 control-label">Fleet</label> 
-                    <label class="col-md-2 col-sm-2 control-label">Open/Closed</label>
-                    <label class="col-md-2 col-sm-2 control-label">Discard ratios</label>
-                  </div>
-                  {% for num in range(0,6) %}
-                  <div class="form-group form-inline">
-                    <div class="col-md-1 input-group">
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_rec_stock_{{num}}" name="discard_rec_stock_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['stock'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_fleet_{{num}}" name="discard_rec_fleet_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['fleet'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_oc_{{num}}" name="discard_rec_oc_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['oc'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_rec_ratio_{{num}}" name="discard_rec_ratio_{{num}}" value="{{process_step1['discard_rec_ratio'][num]['ratio'] if process_step1['discard_rec_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="margin: 0 15px 0 0">%</div>
-                    <div class="col-md-1 input-group">
-                      <input maxlength="2" type="number" class="form-control" style="border-radius: 4px;width:50px;" id="discard_com_stock_{{num}}" name="discard_com_stock_{{num}}" value="{{process_step1['discard_com_ratio'][num]['stock'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_fleet_{{num}}" name="discard_com_fleet_{{num}}" value="{{process_step1['discard_com_ratio'][num]['fleet'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="10" type="text" class="form-control" style="border-radius: 4px;width:70px; " id="discard_com_oc_{{num}}" name="discard_com_oc_{{num}}" value="{{process_step1['discard_com_ratio'][num]['oc'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group">   
-                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:70px;" id="discard_com_ratio_{{num}}" name="discard_com_ratio_{{num}}" value="{{process_step1['discard_com_ratio'][num]['ratio'] if process_step1['discard_com_ratio']|length >0 else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 input-group" style="width: 10px;margin: 0 15px 0 0">%</div>          
-                  </div>
-                  {% endfor%}
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->
@@ -870,10 +706,10 @@
           Show the process result:
         </p>
         <ol class="acc-wizard-sidebar">
-          <li class="acc-wizard-todo"><a href="#bio">Bio-Demo</a></li>
-          <li class="acc-wizard-todo"><a href="#spr">SPR-Demo</a></li>
-          <li class="acc-wizard-todo"><a href="#ssb">SSB</a></li>
-          <li class="acc-wizard-todo"><a href="#f">F</a></li>
+          <li class="acc-wizard-todo"><a href="#bio">Commercial Catch</a></li>
+          <li class="acc-wizard-todo"><a href="#spr">Recreational Catch</a></li>
+          <li class="acc-wizard-todo"><a href="#ssb">Total SSB</a></li>
+          <li class="acc-wizard-todo"><a href="#f">General F</a></li>
         </ol>
       </div>
       <div class="col-md-9" style="padding-right: 2em;">
@@ -883,14 +719,14 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#bio" data-parent="#process-result" data-toggle="collapse">
-                  Bio-Demo
+                  Commercial Catch
                 </a>
               </h4>
             </div>
             <div id="bio" class="panel-collapse collapse in">
               <div class="panel-body">
-                <div id="bio-chart-1" class="echart-size">
-                </div>
+                  <div id="bio-chart-1" class="echart-size">
+                  </div>
               </div> <!--/.panel-body -->
             </div> <!-- /#generalinput -->
           </div> <!-- /.panel.panel-default -->
@@ -899,14 +735,14 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#spr" data-parent="#process-result" data-toggle="collapse">
-                  SPR-Demo
+                  Recreational Catch
                 </a>
               </h4>
             </div>
             <div id="spr" class="panel-collapse collapse in">
               <div class="panel-body">
                 <div id="spr-chart-1" class="echart-size">
-                </div>
+                </div> 
               </div> <!--/.panel-body -->
             </div> <!-- /#addwizard -->
           </div> <!-- /.panel.panel-default -->
@@ -915,7 +751,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#ssb" data-parent="#process-result" data-toggle="collapse">
-                  SSB
+                  Total SSB
                 </a>
               </h4>
             </div>
@@ -931,7 +767,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#f" data-parent="#process-result" data-toggle="collapse">
-                  F
+                  General F
                 </a>
               </h4>
             </div>
@@ -963,7 +799,9 @@
     <script src="{{url_for('static',filename='assets/node_modules/jquery-file-upload/js/jquery.uploadfile.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/echarts/dist/echarts.min.js')}}"></script>
     <script src="{{url_for('static',filename='assets/node_modules/jquery-validation/dist/jquery.validate.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/node_modules/bootstrap-slider/dist/bootstrap-slider.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>
     <script src="{{url_for('static',filename='assets/javascript/process_guest.js')}}"></script>
-    <script src="{{url_for('static',filename='assets/javascript/process-echart.js')}}"></script>    
+    
 {% endblock %}
 

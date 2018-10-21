@@ -494,7 +494,7 @@ $(function() {
 					            crossDomain: true,
 					            type: "POST",
 					            dataType: "json",
-					            data: JSON.stringify({"store_path":"~/","seed_file":"seed.csv","F_plan":0.0588,"comm":sec_commercial}),
+					            data: JSON.stringify({"store_path":"~/","seed_file":"seed.csv","F_plan":bio_f_percent/0.75,"comm":sec_commercial}),
 					            success: function(data) 
 					            {
 					                 $("#mask").removeClass('lmask');
