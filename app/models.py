@@ -314,3 +314,24 @@ class ProcessGenInput(Document):
 
 	def to_dict(self):
 		return mongo_to_dict(self)
+
+class MseResultSingle(EmbeddedDocument):
+
+	year = IntField()
+	Catch_comm_median = FloatField()
+	Catch_comm_975 = FloatField()
+	Catch_comm_025 = FloatField()
+	Catch_recr_median = FloatField()
+	Catch_recr_975 = FloatField()
+	Catch_recr_025 = FloatField()
+	SSB_total_median = FloatField()
+	SSB_total_975 = FloatField()
+	SSB_total_025 = FloatField()
+	F_general_median = FloatField()
+	F_general_975 = FloatField()
+	F_general_025 = FloatField()
+
+class MseResultList(Document):
+
+	process_gen_id = StringField(max_length=500,reqired=True)
+	resultlist = EmbeddedDocumentListField(MseResultSingle)

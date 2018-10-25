@@ -228,7 +228,7 @@ function(file_id,store_path,ssb_msy,f_msy){
 #' @param store_path file saved directory
 #' @serializer unboxedJSON
 #' @post /runmse
-function(store_path,seed_file,F_plan,comm){
+function(store_path,seed_file,F_plan,comm,process_gen_id){
 
   library("r4ss")
   
@@ -713,6 +713,14 @@ function(store_path,seed_file,F_plan,comm){
   library("RJSONIO")
   library("plyr")
   resultJson<-toJSON(unname(alply(resultlist,1,identity)))
+
+  mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
+  print(mongo.oid.from.string(process_gen_id))
+  resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson,'}',sep = "")
+  result_list<-mongo.bson.from.JSON(resultListJson)
+  mongo.remove(mongo,"admin.mse_result_list",list(process_gen_id=process_gen_id))
+  mongo.insert(mongo,"admin.mse_result_list",result_list)
+  
   return(resultJson)
   
 }

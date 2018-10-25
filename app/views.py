@@ -762,6 +762,19 @@ class ProStepView(BaseView):
 
         return Response(json.dumps({'login_count':login_count,'registed_count':registed_count,'mse_count':mse_count}), mimetype='application/json')
 
+    @expose('/getMesResult/<pro_gen_id>')
+    @has_access
+    def getMesResult(self,pro_gen_id):
+
+        print(pro_gen_id)
+
+        mseresult = MseResultList.objects(process_gen_id=pro_gen_id).first()
+
+        print(mseresult)
+
+        if mseresult.resultlist != None and len(mseresult.resultlist)>0:
+            return Response(mseresult.to_json(), mimetype='application/json')
+
 class StockFileView(ModelView):
 
     datamodel = MongoEngineInterface(StockFile)

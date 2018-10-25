@@ -21,802 +21,805 @@ function drawChart(chartdata){
     var f_median_data = [];
     var f_high_data = [];
 
-	if(chartdata){
+    if(chartdata){
+    	try {
+	        chartdata = JSON.parse(chartdata);
+	    } catch (e) {
+	    }
+		        $.each(chartdata,function(index, el) {
+		        	comm_xAxisData.push(el.year);
+					comm_low_data.push(el.Catch_comm_025);
+					comm_median_data.push(el.Catch_comm_median);
+					comm_high_data.push(el.Catch_comm_975);
+		        });
+				comm_option = {
+				    title: {
+				        text: 'Commercial Catch'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '7%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: comm_xAxisData,
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'Annual Commercial Catch(mt)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:comm_low_data,
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:comm_median_data
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:comm_high_data,
+				            symbol: 'none'
 
-        $.each(JSON.parse(chartdata),function(index, el) {
-        	comm_xAxisData.push(el.year);
-			comm_low_data.push(el.Catch_comm_025);
-			comm_median_data.push(el.Catch_comm_median);
-			comm_high_data.push(el.Catch_comm_975);
-        });
-		comm_option = {
-		    title: {
-		        text: 'Commercial Catch'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '7%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: comm_xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'Annual Commercial Catch(mt)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:comm_low_data,
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:comm_median_data
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:comm_high_data,
-		            symbol: 'none'
+				        }
+				    ]
+				};
+				bioChart1.setOption(comm_option);
 
-		        }
-		    ]
-		};
-		bioChart1.setOption(comm_option);
+		        $.each(chartdata,function(index, el) {
+		        	recr_xAxisData.push(el.year);
+					recr_low_data.push(el.Catch_recr_025);
+					recr_median_data.push(el.Catch_recr_median);
+					recr_high_data.push(el.Catch_recr_975);
+		        });
+				recr_option = {
+				    title: {
+				        text: 'Recreational Catch'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: recr_xAxisData,
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'Annual Catch(mt)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:recr_low_data,
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:recr_median_data
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:recr_high_data,
+				            symbol: 'none'
 
-        $.each(JSON.parse(chartdata),function(index, el) {
-        	recr_xAxisData.push(el.year);
-			recr_low_data.push(el.Catch_recr_025);
-			recr_median_data.push(el.Catch_recr_median);
-			recr_high_data.push(el.Catch_recr_975);
-        });
-		recr_option = {
-		    title: {
-		        text: 'Recreational Catch'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: recr_xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'Annual Catch(mt)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:recr_low_data,
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:recr_median_data
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:recr_high_data,
-		            symbol: 'none'
+				        }
+				    ]
+				};
+				sprChart1.setOption(recr_option);
 
-		        }
-		    ]
-		};
-		sprChart1.setOption(recr_option);
+				$.each(chartdata,function(index, el) {
+		        	ssb_xAxisData.push(el.year);
+					ssb_low_data.push(el.SSB_total_025);
+					ssb_median_data.push(el.SSB_total_median);
+					ssb_high_data.push(el.SSB_total_975);
+		        });
+				ssb_option = {
+				    title: {
+				        text: 'Total SSB'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: ssb_xAxisData,
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'Stock Spawning Biomass(No. of Eggs)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:ssb_low_data,
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:ssb_median_data
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:ssb_high_data,
+				            symbol: 'none'
 
-		$.each(JSON.parse(chartdata),function(index, el) {
-        	ssb_xAxisData.push(el.year);
-			ssb_low_data.push(el.SSB_total_025);
-			ssb_median_data.push(el.SSB_total_median);
-			ssb_high_data.push(el.SSB_total_975);
-        });
-		ssb_option = {
-		    title: {
-		        text: 'Total SSB'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: ssb_xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'Stock Spawning Biomass(No. of Eggs)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:ssb_low_data,
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:ssb_median_data
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:ssb_high_data,
-		            symbol: 'none'
+				        }
+				    ]
+				};
+				ssbChart1.setOption(ssb_option);
 
-		        }
-		    ]
-		};
-		ssbChart1.setOption(ssb_option);
+				$.each(chartdata,function(index, el) {
+		        	f_xAxisData.push(el.year);
+					f_low_data.push(el.F_general_025);
+					f_median_data.push(el.F_general_median);
+					f_high_data.push(el.F_general_975);
+		        });
+				f_option = {
+				    title: {
+				        text: 'General F'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '10%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: f_xAxisData,
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'General Annual Fishing Mortality(year \u207B\u00B9)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:f_low_data,
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:f_median_data
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:f_high_data,
+				            symbol: 'none'
 
-		$.each(JSON.parse(chartdata),function(index, el) {
-        	f_xAxisData.push(el.year);
-			f_low_data.push(el.F_general_025);
-			f_median_data.push(el.F_general_median);
-			f_high_data.push(el.F_general_975);
-        });
-		f_option = {
-		    title: {
-		        text: 'General F'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '10%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: f_xAxisData,
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'General Annual Fishing Mortality(year \u207B\u00B9)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:f_low_data,
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:f_median_data
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:f_high_data,
-		            symbol: 'none'
+				        }
+				    ]
+				};
+				fChart1.setOption(f_option);
 
-		        }
-		    ]
-		};
-		fChart1.setOption(f_option);
+			}else{
 
-	}else{
+				comm_option = {
+				    title: {
+				        text: 'Commercial Catch'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '5%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: [],
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'Annual Commercial Catch(mt)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:[],
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:[]
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:[],
+				            symbol: 'none'
 
-		comm_option = {
-		    title: {
-		        text: 'Commercial Catch'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '5%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: [],
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'Annual Commercial Catch(mt)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:[],
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:[]
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:[],
-		            symbol: 'none'
+				        }
+				    ]
+				};
+				bioChart1.setOption(comm_option);
 
-		        }
-		    ]
-		};
-		bioChart1.setOption(comm_option);
+				recr_option = {
+				    title: {
+				        text: 'Recreational Catch'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: [],
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'Annual Catch(mt)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:[],
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:[]
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:[],
+				            symbol: 'none'
 
-		recr_option = {
-		    title: {
-		        text: 'Recreational Catch'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: [],
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'Annual Catch(mt)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:[],
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:[]
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:[],
-		            symbol: 'none'
+				        }
+				    ]
+				};
+				sprChart1.setOption(recr_option);
 
-		        }
-		    ]
-		};
-		sprChart1.setOption(recr_option);
+				ssb_option = {
+				    title: {
+				        text: 'Total SSB'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: [],
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'Stock Spawning Biomass(No. of Eggs)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:[],
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:[]
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:[],
+				            symbol: 'none'
 
-		ssb_option = {
-		    title: {
-		        text: 'Total SSB'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '3%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: [],
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'Stock Spawning Biomass(No. of Eggs)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:[],
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:[]
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:[],
-		            symbol: 'none'
+				        }
+				    ]
+				};
+				ssbChart1.setOption(ssb_option);
 
-		        }
-		    ]
-		};
-		ssbChart1.setOption(ssb_option);
+				f_option = {
+				    title: {
+				        text: 'General F'
+				    },
+				    tooltip: {
+				        trigger: 'axis',
+				        axisPointer: {
+			                type: 'cross',
+			                animation: false,
+			                label: {
+			                    backgroundColor: '#ccc',
+			                    borderColor: '#aaa',
+			                    borderWidth: 1,
+			                    shadowBlur: 0,
+			                    shadowOffsetX: 0,
+			                    shadowOffsetY: 0,
+			                    textStyle: {
+			                        color: '#222'
+			                    }
+			                }
+			            },
+			            formatter: function (params) {
+			                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+			            }
+				    },
+				    legend: {
+				        data:['F_std','HL_E','HL_W'],
+				        show:false,
+				    },
+				    grid: {
+				        left: '10%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    toolbox: {
+				        feature: {
+				            saveAsImage: {title:'saveAsImage'}
+				        }
+				    },
+				    xAxis: {
+				        type: 'category',
+				        boundaryGap: false,
+				        data: [],
+				    },
+				    yAxis: {
+				        type: 'value',
+				        name: 'General Annual Fishing Mortality(year \u207B\u00B9)',
+				    },
+				    series: [
+				        {
+				            name:'Lower 2.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            symbol: 'none',
+				            data:[],
+				        },
+				        {
+				            name:'Median',
+				            type:'line',    
+				            lineStyle: {
+				                normal: {
+				                    
+				                }
+				            },   
+				            showSymbol: false,     
+				            data:[]
+				        },
+				        {
+				            name:'Upper 97.5%',
+				            type:'line',
+				            stack: '1',
+				            lineStyle: {
+				                normal: {
+				                    opacity: 0
+				                }
+				            },
+				            areaStyle: {
+				                normal: {
+				                    color: '#ccc',
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				                }
+				            },
+				            data:[],
+				            symbol: 'none'
 
-		f_option = {
-		    title: {
-		        text: 'General F'
-		    },
-		    tooltip: {
-		        trigger: 'axis',
-		        axisPointer: {
-	                type: 'cross',
-	                animation: false,
-	                label: {
-	                    backgroundColor: '#ccc',
-	                    borderColor: '#aaa',
-	                    borderWidth: 1,
-	                    shadowBlur: 0,
-	                    shadowOffsetX: 0,
-	                    shadowOffsetY: 0,
-	                    textStyle: {
-	                        color: '#222'
-	                    }
-	                }
-	            },
-	            formatter: function (params) {
-	                return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
-	            }
-		    },
-		    legend: {
-		        data:['F_std','HL_E','HL_W'],
-		        show:false,
-		    },
-		    grid: {
-		        left: '10%',
-		        right: '4%',
-		        bottom: '3%',
-		        containLabel: true
-		    },
-		    toolbox: {
-		        feature: {
-		            saveAsImage: {title:'saveAsImage'}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: [],
-		    },
-		    yAxis: {
-		        type: 'value',
-		        name: 'General Annual Fishing Mortality(year \u207B\u00B9)',
-		    },
-		    series: [
-		        {
-		            name:'Lower 2.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            symbol: 'none',
-		            data:[],
-		        },
-		        {
-		            name:'Median',
-		            type:'line',    
-		            lineStyle: {
-		                normal: {
-		                    
-		                }
-		            },   
-		            showSymbol: false,     
-		            data:[]
-		        },
-		        {
-		            name:'Upper 97.5%',
-		            type:'line',
-		            stack: '1',
-		            lineStyle: {
-		                normal: {
-		                    opacity: 0
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: '#ccc',
-		                    shadowColor: 'rgba(0, 0, 0, 0.5)',
-		                }
-		            },
-		            data:[],
-		            symbol: 'none'
-
-		        }
-		    ]
-		};
-		fChart1.setOption(f_option);
-	}
+				        }
+				    ]
+				};
+				fChart1.setOption(f_option);
+			}
 
 }
 
@@ -992,6 +995,18 @@ $(function() {
 		}
 	});
 
-	drawChart();
+    var chartdata;
+	$.ajax({
+    	url: $SCRIPT_ROOT+'/prostepview/getMesResult/'+$("#step1_id").data("step1id"),
+    	type: 'get',
+    	dataType: 'JSON',
+    	data: {},
+    })
+    .done(function(result) {
+    	chartdata = result.resultlist;   	
+    })
+    .always(function(result){
+    	drawChart(chartdata);
+    })	
 
 })
