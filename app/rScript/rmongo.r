@@ -16,7 +16,7 @@ cors <- function(res) {
 }
 
 # This function connect to the database and get one MSE record from Mongodb,
-# param: mse_id is the process_id which will get from python code.
+# param: mse_id is the process_gen_id which will get from python code.
 getMSEInfo<-function(mse_id){
   
   library("rmongodb")
@@ -25,7 +25,7 @@ getMSEInfo<-function(mse_id){
   mongo <- mongo.create()
   if (mongo.is.connected(mongo)) {
     # read record,use mongo shell to find the value of process_id, replace it in mongo.oid.from.string("5b02cc1b360e2e8f7f93d438"),then execute
-    result <- mongo.find.one(mongo, "admin.process_gen_input", query=list('process_id' = mongo.oid.from.string(mse_id)))
+    result <- mongo.find.one(mongo, "admin.process_gen_input", query=list('_id' = mongo.oid.from.string(mse_id)))
   }
   mongo.destroy(mongo)
   return(result)
@@ -36,10 +36,10 @@ getMSEInfo<-function(mse_id){
 # param store_path is the directory where you want to store the file
 getRondomFile<-function(file_id,store_path){
   library("rmongodb")
-  mongo <- mongo.create()
+  mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   gridfs <- mongo.gridfs.create(mongo, "admin")
-  gf <- mongo.gridfs.find(gridfs, query=list('_id' = mongo.oid.from.string(file_id)))
-  
+  gf <- mongo.gridfs.find(gridfs, query=list('_id' = mongo.oid.from.string("5bd1c626360e2e635192f199")))
+  filename<-""
   if( !is.null(gf)){
     print(mongo.gridfile.get.length(gf))
     filename <- mongo.gridfile.get.filename(gf)
@@ -51,6 +51,7 @@ getRondomFile<-function(file_id,store_path){
   }
   
   mongo.gridfs.destroy(gridfs)
+  return(filename)
 }
 
 # This function is used for save into MongoDb
@@ -502,7 +503,9 @@ function(store_path,seed_file,F_plan,comm,process_gen_id){
   Runtime_long<-20
   count_1<-rep(0,length(stock_1_mean))
   count_2<-rep(0,length(stock_2_mean))
-  seed_input<-read.csv(seed_file,header = F)
+  mse_result<-getMSEInfo(process_gen_id)
+  seed_file<-getRondomFile(mongo.oid.to.string(mongo.bson.value(mse_info, "rnd_seed_file")[1]$`0`),store_path)
+  seed_input<-read.csv(paste(store_path,seed_file),header = F)
   true_R_1<-rep(0,Runtime_long)
   true_R_2<-rep(0,Runtime_long)
   SSB_1<-matrix(rep(0,Simrun_Num*Runtime_long), ncol=Runtime_long)
@@ -738,7 +741,14 @@ if(FALSE){
     ##  based on getMSEInfo function.                                 ##
     ####################################################################
     #invoke Rmongo to get data from mongodb,"5b02cc1b360e2e8f7f93d438", try to get this id from mongo client
-    mse_info <- getMSEInfo("5b7ad05f360e2e52e8d51737")
+    x <- list(2.5,TRUE,1:3)
+    x[1]
+    mse_info <- getMSEInfo("5bd1c626360e2e635192f198")
+    rnd_file_list<-mongo.bson.value(mse_info, "rnd_seed_file")
+    print(rnd_file_list[1]$`0`)
+    print(typeof(rnd_file_list[1]$`0`))
+    getRondomFile(mongo.oid.to.string(rnd_file_list[1]$`0`),"~/")
+    
     #see all the values inside
     print(mse_info)
     #get a specific value
