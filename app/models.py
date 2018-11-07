@@ -87,6 +87,23 @@ class DiscardRatio(EmbeddedDocument):
 	oc = StringField(max_length=50)
 	ratio = DecimalField()
 
+class extraF(EmbeddedDocument):
+
+	hl_e_pred_F = FloatField()
+	hl_w_pred_F = FloatField()
+	ll_e_pred_F = FloatField()
+	ll_w_pred_F = FloatField()
+	mrip_e_pred_F = FloatField()
+	mrip_w_pred_F = FloatField()
+	hbt_e_pred_F  = FloatField()
+	hbt_w_pred_F  = FloatField()
+	comm_closed_e_pred_F = FloatField()
+	comm_closed_w_pred_F = FloatField()
+	rec_closed_e_pred_F = FloatField()
+	rec_closed_w_pred_F = FloatField()
+	shrimp_e_pred_F = FloatField()
+	shrimp_w_pred_F = FloatField()
+
 class Process(Document):
 
 	PROPRIVACY = (('PV', 'private'),
@@ -150,13 +167,15 @@ class GlobalSettings(Document):
 	sample_size = IntField()
 	rnd_seed_setting = StringField(max_length=2)
 	#STEP3
-	ip_cv = DecimalField()
+	ip_cv_1 = DecimalField()
+	ip_cv_2 = DecimalField()
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 	#STEP4
 	bioParam = EmbeddedDocumentListField(BioParameter)
 	#STEP5
 	simple_spawning = DecimalField()
-	nm_cv = DecimalField()
+	nm_cv_1 = DecimalField()
+	nm_cv_2 = DecimalField()
 	mortality = EmbeddedDocumentListField(Mortality)
 	#STEP6
 	recruitTypeStock1 = StringField(max_length=2)
@@ -178,7 +197,8 @@ class GlobalSettings(Document):
 	hrt_harvest_rule = StringField(max_length=2)
 	sec_recreational = DecimalField()
 	sec_commercial = DecimalField()
-
+	#extral
+	extra_F = EmbeddedDocumentListField(extraF)
 
 class ProcessGenInput(Document):
 
@@ -214,7 +234,8 @@ class ProcessGenInput(Document):
 	stock2_model_type = StringField(max_length=2)
 	stock2_filepath = FileField()
 	#step4
-	ip_cv = DecimalField()
+	ip_cv_1 = DecimalField()
+	ip_cv_2 = DecimalField()
 	iniPopu = EmbeddedDocumentListField(GIIniPopulation)
 	#step5
 	bioParam = EmbeddedDocumentListField(BioParameter)
@@ -222,7 +243,8 @@ class ProcessGenInput(Document):
 	mortality_complexity = IntField()
 
 	simple_spawning = DecimalField()
-	nm_cv = DecimalField()
+	nm_cv_1 = DecimalField()
+	nm_cv_2 = DecimalField()
 
 	mortality = EmbeddedDocumentListField(Mortality)
 	#step7
@@ -304,6 +326,9 @@ class ProcessGenInput(Document):
 	ratio_com_ratio = EmbeddedDocumentListField(LandingRatio)
 	discard_rec_ratio = EmbeddedDocumentListField(DiscardRatio)
 	discard_com_ratio = EmbeddedDocumentListField(DiscardRatio)
+
+	#extral
+	extra_F = EmbeddedDocumentListField(extraF)
 
 
 	created_by = ReferenceField("User",reqired=True)

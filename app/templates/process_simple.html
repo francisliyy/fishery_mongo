@@ -168,7 +168,7 @@
                     </div>              
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 col-sm-3 control-label">effective sample size for initial distribution</label>
+                    <label class="col-md-3 col-sm-3 control-label">Effective Sample Size For Initial Distribution</label>
                     <div class="col-md-5 col-sm-5 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="sample_size" name="sample_size" placeholder="100" value="{{process_step1['sample_size'] if process_step1['sample_size'] != None else ''}}" readonly="readonly" /> 
                     </div>              
@@ -208,9 +208,15 @@
                       
                   </table>  
                   <div class="form-group form-inline" style="margin-top: 15px">
-                      <label class="col-md-3 col-sm-3 control-label">CV (Normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">CV For Stock1 Population(Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv" name="ip_cv" value="{{process_step1['ip_cv'] if process_step1['ip_cv'] != None else ''}}" placeholder=""/>
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_1" name="ip_cv_1" value="{{process_step1['ip_cv_1'] if process_step1['ip_cv_1'] != None else ''}}" placeholder=""/>
+                      </div>             
+                    </div> 
+                    <div class="form-group form-inline" style="margin-top: 15px">
+                      <label class="col-md-3 col-sm-3 control-label">CV For Stock2 Population(Normal Dist.)</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_2" name="ip_cv_2" value="{{process_step1['ip_cv_2'] if process_step1['ip_cv_2'] != None else ''}}" placeholder=""/>
                       </div>             
                     </div>                
                 </form>
@@ -259,11 +265,17 @@
                   </table>
                   <div id="simpleMortality" style="margin-top:30px ">
                     <div class="form-group form-inline">
-                      <label class="col-md-3 col-sm-3 control-label">CV (Log-normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">CV For Stock1 Population</br>(Log-normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="nm_cv" name="nm_cv" value="{{process_step1['nm_cv'] if process_step1['nm_cv'] != None else ''}}" placeholder=""/>
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="nm_cv_1" name="nm_cv_1" value="{{process_step1['nm_cv_1'] if process_step1['nm_cv_1'] != None else ''}}" placeholder=""/>
                       </div>             
-                    </div>                    
+                    </div> 
+                    <div class="form-group form-inline">
+                      <label class="col-md-3 col-sm-3 control-label">CV For Stock2 Population</br>(Log-normal Dist.)</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="nm_cv_2" name="nm_cv_2" value="{{process_step1['nm_cv_2'] if process_step1['nm_cv_2'] != None else ''}}" placeholder=""/>
+                      </div>             
+                    </div> 
                     <div class="form-group form-inline">
                       <label class="col-md-3 col-sm-3 control-label">Fraction before spawning</label>
                       <div class="col-md-4 col-sm-4 input-group">   
