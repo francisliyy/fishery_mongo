@@ -105,9 +105,9 @@ MAIL_PORT=587
 MAIL_USE_SSL=False
 MAIL_SERVER = 'smtp.gmail.com'
 MAIL_USE_TLS = True
-MAIL_USERNAME = ''
-MAIL_PASSWORD = ''
-MAIL_DEFAULT_SENDER = '' 
+MAIL_USERNAME = 'liyx8610@gmail.com'
+MAIL_PASSWORD = 'lyx123456'
+MAIL_DEFAULT_SENDER = 'liyx8610@gmail.com' 
 
 # Theme configuration
 # these are located on static/appbuilder/css/themes

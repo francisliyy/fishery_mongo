@@ -1,8 +1,4 @@
-function drawChart(chartdata){
-    var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
-	var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
-	var ssbChart1 = echarts.init(document.getElementById('ssb-chart-1'));
-	var fChart1 = echarts.init(document.getElementById('f-chart-1'));
+function drawChart(chartdata,bioChart1,sprChart1,ssbChart1,fChart1){
 
 	var comm_xAxisData = [];
     var comm_low_data = [];
@@ -66,11 +62,6 @@ function drawChart(chartdata){
 				        right: '4%',
 				        bottom: '3%',
 				        containLabel: true
-				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
 				    },
 				    xAxis: {
 				        type: 'category',
@@ -169,11 +160,6 @@ function drawChart(chartdata){
 				        bottom: '3%',
 				        containLabel: true
 				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
-				    },
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -270,11 +256,6 @@ function drawChart(chartdata){
 				        right: '4%',
 				        bottom: '3%',
 				        containLabel: true
-				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
 				    },
 				    xAxis: {
 				        type: 'category',
@@ -373,11 +354,6 @@ function drawChart(chartdata){
 				        bottom: '3%',
 				        containLabel: true
 				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
-				    },
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -471,11 +447,6 @@ function drawChart(chartdata){
 				        bottom: '3%',
 				        containLabel: true
 				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
-				    },
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -566,11 +537,6 @@ function drawChart(chartdata){
 				        right: '4%',
 				        bottom: '3%',
 				        containLabel: true
-				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
 				    },
 				    xAxis: {
 				        type: 'category',
@@ -663,11 +629,6 @@ function drawChart(chartdata){
 				        bottom: '3%',
 				        containLabel: true
 				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
-				    },
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -759,11 +720,6 @@ function drawChart(chartdata){
 				        bottom: '3%',
 				        containLabel: true
 				    },
-				    toolbox: {
-				        feature: {
-				            saveAsImage: {title:'saveAsImage'}
-				        }
-				    },
 				    xAxis: {
 				        type: 'category',
 				        boundaryGap: false,
@@ -827,6 +783,12 @@ $(function() {
 
     var colorChart = echarts.init(document.getElementById('colorChart'));
     var ruleChart = echarts.init(document.getElementById('ruleChart'));
+
+    var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
+	var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
+	var ssbChart1 = echarts.init(document.getElementById('ssb-chart-1'));
+	var fChart1 = echarts.init(document.getElementById('f-chart-1'));
+
     var colorChartOption = {
     	    color:[ 
 			    '#1e90ff'
@@ -1006,7 +968,27 @@ $(function() {
     	chartdata = result.resultlist;   	
     })
     .always(function(result){
-    	drawChart(chartdata);
-    })	
+    	drawChart(chartdata,bioChart1,sprChart1,ssbChart1,fChart1);
+    })
+
+    $("#btnReport").on('click', function(event) {
+    	event.preventDefault();
+    	/* Act on the event */
+    	var bioChart1ImgData = bioChart1.getDataURL();
+    	var sprChart1ImgData = sprChart1.getDataURL();
+    	var ssbChart1ImgData = ssbChart1.getDataURL();
+    	var fChart1ImgData = fChart1.getDataURL();
+
+	    var doc = new jsPDF('p', 'pt', 'a4', false);
+	    var pageHeight= doc.internal.pageSize.height;
+	    doc.addImage(bioChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
+	    doc.addImage(sprChart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
+	    doc.addPage();
+	    doc.addImage(ssbChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
+	    doc.addImage(fChart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
+	    doc.save( 'colorchart.pdf')
+    });	
+
+
 
 })

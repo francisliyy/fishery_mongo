@@ -777,8 +777,10 @@ class ProStepView(BaseView):
 
         print(mseresult)
 
-        if mseresult.resultlist != None and len(mseresult.resultlist)>0:
+        if mseresult!=None and mseresult.resultlist != None and len(mseresult.resultlist)>0:
             return Response(mseresult.to_json(), mimetype='application/json')
+
+        return Response(json.dumps({}), mimetype='application/json')
 
 class StockFileView(ModelView):
 
