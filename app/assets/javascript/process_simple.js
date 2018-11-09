@@ -1,5 +1,20 @@
 $(function() {
 
+	$('.stock1_input_file_type').on('click', '.selector', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+	});
+
+	$("input[name='stock1_input_file_type']").on('change', function(event) {
+		event.preventDefault();
+		if($("input[name='stock1_input_file_type']:checked").val()==1){
+			$('#stock1_upload_div').css('display','none');
+		}else{
+			$('#stock1_upload_div').css('display','block');
+		}
+
+	})
+
 	$('#mt1FilePath').change(function () {
 	    console.log(this.files[0].mozFullPath);
 	});
@@ -513,7 +528,7 @@ $(function() {
 	});
 
 	/*part 1 Stock Assessment Model Input 2 start*/
-/*
+
 	$("#stock1_filepath").uploadFile({
 		url: $SCRIPT_ROOT+'/prostepview/stock1file/'+$("#step1_id").data("step1id"),
 	    maxFileCount: 1,                		   //上传文件个数（多个时修改此处
@@ -564,7 +579,7 @@ $(function() {
 	        // }
 	    }
 	});
-
+/*
 	$("#stock2_filepath").uploadFile({
 		url: $SCRIPT_ROOT+'/prostepview/stock2file/'+$("#step1_id").data("step1id"),
 	    maxFileCount: 1,                		   //上传文件个数（多个时修改此处

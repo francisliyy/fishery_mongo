@@ -64,9 +64,22 @@
                     </label>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-2 control-label">Input File</label> 
-                    <div class="col-md-6 col-sm-6 input-group" id="stock1_filepath">Using the latest base-case GoM red snapper stock assessment</div>
-                  </div>                 
+                    <label class="col-md-2 control-label">Input File</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_input_file_type" id="st1adminDefault" value="1" {{ 'checked' if process_step1['stock1_model_type']=='1'}}> Official Stock Assessment Model
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="stock1_input_file_type" id="st1selfDefine" value="2" {{ 'checked' if process_step1['stock1_model_type']=='2'}}> Self-Define Model
+                    </label>
+                  </div>
+                    <div id="stock1_upload_div" class="form-group" style="display: none">
+                      <label class="col-md-2 control-label"></label>
+                      <!--div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div-->
+                      <div class="form-group">
+                      <div class="col-md-5 col-sm-5 input-group" id="stock1_filepath">Upload</div>          
+                      </div>
+         
+                    </div>                
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->

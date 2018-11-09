@@ -153,6 +153,7 @@ class ProcessView(ModelView):
             step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)                       
 
             step1.stock1_model_type = global_settings.stock1_model_type
+            step1.stock1_input_file_type = global_settings.stock1_input_file_type
             step1.time_step = global_settings.time_step
             step1.start_projection = global_settings.start_projection
             step1.short_term_mgt = global_settings.short_term_mgt
@@ -552,7 +553,7 @@ class ProStepView(BaseView):
                     result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
                 else:
                     onefile = mongoengine.fields.GridFSProxy()
-                    onefile.put(files,content_type = 'csv',filename = files.filename)
+                    onefile.put(files,content_type = mime_type,filename = files.filename)
                     pgi.rnd_seed_file.append(onefile)
                     #pgi.rnd_seed_file.replace(files,content_type = 'csv',filename = files.filename)
                     pgi.save()

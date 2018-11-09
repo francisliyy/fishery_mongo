@@ -153,6 +153,7 @@ class GlobalSettings(Document):
 
 	#STEP1
 	stock1_model_type = StringField(max_length=2)
+	stock1_input_file_type = StringField(max_length=2)
    	#STEP2
 	time_step = StringField(max_length=2)
 	start_projection = DateTimeField()
@@ -210,6 +211,10 @@ class ProcessGenInput(Document):
 
 	process_id = ReferenceField("Process",reqired=True)
 	#step1
+	stock1_model_type = StringField(max_length=2)
+	stock1_input_file_type = StringField(max_length=2)
+	stock1_filepath = FileField()
+	#step1
 	time_step = StringField(max_length=2,choices=TIMESTEP)
 	start_projection = DateTimeField(default=datetime.datetime.now)
 	short_term_mgt = IntField()
@@ -228,11 +233,6 @@ class ProcessGenInput(Document):
 	unit1to2 = DecimalField()
 	unit2to1 = DecimalField()
 	unit2to2 = DecimalField()
-	#step3
-	stock1_model_type = StringField(max_length=2)
-	stock1_filepath = FileField()
-	stock2_model_type = StringField(max_length=2)
-	stock2_filepath = FileField()
 	#step4
 	ip_cv_1 = DecimalField()
 	ip_cv_2 = DecimalField()
