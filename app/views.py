@@ -60,28 +60,32 @@ class GuestProcessView(ModelView):
         step1 = ProcessGenInput.objects(process_id=pk).first()
         
         rndfilenames = []
+        stock1_filename = ''
 
         if step1 is None:
             print("step1 is null")
             step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)
             step1.save()
 
-            #add default rnd file
+            #no need to add default rnd file, when use derictly get from server
+            """
             rndfile = open(os.path.join(os.path.dirname(__file__),'static/csv/test.csv'),'rb')
             onefile = mongoengine.fields.GridFSProxy()
             onefile.put(rndfile,content_type='csv',filename = 'test.csv')
             step1.rnd_seed_file.append(onefile)
             step1.save()
-
+            """
+        if step1.stock1_filepath :
+            stock1_filename = step1.stock1_filepath.name
         rndfiles = step1.rnd_seed_file 
         for file in rndfiles:
             if hasattr(file,'name'):
                 rndfilenames.append(file.name)
 
         if item.process_simple is True:
-            return self.render_template('/process_guest.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name,process_description=item.process_description)
+            return self.render_template('/process_guest.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name,process_description=item.process_description)
         else:
-            return self.render_template('/process_guest.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process_guest.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name, process_description=item.process_description)
 
 class GuestProcessCmpView(ModelView):
 
@@ -140,6 +144,7 @@ class ProcessView(ModelView):
         step1 = ProcessGenInput.objects(process_id=pk).first()
 
         rndfilenames = []
+        stock1_filename = ''
 
         if step1 is None:
             print("step1 is null")
@@ -206,6 +211,11 @@ class ProcessView(ModelView):
             step1.rnd_seed_file.append(onefile)
             step1.save()
 
+        if step1.stock1_filepath :
+            stock1_filename = step1.stock1_filepath.name 
+        print("===================")
+        print(stock1_filename)
+        print("===================")
         rndfiles = step1.rnd_seed_file 
         for file in rndfiles:
             if hasattr(file,'name'):
@@ -213,9 +223,9 @@ class ProcessView(ModelView):
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         if item.process_simple is True:
-            return self.render_template('/process_simple.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process_simple.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name, process_description=item.process_description)
         else:
-            return self.render_template('/process.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name, process_description=item.process_description)
 
 class ProcessCmpView(ModelView):
 
@@ -270,21 +280,24 @@ class ProStepView(BaseView):
     @expose('/step1/<string:pk>', methods = ['PUT'])
     @has_access
     def step1(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()
-    		pgi.time_step = request.form["time_step"]
-    		pgi.start_projection = request.form["start_projection"]
-    		pgi.short_term_mgt = request.form["short_term_mgt"]
-    		pgi.short_term_unit = request.form["short_term_unit"]
-    		pgi.long_term_mgt = request.form["long_term_mgt"]
-    		pgi.long_term_unit = request.form["long_term_unit"]
-    		pgi.stock_per_mgt_unit = request.form["stock_per_mgt_unit"]
-    		pgi.mixing_pattern = request.form["mixing_pattern"]
-    		pgi.last_age = request.form["last_age"]
-    		pgi.no_of_interations = request.form["no_of_interations"]
-    		pgi.save()
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()
+            """
+            pgi.time_step = request.form["time_step"]
+            pgi.start_projection = request.form["start_projection"]
+            pgi.short_term_mgt = request.form["short_term_mgt"]
+            pgi.short_term_unit = request.form["short_term_unit"]
+            pgi.long_term_mgt = request.form["long_term_mgt"]
+            pgi.long_term_unit = request.form["long_term_unit"]
+            pgi.stock_per_mgt_unit = request.form["stock_per_mgt_unit"]
+            pgi.mixing_pattern = request.form["mixing_pattern"]
+            pgi.last_age = request.form["last_age"]
+            pgi.no_of_interations = request.form["no_of_interations"]
+            """
+            pgi.rnd_seed_setting = request.form["rnd_seed_setting"]
+            pgi.save()
 
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
     #process step2 
     @expose('/step2/<string:pk>', methods = ['PUT'])
@@ -304,17 +317,14 @@ class ProStepView(BaseView):
     @expose('/step3/<string:pk>', methods = ['PUT'])
     @has_access
     def step3(self,pk):
-    	populist = {}
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()
-    		pgi.stock1_model_type = request.form["stock1_model_type"]
-    		pgi.stock1_filepath = request.form["stock1_filepath"]
-    		pgi.stock2_model_type = request.form["stock2_model_type"]
-    		pgi.stock2_filepath = request.form["stock2_filepath"]
-    		pgi.save()
+        populist = {}
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()
+            pgi.stock1_input_file_type = request.form["stock1_input_file_type"]
+            pgi.save()
 
-    	#return jsonify(pgi.to_json())
-    	return Response(pgi.to_json(), mimetype='application/json')
+        #return jsonify(pgi.to_json())
+        return Response(pgi.to_json(), mimetype='application/json')
 
     #process step4 
     @expose('/step4/<string:pk>', methods = ['PUT'])

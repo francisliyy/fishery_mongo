@@ -13,7 +13,17 @@ $(function() {
 			$('#stock1_upload_div').css('display','block');
 		}
 
-	})
+	});
+
+	$("input[name='rnd_seed_setting']").on('change', function(event) {
+		event.preventDefault();
+		if($("input[name='rnd_seed_setting']:checked").val()==1){
+			$('#seed_upload_div').css('display','none');
+		}else{
+			$('#seed_upload_div').css('display','block');
+		}
+
+	});
 
 	$('#mt1FilePath').change(function () {
 	    console.log(this.files[0].mozFullPath);
@@ -36,32 +46,9 @@ $(function() {
 	 	ignore:"input[type=file]",
 	    rules: {
 	      // no quoting necessary
-	      time_step:{
+	      rnd_seed_setting:{
 	      	required: true,
-	      },
-	      short_term_mgt:{
-	      	required: true,
-	      	digits:true,
-	      },
-	      long_term_mgt:{
-	      	required: true,
-	      	digits:true,
-	      },
-	      stock_per_mgt_unit:{
-	      	required: true,
-	      	digits:true,
-	      },	
-	      mixing_pattern:{
-	      	required: true,
-	      },	       
-	      last_age:{
-	      	required: true,
-	      	digits:true,
-	      },
-	      no_of_interations:{
-	      	required: true,
-	      	digits:true,
-	      },       
+	      },      
 	    },
 	    errorPlacement: function(error, element) {
 		    error.appendTo( element.closest(".form-group") );
@@ -330,9 +317,46 @@ $(function() {
 		onNext:function(parent, panel){
 			$panel = $(panel);
 			if($panel.prop("id")=='generalinput'){
+				console.log('in step1');
+				if(!$("#form-generalinput").valid()){
+					return false;
+				}
+				var rnd_seed_setting = $('input[name=rnd_seed_setting]:checked', '#form-generalinput').val()||1
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step1/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            data: {"rnd_seed_setting":rnd_seed_setting},
+		            success: function(data) 
+		            {
+		                 if(data.status=1){
+		                     console.log("save step1 successfully");
+		                 }
+		            }
+		        });
 				
 			}else if($panel.prop("id")=='stockassessment'){
-				
+				console.log('in step3');
+				if(!$("#form-stockassessment").valid()){
+					return false;
+				}
+				var data = {};
+				var stock1_input_file_type = $('input[name=stock1_input_file_type]:checked', '#form-stockassessment').val()||'1';
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step3/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            data: {"stock1_input_file_type":stock1_input_file_type,//"stock1_filepath":stock1_filepath,
+		            },
+		            success: function(data) 
+		            {
+		            	 if(data.status=1){
+		                     console.log("save step3 successfully");
+		                 }
+		            }
+		        });				
 			}else if($panel.prop("id")=='ibParam'){
 				$.ajax({
 		            cache: false,
@@ -544,9 +568,12 @@ $(function() {
 	    onLoad: function(obj)
 	    {
 	    	var filename = $("#step1_id").data("stock1filename");
-	    	if (typeof obj.createProgress !== "undefined") {
-	    	 	filename&&obj.createProgress(filename); 
-	    	}
+	    	var initfiles = setInterval(function(){
+	    		if (typeof obj.createProgress !== "undefined") {
+		    		filename&&obj.createProgress(filename); 
+		    		clearInterval(initfiles);
+	    		}
+	    	},3000)
 
 	        //页面加载时，onLoad回调。如果有需要在页面初始化时显示（比如：文件修改时）的文件需要在此方法中处理
 	                //createProgress方法可以创建一个已上传的文件
@@ -757,11 +784,11 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 1 mean(1000s)",
+		    				title:"Stock 1 Mean (1000s)",
 		    				field:"stock_1_mean",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Stock 1 mean(1000s)',
+			                    title: 'Stock 1 Mean (1000s)',
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'Stock 1 mean must be number';
 			                        var stockmean = parseFloat(v);
@@ -770,11 +797,11 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"Stock 2 mean(1000s)",
+		    				title:"Stock 2 Mean (1000s)",
 		    				field:"stock_2_mean",
 		    				editable: {
 			                    type: 'text',
-			                    title: 'Stock 2 mean(1000s)',
+			                    title: 'Stock 2 Mean (1000s)',
 			                    validate: function (v) {
 			                        if (isNaN(v)) return 'Stock 2 mean must be number';
 			                        var stockmean = parseFloat(v);

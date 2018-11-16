@@ -37,7 +37,7 @@
       <div class="col-md-9" style="padding-right: 2em;">
         <div id="accordion-demo" class="panel-group">
 
-          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfiles="{{process_rndfilenames}}"></div>
+          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfiles="{{process_rndfilenames}}" data-stock1filename="{{process_stock1filename}}"></div>
 
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -66,13 +66,13 @@
                   <div class="form-group">
                     <label class="col-md-2 control-label">Input File</label>
                     <label class="radio-inline">
-                      <input type="radio" name="stock1_input_file_type" id="st1adminDefault" value="1" {{ 'checked' if process_step1['stock1_model_type']=='1'}}> Official Stock Assessment Model
+                      <input type="radio" name="stock1_input_file_type" id="st1adminDefault" value="1" {{ 'checked' if process_step1['stock1_input_file_type']=='1'}}> Official Stock Assessment Model
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="stock1_input_file_type" id="st1selfDefine" value="2" {{ 'checked' if process_step1['stock1_model_type']=='2'}}> Self-Define Model
+                      <input type="radio" name="stock1_input_file_type" id="st1selfDefine" value="2" {{ 'checked' if process_step1['stock1_input_file_type']=='2'}}> Self-Define Model
                     </label>
                   </div>
-                    <div id="stock1_upload_div" class="form-group" style="display: none">
+                    <div id="stock1_upload_div" class="form-group" style="display: {{ 'none' if process_step1['stock1_input_file_type']=='1'}}">
                       <label class="col-md-2 control-label"></label>
                       <!--div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div-->
                       <div class="form-group">
@@ -99,12 +99,6 @@
                   {% if process_step1 %}
                   <div class="form-group">
                     <label class="col-md-3 control-label">Time Step</label>
-                    <label class="radio-inline">
-                      <input type="radio" name="time_step" disabled id="1monthRadio" value="M" {{ 'checked' if process_step1['time_step']=='M'}}> 1 month
-                    </label>
-                    <label class="radio-inline">
-                      <input type="radio" name="time_step" disabled id="1seasonRadio" value="S" {{ 'checked' if process_step1['time_step']=='S'}}> 1 season
-                    </label>
                     <label class="radio-inline">
                       <input type="radio" name="time_step" disabled id="halfYearRadio" value="HY" {{ 'checked' if process_step1['time_step']=='HY'}}> half year
                     </label>
@@ -187,16 +181,22 @@
                     </div>              
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label">Random Seed Setting</label>
-                    <!--div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div-->
-                    <div class="form-group">
-                    <div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div>
-                    <!-- <div class="col-md-5 input-group">   
-                                   <input type="file" class="form-control" style="border-radius: 4px" id="rnd_seed_file"/> 
-                                 </div>  -->             
+                    <label class="col-md-3 col-sm-3 control-label">Random Seed Setting</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="rnd_seed_setting" id="seedDefault" value="1" {{ 'checked' if process_step1['rnd_seed_setting']=='1'}}> Default Seed CSV
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="rnd_seed_setting" id="seedSelfDefine" value="2" {{ 'checked' if process_step1['rnd_seed_setting']=='2'}}> Self-Define CSV
+                    </label>
                   </div>
+                    <div id="seed_upload_div" class="form-group" style="display: {{ 'none' if process_step1['rnd_seed_setting']=='1'}}">
+                      <label class="col-md-3 control-label"></label>
+                      <!--div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div-->
+                      <div class="form-group">
+                      <div class="col-md-5 col-sm-5 input-group" id="rnd_seed_file">Upload</div>          
+                      </div>
          
-                  </div>
+                    </div>
                   
                   {% endif %}
                 </form>
@@ -221,13 +221,13 @@
                       
                   </table>  
                   <div class="form-group form-inline" style="margin-top: 15px">
-                      <label class="col-md-3 col-sm-3 control-label">CV For Stock1 Population(Normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">Stock 1 CV(Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_1" name="ip_cv_1" value="{{process_step1['ip_cv_1'] if process_step1['ip_cv_1'] != None else ''}}" placeholder=""/>
                       </div>             
                     </div> 
                     <div class="form-group form-inline" style="margin-top: 15px">
-                      <label class="col-md-3 col-sm-3 control-label">CV For Stock2 Population(Normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">Stock 2 CV(Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_2" name="ip_cv_2" value="{{process_step1['ip_cv_2'] if process_step1['ip_cv_2'] != None else ''}}" placeholder=""/>
                       </div>             
