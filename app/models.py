@@ -245,6 +245,7 @@ class ProcessGenInput(Document):
 	simple_spawning = DecimalField()
 	nm_cv_1 = DecimalField()
 	nm_cv_2 = DecimalField()
+	nm_m = StringField(max_length=2)
 
 	mortality = EmbeddedDocumentListField(Mortality)
 	#step7

@@ -277,6 +277,18 @@
                   <table id="table-mortality">
                   </table>
                   <div id="simpleMortality" style="margin-top:30px ">
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">&nbsp;</label>
+                      <label class="radio-inline">
+                        <input type="radio" name="mixing_pattern" id="highm" value="h" disabled {{ 'checked' if process_step1['nm_m']=='0'}}> High M
+                      </label>
+                      <label class="radio-inline">
+                        <input type="radio" name="mixing_pattern" id="lowm" value="l" disabled {{ 'checked' if process_step1['nm_m']=='1'}}> Low M
+                      </label>
+                      <label class="radio-inline">
+                        <input type="radio" name="mixing_pattern" id="curm" value="c" disabled {{ 'checked' if process_step1['nm_m']=='2'}}> Current M
+                      </label>
+                    </div>
                     <div class="form-group form-inline">
                       <label class="col-md-3 col-sm-3 control-label">CV For Stock1 Population</br>(Log-normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   

@@ -887,7 +887,7 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Stock 1 Weight-at-age(kg)",
+		    				title:"Stock 1 Weight-at-age (kg)",
 		    				field:"weight_at_age_1",
 		    				editable: {
 			                    type: 'text',
@@ -913,7 +913,7 @@ $(function() {
 		                    }
 		    			},
 		    			{
-		    				title:"Stock 2 Weight-at-age(kg)",
+		    				title:"Stock 2 Weight-at-age (kg)",
 		    				field:"weight_at_age_2",
 		    				editable: {
 			                    type: 'text',
@@ -1018,7 +1018,7 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Mean 1(year<sup>-1</sup>)",
+		    				title:"Mean 1 (year<sup>-1</sup>)",
 		    				field:"mean_1",
 		    				editable: {
 			                    type: 'text',
@@ -1046,7 +1046,7 @@ $(function() {
 		    			},
 		    			*/
 		    			{
-		    				title:"Mean 2(year<sup>-1</sup>)",
+		    				title:"Mean 2 (year<sup>-1</sup>)",
 		    				field:"mean_2",
 		    				editable: {
 			                    type: 'text',
