@@ -70,7 +70,7 @@
                       <input type="radio" name="stock1_input_file_type" id="st1adminDefault" value="1" {{ 'checked' if process_step1['stock1_input_file_type']=='1'}}> Official Stock Assessment Model
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="stock1_input_file_type" id="st1selfDefine" value="2" {{ 'checked' if process_step1['stock1_input_file_type']=='2'}}> Self-Define Model
+                      <input type="radio" name="stock1_input_file_type" id="st1selfDefine" value="2" {{ 'checked' if process_step1['stock1_input_file_type']=='2'}}> Self-define Model
                     </label>
                   </div>
                     <div id="stock1_upload_div" class="form-group" style="display: {{ 'none' if process_step1['stock1_input_file_type']=='1'}}">
@@ -154,7 +154,7 @@
                       <input type="radio" name="mixing_pattern" id="nomixing" value="0" disabled {{ 'checked' if process_step1['mixing_pattern']=='0'}}> No mixing
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="mixing_pattern" id="constptn" value="1" disabled {{ 'checked' if process_step1['mixing_pattern']=='1'}}> Constants
+                      <input type="radio" name="mixing_pattern" id="constptn" value="1" disabled {{ 'checked' if process_step1['mixing_pattern']=='1'}}> Constant
                     </label>
                     <label class="radio-inline">
                       <input type="radio" name="mixing_pattern" id="sameptn" value="2" disabled {{ 'checked' if process_step1['mixing_pattern']=='2'}}> Same over years
@@ -187,7 +187,7 @@
                       <input type="radio" name="rnd_seed_setting" id="seedDefault" value="1" {{ 'checked' if process_step1['rnd_seed_setting']=='1'}}> Default Seed CSV
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="rnd_seed_setting" id="seedSelfDefine" value="2" {{ 'checked' if process_step1['rnd_seed_setting']=='2'}}> Self-Define CSV
+                      <input type="radio" name="rnd_seed_setting" id="seedSelfDefine" value="2" {{ 'checked' if process_step1['rnd_seed_setting']=='2'}}> Self-define CSV
                     </label>
                   </div>
                     <div id="seed_upload_div" class="form-group" style="display: {{ 'none' if process_step1['rnd_seed_setting']=='1'}}">
@@ -221,14 +221,14 @@
                   <table id="table-ibParam">
                       
                   </table>  
-                  <div class="form-group form-inline" style="margin-top: 15px">
-                      <label class="col-md-3 col-sm-3 control-label">Stock 1 CV(Normal Dist.)</label>
+                  <div class="form-group form-inline" style="margin-top: 30px">
+                      <label class="col-md-3 col-sm-3 control-label">Stock 1 CV (Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_1" name="ip_cv_1" value="{{process_step1['ip_cv_1'] if process_step1['ip_cv_1'] != None else ''}}" placeholder=""/>
                       </div>             
                     </div> 
                     <div class="form-group form-inline" style="margin-top: 15px">
-                      <label class="col-md-3 col-sm-3 control-label">Stock 2 CV(Normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">Stock 2 CV (Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_2" name="ip_cv_2" value="{{process_step1['ip_cv_2'] if process_step1['ip_cv_2'] != None else ''}}" placeholder=""/>
                       </div>             
@@ -281,13 +281,13 @@
                     <div class="form-group">
                       <label class="col-md-3 control-label">&nbsp;</label>
                       <label class="radio-inline">
-                        <input type="radio" name="mixing_pattern" id="highm" value="h" disabled {{ 'checked' if process_step1['nm_m']=='0'}}> High M
+                        <input type="radio" name="mixing_pattern" id="highm" value="h" disabled {{ 'checked' if process_step1['nm_m']=='h'}}> High M
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="mixing_pattern" id="lowm" value="l" disabled {{ 'checked' if process_step1['nm_m']=='1'}}> Low M
+                        <input type="radio" name="mixing_pattern" id="lowm" value="l" disabled {{ 'checked' if process_step1['nm_m']=='l'}}> Low M
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="mixing_pattern" id="curm" value="c" disabled {{ 'checked' if process_step1['nm_m']=='2'}}> Current M
+                        <input type="radio" name="mixing_pattern" id="curm" value="c" disabled {{ 'checked' if process_step1['nm_m']=='c'}}> Current M
                       </label>
                     </div>
                     <div class="form-group form-inline">
@@ -681,7 +681,7 @@
                     </div>                                  
                   </div>
                   <div class="form-group">
-                    <h4>Fishes Status</h4>
+                    <h4>Fisheries Status</h4>
                     <label class="col-md-4 control-label"></label>
                     <div id="colorChart" class="col-md-7 input-group" style="height:400px">
                     </div>

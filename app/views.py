@@ -177,6 +177,7 @@ class ProcessView(ModelView):
             step1.simple_spawning = global_settings.simple_spawning
             step1.nm_cv_1 = global_settings.nm_cv_1
             step1.nm_cv_2 = global_settings.nm_cv_2
+            step1.nm_m = global_settings.nm_m
 
             step1.recruitTypeStock1 = global_settings.recruitTypeStock1
             step1.formulaStock1 = global_settings.formulaStock1
