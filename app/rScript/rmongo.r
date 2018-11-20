@@ -750,7 +750,9 @@ lowest_SSB_MSEcomp<-min(SSB_total_median)
 
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   print(mongo.oid.from.string(process_gen_id))
-  resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson,'}',sep = "")
+  resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson,',"Year_to_green_mean":',Year_to_green_mean
+                          ,',"total_catch_MSEcomp":',total_catch_MSEcomp,',"catch_var_MSEcomp":',catch_var_MSEcomp
+                          ,',"terminal_SSB_MSEcomp":',terminal_SSB_MSEcomp,',"lowest_SSB_MSEcomp":',lowest_SSB_MSEcomp,'}',sep = "")
   result_list<-mongo.bson.from.JSON(resultListJson)
   mongo.remove(mongo,"admin.mse_result_list",list(process_gen_id=process_gen_id))
   mongo.insert(mongo,"admin.mse_result_list",result_list)

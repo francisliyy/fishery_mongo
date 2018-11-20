@@ -378,3 +378,8 @@ class MseResultList(Document):
 
 	process_gen_id = StringField(max_length=500,reqired=True)
 	resultlist = EmbeddedDocumentListField(MseResultSingle)
+	Year_to_green_mean = FloatField()
+	total_catch_MSEcomp = FloatField()
+	catch_var_MSEcomp = FloatField()
+	terminal_SSB_MSEcomp = FloatField()
+	lowest_SSB_MSEcomp = FloatField()
