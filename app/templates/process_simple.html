@@ -31,7 +31,8 @@
           <li class="acc-wizard-todo"><a href="#bioParam">Biological Parameters</a></li>
           <li class="acc-wizard-todo"><a href="#naturalmortality">Natural Mortality</a></li>
           <li class="acc-wizard-todo"><a href="#recruitment">Recruitment</a></li>
-          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options I</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt2">Management Options II</a></li>
         </ol>
       </div>
       <div class="col-md-9" style="padding-right: 2em;">
@@ -656,7 +657,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#mgtopt1" data-parent="#accordion-demo" data-toggle="collapse">
-                  Management Options
+                  Management Options I
                 </a>
               </h4>
             </div>
@@ -676,8 +677,7 @@
                   <div class="form-group">
                     <label class="col-md-2 radio-inline" >F<sub>MSY</sub></label>
                     <div class="col-md-7 col-sm-7 input-group"> 
-                      <input maxlength="10" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>    
-                      <span style="margin-left:5px;width:5px">years<sup>-1</sup></span>                  
+                      <input maxlength="10" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" disabled id="bio_f_percent" name="bio_f_percent" value="{{process_step1['bio_f_percent'] if process_step1['bio_f_percent'] != None else ''}}" placeholder="0.05"/>                      
                     </div>                                  
                   </div>
                   <div class="form-group">
@@ -708,8 +708,25 @@
                     </div>                                       
                   </div>
 
-                  <h4>Allocation among sectors</h4>
-                  <div class="form-group" style="height:34px">                    
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt2" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options II
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt2" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt2">                 
+
+                  <h4>Allocation Among Sectors</h4>
+                  <div class="" style="height:34px">                    
                     <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Recreational</label> 
                     <label class="col-md-4 col-sm-4 control-label">Commercial</label>            
                   </div>
@@ -726,6 +743,74 @@
                     </div>             
                   </div>
 
+                  <h4>Allocation Among Recremental Sectors</h4>
+                  <div class="" style="height:34px">                    
+                    <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">For Hire</label> 
+                    <label class="col-md-4 col-sm-4 control-label">Private</label>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_hire" name="sec_hire" value="{{process_step1['sec_hire'] if process_step1['sec_hire'] != None else ''}}" placeholder="" />
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div> 
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" readonly id="sec_private" name="sec_private" value="{{process_step1['sec_private'] if process_step1['sec_private'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div>
+                    <div class="col-md-1 col-sm-1 input-group">
+                    </div>             
+                  </div>
+
+                  <h4>Allocation Among For His Segments</h4>
+                  <div class="" style="height:34px">                    
+                    <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Headboat</label> 
+                    <label class="col-md-4 col-sm-4 control-label">Charter Boat</label>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group">   
+                      <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_headboat" name="sec_headboat" value="{{process_step1['sec_headboat'] if process_step1['sec_headboat'] != None else ''}}" placeholder="" />
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div> 
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_charterboat" name="sec_charterboat" value="{{process_step1['sec_charterboat'] if process_step1['sec_charterboat'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div>
+                    <div class="col-md-1 col-sm-1 input-group">
+                    </div>             
+                  </div>
+
+
+                  <h4>Probability Of Overfishing (OFL -> ABC)</h4>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 radio-inline" >P<sup>*</sup></label>
+                    <div class="col-md-2 col-sm-2 input-group">
+                      <input maxlength="20" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="sec_pstar" name="sec_pstar" value="{{process_step1['sec_pstar'] if process_step1['sec_pstar'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">%</div>                                  
+                  </div>
+
+                  <h4>Acceptable Catch Target (ACT) Buffer</h4>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 radio-inline" >For Commencial Sector</label>
+                    <div class="col-md-2 col-sm-2 input-group">
+                      <input maxlength="20" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="sec_act_com" name="sec_act_com" value="{{process_step1['sec_act_com'] if process_step1['sec_act_com'] != None else ''}}" placeholder=""/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group">%</div>  
+                  </div>
+                  <div class="form-group form-inline">
+                  <label class="col-md-3 radio-inline" >For Private Sector</label>
+                    <div class="col-md-2 col-sm-2 input-group">
+                      <input maxlength="20" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="sec_act_pri" name="sec_act_pri" value="{{process_step1['sec_act_pri'] if process_step1['sec_act_pri'] != None else ''}}" placeholder=""/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group">%</div>
+                  </div>
+                  <div class="form-group form-inline">
+                    <label class="col-md-3 radio-inline" >For Forhire Sector</label>
+                    <div class="col-md-2 col-sm-2 input-group">
+                      <input maxlength="20" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="sec_act_hire" name="sec_act_hire" value="{{process_step1['sec_act_hire'] if process_step1['sec_act_hire'] != None else ''}}" placeholder=""/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group">%</div>
+                  </div>
                 </form>
               </div> <!--/.panel-body -->
             </div> <!-- /#adjusthtml -->

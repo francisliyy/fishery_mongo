@@ -195,8 +195,15 @@ class ProcessView(ModelView):
             step1.bio_catch_mt = global_settings.ssb_msy
             step1.bio_f_percent = global_settings.f_msy
             step1.hrt_harvest_rule = global_settings.hrt_harvest_rule
+
             step1.sec_recreational = global_settings.sec_recreational
             step1.sec_commercial = global_settings.sec_commercial
+            step1.sec_hire = global_settings.sec_hire
+            step1.sec_private = global_settings.sec_private
+            step1.sec_pstar = global_settings.sec_pstar
+            step1.sec_act_com = global_settings.sec_act_com
+            step1.sec_act_pri = global_settings.sec_act_pri
+            step1.sec_act_hire = global_settings.sec_act_hire
 
                 #extral
             step1.extra_F = global_settings.extra_F
@@ -433,10 +440,6 @@ class ProStepView(BaseView):
             inputparam = request.get_json()
 
             pgi.bio_f_percent = float(inputparam['bio_f_percent'])/0.75;
-            pgi.sec_commercial = inputparam['sec_commercial'];
-            pgi.sec_recreational = inputparam['sec_recreational'];
-
-            print(pgi.sec_commercial)
 
             pgi.save()
 
@@ -446,41 +449,24 @@ class ProStepView(BaseView):
     @expose('/step9/<string:pk>', methods = ['PUT'])
     @has_access
     def step9(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()    		
-    		inputparam = request.get_json()
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()    		
+            inputparam = request.get_json()
 
-    		pgi.sec_recreational = float(inputparam['sec_recreational']);
-    		pgi.sec_commercial = float(inputparam['sec_commercial']);
-    		pgi.fishingStartDate = inputparam['fishingStartDate'];
-    		pgi.fishingEndDate = inputparam['fishingEndDate'];
+            pgi.sec_commercial = inputparam['sec_commercial'];
+            pgi.sec_recreational = inputparam['sec_recreational'];
+            pgi.sec_headboat = inputparam['sec_headboat'];
+            pgi.sec_charterboat = inputparam['sec_charterboat'];
+            pgi.sec_hire = inputparam['sec_hire'];
+            pgi.sec_private = inputparam['sec_private'];
+            pgi.sec_pstar = inputparam['sec_pstar'];
+            pgi.sec_act_com = inputparam['sec_act_com'];
+            pgi.sec_act_pri = inputparam['sec_act_pri'];
+            pgi.sec_act_hire = inputparam['sec_act_hire'];
 
-    		recStockList = inputparam['fleet_rec_stock']
-    		comStockList = inputparam['fleet_com_stock']
+            pgi.save()
 
-    		fleet_rec_stock = []
-    		fleet_com_stock = []
-    		
-    		for origin in recStockList:
-    			stockParam = Allocation()
-    			stockParam.stock = origin['stock']
-    			stockParam.fleet = origin['fleet']
-    			stockParam.allocation = float(origin['allocation'])
-    			fleet_rec_stock.append(stockParam)    			
-    		
-    		pgi.fleet_rec_stock = fleet_rec_stock
-
-    		for origin in comStockList:
-    			stockParam = Allocation()
-    			stockParam.stock = origin['stock']
-    			stockParam.fleet = origin['fleet']
-    			stockParam.allocation = float(origin['allocation'])
-    			fleet_com_stock.append(stockParam)
-
-    		pgi.fleet_com_stock = fleet_com_stock
-    		pgi.save()
-
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
     #process step10
     @expose('/step10/<string:pk>', methods = ['PUT'])

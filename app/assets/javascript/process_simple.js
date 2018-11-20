@@ -522,11 +522,49 @@ $(function() {
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify({'bio_f_percent':bio_f_percent,"sec_recreational":sec_recreational,"sec_commercial":sec_commercial}),
+		            data: JSON.stringify({'bio_f_percent':bio_f_percent}),
 		            success: function(data) 
 		            {
+		                 
+		            }
+		        });
+			}else if($panel.prop("id")=='mgtopt2'){
+
+				$("#mask").addClass('lmask');
+
+				console.log('in step9');
+				if(!$("#form-mgtopt2").valid()){
+					return false;
+				};
+				
+				var sec_recreational = $("#sec_recreational").val()||0;
+				var sec_commercial = $("#sec_commercial").val()||0;
+				var sec_hire = $("#sec_hire").val()||0;
+				var sec_private = $("#sec_private").val()||0;
+				var sec_headboat = $("#sec_headboat").val()||0;
+				var sec_charterboat = $("#sec_charterboat").val()||0;
+				var sec_pstar = $("#sec_pstar").val()||0;
+				var sec_act_com = $("#sec_act_com").val()||0;
+				var sec_act_pri = $("#sec_act_pri").val()||0;
+				var sec_act_hire = $("#sec_act_hire").val()||0;
+
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step9/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: JSON.stringify({"sec_recreational":sec_recreational,"sec_commercial":sec_commercial
+		        						,"sec_hire":sec_hire,"sec_private":sec_private
+		        						,"sec_headboat":sec_headboat,"sec_charterboat":sec_charterboat
+		        						,"sec_pstar":sec_pstar,"sec_act_com":sec_act_com
+		        						,"sec_act_pri":sec_act_pri,"sec_act_hire":sec_act_hire}),
+		            success: function(data) 
+		            {
+		            	 var bio_f_percent = $("#ex1").val()||0.0588;
+
 		                 if(data.status=1){
-		                     console.log("save step8 successfully");
+		                     console.log("save step9 successfully");
 		                     $.ajax({
 					            cache: false,
 					            url: 'http://localhost:8000/runmse',
@@ -1180,6 +1218,15 @@ $(function() {
 		console.log(cur_value);
 		if(cur_value>=0&&cur_value<=100){
 			$('#sec_commercial').val(100-cur_value);
+		}
+
+	});
+
+	$('#sec_hire').on('input',function(e) {
+		cur_value = parseInt($(this).val());
+		console.log(cur_value);
+		if(cur_value>=0&&cur_value<=100){
+			$('#sec_private').val(100-cur_value);
 		}
 
 	});

@@ -215,7 +215,7 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
                     ,',"ip_cv_1":',ip_cv_1,',"ip_cv_2":',ip_cv_2,',"bioParam":',bioParamJson,',"nm_cv_1":',nm_cv_1,',"nm_cv_2":',nm_cv_2,',"mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',SSB0_1,',"fml1MbhmR0":',R0_1,',"fml1MbhmSteep":',steepness,',"cv1Recruit":',30
                     ,',"recruitTypeStock2":"2","formulaStock2":"3","fml2MbhmSSB0":',SSB0_2,',"fml2MbhmR0":',R0_2,',"fml2MbhmSteep":',steepness,',"cv2Recruit":',30
-                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF","sec_recreational":49,"sec_commercial":51'
+                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF","sec_recreational":51,"sec_commercial":49,"sec_hire":43,"sec_private":57,"sec_pstar":42.7,"sec_act_com":0,"sec_act_pri":20,"sec_act_hire":20'
                     ,',"extra_F":',extraFJson,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")

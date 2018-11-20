@@ -1,4 +1,9 @@
-function drawChart(chartdata,bioChart1,sprChart1,ssbChart1,fChart1){
+var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
+var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
+var ssbChart1 = echarts.init(document.getElementById('ssb-chart-1'));
+var fChart1 = echarts.init(document.getElementById('f-chart-1'));
+
+function drawChart(chartdata){
 
 	var comm_xAxisData = [];
     var comm_low_data = [];
@@ -784,11 +789,6 @@ $(function() {
     var colorChart = echarts.init(document.getElementById('colorChart'));
     var ruleChart = echarts.init(document.getElementById('ruleChart'));
 
-    var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
-	var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
-	var ssbChart1 = echarts.init(document.getElementById('ssb-chart-1'));
-	var fChart1 = echarts.init(document.getElementById('f-chart-1'));
-
     var colorChartOption = {
     	    color:[ 
 			    '#1e90ff'
@@ -968,7 +968,7 @@ $(function() {
     	chartdata = result.resultlist;   	
     })
     .always(function(result){
-    	drawChart(chartdata,bioChart1,sprChart1,ssbChart1,fChart1);
+    	drawChart(chartdata);
     })
 
     $("#btnReport").on('click', function(event) {

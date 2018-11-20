@@ -196,8 +196,16 @@ class GlobalSettings(Document):
 	ssb_msy = DecimalField()
 	f_msy = FloatField()
 	hrt_harvest_rule = StringField(max_length=2)
+	#step8
 	sec_recreational = DecimalField()
 	sec_commercial = DecimalField()
+	sec_hire = DecimalField()
+	sec_private = DecimalField()
+	sec_pstar = DecimalField()
+	sec_act_com = DecimalField()
+	sec_act_pri = DecimalField()
+	sec_act_hire = DecimalField()
+
 	#extral
 	extra_F = EmbeddedDocumentListField(extraF)
 
@@ -318,6 +326,15 @@ class ProcessGenInput(Document):
 	#step9
 	sec_recreational = DecimalField()
 	sec_commercial = DecimalField()
+	sec_hire = DecimalField()
+	sec_private = DecimalField()
+	sec_headboat = DecimalField()
+	sec_charterboat = DecimalField()
+	sec_pstar = DecimalField()
+	sec_act_com = DecimalField()
+	sec_act_pri = DecimalField()
+	sec_act_hire = DecimalField()
+
 	fleet_rec_stock = EmbeddedDocumentListField(Allocation)
 	fleet_com_stock = EmbeddedDocumentListField(Allocation)
 	fishingStartDate = DateTimeField(default=datetime.datetime.now)
