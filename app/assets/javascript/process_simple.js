@@ -413,8 +413,11 @@ $(function() {
 					return false;
 				};
 
-				//stock1				
+				//stock1	
+				var stock1_amount = $("#stock1_amount").val()||0;
+				var stock2_amount = $("#stock2_amount").val()||0;			
 				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'0';
+				var fromHisStock1 = $('input[name=fromHisStock1]:checked', '#form-recruitment').val()||'1';
 
 				var historySt1 = $('input[name=historySt1]:checked', '#form-recruitment').val()||'0';
 				var hst1_lower = $("#hst1_lower:enabled").val()||0;
@@ -425,45 +428,11 @@ $(function() {
 				var hst1_cal = $('#hst1_cal:enabled').val()||0;
 
 				var formulaStock1 = $('input[name=formulaStock1]:checked', '#form-recruitment').val()||'0';
-				var fml1Bmalpha1 = $("#fml1Bmalpha1:enabled").val()||0;
-				var fml1Bmbeta1 = $("#fml1Bmbeta1:enabled").val()||0;
-				var fml1Rmalpha1 = $("#fml1Rmalpha1:enabled").val()||0;
-				var fml1Rmbeta1 = $("#fml1Rmbeta1:enabled").val()||0;
+				var fromFmlStock1 = $('input[name=fromFmlStock1]:checked', '#form-recruitment').val()||'1';
 				var fml1MbhmSSB0 = $("#fml1MbhmSSB0:enabled").val()||0;
 				var fml1MbhmR0 = $("#fml1MbhmR0:enabled").val()||0;
 				var fml1MbhmSteep = $("#fml1MbhmSteep:enabled").val()||0;
 
-				var auto1R0 = $("#auto1R0:enabled").val()||0;
-				var auto1h = $("#auto1h:enabled").val()||0;
-				var auto1Rave = $("#auto1Rave:enabled").val()||0;
-
-				var cv1Recruit = $("#cv1Recruit:enabled").val()||0;
-
-				//stock2
-				var recruitTypeStock2 = $('input[name=recruitTypeStock2]:checked', '#form-recruitment').val()||'0';
-				
-				var historySt2 = $('input[name=historySt2]:checked', '#form-recruitment').val()||'0';
-				var hst2_lower = $("#hst2_lower:enabled").val()||0;
-				var hst2_median = $("#hst2_median:enabled").val()||0;
-				var hst2_mean = $("#hst2_mean:enabled").val()||0;
-				var hst2_upper = $("#hst2_upper:enabled").val()||0;
-				var hst2_other = $('#hst2_other:enabled').val()||0;
-				var hst2_cal = $('#hst2_cal:enabled').val()||0;
-
-				var formulaStock2 = $('input[name=formulaStock2]:checked', '#form-recruitment').val()||'0';
-				var fml2Bmalpha1 = $("#fml2Bmalpha1:enabled").val()||0;
-				var fml2Bmbeta1 = $("#fml2Bmbeta1:enabled").val()||0;
-				var fml2Rmalpha1 = $("#fml2Rmalpha1:enabled").val()||0;
-				var fml2Rmbeta1 = $("#fml2Rmbeta1:enabled").val()||0;
-				var fml2MbhmSSB0 = $("#fml2MbhmSSB0:enabled").val()||0;
-				var fml2MbhmR0 = $("#fml2MbhmR0:enabled").val()||0;
-				var fml2MbhmSteep = $("#fml2MbhmSteep:enabled").val()||0;
-
-				var auto2R0 = $("#auto2R0:enabled").val()||0;
-				var auto2h = $("#auto2h:enabled").val()||0;
-				var auto2Rave = $("#auto2Rave:enabled").val()||0;
-
-				var cv2Recruit = $("#cv2Recruit:enabled").val()||0;
 
 				$.ajax({
 		            cache: false,
@@ -471,15 +440,9 @@ $(function() {
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify({'recruitTypeStock1':recruitTypeStock1,'historySt1':historySt1,'hst1_lower':hst1_lower,'hst1_median':hst1_median,
-		        'hst1_mean':hst1_mean,'hst1_upper':hst1_upper,'hst1_other':hst1_other,'hst1_cal':hst1_cal,'formulaStock1':formulaStock1,
-		        'fml1Bmalpha1':fml1Bmalpha1,'fml1Bmbeta1':fml1Bmbeta1,'fml1Rmalpha1':fml1Rmalpha1,'fml1Rmbeta1':fml1Rmbeta1,
-		        'fml1MbhmSSB0':fml1MbhmSSB0,'fml1MbhmR0':fml1MbhmR0,'fml1MbhmSteep':fml1MbhmSteep,'auto1R0':auto1R0,'auto1h':auto1h,
-		        'auto1Rave':auto1Rave,'cv1Recruit':cv1Recruit,'recruitTypeStock2':recruitTypeStock2,'historySt2':historySt2,'hst2_lower':hst2_lower,'hst2_median':hst2_median,
-		        'hst2_mean':hst2_mean,'hst2_upper':hst2_upper,'hst2_other':hst2_other,'hst2_cal':hst2_cal,'formulaStock2':formulaStock2,
-		        'fml2Bmalpha1':fml2Bmalpha1,'fml2Bmbeta1':fml2Bmbeta1,'fml2Rmalpha1':fml2Rmalpha1,'fml2Rmbeta1':fml2Rmbeta1,
-		        'fml2MbhmSSB0':fml2MbhmSSB0,'fml2MbhmR0':fml2MbhmR0,'fml2MbhmSteep':fml2MbhmSteep,'auto2R0':auto2R0,'auto2h':auto2h,
-		        'auto2Rave':auto2Rave,'cv2Recruit':cv2Recruit}),
+		            data: JSON.stringify({'stock1_amount':stock1_amount,'stock2_amount':stock2_amount,'recruitTypeStock1':recruitTypeStock1,'fromHisStock1':fromHisStock1
+		        ,'historySt1':historySt1,'hst1_lower':hst1_lower,'hst1_median':hst1_median,'hst1_mean':hst1_mean,'hst1_upper':hst1_upper,'hst1_other':hst1_other,'hst1_cal':hst1_cal
+		        ,'formulaStock1':formulaStock1,'fromFmlStock1':fromFmlStock1,'fml1MbhmSSB0':fml1MbhmSSB0,'fml1MbhmR0':fml1MbhmR0,'fml1MbhmSteep':fml1MbhmSteep}),
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
@@ -1212,6 +1175,15 @@ $(function() {
 	/* part 8 Management Options Part I start */
 
 	/* part 8 Management Options Part I end */
+
+	$('#stock1_amount').on('input',function(e) {
+		cur_value = parseInt($(this).val());
+		console.log(cur_value);
+		if(cur_value>=0&&cur_value<=100){
+			$('#stock2_amount').val(100-cur_value);
+		}
+
+	});
 
 	$('#sec_recreational').on('input',function(e) {
 		cur_value = parseInt($(this).val());

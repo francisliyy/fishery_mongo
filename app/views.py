@@ -179,19 +179,13 @@ class ProcessView(ModelView):
             step1.nm_cv_2 = global_settings.nm_cv_2
             step1.nm_m = global_settings.nm_m
 
+            step1.stock1_amount = global_settings.stock1_amount
+            step1.stock2_amount = global_settings.stock2_amount
             step1.recruitTypeStock1 = global_settings.recruitTypeStock1
             step1.formulaStock1 = global_settings.formulaStock1
             step1.fml1MbhmSSB0 = global_settings.fml1MbhmSSB0
             step1.fml1MbhmR0 = global_settings.fml1MbhmR0
             step1.fml1MbhmSteep = global_settings.fml1MbhmSteep
-            step1.cv1Recruit = global_settings.cv1Recruit
-
-            step1.recruitTypeStock2 = global_settings.recruitTypeStock2
-            step1.formulaStock2 = global_settings.formulaStock2
-            step1.fml2MbhmSSB0 = global_settings.fml2MbhmSSB0
-            step1.fml2MbhmR0 = global_settings.fml2MbhmR0
-            step1.fml2MbhmSteep = global_settings.fml2MbhmSteep
-            step1.cv2Recruit = global_settings.cv2Recruit
 
             step1.bio_catch_mt = global_settings.ssb_msy
             step1.bio_f_percent = global_settings.f_msy
@@ -419,14 +413,6 @@ class ProStepView(BaseView):
             pgi.fml1MbhmSSB0 = inputparam['fml1MbhmSSB0']
             pgi.fml1MbhmR0 = inputparam['fml1MbhmR0']
             pgi.fml1MbhmSteep = inputparam['fml1MbhmSteep']
-            pgi.cv1Recruit = inputparam['cv1Recruit']
-
-            pgi.recruitTypeStock2 = inputparam['recruitTypeStock2']
-            pgi.formulaStock2 = inputparam['formulaStock2']
-            pgi.fml2MbhmSSB0 = inputparam['fml2MbhmSSB0']
-            pgi.fml2MbhmR0 = inputparam['fml2MbhmR0']
-            pgi.fml2MbhmSteep = inputparam['fml2MbhmSteep']
-            pgi.cv2Recruit = inputparam['cv2Recruit']
 
             pgi.save()
 

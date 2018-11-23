@@ -180,19 +180,17 @@ class GlobalSettings(Document):
 	nm_m = StringField(max_length=2)
 	mortality = EmbeddedDocumentListField(Mortality)
 	#STEP6
+	stock1_amount = DecimalField()
+	stock2_amount = DecimalField()
 	recruitTypeStock1 = StringField(max_length=2)
+	fromHisStock1 = StringField(max_length=2)	
+
 	formulaStock1 = StringField(max_length=2)
+	fromFmlStock1 = StringField(max_length=2)
 	fml1MbhmSSB0 = DecimalField()
 	fml1MbhmR0 = DecimalField()
 	fml1MbhmSteep = DecimalField()
-	cv1Recruit = DecimalField()
 
-	recruitTypeStock2 = StringField(max_length=2)
-	formulaStock2 = StringField(max_length=2)
-	fml2MbhmSSB0 = DecimalField()
-	fml2MbhmR0 = DecimalField()
-	fml2MbhmSteep = DecimalField()
-	cv2Recruit = DecimalField()
 	#step7
 	ssb_msy = DecimalField()
 	f_msy = FloatField()
@@ -258,7 +256,10 @@ class ProcessGenInput(Document):
 
 	mortality = EmbeddedDocumentListField(Mortality)
 	#step7
+	stock1_amount = DecimalField()
+	stock2_amount = DecimalField()
 	recruitTypeStock1 = StringField(max_length=2)
+	fromHisStock1 = StringField(max_length=2)
 
 	historySt1 = StringField(max_length=2)
 	hst1_lower = DecimalField()
@@ -269,44 +270,13 @@ class ProcessGenInput(Document):
 	hst1_cal = DecimalField()
 
 	formulaStock1 = StringField(max_length=2)
-	fml1Bmalpha1 = DecimalField()
-	fml1Bmbeta1 = DecimalField()
-	fml1Rmalpha1 = DecimalField()
-	fml1Rmbeta1 = DecimalField()
+	fromFmlStock1 = StringField(max_length=2)
 	fml1MbhmSSB0 = DecimalField()
 	fml1MbhmR0 = DecimalField()
 	fml1MbhmSteep = DecimalField()
 
-	auto1R0 = DecimalField()
-	auto1h = DecimalField()
-	auto1Rave = DecimalField()
 
-	cv1Recruit = DecimalField()
 
-	recruitTypeStock2 = StringField(max_length=2)
-
-	historySt2 = StringField(max_length=2)
-	hst2_lower = DecimalField()
-	hst2_median = DecimalField()
-	hst2_mean = DecimalField()
-	hst2_upper = DecimalField()
-	hst2_other = DecimalField()
-	hst2_cal = DecimalField()
-
-	formulaStock2 = StringField(max_length=2)
-	fml2Bmalpha1 = DecimalField()
-	fml2Bmbeta1 = DecimalField()
-	fml2Rmalpha1 = DecimalField()
-	fml2Rmbeta1 = DecimalField()
-	fml2MbhmSSB0 = DecimalField()
-	fml2MbhmR0 = DecimalField()
-	fml2MbhmSteep = DecimalField()
-
-	auto2R0 = DecimalField()
-	auto2h = DecimalField()
-	auto2Rave = DecimalField()
-
-	cv2Recruit = DecimalField()
 	#step8
 	bio_catch_mt = DecimalField()
 	bio_f_percent = FloatField()
