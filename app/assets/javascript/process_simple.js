@@ -452,8 +452,6 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt1'){
 
-				$("#mask").addClass('lmask');
-
 				console.log('in step8');
 				if(!$("#form-mgtopt1").valid()){
 					return false;
@@ -488,7 +486,6 @@ $(function() {
 		            data: JSON.stringify({'bio_f_percent':bio_f_percent}),
 		            success: function(data) 
 		            {
-		                 
 		            }
 		        });
 			}else if($panel.prop("id")=='mgtopt2'){

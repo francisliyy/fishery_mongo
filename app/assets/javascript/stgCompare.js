@@ -4,6 +4,13 @@ $(function() {
 	var barChart = echarts.init(document.getElementById('barChart'));
 	var radarChart = echarts.init(document.getElementById('radarChart'));
 
+	var mseNames = $("#cmpDiv").data("msenames");
+	var greenMeans = $("#cmpDiv").data("greenmeans");
+	var totalCatchs = $("#cmpDiv").data("totalcatchs");
+	var catchVars = $("#cmpDiv").data("catchvars");
+	var terminalSSBs = $("#cmpDiv").data("terminalssbs");
+	var lowestSSBs = $("#cmpDiv").data("lowestssbs");
+
 	barOption = {
 	    xAxis: {
 	        type: 'category',
@@ -24,8 +31,8 @@ $(function() {
 	    },
 	    tooltip: {},
 	    legend: {
-	        data: ['Allocated Budget'],
-	        left:'10%',
+	        data: mseNames,
+	        left:'5%',
 	        top:'2%'
 	    },
 	    radar: {
@@ -39,26 +46,34 @@ $(function() {
 	           }
 	        },
 	        indicator: [
-	           { name: 'sales', max: 6500},
-	           { name: 'Administration', max: 16000},
-	           { name: 'Information Techology', max: 30000},
-	           { name: 'Customer Support', max: 38000},
-	           { name: 'Development', max: 52000},
-	           { name: 'Marketing', max: 25000}
+	           { name: 'Year_to_green_mean', max: 100},
+	           { name: 'total_catch_MSEcomp', max: 30000},
+	           { name: 'catch_var_MSEcomp', max: 1000},
+	           { name: 'terminal_SSB_MSEcomp', max: 70000000000},
+	           { name: 'lowest_SSB_MSEcomp', max: 70000000000}
 	        ]
 	    },
 	    series: [{
 	        name: 'Budget vs spending',
 	        type: 'radar',
 	        // areaStyle: {normal: {}},
-	        data : [
-	            {
-	                value : [4300, 10000, 28000, 35000, 50000, 19000],
-	                name : 'Allocated Budget'
-	            }
-	        ]
+	        data : []
 	    }]
 	};
+
+	var radarDataArry = [];
+	for(var i=0;i<mseNames.length;i++){
+		var seriesData = {};
+		seriesData.name = mseNames[i];
+		seriesData.value = [];
+		seriesData.value.push(greenMeans[i]);
+		seriesData.value.push(totalCatchs[i]);
+		seriesData.value.push(catchVars[i]);
+		seriesData.value.push(terminalSSBs[i]);
+		seriesData.value.push(lowestSSBs[i]);
+		radarDataArry.push(seriesData);
+	}
+	radarOption.series[0].data = radarDataArry;
 
 	barChart.setOption(barOption);
 	radarChart.setOption(radarOption);
