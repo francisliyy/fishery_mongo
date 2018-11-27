@@ -1,8 +1,12 @@
 $(function() {
 	
 
-	var barChart = echarts.init(document.getElementById('barChart'));
 	var radarChart = echarts.init(document.getElementById('radarChart'));
+	var meanChart = echarts.init(document.getElementById('meanChart'));
+	var catchChart = echarts.init(document.getElementById('catchChart'));
+	var varChart = echarts.init(document.getElementById('varChart'));
+	var terminalChart = echarts.init(document.getElementById('terminalChart'));
+	var lowestChart = echarts.init(document.getElementById('lowestChart'));
 
 	var mseNames = $("#cmpDiv").data("msenames");
 	var greenMeans = $("#cmpDiv").data("greenmeans");
@@ -11,29 +15,38 @@ $(function() {
 	var terminalSSBs = $("#cmpDiv").data("terminalssbs");
 	var lowestSSBs = $("#cmpDiv").data("lowestssbs");
 
-	barOption = {
+	var barOtion = {
 	    xAxis: {
 	        type: 'category',
-	        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+	        data: mseNames,
+	        axisLabel:{
+	        	rotate:30,
+	        }
 	    },
 	    yAxis: {
 	        type: 'value'
 	    },
+	    tooltip: {},
 	    series: [{
-	        data: [120, 200, 150, 80, 70, 110, 130],
+	        data: [],
 	        type: 'bar'
 	    }]
 	};
+	var meanOption = $.extend(true,{title:{text:'Year_to_green_mean'},series:[{data:greenMeans}]}, barOtion);
+	var catchOption =  $.extend(true,{title:{text:'Total_catch_MSEcomp'},series:[{data:totalCatchs}]}, barOtion);
+	var varOption =  $.extend(true,{title:{text:'Catch_var_MSEcomp'},series:[{data:catchVars}]}, barOtion);
+	var terminalOption =  $.extend(true,{grid:{left:'20%'},title:{text:'Terminal_SSB_MSEcomp'},series:[{data:terminalSSBs}]}, barOtion);
+	var lowestOption =  $.extend(true,{grid:{left:'20%'},title:{text:'Lowest_SSB_MSEcomp'},series:[{data:lowestSSBs}]}, barOtion);
 
-	radarOption = {
+	var radarOption = {
 	    title: {
 	        text: ''
 	    },
 	    tooltip: {},
 	    legend: {
 	        data: mseNames,
-	        left:'5%',
-	        top:'2%'
+	        left:'0',
+	        top:'0',
 	    },
 	    radar: {
 	        // shape: 'circle',
@@ -75,7 +88,11 @@ $(function() {
 	}
 	radarOption.series[0].data = radarDataArry;
 
-	barChart.setOption(barOption);
 	radarChart.setOption(radarOption);
+	meanChart.setOption(meanOption);
+	catchChart.setOption(catchOption);
+	varChart.setOption(varOption);
+	terminalChart.setOption(terminalOption);
+	lowestChart.setOption(lowestOption);
 
 })
