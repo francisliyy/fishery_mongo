@@ -70,7 +70,7 @@
                       <input type="radio" name="stock1_input_file_type" id="st1adminDefault" value="1" {{ 'checked' if process_step1['stock1_input_file_type']=='1'}}> Official Stock Assessment Model
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="stock1_input_file_type" id="st1selfDefine" value="2" {{ 'checked' if process_step1['stock1_input_file_type']=='2'}}> Self-define Model
+                      <input type="radio" name="stock1_input_file_type" id="st1selfDefine" value="2" {{ 'checked' if process_step1['stock1_input_file_type']=='2'}}> Self-defined Model
                     </label>
                   </div>
                     <div id="stock1_upload_div" class="form-group" style="display: {{ 'none' if process_step1['stock1_input_file_type']=='1'}}">
@@ -187,7 +187,7 @@
                       <input type="radio" name="rnd_seed_setting" id="seedDefault" value="1" {{ 'checked' if process_step1['rnd_seed_setting']=='1'}}> Default Seed CSV
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="rnd_seed_setting" id="seedSelfDefine" value="2" {{ 'checked' if process_step1['rnd_seed_setting']=='2'}}> Self-define CSV
+                      <input type="radio" name="rnd_seed_setting" id="seedSelfDefine" value="2" {{ 'checked' if process_step1['rnd_seed_setting']=='2'}}> Self-defined CSV
                     </label>
                   </div>
                     <div id="seed_upload_div" class="form-group" style="display: {{ 'none' if process_step1['rnd_seed_setting']=='1'}}">
@@ -222,13 +222,13 @@
                       
                   </table>  
                   <div class="form-group form-inline" style="margin-top: 30px">
-                      <label class="col-md-3 col-sm-3 control-label">Stock 1 CV (Normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">Stock 1 Population CV (Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_1" name="ip_cv_1" value="{{process_step1['ip_cv_1'] if process_step1['ip_cv_1'] != None else ''}}" placeholder=""/>
                       </div>             
                     </div> 
                     <div class="form-group form-inline" style="margin-top: 15px">
-                      <label class="col-md-3 col-sm-3 control-label">Stock 2 CV (Normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">Stock 2 Population CV (Normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="ip_cv_2" name="ip_cv_2" value="{{process_step1['ip_cv_2'] if process_step1['ip_cv_2'] != None else ''}}" placeholder=""/>
                       </div>             
@@ -281,23 +281,23 @@
                     <div class="form-group">
                       <label class="col-md-3 control-label">&nbsp;</label>
                       <label class="radio-inline">
-                        <input type="radio" name="mixing_pattern" id="highm" value="h" disabled {{ 'checked' if process_step1['nm_m']=='h'}}> High M
+                        <input type="radio" name="mixing_pattern" id="highm" value="h" {{ 'checked' if process_step1['nm_m']=='h'}}> High M
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="mixing_pattern" id="lowm" value="l" disabled {{ 'checked' if process_step1['nm_m']=='l'}}> Low M
+                        <input type="radio" name="mixing_pattern" id="lowm" value="l" {{ 'checked' if process_step1['nm_m']=='l'}}> Low M
                       </label>
                       <label class="radio-inline">
-                        <input type="radio" name="mixing_pattern" id="curm" value="c" disabled {{ 'checked' if process_step1['nm_m']=='c'}}> Current M
+                        <input type="radio" name="mixing_pattern" id="curm" value="c" {{ 'checked' if process_step1['nm_m']=='c'}}> Current M
                       </label>
                     </div>
                     <div class="form-group form-inline">
-                      <label class="col-md-3 col-sm-3 control-label">CV For Stock1 Population</br>(Log-normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">CV for Stock1 Population</br>(Log-normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="nm_cv_1" name="nm_cv_1" value="{{process_step1['nm_cv_1'] if process_step1['nm_cv_1'] != None else ''}}" placeholder=""/>
                       </div>             
                     </div> 
                     <div class="form-group form-inline">
-                      <label class="col-md-3 col-sm-3 control-label">CV For Stock2 Population</br>(Log-normal Dist.)</label>
+                      <label class="col-md-3 col-sm-3 control-label">CV for Stock2 Population</br>(Log-normal Dist.)</label>
                       <div class="col-md-4 col-sm-4 input-group">   
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="nm_cv_2" name="nm_cv_2" value="{{process_step1['nm_cv_2'] if process_step1['nm_cv_2'] != None else ''}}" placeholder=""/>
                       </div>             
@@ -328,6 +328,14 @@
               <div class="panel-body">
                 <form id="form-recruitment">
 
+                   <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group">
+                      <label class="control-label">CV for Recruitment</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input type="number" class="form-control" style="border-radius: 4px" id="cvForRecu" name="cvForRecu" value="{{process_step1['cvForRecu'] if process_step1['cvForRecu'] != None else ''}}" placeholder=""/> 
+                    </div>            
+                  </div>
                   <div class="form-group form-inline">
                     <div class="col-md-2 col-sm-2 input-group">   
                       <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="stock1_amount" name="stock1_amount" value="{{process_step1['stock1_amount'] if process_step1['stock1_amount'] != None else ''}}" placeholder="" />
@@ -442,7 +450,7 @@
                       <input type="radio" style="margin:0 10px 10px 50px" name="fromFmlStock1" id="fmlout1984" disabled value="2" {{'checked' if process_step1['fromFmlStock1']=='2'}}>R0 Exclude Years Before 1984
                     </div>
                   </div>
-                  <div class="form-group form-inline">
+                  <div class="form-group form-inline" style="margin-top:80px">
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
                       <label class="control-label">SSB0</label>
                     </div>
@@ -544,8 +552,8 @@
               <div class="panel-body">
                 <form id="form-mgtopt2">                 
 
-                  <h4>Allocation Among Sectors</h4>
-                  <div class="" style="height:34px">                    
+                  <h4>Allocation among Sectors</h4>
+                  <div class="" style="height:34px;margin-top:20px">                    
                     <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Recreational</label> 
                     <label class="col-md-4 col-sm-4 control-label">Commercial</label>            
                   </div>
@@ -562,8 +570,8 @@
                     </div>             
                   </div>
 
-                  <h4>Allocation Among Recremental Sectors</h4>
-                  <div class="" style="height:34px">                    
+                  <h4>Allocation among Recremental Sectors</h4>
+                  <div class="" style="height:34px;margin-top:20px">                   
                     <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">For Hire</label> 
                     <label class="col-md-4 col-sm-4 control-label">Private</label>            
                   </div>
@@ -580,8 +588,8 @@
                     </div>             
                   </div>
 
-                  <h4>Allocation Among For His Segments</h4>
-                  <div class="" style="height:34px">                    
+                  <h4>Allocation among For Hire Segments</h4>
+                  <div class="" style="height:34px;margin-top:20px">                    
                     <label class="col-md-4 col-sm-4 control-label" style="padding-left: 40px">Headboat</label> 
                     <label class="col-md-4 col-sm-4 control-label">Charter Boat</label>            
                   </div>
@@ -599,8 +607,8 @@
                   </div>
 
 
-                  <h4>Probability Of Overfishing (OFL -> ABC)</h4>
-                  <div class="form-group form-inline">
+                  <h4>Probability of Overfishing (OFL -> ABC)</h4>
+                  <div class="form-group form-inline" style="margin-top:20px">
                     <label class="col-md-3 radio-inline" >P<sup>*</sup></label>
                     <div class="col-md-2 col-sm-2 input-group">
                       <input maxlength="20" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="sec_pstar" name="sec_pstar" value="{{process_step1['sec_pstar'] if process_step1['sec_pstar'] != None else ''}}" placeholder=""/>
@@ -609,7 +617,7 @@
                   </div>
 
                   <h4>Acceptable Catch Target (ACT) Buffer</h4>
-                  <div class="form-group form-inline">
+                  <div class="form-group form-inline" style="margin-top:20px">
                     <label class="col-md-3 radio-inline" >For Commencial Sector</label>
                     <div class="col-md-2 col-sm-2 input-group">
                       <input maxlength="20" type="number" class="form-control" style="border-radius: 4px;width:auto;float: none;" id="sec_act_com" name="sec_act_com" value="{{process_step1['sec_act_com'] if process_step1['sec_act_com'] != None else ''}}" placeholder=""/>
