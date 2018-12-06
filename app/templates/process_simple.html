@@ -33,6 +33,7 @@
           <li class="acc-wizard-todo"><a href="#recruitment">Recruitment</a></li>
           <li class="acc-wizard-todo"><a href="#mgtopt1">Management Options I</a></li>
           <li class="acc-wizard-todo"><a href="#mgtopt2">Management Options II</a></li>
+          <li class="acc-wizard-todo"><a href="#mgtopt3">Management Options III</a></li> 
         </ol>
       </div>
       <div class="col-md-9" style="padding-right: 2em;">
@@ -643,6 +644,84 @@
             </div> <!-- /#adjusthtml -->
           </div> <!-- /.panel.panel-default -->
           
+           <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt3" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options III
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt3" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt3">                 
+
+                  <h4>Recreational Regulations</h4>
+                  <div class="" style="height:34px;margin-top:20px">                   
+                    <label class="col-md-4 col-sm-4" style="padding-left: 40px">Mininum Size</label> 
+                    <label class="col-md-4 col-sm-4"></label>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group" style="text-align: right">Commercial</div> 
+                    <div class="col-md-1 col-sm-1 input-group"></div>
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg3_commercial" name="mg3_commercial" value="{{process_step1['mg3_commercial'] if process_step1['mg3_commercial'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">inch</div>
+                    <div class="col-md-1 col-sm-1 input-group">
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group" style="text-align: right">Recreational</div> 
+                    <div class="col-md-1 col-sm-1 input-group"></div>
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg3_recreational" name="mg3_recreational" value="{{process_step1['mg3_recreational'] if process_step1['mg3_recreational'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group">inch</div>
+                    <div class="col-md-1 col-sm-1 input-group">
+                    </div>             
+                  </div>
+                  <div class="" style="height:34px;margin-top:20px">                   
+                    <label class="col-md-4 col-sm-4" style="padding-left: 40px">Bag Limit</label> 
+                    <label class="col-md-4 col-sm-4"></label>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group" style="text-align: right">For For Hire</div> 
+                    <div class="col-md-1 col-sm-1 input-group"></div>
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg3_forhire" name="mg3_forhire" value="{{process_step1['mg3_forhire'] if process_step1['mg3_forhire'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group"># of fish per bag</div>
+                    <div class="col-md-1 col-sm-1 input-group">
+                    </div>             
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-2 col-sm-2 input-group" style="text-align: right">For Private</div> 
+                    <div class="col-md-1 col-sm-1 input-group"></div>
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg3_private" name="mg3_private" value="{{process_step1['mg3_private'] if process_step1['mg3_private'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group"># of fish per bag</div>
+                    <div class="col-md-1 col-sm-1 input-group">
+                    </div>             
+                  </div>
+                  <div class="" style="height:34px;margin-top:10px">                   
+                    <label class="col-md-4 col-sm-4" style="color:red;padding-left: 40px">(Hint: will scale the catch rate)</label> 
+                    <label class="col-md-4 col-sm-4"></label>
+                  </div>
+                  <div class="form-group form-inline" style="height:34px;margin-top:20px">                   
+                    <label class="col-md-3 col-sm-3 control-label" style="padding-left: 40px">Discard Mortality</label> 
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg3_dismortality" name="mg3_dismortality" value="{{process_step1['mg3_dismortality'] if process_step1['mg3_dismortality'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group">year<sup>-1</sup></div>         
+                  </div>
+
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+          </div> <!-- /.panel.panel-default -->
+
         </div>
       </div>
     </div>
