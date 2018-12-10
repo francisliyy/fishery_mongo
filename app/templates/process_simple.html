@@ -783,6 +783,14 @@
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">lb/day</div>           
                   </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group"></div>
+                    <div class="col-md-3 col-sm-3 input-group" >Length of Season for For Hire</div> 
+                    <div class="col-md-2 col-sm-2 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg4_hire_length" name="mg4_hire_length" value="{{process_step1['mg4_hire_length'] if process_step1['mg4_hire_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm- input-group">day</div>            
+                  </div>
                   <div class="" style="height:34px;margin-top:10px">                   
                     <label class="col-md-4 col-sm-4" style="color:red;padding-left: 40px">(Hint: bag limit for private is)</label> 
                     <label class="col-md-4 col-sm-4"></label>
@@ -794,14 +802,6 @@
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg4_input_private" name="mg4_input_private" value="{{process_step1['mg4_input_private'] if process_step1['mg4_input_private'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group">lb/day</div>            
-                  </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-1 col-sm-1 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group" >Length of Season for For Hire</div> 
-                    <div class="col-md-2 col-sm-2 input-group">      
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg4_hire_length" name="mg4_hire_length" value="{{process_step1['mg4_hire_length'] if process_step1['mg4_hire_length'] != None else ''}}" placeholder=""/>
-                    </div>
-                    <div class="col-md-1 col-sm- input-group">day</div>            
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
