@@ -35,6 +35,7 @@
           <li class="acc-wizard-todo"><a href="#mgtopt2">Management Options II</a></li>
           <li class="acc-wizard-todo"><a href="#mgtopt3">Management Options III</a></li>
           <li class="acc-wizard-todo"><a href="#mgtopt4">Management Options IV</a></li> 
+          <li class="acc-wizard-todo"><a href="#mgtopt5">Management Options V</a></li>
         </ol>
       </div>
       <div class="col-md-9" style="padding-right: 2em;">
@@ -808,6 +809,130 @@
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm- input-group">day</div>            
+                  </div>                     
+
+                </form>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#adjusthtml -->
+           </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#mgtopt5" data-parent="#accordion-demo" data-toggle="collapse">
+                  Management Options V
+                </a>
+              </h4>
+            </div>
+            <div id="mgtopt5" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <form id="form-mgtopt5">                 
+
+                  <h4>Discards & Bycatch Setting</h4>              
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" >of Current Shrimp</div> 
+                    <div class="col-md-1 col-sm-1 input-group" >Bycatch</div>
+                    <div class="col-md-2 col-sm-2 input-group" >Stock 1</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" ></div>  
+                    <div class="col-md-1 col-sm-1 input-group" style="text-align:right">CV</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" >%</div>            
+                  </div>  
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" >of Current Shrimp</div> 
+                    <div class="col-md-1 col-sm-1 input-group" >Bycatch</div>
+                    <div class="col-md-2 col-sm-2 input-group" >Stock 2</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" ></div>  
+                    <div class="col-md-1 col-sm-1 input-group" style="text-align:right">CV</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" >%</div>            
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" >of Current Discards</div> 
+                    <div class="col-md-1 col-sm-1 input-group" >Commecial</div>
+                    <div class="col-md-2 col-sm-2 input-group" >IFQ</div>
+                    <div class="col-md-1 col-sm-1 input-group" >Stock1</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group" style="text-align:right">CV</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" >%</div>            
+                  </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" >of Current Discards</div> 
+                    <div class="col-md-1 col-sm-1 input-group" >Commecial</div>
+                    <div class="col-md-2 col-sm-2 input-group" >IFQ</div>
+                    <div class="col-md-1 col-sm-1 input-group" >Stock2</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group" style="text-align:right">CV</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" >%</div>            
+                  </div>  
+
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" >of Current Discards</div> 
+                    <div class="col-md-1 col-sm-1 input-group" >Commecial</div>
+                    <div class="col-md-2 col-sm-2 input-group" >Close Season</div>
+                    <div class="col-md-1 col-sm-1 input-group" >Stock1</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group" style="text-align:right">CV</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" >%</div>            
+                  </div>
+
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" >of Current Discards</div> 
+                    <div class="col-md-1 col-sm-1 input-group" >Commecial</div>
+                    <div class="col-md-2 col-sm-2 input-group" >Close Season</div>
+                    <div class="col-md-1 col-sm-1 input-group" >Stock2</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div> 
+                    <div class="col-md-1 col-sm-1 input-group" style="text-align:right">CV</div>
+                    <div class="col-md-1 col-sm-1 input-group">      
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg4_private_length" name="mg4_private_length" value="{{process_step1['mg4_private_length'] if process_step1['mg4_private_length'] != None else ''}}" placeholder=""/>
+                    </div>
+                    <div class="col-md-1 col-sm-1 input-group" >%</div>            
                   </div>                     
 
                 </form>
