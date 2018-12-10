@@ -418,18 +418,17 @@
                           <input type="radio" name="historySt1" id="hst1radio5" value="5" {{'checked' if process_step1['historySt1']=='5'}}>Other percentile
                       </label>
                     </div>
-                    <div class="col-md-3 col-sm-3 input-group" >                           
-                      <input maxlength="5" type="number" class="input-txt form-control" id="hst1_other" name="hst1_other" value="{{process_step1['hst1_other'] if process_step1['hst1_other'] != None else ''}}" placeholder=""/><span style="line-height: 34px">&nbsp;%</span>
+                    <div class="col-md-2 col-sm-2 input-group" >                           
+                      <input maxlength="5" type="number" class="input-txt form-control" id="hst1_other" name="hst1_other" value="{{process_step1['hst1_other'] if process_step1['hst1_other'] != None else ''}}" placeholder=""/>
                     </div>
-                  </div>
-                  <div class="form-group form-inline" >
-                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 70px">
-                      <button style="margin: 0 40px 0 10px" type="button" class="btn btn-danger">Calculate</button>
+                     <div class="col-md-1 col-sm-1 input-group" >%</div>
+                    <div class="col-md-1 col-sm-1 input-group" >
+                      <button type="button" class="btn btn-danger">Calculate</button>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
                       <input maxlength="11" type="number" class="input-txt form-control" id="hst1_cal" name="hst1_cal" value="{{process_step1['hst1_cal'] if process_step1['hst1_cal'] != None else ''}}" placeholder=""/>
                     </div>
-                  </div><!--/.first part -->
+                  </div>
 
                   <div class="form-group form-inline" ><!-- second part -->
                     <div class="col-md-12 col-sm-12">
