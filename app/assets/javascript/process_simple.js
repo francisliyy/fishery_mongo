@@ -324,18 +324,19 @@ $(function() {
 		            }
 		        });
 			}else if($panel.prop("id")=='recruitment'){
-				console.log('in step7');
+				console.log('in step6');
 				var data = {};
 				if(!$("#form-recruitment").valid()){
 					return false;
 				};
 
 				//stock1	
+				var cvForRecu = $("#cvForRecu").val()||0;
 				var stock1_amount = $("#stock1_amount").val()||0;
 				var stock2_amount = $("#stock2_amount").val()||0;			
-				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'0';
-				var fromHisStock1 = $('input[name=fromHisStock1]:checked', '#form-recruitment').val()||'1';
-
+				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'1';
+				var fromHisStock1 = $('input[name=fromHisStock1]:checked', '#form-recruitment').val()||'0';
+debugger;
 				var historySt1 = $('input[name=historySt1]:checked', '#form-recruitment').val()||'0';
 				var hst1_lower = $("#hst1_lower:enabled").val()||0;
 				var hst1_median = $("#hst1_median:enabled").val()||0;
@@ -345,7 +346,7 @@ $(function() {
 				var hst1_cal = $('#hst1_cal:enabled').val()||0;
 
 				var formulaStock1 = $('input[name=formulaStock1]:checked', '#form-recruitment').val()||'0';
-				var fromFmlStock1 = $('input[name=fromFmlStock1]:checked', '#form-recruitment').val()||'1';
+				var fromFmlStock1 = $('input[name=fromFmlStock1]:checked', '#form-recruitment').val()||'0';
 				var fml1MbhmSSB0 = $("#fml1MbhmSSB0:enabled").val()||0;
 				var fml1MbhmR0 = $("#fml1MbhmR0:enabled").val()||0;
 				var fml1MbhmSteep = $("#fml1MbhmSteep:enabled").val()||0;
@@ -357,13 +358,13 @@ $(function() {
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify({'stock1_amount':stock1_amount,'stock2_amount':stock2_amount,'recruitTypeStock1':recruitTypeStock1,'fromHisStock1':fromHisStock1
+		            data: JSON.stringify({'cvForRecu':cvForRecu,'stock1_amount':stock1_amount,'stock2_amount':stock2_amount,'recruitTypeStock1':recruitTypeStock1,'fromHisStock1':fromHisStock1
 		        ,'historySt1':historySt1,'hst1_lower':hst1_lower,'hst1_median':hst1_median,'hst1_mean':hst1_mean,'hst1_upper':hst1_upper,'hst1_other':hst1_other,'hst1_cal':hst1_cal
 		        ,'formulaStock1':formulaStock1,'fromFmlStock1':fromFmlStock1,'fml1MbhmSSB0':fml1MbhmSSB0,'fml1MbhmR0':fml1MbhmR0,'fml1MbhmSteep':fml1MbhmSteep}),
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
-		                     console.log("save step7 successfully");
+		                     console.log("save step6 successfully");
 		                 }
 		            }
 		        });
@@ -1006,33 +1007,54 @@ $(function() {
 	/* part 6 natural mortality end */
 
 	/* part 7 recruitment start */
-	function initHistroySt(stock){
-		$("input[name^='hst"+stock+"']").prop('disabled','disabled');
-		$("#hst"+stock+"_btn").removeClass('btn-disable btn-danger').addClass('btn-disable');
-		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"_lower").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==2&&$("#hst"+stock+"_median").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"_mean").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"_upper").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"_other").prop('disabled','')&&$("#hst"+stock+"_btn").prop('disabled','').removeClass('btn-disable btn-danger').addClass('btn-danger')&&$("#hst"+stock+"_cal").prop('disabled','');
-	}
+	function initRecrument(){
 
-	$("input[name='recruitTypeStock1']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
 		$("#form-recruitment input[name='fromHisStock1'],input[name='fromFmlStock1'],input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1']").prop('disabled','disabled');
 		
 		if($("input[name='recruitTypeStock1']:checked").val()==1){
 
 			$("#form-recruitment input[name='fromHisStock1']").prop('disabled','');
-			$("#hisin1984").prop('checked', true);			
+			if(!$("input[name='fromHisStock1']:checked").val()||$("input[name='fromHisStock1']:checked").val()==0){
+				$("#hisin1984").prop('checked', true);
+			}
+			if($("input[name='historySt1']:checked").val()!=0){
+				initHistroySt(1);
+			}
+			
+			$("#form-recruitment input[name='formulaStock1']").prop('checked', false);
+			$("#form-recruitment input[name='fromFmlStock1']").prop('checked', false);			
 
 		}else if($("input[name='recruitTypeStock1']:checked").val()==2){
 
 			$("#form-recruitment input[name='fromFmlStock1']").prop('disabled','');
+			$("#form-recruitment input[name='formulaStock1']").prop('disabled','');
 			$("#fml1radioBHM").prop('checked', true);
-			$("#fmlin1984").prop('checked', true);
+			if(!$("input[name='fromFmlStock1']:checked").val()||$("input[name='fromFmlStock1']:checked").val()==0){
+				$("#fmlin1984").prop('checked', true);
+			}else if($("input[name='fromFmlStock1']:checked").val()==2){
+				$("input[name^='fml1Mbhm']").prop('disabled','');
+			}			
+			$("#form-recruitment input[name='fromHisStock1']").prop('checked', false);
+			$("#form-recruitment input[name='historySt1']").prop('checked', false);
 
 		}
+
+	}
+
+	function initHistroySt(stock){
+		$("input[name^='hst"+stock+"']").prop('disabled','disabled');
+		$("#hst"+stock+"_btn").removeClass('btn-disable btn-danger').addClass('btn-disable');
+		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"_lower").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==2&&$("#hst"+stock+"_median").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"_mean").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"_upper").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"_other").prop('disabled','')&&$("#hst"+stock+"_btn").prop('disabled','').removeClass('btn-disable btn-danger').addClass('btn-danger')&&$("#hst"+stock+"_cal").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
+	}
+
+	$("input[name='recruitTypeStock1']").on('change', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		initRecrument();
 	
 	});
 
@@ -1042,7 +1064,7 @@ $(function() {
 		initHistroySt(1);		
 		if($("input[name='fromHisStock1']:checked").val()==1){
 			$("input[name='historySt1']").prop('disabled','disabled');
-
+			$("input[name^='hst1']").prop('disabled','disabled');
 		}else if($("input[name='fromHisStock1']:checked").val()==2){
 			
 			//$("#form-recruitment input[name='formulaStock1']").prop('disabled','');
@@ -1133,8 +1155,7 @@ $(function() {
 	getIniPopu();
 	getBioParam();
 	getMortality();
-	$("#form-recruitment input[name='historySt1'],input[name^='hst1']").prop('disabled','disabled');
-    
+	initRecrument();
     /* initialization end*/
 	
 

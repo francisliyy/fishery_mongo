@@ -430,8 +430,20 @@ class ProStepView(BaseView):
             pgi = ProcessGenInput.objects(id=pk).first()    		
             inputparam = request.get_json()
 
+            pgi.cvForRecu = inputparam['cvForRecu']
+            pgi.stock1_amount = inputparam['stock1_amount']
+            pgi.stock2_amount = inputparam['stock2_amount']
             pgi.recruitTypeStock1 = inputparam['recruitTypeStock1']
+            pgi.fromHisStock1 = inputparam['fromHisStock1']
+            pgi.historySt1 = inputparam['historySt1']
+            pgi.hst1_lower = inputparam['hst1_lower']
+            pgi.hst1_median = inputparam['hst1_median']
+            pgi.hst1_mean = inputparam['hst1_mean']
+            pgi.hst1_upper = inputparam['hst1_upper']
+            pgi.hst1_other = inputparam['hst1_other']
+            pgi.hst1_cal = inputparam['hst1_cal']
             pgi.formulaStock1 = inputparam['formulaStock1']
+            pgi.fromFmlStock1 = inputparam['fromFmlStock1']
             pgi.fml1MbhmSSB0 = inputparam['fml1MbhmSSB0']
             pgi.fml1MbhmR0 = inputparam['fml1MbhmR0']
             pgi.fml1MbhmSteep = inputparam['fml1MbhmSteep']

@@ -246,6 +246,7 @@ class ProcessGenInput(Document):
 
 	mortality = EmbeddedDocumentListField(Mortality)
 	#step7
+	cvForRecu = DecimalField()
 	stock1_amount = DecimalField()
 	stock2_amount = DecimalField()
 	recruitTypeStock1 = StringField(max_length=2)
