@@ -213,8 +213,8 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   start_projection <- as.Date('2016/01/01')
   jsondata <- paste('{"stock1_model_type":"1","stock1_input_file_type":"1","time_step":"Y","start_projection":"',start_projection,'","short_term_mgt":3,"short_term_unit":"Y","long_term_mgt":20,"long_term_unit":"Y","stock_per_mgt_unit":2,"mixing_pattern":"0","last_age":20,"no_of_interations":100,"sample_size":1000,"rnd_seed_setting":"1","iniPopu":',iniPopuJson
                     ,',"ip_cv_1":',ip_cv_1,',"ip_cv_2":',ip_cv_2,',"bioParam":',bioParamJson,',"nm_cv_1":',nm_cv_1,',"nm_cv_2":',nm_cv_2,',"nm_m":"c","mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
-                    ,',"stock1_amount":23,"stock2_amount":77,"recruitTypeStock1":"2","formulaStock1":"3","fml1MbhmSSB0":',0,',"fml1MbhmR0":',0,',"fml1MbhmSteep":',0
-                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF","sec_recreational":51,"sec_commercial":49,"sec_hire":43,"sec_private":57,"sec_pstar":42.7,"sec_act_com":0,"sec_act_pri":20,"sec_act_hire":20'
+                    ,',"stock1_amount":23,"stock2_amount":77,"recruitTypeStock1":"2","formulaStock1":"3","fromFmlStock1":"2","fml1MbhmSSB0":',0,',"fml1MbhmR0":',0,',"fml1MbhmSteep":',0
+                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF","sec_recreational":51,"sec_commercial":49,"sec_hire":43,"sec_private":57,"sec_pstar":42.7,"sec_act_com":0,"sec_act_pri":20,"sec_act_hire":20,"mg4_season":"2"'
                     ,',"extra_F":',extraFJson,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")

@@ -74,19 +74,6 @@ class Allocation(EmbeddedDocument):
 	fleet = StringField(max_length=50)
 	allocation = DecimalField()
 
-class LandingRatio(EmbeddedDocument):
-
-	stock = StringField(max_length=50)
-	state = StringField(max_length=50)
-	ratio = DecimalField()
-
-class DiscardRatio(EmbeddedDocument):
-
-	stock = StringField(max_length=50)
-	fleet = StringField(max_length=50)
-	oc = StringField(max_length=50)
-	ratio = DecimalField()
-
 class extraF(EmbeddedDocument):
 
 	hl_e_pred_F = FloatField()
@@ -205,6 +192,9 @@ class GlobalSettings(Document):
 	sec_act_pri = DecimalField()
 	sec_act_hire = DecimalField()
 
+	#step10
+	mg4_season = StringField(max_length=2)
+
 	#extral
 	extra_F = EmbeddedDocumentListField(extraF)
 
@@ -294,7 +284,8 @@ class ProcessGenInput(Document):
 	hst_catch_thh2 = DecimalField()
 	hst_f_thh1 = DecimalField()
 	hst_f_thh2 = DecimalField()
-	#step9
+
+	#step8
 	sec_recreational = DecimalField()
 	sec_commercial = DecimalField()
 	sec_hire = DecimalField()
@@ -310,11 +301,42 @@ class ProcessGenInput(Document):
 	fleet_com_stock = EmbeddedDocumentListField(Allocation)
 	fishingStartDate = DateTimeField(default=datetime.datetime.now)
 	fishingEndDate = DateTimeField(default=datetime.datetime.now)
+	
+	#step9
+	mg3_commercial = DecimalField()
+	mg3_recreational = DecimalField()
+	mg3_forhire = DecimalField()
+	mg3_private = DecimalField()
+	mg3_dismortality = DecimalField()
+
 	#step10
-	ratio_rec_ratio = EmbeddedDocumentListField(LandingRatio)
-	ratio_com_ratio = EmbeddedDocumentListField(LandingRatio)
-	discard_rec_ratio = EmbeddedDocumentListField(DiscardRatio)
-	discard_com_ratio = EmbeddedDocumentListField(DiscardRatio)
+	mg4_season = StringField(max_length=2)
+	mg4_act_catch_hire = DecimalField()
+	mg4_act_catch_private = DecimalField()
+	mg4_input_hire = DecimalField()
+	mg4_hire_length = DecimalField()
+	mg4_input_private = DecimalField()
+	mg4_private_length = DecimalField()
+
+	#step11
+	mg5_shrimp_percent1 = DecimalField()
+	mg5_shrimp_stock1 = DecimalField()
+	mg5_shrimp_cv1 = DecimalField()
+	mg5_shrimp_percent2 = DecimalField()
+	mg5_shrimp_stock2 = DecimalField()
+	mg5_shrimp_cv2 = DecimalField()
+	mg5_IFQ_percent1 = DecimalField()
+	mg5_IFQ_stock1 = DecimalField()
+	mg5_IFQ_cv1 = DecimalField()
+	mg5_IFQ_percent2 = DecimalField()
+	mg5_IFQ_stock2 = DecimalField()
+	mg5_IFQ_cv2 = DecimalField()
+	mg5_close_percent1 = DecimalField()
+	mg5_close_stock1 = DecimalField()
+	mg5_close_cv1 = DecimalField()
+	mg5_close_percent2 = DecimalField()
+	mg5_close_stock2 = DecimalField()
+	mg5_close_cv2 = DecimalField()
 
 	#extral
 	extra_F = EmbeddedDocumentListField(extraF)

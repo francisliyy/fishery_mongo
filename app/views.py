@@ -183,6 +183,7 @@ class ProcessView(ModelView):
             step1.stock2_amount = global_settings.stock2_amount
             step1.recruitTypeStock1 = global_settings.recruitTypeStock1
             step1.formulaStock1 = global_settings.formulaStock1
+            step1.fromFmlStock1 = global_settings.fromFmlStock1
             step1.fml1MbhmSSB0 = global_settings.fml1MbhmSSB0
             step1.fml1MbhmR0 = global_settings.fml1MbhmR0
             step1.fml1MbhmSteep = global_settings.fml1MbhmSteep
@@ -199,6 +200,8 @@ class ProcessView(ModelView):
             step1.sec_act_com = global_settings.sec_act_com
             step1.sec_act_pri = global_settings.sec_act_pri
             step1.sec_act_hire = global_settings.sec_act_hire
+
+            step1.mg4_season = global_settings.mg4_season
 
                 #extral
             step1.extra_F = global_settings.extra_F
@@ -480,51 +483,7 @@ class ProStepView(BaseView):
     def step10(self,pk):
     	if request.method == 'PUT':
     		pgi = ProcessGenInput.objects(id=pk).first()    		
-    		inputparam = request.get_json()
-
-    		ratioRecRatioList = inputparam['ratio_rec_ratio']
-    		ratioComRatioList = inputparam['ratio_com_ratio']
-    		discardRecRatioList = inputparam['discard_rec_ratio']
-    		discardComRatioList = inputparam['discard_com_ratio']
-
-    		ratio_rec_ratio = []
-    		ratio_com_ratio = []
-    		discard_rec_ratio = []
-    		discard_com_ratio = []
     		
-    		for origin in ratioRecRatioList:
-    			stockParam = LandingRatio()
-    			stockParam.stock = origin['stock']
-    			stockParam.state = origin['state']
-    			stockParam.ratio = float(origin['ratio'])
-    			ratio_rec_ratio.append(stockParam)
-    		pgi.ratio_rec_ratio = ratio_rec_ratio
-
-    		for origin in ratioComRatioList:
-    			stockParam = LandingRatio()
-    			stockParam.stock = origin['stock']
-    			stockParam.state = origin['state']
-    			stockParam.ratio = float(origin['ratio'])
-    			ratio_com_ratio.append(stockParam)
-    		pgi.ratio_com_ratio = ratio_com_ratio
-
-    		for origin in discardRecRatioList:
-    			stockParam = DiscardRatio()
-    			stockParam.stock = origin['stock']
-    			stockParam.fleet = origin['fleet']
-    			stockParam.oc = origin['oc']
-    			stockParam.ratio = float(origin['ratio'])
-    			discard_rec_ratio.append(stockParam)
-    		pgi.discard_rec_ratio = discard_rec_ratio
-
-    		for origin in discardComRatioList:
-    			stockParam = DiscardRatio()
-    			stockParam.stock = origin['stock']
-    			stockParam.fleet = origin['fleet']
-    			stockParam.oc = origin['oc']
-    			stockParam.ratio = float(origin['ratio'])
-    			discard_com_ratio.append(stockParam)
-    		pgi.discard_com_ratio = discard_com_ratio
 
     		pgi.save()
 
