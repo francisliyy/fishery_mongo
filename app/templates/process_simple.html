@@ -354,7 +354,7 @@
 
                   <div class="form-group form-inline" ><!-- first part -->
                     <div class="col-md-12 col-sm-12">
-                      <input type="radio" style="margin:0 10px 10px 0px" name="recruitTypeStock1" id="historyStock1" disabled value="1" {{'checked' if process_step1['recruitTypeStock1']=='1'}}>From historical
+                      <input type="radio" style="margin:0 10px 10px 0px" name="recruitTypeStock1" id="historyStock1" value="1" {{'checked' if process_step1['recruitTypeStock1']=='1'}}>From historical
                     </div>
                   </div>
                   <div class="form-group form-inline" ><!-- first part -->
@@ -423,7 +423,7 @@
                     </div>
                      <div class="col-md-1 col-sm-1 input-group" >%</div>
                     <div class="col-md-1 col-sm-1 input-group" >
-                      <button type="button" class="btn btn-danger">Calculate</button>
+                      <button id="hst1_btn" type="button" class="btn btn-disable">Calculate</button>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group" >                           
                       <input maxlength="11" type="number" class="input-txt form-control" id="hst1_cal" name="hst1_cal" value="{{process_step1['hst1_cal'] if process_step1['hst1_cal'] != None else ''}}" placeholder=""/>
@@ -432,24 +432,24 @@
 
                   <div class="form-group form-inline" ><!-- second part -->
                     <div class="col-md-12 col-sm-12">
-                      <input type="radio" style="margin:0 10px 10px 0px" name="recruitTypeStock1" id="fmlStock1" disabled value="2" {{'checked' if process_step1['recruitTypeStock1']=='2'}}>From Formula
+                      <input type="radio" style="margin:0 10px 10px 0px" name="recruitTypeStock1" id="fmlStock1" value="2" {{'checked' if process_step1['recruitTypeStock1']=='2'}}>From Formula
                     </div>
                   </div>
                   <div class="form-group form-inline" >
                     <div class="col-md-5 col-sm-5 input-group" style="margin:0 10px 0px 30px">
                       <label class="radio-inline" >
-                          <input type="radio" name="formulaStock1" id="fml1radio3" disabled value="3" {{'checked' if process_step1['formulaStock1']=='3'}}>Moderfied Beverton-Holt Model
+                          <input type="radio" name="formulaStock1" id="fml1radioBHM" value="1" {{'checked' if process_step1['formulaStock1']=='1'}}>Moderfied Beverton-Holt Model
                       </label>
                     </div>
                   </div>
                   <div class="form-group form-inline" ><!-- first part -->
                     <div class="col-md-12 col-sm-12">
-                      <input type="radio" style="margin:0 10px 10px 50px" name="fromFmlStock1" id="fmlin1984" disabled value="1" {{'checked' if process_step1['fromFmlStock1']=='1'}}>R0 Include Years Before 1984
+                      <input type="radio" style="margin:0 10px 10px 50px" name="fromFmlStock1" id="fmlin1984" value="1" {{'checked' if process_step1['fromFmlStock1']=='1'}}>R0 Include Years Before 1984
                     </div>
                   </div>
                   <div class="form-group form-inline" ><!-- first part -->
                     <div class="col-md-12 col-sm-12">
-                      <input type="radio" style="margin:0 10px 10px 50px" name="fromFmlStock1" id="fmlout1984" disabled value="2" {{'checked' if process_step1['fromFmlStock1']=='2'}}>R0 Exclude Years Before 1984
+                      <input type="radio" style="margin:0 10px 10px 50px" name="fromFmlStock1" id="fmlout1984" value="2" {{'checked' if process_step1['fromFmlStock1']=='2'}}>R0 Exclude Years Before 1984
                     </div>
                   </div>
                   <div class="form-group form-inline" style="margin-top:80px">

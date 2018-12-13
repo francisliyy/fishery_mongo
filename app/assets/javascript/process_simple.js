@@ -113,45 +113,9 @@ $(function() {
 	      	required: true,
 	      	number:true,
 	      	max:99999999,
-	      }, 
-	      recruitTypeStock2:{
-	      	required: true,
-	      },    
-	      hst2_lower:{
-	      	required: true,
-	      	number:true,
-	      	max:99999999,
-	      },
-	      hst2_median:{
-	      	required: true,
-	      	number:true,
-	      	max:99999999,
-	      },
-	      hst2_mean:{
-	      	required: true,
-	      	number:true,
-	      	max:99999999,
-	      },
-	      hst2_upper:{
-	      	required: true,
-	      	number:true,
-	      	max:99999999,
-	      },
-	      hst2_other:{
-	      	required: true,
-	      	number:true,
-	      	max:100,
-	      },
-	      hst2_cal:{
-	      	required: true,
-	      	number:true,
-	      	max:99999999,
 	      },
 	      //part2
 	      formulaStock1:{
-	      	required: true,
-	      },
-	      formulaStock2:{
 	      	required: true,
 	      },
 	      fml1Bmalpha1:{
@@ -159,14 +123,6 @@ $(function() {
 	      	number:true,
 	      },
 	      fml1Bmbeta1:{
-	      	required: true,
-	      	number:true,
-	      },
-	      fml2Bmalpha1:{
-	      	required: true,
-	      	number:true,
-	      },
-	      fml2Bmbeta1:{
 	      	required: true,
 	      	number:true,
 	      },
@@ -178,14 +134,6 @@ $(function() {
 	      	required: true,
 	      	number:true,
 	      },
-	      fml2Rmalpha1:{
-	      	required: true,
-	      	number:true,
-	      },
-	      fml2Rmbeta1:{
-	      	required: true,
-	      	number:true,
-	      },
 	      fml1MbhmSSB0:{
 	      	required: true,
 	      	number:true,
@@ -194,19 +142,7 @@ $(function() {
 	      	required: true,
 	      	number:true,
 	      },
-	      fml2MbhmSSB0:{
-	      	required: true,
-	      	number:true,
-	      },
-	      fml2MbhmR0:{
-	      	required: true,
-	      	number:true,
-	      },
 	      fml1MbhmSteep:{
-	      	required: true,
-	      	number:true,
-	      },
-	      fml2MbhmSteep:{
 	      	required: true,
 	      	number:true,
 	      },
@@ -223,23 +159,7 @@ $(function() {
 	      	required: true,
 	      	number:true,
 	      },
-	      auto2R0:{
-	      	required: true,
-	      	number:true,
-	      },
-	      auto2h:{
-	      	required: true,
-	      	number:true,
-	      },
-	      auto2Rave:{
-	      	required: true,
-	      	number:true,
-	      },
 	      cv1Recruit:{
-	      	required: true,
-	      	number:true,
-	      },
-	      cv2Recruit:{
 	      	required: true,
 	      	number:true,
 	      },
@@ -247,9 +167,6 @@ $(function() {
 	    messages:{
 	    	recruitTypeStock1:{
 	    		//required: "Stock 1 recruit type is required",
-	    	},
-	    	recruitTypeStock2:{
-	    		//required: "Stock 2 recruit type is required",
 	    	},
 
 	    },
@@ -1091,39 +1008,46 @@ $(function() {
 	/* part 7 recruitment start */
 	function initHistroySt(stock){
 		$("input[name^='hst"+stock+"']").prop('disabled','disabled');
+		$("#hst"+stock+"_btn").removeClass('btn-disable btn-danger').addClass('btn-disable');
 		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"_lower").prop('disabled','');
 		$("input[name='historySt"+stock+"']:checked").val()==2&&$("#hst"+stock+"_median").prop('disabled','');
 		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"_mean").prop('disabled','');
 		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"_upper").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"_other").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()!=0&&$("#hst"+stock+"_cal").prop('disabled','');
-	}
-
-	function initFormulaStock(stock){
-		$("input[name^='fml"+stock+"']").prop('disabled','disabled');
-		$("input[name='formulaStock"+stock+"']:checked").val()==1&&$("[name^='fml"+stock+"Bm']").prop('disabled','');
-		$("input[name='formulaStock"+stock+"']:checked").val()==2&&$("[name^='fml"+stock+"Rm']").prop('disabled','');
-		$("input[name='formulaStock"+stock+"']:checked").val()==3&&$("[name^='fml"+stock+"Mbhm']").prop('disabled','');
+		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"_other").prop('disabled','')&&$("#hst"+stock+"_btn").prop('disabled','').removeClass('btn-disable btn-danger').addClass('btn-danger')&&$("#hst"+stock+"_cal").prop('disabled','');
 	}
 
 	$("input[name='recruitTypeStock1']").on('change', function(event) {
 		event.preventDefault();
 		/* Act on the event */
-		$("#form-recruitment input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1'],input[name^='auto1']").prop('disabled','disabled');
+		$("#form-recruitment input[name='fromHisStock1'],input[name='fromFmlStock1'],input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1']").prop('disabled','disabled');
 		
 		if($("input[name='recruitTypeStock1']:checked").val()==1){
 
-			$("#form-recruitment input[name='historySt1']").prop('disabled','');
-			initHistroySt(1);
+			$("#form-recruitment input[name='fromHisStock1']").prop('disabled','');
+			$("#hisin1984").prop('checked', true);			
 
 		}else if($("input[name='recruitTypeStock1']:checked").val()==2){
+
+			$("#form-recruitment input[name='fromFmlStock1']").prop('disabled','');
+			$("#fml1radioBHM").prop('checked', true);
+			$("#fmlin1984").prop('checked', true);
+
+		}
+	
+	});
+
+	$("input[name='fromHisStock1']").on('change', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		initHistroySt(1);		
+		if($("input[name='fromHisStock1']:checked").val()==1){
+			$("input[name='historySt1']").prop('disabled','disabled');
+
+		}else if($("input[name='fromHisStock1']:checked").val()==2){
 			
-			$("#form-recruitment input[name='formulaStock1']").prop('disabled','');
-			initFormulaStock(1);
-
-		}else{
-
-			$("#form-recruitment input[name^='auto1']").prop('disabled','');
+			//$("#form-recruitment input[name='formulaStock1']").prop('disabled','');
+			$("input[name='historySt1']").prop('disabled','');
+			
 
 		}
 	
@@ -1133,45 +1057,48 @@ $(function() {
 		initHistroySt(1);
 	});
 
-	$("input[name='formulaStock1']").on('change', function(event) {
-		initFormulaStock(1);
-	});
-
-	$("input[name='recruitTypeStock2']").on('change', function(event) {
+	$("input[name='fromFmlStock1']").on('change', function(event) {
 		event.preventDefault();
 		/* Act on the event */
-		$("#form-recruitment input[name='historySt2'],input[name^='hst2'],input[name='formulaStock2'],input[name^='fml2'],input[name^='auto2']").prop('disabled','disabled');
-		
-		if($("input[name='recruitTypeStock2']:checked").val()==1){
+		if($("input[name='fromFmlStock1']:checked").val()==1){
+			$("input[name^='fml1Mbhm']").prop('disabled','disabled');
 
-			$("#form-recruitment input[name='historySt2']").prop('disabled','');
-			initHistroySt(2);
-
-		}else if($("input[name='recruitTypeStock2']:checked").val()==2){
+		}else if($("input[name='fromFmlStock1']:checked").val()==2){
 			
-			$("#form-recruitment input[name='formulaStock2']").prop('disabled','');
-			initFormulaStock(2);
-
-		}else{
-
-			$("#form-recruitment input[name^='auto2']").prop('disabled','');
+			$("input[name^='fml1Mbhm']").prop('disabled','');
+			
 
 		}
 	});
 
-	$("input[name='historySt2']").on('change', function(event) {
-		initHistroySt(2);
-	});
-
-	$("input[name='formulaStock2']").on('change', function(event) {
-		initFormulaStock(2);
-	});
-
 	/* part 7 recruitment end */
 
-	/* part 8 Management Options Part I start */
+	/* part 10 Management Options Part IV start */
+	$("input[name='mg4_season']").on('change', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		if($("input[name='mg4_season']:checked").val()==1){
+			$("#mg4_act_catch_hire").prop('disabled','');
+			$("#mg4_act_catch_private").prop('disabled','');
+			$("#mg4_input_hire").prop('disabled','disabled');
+			$("#mg4_hire_length").prop('disabled','disabled');
+			$("#mg4_input_private").prop('disabled','disabled');
+			$("#mg4_private_length").prop('disabled','disabled');
 
-	/* part 8 Management Options Part I end */
+		}else if($("input[name='mg4_season']:checked").val()==2){
+			
+			$("#mg4_act_catch_hire").prop('disabled','disabled');
+			$("#mg4_act_catch_private").prop('disabled','disabled');
+			$("#mg4_input_hire").prop('disabled','');
+			$("#mg4_hire_length").prop('disabled','');
+			$("#mg4_input_private").prop('disabled','');
+			$("#mg4_private_length").prop('disabled','');
+			
+
+		}
+	});
+
+	/* part 10 Management Options Part IV end */
 
 	$('#stock1_amount').on('input',function(e) {
 		cur_value = parseInt($(this).val());
@@ -1206,11 +1133,8 @@ $(function() {
 	getIniPopu();
 	getBioParam();
 	getMortality();
-	$("#form-recruitment input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1'],input[name^='auto1']").prop('disabled','disabled');
-	$("#form-recruitment input[name='historySt2'],input[name^='hst2'],input[name='formulaStock2'],input[name^='fml2'],input[name^='auto2']").prop('disabled','disabled');
-    $("input[name='recruitTypeStock1']:checked").val()==2&&$("#form-recruitment input[name='formulaStock1']").prop('disabled','disabled')&&initFormulaStock(1);
-    $("input[name='recruitTypeStock2']:checked").val()==2&&$("#form-recruitment input[name='formulaStock2']").prop('disabled','disabled')&&initFormulaStock(2);
-
+	$("#form-recruitment input[name='historySt1'],input[name^='hst1']").prop('disabled','disabled');
+    
     /* initialization end*/
 	
 
