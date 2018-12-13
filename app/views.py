@@ -144,7 +144,7 @@ class ProcessView(ModelView):
         step1 = ProcessGenInput.objects(process_id=pk).first()
 
         rndfilenames = []
-        stock1_filename = ''
+        stock1_filename = None
 
         if step1 is None:
             print("step1 is null")
