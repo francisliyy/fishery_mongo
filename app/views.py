@@ -493,13 +493,20 @@ class ProStepView(BaseView):
     @expose('/step10/<string:pk>', methods = ['PUT'])
     @has_access
     def step10(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()    		
-    		
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()  
 
-    		pgi.save()
+            inputparam = request.get_json()
 
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+            pgi.mg3_commercial = inputparam['mg3_commercial'];
+            pgi.mg3_recreational = inputparam['mg3_recreational'];
+            pgi.mg3_forhire = inputparam['mg3_forhire'];
+            pgi.mg3_private = inputparam['mg3_private'];
+            pgi.mg3_dismortality = inputparam['mg3_dismortality'];
+
+            pgi.save()
+
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
 
     ##############################################################################################

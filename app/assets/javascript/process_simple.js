@@ -336,7 +336,6 @@ $(function() {
 				var stock2_amount = $("#stock2_amount").val()||0;			
 				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'1';
 				var fromHisStock1 = $('input[name=fromHisStock1]:checked', '#form-recruitment').val()||'0';
-debugger;
 				var historySt1 = $('input[name=historySt1]:checked', '#form-recruitment').val()||'0';
 				var hst1_lower = $("#hst1_lower:enabled").val()||0;
 				var hst1_median = $("#hst1_median:enabled").val()||0;
@@ -457,6 +456,31 @@ debugger;
 					            }
 					        });
 		                 }
+		            }
+		        });
+			}else if($panel.prop("id")=='mgtopt3'){
+
+				console.log('in step10');
+				if(!$("#form-mgtopt3").valid()){
+					return false;
+				};
+				var data = {};
+				var mg3_commercial = $("#mg3_commercial").val()||0;
+				var mg3_recreational = $("#mg3_recreational").val()||0;
+				var mg3_forhire = $("#mg3_forhire").val()||0;
+				var mg3_private = $("#mg3_private").val()||0;
+				var mg3_dismortality = $("#mg3_dismortality").val()||0;
+
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step10/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: JSON.stringify({'mg3_commercial':mg3_commercial,'mg3_recreational':mg3_recreational,'mg3_forhire':mg3_forhire
+		        						,'mg3_private':mg3_private,'mg3_dismortality':mg3_dismortality}),
+		            success: function(data) 
+		            {
 		            }
 		        });
 			}
