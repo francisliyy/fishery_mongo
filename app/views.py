@@ -508,6 +508,26 @@ class ProStepView(BaseView):
 
         return Response(json.dumps({'status':1}), mimetype='application/json')
 
+#process step10
+    @expose('/step11/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step10(self,pk):
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()  
+
+            inputparam = request.get_json()
+
+            pgi.mg4_season = inputparam['mg4_season'];
+            pgi.mg4_act_catch_hire = inputparam['mg4_act_catch_hire'];
+            pgi.mg4_act_catch_private = inputparam['mg4_act_catch_private'];
+            pgi.mg4_input_hire = inputparam['mg4_input_hire'];
+            pgi.mg4_hire_length = inputparam['mg4_hire_length'];
+            pgi.mg4_input_private = inputparam['mg4_input_private'];
+            pgi.mg4_private_length = inputparam['mg4_private_length'];
+
+            pgi.save()
+
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
     ##############################################################################################
     # process step1 : rnd file upload, keep it for future use, implemented multiple files upload #

@@ -483,6 +483,34 @@ $(function() {
 		            {
 		            }
 		        });
+			}else if($panel.prop("id")=='mgtopt4'){
+
+				console.log('in step11');
+				if(!$("#form-mgtopt4").valid()){
+					return false;
+				};
+				var data = {};
+				var mg4_season = $('input[name=mg4_season]:checked', '#form-mgtopt4').val()||'1';
+				var mg4_act_catch_hire = $("#mg4_act_catch_hire:enabled").val()||0;
+				var mg4_act_catch_private = $("#mg4_act_catch_private:enabled").val()||0;
+				var mg4_input_hire = $("#mg4_input_hire:enabled").val()||0;
+				var mg4_hire_length = $("#mg4_hire_length:enabled").val()||0;
+				var mg4_input_private = $("#mg4_input_private:enabled").val()||0;
+				var mg4_private_length = $("#mg4_private_length:enabled").val()||0;
+
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step11/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: JSON.stringify({'mg4_season':mg4_season,'mg4_act_catch_hire':mg4_act_catch_hire,'mg4_act_catch_private':mg4_act_catch_private
+		        						,'mg4_input_hire':mg4_input_hire,'mg4_hire_length':mg4_hire_length
+		        						,'mg4_input_private':mg4_input_private,'mg4_private_length':mg4_private_length}),
+		            success: function(data) 
+		            {
+		            }
+		        });
 			}
 		}
 	});
