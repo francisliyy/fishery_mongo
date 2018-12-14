@@ -511,6 +511,52 @@ $(function() {
 		            {
 		            }
 		        });
+			}else if($panel.prop("id")=='mgtopt5'){
+
+				console.log('in step12');
+				if(!$("#form-mgtopt5").valid()){
+					return false;
+				};
+
+				var data = {};
+
+				var mg5_shrimp_percent1 = $("#mg5_shrimp_percent1").val()||0;
+				var mg5_shrimp_stock1 = $("#mg5_shrimp_stock1").val()||0;
+				var mg5_shrimp_cv1 = $("#mg5_shrimp_cv1").val()||0;
+				var mg5_shrimp_percent2 = $("#mg5_shrimp_percent2").val()||0;
+				var mg5_shrimp_stock2 = $("#mg5_shrimp_stock2").val()||0;
+				var mg5_shrimp_cv2 = $("#mg5_shrimp_cv2").val()||0;
+
+				var mg5_IFQ_percent1 = $("#mg5_IFQ_percent1").val()||0;
+				var mg5_IFQ_stock1 = $("#mg5_IFQ_stock1").val()||0;
+				var mg5_IFQ_cv1 = $("#mg5_IFQ_cv1").val()||0;
+				var mg5_IFQ_percent2 = $("#mg5_IFQ_percent2").val()||0;
+				var mg5_IFQ_stock2 = $("#mg5_IFQ_stock2").val()||0;
+				var mg5_IFQ_cv2 = $("#mg5_IFQ_cv2").val()||0;
+
+				var mg5_close_percent1 = $("#mg5_close_percent1").val()||0;
+				var mg5_close_stock1 = $("#mg5_close_stock1").val()||0;
+				var mg5_close_cv1 = $("#mg5_close_cv1").val()||0;
+				var mg5_close_percent2 = $("#mg5_close_percent2").val()||0;
+				var mg5_close_stock2 = $("#mg5_close_stock2").val()||0;
+				var mg5_close_cv2 = $("#mg5_close_cv2").val()||0;
+
+				$.ajax({
+		            cache: false,
+		            url: $SCRIPT_ROOT+'/prostepview/step12/'+$("#step1_id").data("step1id"),
+		            type: "PUT",
+		            dataType: "json",
+		            contentType:"application/json",
+		            data: JSON.stringify({'mg5_shrimp_percent1':mg5_shrimp_percent1,'mg5_shrimp_stock1':mg5_shrimp_stock1,'mg5_shrimp_cv1':mg5_shrimp_cv1
+		        						,'mg5_shrimp_percent2':mg5_shrimp_percent2,'mg5_shrimp_stock2':mg5_shrimp_stock2,'mg5_shrimp_cv2':mg5_shrimp_cv2
+		        						,'mg5_IFQ_percent1':mg5_IFQ_percent1,'mg5_IFQ_stock1':mg5_IFQ_stock1,'mg5_IFQ_cv1':mg5_IFQ_cv1
+		        						,'mg5_IFQ_percent2':mg5_IFQ_percent2,'mg5_IFQ_stock2':mg5_IFQ_stock2,'mg5_IFQ_cv2':mg5_IFQ_cv2
+		        						,'mg5_close_percent1':mg5_close_percent1,'mg5_close_stock1':mg5_close_stock1,'mg5_close_cv1':mg5_close_cv1
+		        						,'mg5_close_percent2':mg5_close_percent2,'mg5_close_stock2':mg5_close_stock2,'mg5_close_cv2':mg5_close_cv2}),
+		            success: function(data) 
+		            {
+		            }
+		        });
 			}
 		}
 	});

@@ -508,7 +508,7 @@ class ProStepView(BaseView):
 
         return Response(json.dumps({'status':1}), mimetype='application/json')
 
-#process step10
+    #process step11
     @expose('/step11/<string:pk>', methods = ['PUT'])
     @has_access
     def step10(self,pk):
@@ -524,6 +524,40 @@ class ProStepView(BaseView):
             pgi.mg4_hire_length = inputparam['mg4_hire_length'];
             pgi.mg4_input_private = inputparam['mg4_input_private'];
             pgi.mg4_private_length = inputparam['mg4_private_length'];
+
+            pgi.save()
+
+        return Response(json.dumps({'status':1}), mimetype='application/json')
+
+    #process step12
+    @expose('/step12/<string:pk>', methods = ['PUT'])
+    @has_access
+    def step10(self,pk):
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()  
+
+            inputparam = request.get_json()
+
+            pgi.mg5_shrimp_percent1 = inputparam['mg5_shrimp_percent1'];
+            pgi.mg5_shrimp_stock1 = inputparam['mg5_shrimp_stock1'];
+            pgi.mg5_shrimp_cv1 = inputparam['mg5_shrimp_cv1'];
+            pgi.mg5_shrimp_percent2 = inputparam['mg5_shrimp_percent2'];
+            pgi.mg5_shrimp_stock2 = inputparam['mg5_shrimp_stock2'];
+            pgi.mg5_shrimp_cv2 = inputparam['mg5_shrimp_cv2'];
+
+            pgi.mg5_IFQ_percent1 = inputparam['mg5_IFQ_percent1'];
+            pgi.mg5_IFQ_stock1 = inputparam['mg5_IFQ_stock1'];
+            pgi.mg5_IFQ_cv1 = inputparam['mg5_IFQ_cv1'];
+            pgi.mg5_IFQ_percent2 = inputparam['mg5_IFQ_percent2'];
+            pgi.mg5_IFQ_stock2 = inputparam['mg5_IFQ_stock2'];
+            pgi.mg5_IFQ_cv2 = inputparam['mg5_IFQ_cv2'];
+
+            pgi.mg5_close_percent1 = inputparam['mg5_close_percent1'];
+            pgi.mg5_close_stock1 = inputparam['mg5_close_stock1'];
+            pgi.mg5_close_cv1 = inputparam['mg5_close_cv1'];
+            pgi.mg5_close_percent2 = inputparam['mg5_close_percent2'];
+            pgi.mg5_close_stock2 = inputparam['mg5_close_stock2'];
+            pgi.mg5_close_cv2 = inputparam['mg5_close_cv2'];
 
             pgi.save()
 
