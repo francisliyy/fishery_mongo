@@ -657,7 +657,7 @@
               <div class="panel-body">
                 <form id="form-mgtopt3">                 
 
-                  <h4>Recreational Regulations</h4>
+                  <h4>Regulations</h4>
                   <div class="" style="height:34px;margin-top:20px">                   
                     <label class="col-md-4 col-sm-4" style="padding-left: 40px">Mininum Size</label> 
                     <label class="col-md-4 col-sm-4"></label>            
@@ -683,7 +683,7 @@
                     </div>             
                   </div>
                   <div class="" style="height:34px;margin-top:20px">                   
-                    <label class="col-md-4 col-sm-4" style="padding-left: 40px">Bag Limit</label> 
+                    <label class="col-md-4 col-sm-4" style="padding-left: 40px">Recreational Bag Limit</label> 
                     <label class="col-md-4 col-sm-4"></label>            
                   </div>
                   <div class="form-group form-inline">
@@ -711,7 +711,7 @@
                     <label class="col-md-4 col-sm-4"></label>
                   </div>
                   <div class="form-group form-inline" style="height:34px;margin-top:20px">                   
-                    <label class="col-md-3 col-sm-3 control-label" style="padding-left: 40px">Discard Mortality</label> 
+                    <label class="col-md-3 col-sm-3 control-label" style="padding-left: 40px">Release Mortality</label> 
                     <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="mg3_dismortality" name="mg3_dismortality" value="{{process_step1['mg3_dismortality'] if process_step1['mg3_dismortality'] != None else ''}}" placeholder=""/>
                     </div>
@@ -742,8 +742,7 @@
                     </div>            
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-4 col-sm-4" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is)</label> 
-                    <label class="col-md-4 col-sm-4"></label>
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is, current 10/day, planned <span id="act_mg3_bag_hire"></span>)</label> 
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
@@ -754,8 +753,7 @@
                     <div class="col-md-1 col-sm-1 input-group">lb/day</div>           
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-4 col-sm-4" style="color:red;padding-left: 40px">(Hint: bag limit for private is)</label> 
-                    <label class="col-md-4 col-sm-4"></label>
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for private is, current 10/day, planned <span id="act_mg3_bag_private"></span>)</label> 
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
@@ -772,8 +770,7 @@
                     </div>            
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-4 col-sm-4" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is)</label> 
-                    <label class="col-md-4 col-sm-4"></label>
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is, current 10/day, planned <span id="input_mg3_bag_hire"></span>)</label>
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
@@ -792,8 +789,7 @@
                     <div class="col-md-1 col-sm- input-group">day</div>            
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-4 col-sm-4" style="color:red;padding-left: 40px">(Hint: bag limit for private is)</label> 
-                    <label class="col-md-4 col-sm-4"></label>
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for private is, current 10/day, planned <span id="input_mg3_bag_private"></span>)</label> 
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>

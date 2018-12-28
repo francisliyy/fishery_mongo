@@ -234,7 +234,7 @@ $(function() {
 		onNext:function(parent, panel){
 			$panel = $(panel);
 			if($panel.prop("id")=='generalinput'){
-				console.log('in step1');
+				
 				if(!$("#form-generalinput").valid()){
 					return false;
 				}
@@ -248,13 +248,13 @@ $(function() {
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
-		                     console.log("save step1 successfully");
+		                     console.log("save generalinput successfully");
 		                 }
 		            }
 		        });
 				
 			}else if($panel.prop("id")=='stockassessment'){
-				console.log('in step3');
+				
 				if(!$("#form-stockassessment").valid()){
 					return false;
 				}
@@ -270,7 +270,7 @@ $(function() {
 		            success: function(data) 
 		            {
 		            	 if(data.status=1){
-		                     console.log("save step3 successfully");
+		                     console.log("save stockassessment successfully");
 		                 }
 		            }
 		        });				
@@ -324,7 +324,7 @@ $(function() {
 		            }
 		        });
 			}else if($panel.prop("id")=='recruitment'){
-				console.log('in step6');
+				
 				var data = {};
 				if(!$("#form-recruitment").valid()){
 					return false;
@@ -363,13 +363,12 @@ $(function() {
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
-		                     console.log("save step6 successfully");
+		                     console.log("save recruitment successfully");
 		                 }
 		            }
 		        });
 			}else if($panel.prop("id")=='mgtopt1'){
 
-				console.log('in step8');
 				if(!$("#form-mgtopt1").valid()){
 					return false;
 				};
@@ -462,6 +461,10 @@ $(function() {
 		        						,'mg3_private':mg3_private,'mg3_dismortality':mg3_dismortality}),
 		            success: function(data) 
 		            {
+		            	$("#act_mg3_bag_hire").text(mg3_forhire);
+		            	$("#act_mg3_bag_private").text(mg3_private);
+		            	$("#input_mg3_bag_hire").text(mg3_forhire);
+		            	$("#input_mg3_bag_private").text(mg3_private);
 		            }
 		        });
 			}else if($panel.prop("id")=='mgtopt4'){
