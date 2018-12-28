@@ -406,7 +406,6 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt2'){
 
-				console.log('in step9');
 				if(!$("#form-mgtopt2").valid()){
 					return false;
 				};
@@ -440,7 +439,6 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt3'){
 
-				console.log('in step10');
 				if(!$("#form-mgtopt3").valid()){
 					return false;
 				};
@@ -449,7 +447,18 @@ $(function() {
 				var mg3_recreational = $("#mg3_recreational").val()||0;
 				var mg3_forhire = $("#mg3_forhire").val()||0;
 				var mg3_private = $("#mg3_private").val()||0;
-				var mg3_dismortality = $("#mg3_dismortality").val()||0;
+				var	mg3_rec_east_open = $("#mg3_rec_east_open").val()||0;
+				var	mg3_rec_east_closed = $("#mg3_rec_east_closed").val()||0;
+				var	mg3_rec_west_open = $("#mg3_rec_west_open").val()||0;
+				var	mg3_rec_west_closed = $("#mg3_rec_west_closed").val()||0;
+				var	mg3_comhard_east_open = $("#mg3_comhard_east_open").val()||0;
+				var	mg3_comhard_east_closed = $("#mg3_comhard_east_closed").val()||0;
+				var	mg3_comhard_west_open = $("#mg3_comhard_west_open").val()||0;
+				var	mg3_comhard_west_closed = $("#mg3_comhard_west_closed").val()||0;
+				var	mg3_comlong_east_open = $("#mg3_comlong_east_open").val()||0;
+				var	mg3_comlong_east_closed = $("#mg3_comlong_east_closed").val()||0;
+				var	mg3_comlong_west_open = $("#mg3_comlong_west_open").val()||0;
+				var	mg3_comlong_west_closed = $("#mg3_comlong_west_closed").val()||0;
 
 				$.ajax({
 		            cache: false,
@@ -458,7 +467,10 @@ $(function() {
 		            dataType: "json",
 		            contentType:"application/json",
 		            data: JSON.stringify({'mg3_commercial':mg3_commercial,'mg3_recreational':mg3_recreational,'mg3_forhire':mg3_forhire
-		        						,'mg3_private':mg3_private,'mg3_dismortality':mg3_dismortality}),
+		        						,'mg3_private':mg3_private,'mg3_rec_east_open':mg3_rec_east_open,'mg3_rec_east_closed':mg3_rec_east_closed
+		        						,'mg3_rec_west_open':mg3_rec_west_open,'mg3_rec_west_closed':mg3_rec_west_closed,'mg3_comhard_east_open':mg3_comhard_east_open,'mg3_comhard_east_closed':mg3_comhard_east_closed
+		        						,'mg3_comhard_west_open':mg3_comhard_west_open,'mg3_comhard_west_closed':mg3_comhard_west_closed,'mg3_comlong_east_open':mg3_comlong_east_open,'mg3_comlong_east_closed':mg3_comlong_east_closed
+		        						,'mg3_comlong_west_open':mg3_comlong_west_open,'mg3_comlong_west_closed':mg3_comlong_west_closed}),
 		            success: function(data) 
 		            {
 		            	$("#act_mg3_bag_hire").text(mg3_forhire);

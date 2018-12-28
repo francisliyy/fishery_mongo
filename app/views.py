@@ -521,7 +521,6 @@ class ProStepView(BaseView):
             pgi.mg3_recreational = inputparam['mg3_recreational'];
             pgi.mg3_forhire = inputparam['mg3_forhire'];
             pgi.mg3_private = inputparam['mg3_private'];
-            pgi.mg3_dismortality = inputparam['mg3_dismortality'];
 
             pgi.save()
 

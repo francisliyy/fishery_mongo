@@ -192,6 +192,19 @@ class GlobalSettings(Document):
 	sec_act_pri = DecimalField()
 	sec_act_hire = DecimalField()
 
+	mg3_rec_east_open = DecimalField()
+	mg3_rec_east_closed = DecimalField()
+	mg3_rec_west_open = DecimalField()
+	mg3_rec_west_closed = DecimalField()
+	mg3_comhard_east_open = DecimalField()
+	mg3_comhard_east_closed = DecimalField()
+	mg3_comhard_west_open = DecimalField()
+	mg3_comhard_west_closed = DecimalField()
+	mg3_comlong_east_open = DecimalField()
+	mg3_comlong_east_closed = DecimalField()
+	mg3_comlong_west_open = DecimalField()
+	mg3_comlong_west_closed = DecimalField()
+
 	#step10
 	mg4_season = StringField(max_length=2)
 
@@ -308,7 +321,18 @@ class ProcessGenInput(Document):
 	mg3_recreational = DecimalField()
 	mg3_forhire = DecimalField()
 	mg3_private = DecimalField()
-	mg3_dismortality = DecimalField()
+	mg3_rec_east_open = DecimalField()
+	mg3_rec_east_closed = DecimalField()
+	mg3_rec_west_open = DecimalField()
+	mg3_rec_west_closed = DecimalField()
+	mg3_comhard_east_open = DecimalField()
+	mg3_comhard_east_closed = DecimalField()
+	mg3_comhard_west_open = DecimalField()
+	mg3_comhard_west_closed = DecimalField()
+	mg3_comlong_east_open = DecimalField()
+	mg3_comlong_east_closed = DecimalField()
+	mg3_comlong_west_open = DecimalField()
+	mg3_comlong_west_closed = DecimalField()
 
 	#step10
 	mg4_season = StringField(max_length=2)
