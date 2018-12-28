@@ -104,7 +104,26 @@ class GuestProcessCmpView(ModelView):
         """
             do something with the item record
         """
-        return self.render_template('/stgCompare.html')
+        mseNames = []
+        greenMeans = []
+        totalCatchs = []
+        catchVars = []
+        terminalSSBs = []
+        lowestSSBs = []
+        for process in item:            
+            pgi = ProcessGenInput.objects(process_id=process.id).first()
+            result = MseResultList.objects(process_gen_id=str(pgi.id)).first()            
+            mseNames.append(process.process_name)
+            greenMeans.append(result.Year_to_green_mean)
+            totalCatchs.append(result.total_catch_MSEcomp)
+            catchVars.append(result.catch_var_MSEcomp)
+            terminalSSBs.append(result.terminal_SSB_MSEcomp)
+            lowestSSBs.append(result.lowest_SSB_MSEcomp)
+        """
+            do something with the item record
+        """
+        return self.render_template('/stgCompare_guest.html',mseNames=json.dumps(mseNames),greenMeans=json.dumps(greenMeans),totalCatchs=json.dumps(totalCatchs)
+            ,catchVars=json.dumps(catchVars),terminalSSBs=json.dumps(terminalSSBs),lowestSSBs=json.dumps(lowestSSBs))
 
 class ProcessView(ModelView):
 

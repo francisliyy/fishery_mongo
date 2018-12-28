@@ -407,8 +407,6 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt2'){
 
-				$("#mask").addClass('lmask');
-
 				console.log('in step9');
 				if(!$("#form-mgtopt2").valid()){
 					return false;
@@ -438,24 +436,7 @@ $(function() {
 		        						,"sec_act_pri":sec_act_pri,"sec_act_hire":sec_act_hire}),
 		            success: function(data) 
 		            {
-		            	 var bio_f_percent = $("#ex1").val()||0.0588;
-
-		                 if(data.status=1){
-		                     console.log("save step9 successfully");
-		                     $.ajax({
-					            cache: false,
-					            url: 'http://localhost:8000/runmse',
-					            crossDomain: true,
-					            type: "POST",
-					            dataType: "json",
-					            data: JSON.stringify({"store_path":"~/","seed_file":"seed.csv","F_plan":bio_f_percent/0.75,"comm":sec_commercial,"process_gen_id":$("#step1_id").data("step1id")}),
-					            success: function(data) 
-					            {
-					                 $("#mask").removeClass('lmask');
-					                 drawChart(data);
-					            }
-					        });
-		                 }
+		            	 
 		            }
 		        });
 			}else if($panel.prop("id")=='mgtopt3'){
@@ -513,6 +494,8 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='mgtopt5'){
 
+				$("#mask").addClass('lmask');
+
 				console.log('in step12');
 				if(!$("#form-mgtopt5").valid()){
 					return false;
@@ -555,6 +538,24 @@ $(function() {
 		        						,'mg5_close_percent2':mg5_close_percent2,'mg5_close_stock2':mg5_close_stock2,'mg5_close_cv2':mg5_close_cv2}),
 		            success: function(data) 
 		            {
+		            	var bio_f_percent = $("#ex1").val()||0.0588;
+
+		                 if(data.status=1){
+		                     console.log("save step9 successfully");
+		                     $.ajax({
+					            cache: false,
+					            url: 'http://gomredsnappermsetool.fiu.edu:8000/runmse',
+					            crossDomain: true,
+					            type: "POST",
+					            dataType: "json",
+					            data: JSON.stringify({"store_path":"~/","seed_file":"seed.csv","F_plan":bio_f_percent/0.75,"comm":sec_commercial,"process_gen_id":$("#step1_id").data("step1id")}),
+					            success: function(data) 
+					            {
+					                 $("#mask").removeClass('lmask');
+					                 drawChart(data);
+					            }
+					        });
+		                 }
 		            }
 		        });
 			}
