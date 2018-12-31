@@ -485,9 +485,9 @@ $(function() {
 				$("#mask").addClass('lmask');
 
 				console.log('in step11');
-				if(!$("#form-mgtopt4").valid()){
-					return false;
-				};
+				//if(!$("#form-mgtopt4").valid()){
+				//	return false;
+				//};
 				var data = {};
 				var mg4_season = $('input[name=mg4_season]:checked', '#form-mgtopt4').val()||'1';
 				var mg4_act_catch_hire = $("#mg4_act_catch_hire:enabled").val()||0;
