@@ -472,13 +472,14 @@ $(function() {
 		        						,'mg3_comhard_west_open':mg3_comhard_west_open,'mg3_comhard_west_closed':mg3_comhard_west_closed,'mg3_comlong_east_open':mg3_comlong_east_open,'mg3_comlong_east_closed':mg3_comlong_east_closed
 		        						,'mg3_comlong_west_open':mg3_comlong_west_open,'mg3_comlong_west_closed':mg3_comlong_west_closed}),
 		            success: function(data) 
-		            {
-		            	$("#act_mg3_bag_hire").text(mg3_forhire);
-		            	$("#act_mg3_bag_private").text(mg3_private);
-		            	$("#input_mg3_bag_hire").text(mg3_forhire);
-		            	$("#input_mg3_bag_private").text(mg3_private);
+		            {		            	
 		            }
+
 		        });
+		        	$("#act_mg3_bag_hire").text(mg3_forhire);
+	            	$("#act_mg3_bag_private").text(mg3_private);
+	            	$("#input_mg3_bag_hire").text(mg3_forhire);
+	            	$("#input_mg3_bag_private").text(mg3_private);
 			}else if($panel.prop("id")=='mgtopt4'){
 
 				console.log('in step11');
