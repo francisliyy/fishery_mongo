@@ -187,6 +187,8 @@ class GlobalSettings(Document):
 	sec_commercial = DecimalField()
 	sec_hire = DecimalField()
 	sec_private = DecimalField()
+	sec_headboat = DecimalField()
+	sec_charterboat = DecimalField()
 	sec_pstar = DecimalField()
 	sec_act_com = DecimalField()
 	sec_act_pri = DecimalField()
@@ -279,8 +281,6 @@ class ProcessGenInput(Document):
 	fml1MbhmR0 = DecimalField()
 	fml1MbhmSteep = DecimalField()
 
-
-
 	#step8
 	bio_catch_mt = DecimalField()
 	bio_f_percent = FloatField()
@@ -342,26 +342,6 @@ class ProcessGenInput(Document):
 	mg4_hire_length = DecimalField()
 	mg4_input_private = DecimalField()
 	mg4_private_length = DecimalField()
-
-	#step11
-	mg5_shrimp_percent1 = DecimalField()
-	mg5_shrimp_stock1 = DecimalField()
-	mg5_shrimp_cv1 = DecimalField()
-	mg5_shrimp_percent2 = DecimalField()
-	mg5_shrimp_stock2 = DecimalField()
-	mg5_shrimp_cv2 = DecimalField()
-	mg5_IFQ_percent1 = DecimalField()
-	mg5_IFQ_stock1 = DecimalField()
-	mg5_IFQ_cv1 = DecimalField()
-	mg5_IFQ_percent2 = DecimalField()
-	mg5_IFQ_stock2 = DecimalField()
-	mg5_IFQ_cv2 = DecimalField()
-	mg5_close_percent1 = DecimalField()
-	mg5_close_stock1 = DecimalField()
-	mg5_close_cv1 = DecimalField()
-	mg5_close_percent2 = DecimalField()
-	mg5_close_stock2 = DecimalField()
-	mg5_close_cv2 = DecimalField()
 
 	#extral
 	extra_F = EmbeddedDocumentListField(extraF)
