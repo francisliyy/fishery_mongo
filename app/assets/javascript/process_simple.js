@@ -482,6 +482,8 @@ $(function() {
 	            	$("#input_mg3_bag_private").text(mg3_private);
 			}else if($panel.prop("id")=='mgtopt4'){
 
+				$("#mask").addClass('lmask');
+
 				console.log('in step11');
 				if(!$("#form-mgtopt4").valid()){
 					return false;
