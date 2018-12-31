@@ -215,7 +215,10 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
                     ,',"ip_cv_1":',ip_cv_1,',"ip_cv_2":',ip_cv_2,',"bioParam":',bioParamJson,',"nm_cv_1":',nm_cv_1,',"nm_cv_2":',nm_cv_2,',"nm_m":"c","mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"stock1_amount":23,"stock2_amount":77,"recruitTypeStock1":"2","formulaStock1":"1","fromFmlStock1":"2","fml1MbhmSSB0":',0,',"fml1MbhmR0":',0,',"fml1MbhmSteep":',0
                     ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF"'
-                    ,',"sec_recreational":51,"sec_commercial":49,"sec_hire":45.1,"sec_private":54.9,"sec_headboat":50,"sec_charterboat":50,"sec_pstar":42.7,"sec_act_com":0,"sec_act_pri":20,"sec_act_hire":20,"mg4_season":"1"'
+                    ,',"sec_recreational":51,"sec_commercial":49,"sec_hire":45.1,"sec_private":54.9,"sec_headboat":50,"sec_charterboat":50,"sec_pstar":42.7,"sec_act_com":0,"sec_act_pri":20,"sec_act_hire":20'
+                    ,',"mg3_commercial":13,"mg3_recreational":16,"mg3_forhire":10,"mg3_private":10,"mg3_rec_east_open":11.8,"mg3_rec_east_closed":11.8,"mg3_rec_west_open":11.8,"mg3_rec_west_closed":11.8'
+                    ,',"mg3_comhard_east_open":56,"mg3_comhard_east_closed":55,"mg3_comhard_west_open":60,"mg3_comhard_west_closed":74,"mg3_comlong_east_open":64,"mg3_comlong_east_closed":55,"mg3_comlong_west_open":81,"mg3_comlong_west_closed":74'
+                    ,',"mg4_season":"1","mg4_act_catch_hire":"220000","mg4_act_catch_private":"220000","mg4_input_hire":"220000","mg4_hire_length":"30","mg4_input_private":"220000","mg4_private_length":"30"'
                     ,',"extra_F":',extraFJson,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")

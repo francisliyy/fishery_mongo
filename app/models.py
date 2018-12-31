@@ -194,6 +194,11 @@ class GlobalSettings(Document):
 	sec_act_pri = DecimalField()
 	sec_act_hire = DecimalField()
 
+	#step9
+	mg3_commercial = DecimalField()
+	mg3_recreational = DecimalField()
+	mg3_forhire = DecimalField()
+	mg3_private = DecimalField()
 	mg3_rec_east_open = DecimalField()
 	mg3_rec_east_closed = DecimalField()
 	mg3_rec_west_open = DecimalField()
@@ -209,6 +214,12 @@ class GlobalSettings(Document):
 
 	#step10
 	mg4_season = StringField(max_length=2)
+	mg4_act_catch_hire = DecimalField()
+	mg4_act_catch_private = DecimalField()
+	mg4_input_hire = DecimalField()
+	mg4_hire_length = DecimalField()
+	mg4_input_private = DecimalField()
+	mg4_private_length = DecimalField()
 
 	#extral
 	extra_F = EmbeddedDocumentListField(extraF)

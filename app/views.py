@@ -220,7 +220,31 @@ class ProcessView(ModelView):
             step1.sec_act_pri = global_settings.sec_act_pri
             step1.sec_act_hire = global_settings.sec_act_hire
 
+            step1.mg3_commercial = global_settings.mg3_commercial
+            step1.mg3_recreational = global_settings.mg3_recreational
+            step1.mg3_forhire = global_settings.mg3_forhire
+            step1.mg3_private = global_settings.mg3_private
+            step1.mg3_rec_east_open = global_settings.mg3_rec_east_open
+            step1.mg3_rec_east_closed = global_settings.mg3_rec_east_closed
+            step1.mg3_rec_west_open = global_settings.mg3_rec_west_open
+            step1.mg3_rec_west_closed = global_settings.mg3_rec_west_closed
+            step1.mg3_comhard_east_open = global_settings.mg3_comhard_east_open
+            step1.mg3_comhard_east_closed = global_settings.mg3_comhard_east_closed
+            step1.mg3_comhard_west_open = global_settings.mg3_comhard_west_open
+            step1.mg3_comhard_west_closed = global_settings.mg3_comhard_west_closed
+            step1.mg3_comlong_east_open = global_settings.mg3_comlong_east_open
+            step1.mg3_comlong_east_closed = global_settings.mg3_comlong_east_closed
+            step1.mg3_comlong_west_open = global_settings.mg3_comlong_west_open
+            step1.mg3_comlong_west_closed = global_settings.mg3_comlong_west_closed
+
+            #step10
             step1.mg4_season = global_settings.mg4_season
+            step1.mg4_act_catch_hire = global_settings.mg4_act_catch_hire
+            step1.mg4_act_catch_private = global_settings.mg4_act_catch_private
+            step1.mg4_input_hire = global_settings.mg4_input_hire
+            step1.mg4_hire_length = global_settings.mg4_hire_length
+            step1.mg4_input_private = global_settings.mg4_input_private
+            step1.mg4_private_length = global_settings.mg4_private_length
 
                 #extral
             step1.extra_F = global_settings.extra_F
