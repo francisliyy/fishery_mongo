@@ -17,6 +17,12 @@ $(function() {
 
 			}else if($panel.prop("id")=='mgtopt1'){
 
+			}else if($panel.prop("id")=='mgtopt2'){
+
+			}else if($panel.prop("id")=='mgtopt3'){
+
+			}else if($panel.prop("id")=='mgtopt4'){
+
 				$("#mask").addClass('lmask');
 
 				
@@ -158,7 +164,7 @@ $(function() {
 		        showRefresh: false,                  //是否显示刷新按钮
 		        minimumCountColumns: 2,             //最少允许的列数
 		        clickToSelect: true,                //是否启用点击选中行
-		        height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+		        //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
 		        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
 		        showToggle:false,                    //是否显示详细视图和列表视图的切换按钮
 		        cardView: false,                    //是否显示详细视图
@@ -243,7 +249,7 @@ $(function() {
 		        showRefresh: false,                  //是否显示刷新按钮
 		        minimumCountColumns: 2,             //最少允许的列数
 		        clickToSelect: true,                //是否启用点击选中行
-		        height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+		        //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
 		        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
 		        showToggle:false,                    //是否显示详细视图和列表视图的切换按钮
 		        cardView: false,                    //是否显示详细视图
@@ -338,7 +344,7 @@ $(function() {
 		        showRefresh: false,                  //是否显示刷新按钮
 		        minimumCountColumns: 2,             //最少允许的列数
 		        clickToSelect: true,                //是否启用点击选中行
-		        height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+		        //height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
 		        uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
 		        showToggle:false,                    //是否显示详细视图和列表视图的切换按钮
 		        cardView: false,                    //是否显示详细视图
@@ -418,9 +424,7 @@ $(function() {
 	getIniPopu();
 	getBioParam();
 	getMortality();
-	$("#form-recruitment input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1'],input[name^='auto1']").prop('disabled','disabled');
-	$("#form-recruitment input[name='historySt2'],input[name^='hst2'],input[name='formulaStock2'],input[name^='fml2'],input[name^='auto2']").prop('disabled','disabled');
-    /* initialization end*/
+	  /* initialization end*/
 	
 
 	// 
