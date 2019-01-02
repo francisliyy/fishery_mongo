@@ -389,6 +389,7 @@ $(function() {
 				//var bio_harvest_radio = $('input[name=bio_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
 				var bio_catch_mt = $("#bio_catch_mt:enabled").val()||0;
 				var bio_f_percent = $("#bio_f_percent:enabled").val()||0;
+				var mg1_cv = $("#mg1_cv:enabled").val()||0;
 
 				var hrt_harvest_rule = $('input[name=hrt_harvest_rule]:checked', '#form-mgtopt1').val()||'CC';
 				var hrt_threshold1 = $("#hrt_threshold1").val()||0;
@@ -400,7 +401,7 @@ $(function() {
 				var hst_f_thh1 = $("#hst_f_thh1:enabled").val()||0;
 				var hst_f_thh2 = $('#hst_f_thh2:enabled').val()||0;
 
-				var bio_f_percent = $("#ex1").val()||0.0588;
+				//var bio_f_percent = $("#ex1").val()||0.0588;
 				var sec_recreational = $("#sec_recreational").val()||0;
 				var sec_commercial = $("#sec_commercial").val()||0;
 
@@ -410,7 +411,7 @@ $(function() {
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify({'bio_f_percent':bio_f_percent}),
+		            data: JSON.stringify({'bio_f_percent':bio_f_percent,'mg1_cv':mg1_cv}),
 		            success: function(data) 
 		            {
 		            }
@@ -487,10 +488,10 @@ $(function() {
 		            }
 
 		        });
-		        	$("#act_mg3_bag_hire").text(mg3_forhire);
-	            	$("#act_mg3_bag_private").text(mg3_private);
-	            	$("#input_mg3_bag_hire").text(mg3_forhire);
-	            	$("#input_mg3_bag_private").text(mg3_private);
+		        	$("#act_mg3_bag_hire").text(mg3_forhire||10);
+	            	$("#act_mg3_bag_private").text(mg3_private||10);
+	            	$("#input_mg3_bag_hire").text(mg3_forhire||10);
+	            	$("#input_mg3_bag_private").text(mg3_private||10);
 			}else if($panel.prop("id")=='mgtopt4'){
 
 				$("#mask").addClass('lmask');
@@ -519,7 +520,7 @@ $(function() {
 		        						,'mg4_input_private':mg4_input_private,'mg4_private_length':mg4_private_length}),
 		            success: function(data) 
 		            {
-		            	var bio_f_percent = $("#ex1").val()||0.0588;
+		            	var bio_f_percent = $("#bio_f_percent:enabled").val()||0.0588;
 
 		                 if(data.status=1){
 		                     console.log("save step9 successfully");
@@ -1208,7 +1209,7 @@ $(function() {
 	/* part 10 Management Options Part IV end */
 
 	$('#stock1_amount').on('input',function(e) {
-		cur_value = parseInt($(this).val());
+		cur_value = parseFloat($(this).val());
 		console.log(cur_value);
 		if(cur_value>=0&&cur_value<=100){
 			$('#stock2_amount').val(100-cur_value);
@@ -1217,19 +1218,28 @@ $(function() {
 	});
 
 	$('#sec_recreational').on('input',function(e) {
-		cur_value = parseInt($(this).val());
+		cur_value = parseFloat($(this).val());
 		console.log(cur_value);
 		if(cur_value>=0&&cur_value<=100){
-			$('#sec_commercial').val(100-cur_value);
+			$('#sec_commercial').val(100.00-cur_value);
 		}
 
 	});
 
 	$('#sec_hire').on('input',function(e) {
-		cur_value = parseInt($(this).val());
+		cur_value = parseFloat($(this).val());
 		console.log(cur_value);
 		if(cur_value>=0&&cur_value<=100){
-			$('#sec_private').val(100-cur_value);
+			$('#sec_private').val(100.00-cur_value);
+		}
+
+	});
+
+	$('#sec_headboat').on('input',function(e) {
+		cur_value = parseFloat($(this).val());
+		console.log(cur_value);
+		if(cur_value>=0&&cur_value<=100){
+			$('#sec_charterboat').val(100.00-cur_value);
 		}
 
 	});

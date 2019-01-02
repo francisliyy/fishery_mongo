@@ -220,11 +220,14 @@ class ProcessView(ModelView):
             step1.bio_catch_mt = global_settings.ssb_msy
             step1.bio_f_percent = global_settings.f_msy
             step1.hrt_harvest_rule = global_settings.hrt_harvest_rule
+            step1.mg1_cv = global_settings.mg1_cv
 
             step1.sec_recreational = global_settings.sec_recreational
             step1.sec_commercial = global_settings.sec_commercial
             step1.sec_hire = global_settings.sec_hire
             step1.sec_private = global_settings.sec_private
+            step1.sec_headboat = global_settings.sec_headboat
+            step1.sec_charterboat = global_settings.sec_charterboat
             step1.sec_pstar = global_settings.sec_pstar
             step1.sec_act_com = global_settings.sec_act_com
             step1.sec_act_pri = global_settings.sec_act_pri
@@ -525,6 +528,7 @@ class ProStepView(BaseView):
             inputparam = request.get_json()
 
             pgi.bio_f_percent = float(inputparam['bio_f_percent'])/0.75;
+            pgi.mg1_cv = inputparam['mg1_cv'];
 
             pgi.save()
 

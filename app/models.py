@@ -193,6 +193,7 @@ class GlobalSettings(Document):
 	ssb_msy = DecimalField()
 	f_msy = FloatField()
 	hrt_harvest_rule = StringField(max_length=2)
+	mg1_cv = DecimalField()
 	#step8
 	sec_recreational = DecimalField()
 	sec_commercial = DecimalField()
@@ -208,8 +209,8 @@ class GlobalSettings(Document):
 	#step9
 	mg3_commercial = DecimalField()
 	mg3_recreational = DecimalField()
-	mg3_forhire = DecimalField()
-	mg3_private = DecimalField()
+	mg3_forhire = IntField()
+	mg3_private = IntField()
 	mg3_rec_east_open = DecimalField()
 	mg3_rec_east_closed = DecimalField()
 	mg3_rec_west_open = DecimalField()
@@ -316,6 +317,7 @@ class ProcessGenInput(Document):
 	bio_catch_mt = DecimalField()
 	bio_f_percent = FloatField()
 	hrt_harvest_rule = StringField(max_length=2)
+	mg1_cv = DecimalField()
 
 	bio_biomass_points = DecimalField()
 	bio_harvest_radio = StringField(max_length=2)
@@ -350,8 +352,8 @@ class ProcessGenInput(Document):
 	#step9
 	mg3_commercial = DecimalField()
 	mg3_recreational = DecimalField()
-	mg3_forhire = DecimalField()
-	mg3_private = DecimalField()
+	mg3_forhire = IntField()
+	mg3_private = IntField()
 	mg3_rec_east_open = DecimalField()
 	mg3_rec_east_closed = DecimalField()
 	mg3_rec_west_open = DecimalField()

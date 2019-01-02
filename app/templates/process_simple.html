@@ -605,6 +605,12 @@
                     <div id="ruleChart" class="col-md-7 input-group" style="height:400px">
                     </div>                                       
                   </div>
+                  <div class="form-group form-inline">
+                      <label class="col-md-3 col-sm-3 control-label">CV for Implementation Uncertainty</label>
+                      <div class="col-md-4 col-sm-4 input-group">   
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px" id="mg1_cv" name="mg1_cv" value="{{process_step1['mg1_cv'] if process_step1['mg1_cv'] != None else ''}}" placeholder=""/>
+                      </div>             
+                    </div> 
 
                 </form>
               </div> <!--/.panel-body -->
@@ -670,7 +676,7 @@
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div> 
                     <div class="col-md-2 col-sm-2 input-group">      
-                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" id="sec_charterboat" name="sec_charterboat" value="{{process_step1['sec_charterboat'] if process_step1['sec_charterboat'] != None else ''}}" placeholder=""/>
+                        <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;width:auto;" readonly id="sec_charterboat" name="sec_charterboat" value="{{process_step1['sec_charterboat'] if process_step1['sec_charterboat'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
                     <div class="col-md-1 col-sm-1 input-group">
@@ -784,13 +790,13 @@
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">Recreational East Open</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Recreational Stock1 Open</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_rec_east_open" name="mg3_rec_east_open" value="{{process_step1['mg3_rec_east_open'] if process_step1['mg3_rec_east_open'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
-                    <div class="col-md-3 col-sm-3 input-group">Recreational East Closed</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Recreational Stock1 Closed</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_rec_east_closed" name="mg3_rec_east_closed" value="{{process_step1['mg3_rec_east_closed'] if process_step1['mg3_rec_east_closed'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
@@ -798,13 +804,13 @@
 
                    <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">Recreational West Open</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Recreational Stock2 Open</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_rec_west_open" name="mg3_rec_west_open" value="{{process_step1['mg3_rec_west_open'] if process_step1['mg3_rec_west_open'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
-                    <div class="col-md-3 col-sm-3 input-group">Recreational West Closed</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Recreational Stock2 Closed</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_rec_west_closed" name="mg3_rec_west_closed" value="{{process_step1['mg3_rec_west_closed'] if process_step1['mg3_rec_west_closed'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
@@ -812,13 +818,13 @@
 
                    <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial hardline East Open</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial hardline Stock1 Open</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comhard_east_open" name="mg3_comhard_east_open" value="{{process_step1['mg3_comhard_east_open'] if process_step1['mg3_comhard_east_open'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial hardline East Closed</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial hardline Stock1 Closed</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comhard_east_closed" name="mg3_comhard_east_closed" value="{{process_step1['mg3_comhard_east_closed'] if process_step1['mg3_comhard_east_closed'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
@@ -826,13 +832,13 @@
 
                    <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial hardline West Open</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial hardline Stock2 Open</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comhard_west_open" name="mg3_comhard_west_open" value="{{process_step1['mg3_comhard_west_open'] if process_step1['mg3_comhard_west_open'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial hardline West Closed</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial hardline Stock2 Closed</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comhard_west_closed" name="mg3_comhard_west_closed" value="{{process_step1['mg3_comhard_west_closed'] if process_step1['mg3_comhard_west_closed'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
@@ -840,13 +846,13 @@
 
                    <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial longline East Open</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial longline Stock1 Open</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comlong_east_open" name="mg3_comlong_east_open" value="{{process_step1['mg3_comlong_east_open'] if process_step1['mg3_comlong_east_open'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial longline East Closed</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial longline Stock1 Closed</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comlong_east_closed" name="mg3_comlong_east_closed" value="{{process_step1['mg3_comlong_east_closed'] if process_step1['mg3_comlong_east_closed'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
@@ -854,13 +860,13 @@
 
                    <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial longline West Open</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial longline Stock2 Open</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comlong_west_open" name="mg3_comlong_west_open" value="{{process_step1['mg3_comlong_west_open'] if process_step1['mg3_comlong_west_open'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
-                    <div class="col-md-3 col-sm-3 input-group">Commecial longline West Closed</div>
-                    <div class="col-md-1 col-sm-1 input-group">      
+                    <div class="col-md-2 col-sm-2 input-group">Commecial longline Stock2 Closed</div>
+                    <div class="col-md-2 col-sm-2 input-group">      
                         <input maxlength="5" type="number" class="form-control" style="border-radius: 4px;" id="mg3_comlong_west_closed" name="mg3_comlong_west_closed" value="{{process_step1['mg3_comlong_west_closed'] if process_step1['mg3_comlong_west_closed'] != None else ''}}" placeholder=""/>
                     </div>
                     <div class="col-md-1 col-sm-1 input-group">%</div>
@@ -890,7 +896,7 @@
                     </div>            
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is, current 10/day, planned <span id="act_mg3_bag_hire"></span>)</label> 
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is, current 10/day, planned <span id="act_mg3_bag_hire">{{process_step1['mg3_forhire'] if process_step1['mg3_forhire'] != None else ''}}</span>/day)</label> 
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
@@ -901,7 +907,7 @@
                     <div class="col-md-1 col-sm-1 input-group">lb/day</div>           
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for private is, current 10/day, planned <span id="act_mg3_bag_private"></span>)</label> 
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for private is, current 10/day, planned <span id="act_mg3_bag_private">{{process_step1['mg3_private'] if process_step1['mg3_private'] != None else ''}}</span>/day)</label> 
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
@@ -918,7 +924,7 @@
                     </div>            
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is, current 10/day, planned <span id="input_mg3_bag_hire"></span>)</label>
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for for hire is, current 10/day, planned <span id="input_mg3_bag_hire">{{process_step1['mg3_forhire'] if process_step1['mg3_forhire'] != None else ''}}</span>/day)</label>
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>
@@ -937,7 +943,7 @@
                     <div class="col-md-1 col-sm- input-group">day</div>            
                   </div>
                   <div class="" style="height:34px;margin-top:10px">                   
-                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for private is, current 10/day, planned <span id="input_mg3_bag_private"></span>)</label> 
+                    <label class="col-md-8 col-sm-8" style="color:red;padding-left: 40px">(Hint: bag limit for private is, current 10/day, planned <span id="input_mg3_bag_private">{{process_step1['mg3_private'] if process_step1['mg3_private'] != None else ''}}</span>/day)</label> 
                   </div>
                   <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group"></div>

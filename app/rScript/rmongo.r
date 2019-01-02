@@ -241,7 +241,7 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
                     ,',"ip_cv_1":',ip_cv_1,',"ip_cv_2":',ip_cv_2,',"bioParam":',bioParamJson,',"nm_cv_1":',nm_cv_1,',"nm_cv_2":',nm_cv_2,',"nm_m":"c","mortality":',mortalityParamJson,',"simple_spawning":',simple_spawning
                     ,',"cvForRecu":',sigma_R,',"stock1_amount":23,"stock2_amount":77,"recruitTypeStock1":"2","formulaStock1":"1","fromFmlStock1":"2","fml1MbhmSSB0":',SSB0,',"fml1MbhmR0":',R0_late,',"fml1MbhmR0_early":',R0_early,',"fml1MbhmSteep":',steepness
                     ,',"hst1_lower":',Rhist_late_25,',"hst1_median":',Rhist_late_50,',"hst1_mean":',Rhist_late_mean,',"hst1_upper":',Rhist_late_75,',"hst1_lower_early":',Rhist_early_25,',"hst1_median_early":',Rhist_early_50,',"hst1_mean_early":',Rhist_early_mean,',"hst1_upper_early":',Rhist_early_75
-                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF"'
+                    ,',"ssb_msy":',ssb_msy,',"f_msy":',f_msy,',"hrt_harvest_rule":"CF","mg1_cv":0.2'
                     ,',"sec_recreational":51,"sec_commercial":49,"sec_hire":45.1,"sec_private":54.9,"sec_headboat":50,"sec_charterboat":50,"sec_pstar":42.7,"sec_act_com":0,"sec_act_pri":20,"sec_act_hire":20'
                     ,',"mg3_commercial":13,"mg3_recreational":16,"mg3_forhire":10,"mg3_private":10,"mg3_rec_east_open":11.8,"mg3_rec_east_closed":11.8,"mg3_rec_west_open":11.8,"mg3_rec_west_closed":11.8'
                     ,',"mg3_comhard_east_open":56,"mg3_comhard_east_closed":55,"mg3_comhard_west_open":60,"mg3_comhard_west_closed":74,"mg3_comlong_east_open":64,"mg3_comlong_east_closed":55,"mg3_comlong_west_open":81,"mg3_comlong_west_closed":74'

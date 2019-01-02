@@ -893,7 +893,12 @@ $(function() {
 		          name:'F',
 		          min:0.03,
 		          max:0.08,
-		          axisLabel:{show:false},
+		          axisLabel:{
+		            show:true,
+		            formatter: function(value){
+		              if(value==0.0588) return 'MFMT';
+		            }
+		          },
 		          axisTick:{show:false},
 		          splitLine:{show:false},		         
 		        }
@@ -951,7 +956,7 @@ $(function() {
     		ruleChartOption.series[0].markLine.data[2][0].yAxis=value-0.005;
     		ruleChartOption.series[0].markLine.data[2][1].yAxis=value;
     		ruleChart.setOption(ruleChartOption);
-    		$("#bio_f_percent").val(parseFloat(value/0.75).toPrecision(3));
+    		//$("#bio_f_percent").val(parseFloat(value/0.75).toPrecision(3));
 
 			return 'Current value: ' + value;
 		}
