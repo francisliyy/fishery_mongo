@@ -411,7 +411,7 @@ $(function() {
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify({'bio_f_percent':bio_f_percent,'mg1_cv':mg1_cv}),
+		            data: JSON.stringify({'mg1_cv':mg1_cv}),
 		            success: function(data) 
 		            {
 		            }

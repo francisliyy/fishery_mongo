@@ -527,7 +527,7 @@ class ProStepView(BaseView):
             pgi = ProcessGenInput.objects(id=pk).first()    		
             inputparam = request.get_json()
 
-            pgi.bio_f_percent = float(inputparam['bio_f_percent'])/0.75;
+            #pgi.bio_f_percent = float(inputparam['bio_f_percent'])/0.75;
             pgi.mg1_cv = inputparam['mg1_cv'];
 
             pgi.save()
