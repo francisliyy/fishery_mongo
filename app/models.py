@@ -167,15 +167,26 @@ class GlobalSettings(Document):
 	nm_m = StringField(max_length=2)
 	mortality = EmbeddedDocumentListField(Mortality)
 	#STEP6
+	cvForRecu = DecimalField()
 	stock1_amount = DecimalField()
 	stock2_amount = DecimalField()
 	recruitTypeStock1 = StringField(max_length=2)
 	fromHisStock1 = StringField(max_length=2)	
 
+	hst1_lower = DecimalField()
+	hst1_median = DecimalField()
+	hst1_mean = DecimalField()
+	hst1_upper = DecimalField()
+	hst1_lower_early = DecimalField()
+	hst1_median_early = DecimalField()
+	hst1_mean_early = DecimalField()
+	hst1_upper_early = DecimalField()
+
 	formulaStock1 = StringField(max_length=2)
 	fromFmlStock1 = StringField(max_length=2)
 	fml1MbhmSSB0 = DecimalField()
 	fml1MbhmR0 = DecimalField()
+	fml1MbhmR0_early = DecimalField()
 	fml1MbhmSteep = DecimalField()
 
 	#step7
@@ -286,10 +297,19 @@ class ProcessGenInput(Document):
 	hst1_other = DecimalField()
 	hst1_cal = DecimalField()
 
+	historySt1_early = StringField(max_length=2)
+	hst1_lower_early = DecimalField()
+	hst1_median_early = DecimalField()
+	hst1_mean_early = DecimalField()
+	hst1_upper_early = DecimalField()
+	hst1_other_early = DecimalField()
+	hst1_cal_early = DecimalField()
+
 	formulaStock1 = StringField(max_length=2)
 	fromFmlStock1 = StringField(max_length=2)
 	fml1MbhmSSB0 = DecimalField()
 	fml1MbhmR0 = DecimalField()
+	fml1MbhmR0_early = DecimalField()
 	fml1MbhmSteep = DecimalField()
 
 	#step8

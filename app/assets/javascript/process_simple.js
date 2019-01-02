@@ -336,6 +336,7 @@ $(function() {
 				var stock2_amount = $("#stock2_amount").val()||0;			
 				var recruitTypeStock1 = $('input[name=recruitTypeStock1]:checked', '#form-recruitment').val()||'1';
 				var fromHisStock1 = $('input[name=fromHisStock1]:checked', '#form-recruitment').val()||'0';
+				
 				var historySt1 = $('input[name=historySt1]:checked', '#form-recruitment').val()||'0';
 				var hst1_lower = $("#hst1_lower:enabled").val()||0;
 				var hst1_median = $("#hst1_median:enabled").val()||0;
@@ -344,11 +345,20 @@ $(function() {
 				var hst1_other = $('#hst1_other:enabled').val()||0;
 				var hst1_cal = $('#hst1_cal:enabled').val()||0;
 
+				var historySt1_early = $('input[name=historySt1_early]:checked', '#form-recruitment').val()||'0';
+				var hst1_lower_early = $("#hst1_lower_early:enabled").val()||0;
+				var hst1_median_early = $("#hst1_median_early:enabled").val()||0;
+				var hst1_mean_early = $("#hst1_mean_early:enabled").val()||0;
+				var hst1_upper_early = $("#hst1_upper_early:enabled").val()||0;
+				var hst1_other_early = $('#hst1_other_early:enabled').val()||0;
+				var hst1_cal_early = $('#hst1_cal_early:enabled').val()||0;
+
 				var formulaStock1 = $('input[name=formulaStock1]:checked', '#form-recruitment').val()||'0';
 				var fromFmlStock1 = $('input[name=fromFmlStock1]:checked', '#form-recruitment').val()||'0';
 				var fml1MbhmSSB0 = $("#fml1MbhmSSB0:enabled").val()||0;
 				var fml1MbhmR0 = $("#fml1MbhmR0:enabled").val()||0;
 				var fml1MbhmSteep = $("#fml1MbhmSteep:enabled").val()||0;
+				var fml1MbhmR0_early = $("#fml1MbhmR0_early:enabled").val()||0;
 
 
 				$.ajax({
@@ -359,7 +369,8 @@ $(function() {
 		            contentType:"application/json",
 		            data: JSON.stringify({'cvForRecu':cvForRecu,'stock1_amount':stock1_amount,'stock2_amount':stock2_amount,'recruitTypeStock1':recruitTypeStock1,'fromHisStock1':fromHisStock1
 		        ,'historySt1':historySt1,'hst1_lower':hst1_lower,'hst1_median':hst1_median,'hst1_mean':hst1_mean,'hst1_upper':hst1_upper,'hst1_other':hst1_other,'hst1_cal':hst1_cal
-		        ,'formulaStock1':formulaStock1,'fromFmlStock1':fromFmlStock1,'fml1MbhmSSB0':fml1MbhmSSB0,'fml1MbhmR0':fml1MbhmR0,'fml1MbhmSteep':fml1MbhmSteep}),
+		        ,'historySt1_early':historySt1_early,'hst1_lower_early':hst1_lower_early,'hst1_median_early':hst1_median_early,'hst1_mean_early':hst1_mean_early,'hst1_upper_early':hst1_upper_early,'hst1_other_early':hst1_other_early,'hst1_cal_early':hst1_cal_early
+		        ,'formulaStock1':formulaStock1,'fromFmlStock1':fromFmlStock1,'fml1MbhmSSB0':fml1MbhmSSB0,'fml1MbhmR0':fml1MbhmR0,'fml1MbhmSteep':fml1MbhmSteep,'fml1MbhmR0_early':fml1MbhmR0_early}),
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
@@ -1078,18 +1089,21 @@ $(function() {
 	/* part 7 recruitment start */
 	function initRecrument(){
 
-		$("#form-recruitment input[name='fromHisStock1'],input[name='fromFmlStock1'],input[name='historySt1'],input[name^='hst1'],input[name='formulaStock1'],input[name^='fml1']").prop('disabled','disabled');
+		$("#form-recruitment input[name='fromHisStock1'],input[name='fromFmlStock1'],input[name='historySt1'],input[name^='hst1'],input[name='historySt1_early'],input[name^='hst1_early'],input[name='formulaStock1'],input[name^='fml1']").prop('disabled','disabled');
 		
 		if($("input[name='recruitTypeStock1']:checked").val()==1){
 
 			$("#form-recruitment input[name='fromHisStock1']").prop('disabled','');
 			if(!$("input[name='fromHisStock1']:checked").val()||$("input[name='fromHisStock1']:checked").val()==0){
 				$("#hisin1984").prop('checked', true);
+				$("input[name='historySt1_early']").prop('disabled','');
 			}
 			if($("input[name='historySt1']:checked").val()!=0){
-				initHistroySt(1);
+				initHistroySt();
 			}
-			
+			if($("input[name='historySt1_early']:checked").val()!=0){
+				initHistroySt('_early');
+			}			
 			$("#form-recruitment input[name='formulaStock1']").prop('checked', false);
 			$("#form-recruitment input[name='fromFmlStock1']").prop('checked', false);			
 
@@ -1097,11 +1111,15 @@ $(function() {
 
 			$("#form-recruitment input[name='fromFmlStock1']").prop('disabled','');
 			$("#form-recruitment input[name='formulaStock1']").prop('disabled','');
+			$("input[name^='fml1Mbhm']").prop('disabled','');
 			$("#fml1radioBHM").prop('checked', true);
 			if(!$("input[name='fromFmlStock1']:checked").val()||$("input[name='fromFmlStock1']:checked").val()==0){
 				$("#fmlin1984").prop('checked', true);
-			}else if($("input[name='fromFmlStock1']:checked").val()==2){
-				$("input[name^='fml1Mbhm']").prop('disabled','');
+				$("input[name='fml1MbhmR0']").prop('disabled','disabled');
+				$("input[name='fml1MbhmR0_early']").prop('disabled','');
+			}else if($("input[name='fromFmlStock1']:checked").val()==2){				
+				$("input[name='fml1MbhmR0']").prop('disabled','');
+				$("input[name='fml1MbhmR0_early']").prop('disabled','disabled');
 			}			
 			$("#form-recruitment input[name='fromHisStock1']").prop('checked', false);
 			$("#form-recruitment input[name='historySt1']").prop('checked', false);
@@ -1110,14 +1128,12 @@ $(function() {
 
 	}
 
-	function initHistroySt(stock){
-		$("input[name^='hst"+stock+"']").prop('disabled','disabled');
-		$("#hst"+stock+"_btn").removeClass('btn-disable btn-danger').addClass('btn-disable');
-		$("input[name='historySt"+stock+"']:checked").val()==1&&$("#hst"+stock+"_lower").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==2&&$("#hst"+stock+"_median").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==3&&$("#hst"+stock+"_mean").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==4&&$("#hst"+stock+"_upper").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
-		$("input[name='historySt"+stock+"']:checked").val()==5&&$("#hst"+stock+"_other").prop('disabled','')&&$("#hst"+stock+"_btn").prop('disabled','').removeClass('btn-disable btn-danger').addClass('btn-danger')&&$("#hst"+stock+"_cal").prop('disabled','')&&$("input[name^='historySt"+stock+"']").prop('disabled','');
+	function initHistroySt(early){
+		$("input[name^='hst1']").prop('disabled','disabled');
+		$("input[name='historySt1"+early+"']:checked").val()==1&&$("#hst1"+"_lower"+early).prop('disabled','');
+		$("input[name='historySt1"+early+"']:checked").val()==2&&$("#hst1"+"_median"+early).prop('disabled','');
+		$("input[name='historySt1"+early+"']:checked").val()==3&&$("#hst1"+"_mean"+early).prop('disabled','');
+		$("input[name='historySt1"+early+"']:checked").val()==4&&$("#hst1"+"_upper"+early).prop('disabled','');
 	}
 
 	$("input[name='recruitTypeStock1']").on('change', function(event) {
@@ -1129,36 +1145,36 @@ $(function() {
 
 	$("input[name='fromHisStock1']").on('change', function(event) {
 		event.preventDefault();
-		/* Act on the event */
-		initHistroySt(1);		
+		/* Act on the event */		
 		if($("input[name='fromHisStock1']:checked").val()==1){
 			$("input[name='historySt1']").prop('disabled','disabled');
-			$("input[name^='hst1']").prop('disabled','disabled');
+			$("input[name='historySt1_early']").prop('disabled','');
+			initHistroySt("_early");
 		}else if($("input[name='fromHisStock1']:checked").val()==2){
-			
-			//$("#form-recruitment input[name='formulaStock1']").prop('disabled','');
 			$("input[name='historySt1']").prop('disabled','');
-			
-
+			$("input[name='historySt1_early']").prop('disabled','disabled');
+			initHistroySt();
 		}
 	
 	});
 
 	$("input[name='historySt1']").on('change', function(event) {
-		initHistroySt(1);
+		initHistroySt('');
+	});
+
+	$("input[name='historySt1_early']").on('change', function(event) {
+		initHistroySt('_early');
 	});
 
 	$("input[name='fromFmlStock1']").on('change', function(event) {
 		event.preventDefault();
 		/* Act on the event */
 		if($("input[name='fromFmlStock1']:checked").val()==1){
-			$("input[name^='fml1Mbhm']").prop('disabled','disabled');
-
+			$("input[name='fml1MbhmR0']").prop('disabled','disabled');
+			$("input[name='fml1MbhmR0_early']").prop('disabled','');
 		}else if($("input[name='fromFmlStock1']:checked").val()==2){
-			
-			$("input[name^='fml1Mbhm']").prop('disabled','');
-			
-
+			$("input[name='fml1MbhmR0']").prop('disabled','');
+			$("input[name='fml1MbhmR0_early']").prop('disabled','disabled');
 		}
 	});
 

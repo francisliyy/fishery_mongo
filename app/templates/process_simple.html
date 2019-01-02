@@ -363,6 +363,68 @@
                   </div>
                   <div class="form-group form-inline" ><!-- first part -->
                     <div class="col-md-12 col-sm-12">
+                      <div style="margin:0 0px 10px 70px">Historical R (1000s)</div>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 80px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1_early" id="hst1_earlyradio1" value="1" {{'checked' if process_step1['historySt1_early']=='1'}}>Lower 25%
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_lower_early" name="hst1_lower_early" value="{{process_step1['hst1_lower_early'] if process_step1['hst1_lower_early'] != None else ''}}" placeholder=""/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 80px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1_early" id="hst1_earlyradio2" value="2" {{'checked' if process_step1['historySt1_early']=='2'}}>Median
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_median_early" name="hst1_median_early" value="{{process_step1['hst1_median_early'] if process_step1['hst1_median_early'] != None else ''}}" placeholder=""/>
+                    </div>                    
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 80px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1_early" id="hst1_earlyradio3" value="3" {{'checked' if process_step1['historySt1_early']=='3'}}>Mean
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_mean_early" name="hst1_mean_early" value="{{process_step1['hst1_mean_early'] if process_step1['hst1_mean_early'] != None else ''}}" placeholder=""/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 80px">
+                      <label class="radio-inline" >
+                          <input type="radio" name="historySt1_early" id="hst1_earlyradio4" value="4" {{'checked' if process_step1['historySt1_early']=='4'}}>Upper 25%
+                      </label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_upper_early" name="hst1_upper_early" value="{{process_step1['hst1_upper_early'] if process_step1['hst1_upper_early'] != None else ''}}" placeholder=""/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" >
+                    <div class="col-md-2 col-sm-2 input-group" style="margin-left: 80px">
+                      <label class="radio-inline" >
+                          Other percentile
+                      </label>
+                    </div>
+                    <div class="col-md-2 col-sm-2 input-group" >                           
+                      <input maxlength="5" type="number" class="input-txt form-control" id="hst1_other_early" name="hst1_other_early" value="{{process_step1['hst1_other_early'] if process_step1['hst1_other_early'] != None else ''}}" placeholder=""/>
+                    </div>
+                     <div class="col-md-1 col-sm-1 input-group" >%</div>
+                    <div class="col-md-1 col-sm-1 input-group" >
+                      <button id="hst1_btn" type="button" class="btn btn-disable">Calculate</button>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group" >                           
+                      <input maxlength="11" type="number" class="input-txt form-control" id="hst1_cal_early" name="hst1_cal_early" value="{{process_step1['hst1_cal_early'] if process_step1['hst1_cal_early'] != None else ''}}" placeholder=""/>
+                    </div>
+                  </div>
+                  <div class="form-group form-inline" ><!-- first part -->
+                    <div class="col-md-12 col-sm-12">
                       <input type="radio" style="margin:0 10px 10px 30px" name="fromHisStock1" id="hisout1984" value="2" {{'checked' if process_step1['fromHisStock1']=='2'}}>Exclude Years Before 1984
                     </div>
                   </div>
@@ -414,7 +476,7 @@
                   <div class="form-group form-inline" >
                     <div class="col-md-2 col-sm-2 input-group" style="margin-left: 80px">
                       <label class="radio-inline" >
-                          <input type="radio" name="historySt1" id="hst1radio5" value="5" {{'checked' if process_step1['historySt1']=='5'}}>Other percentile
+                          Other percentile
                       </label>
                     </div>
                     <div class="col-md-2 col-sm-2 input-group" >                           
@@ -446,25 +508,33 @@
                       <input type="radio" style="margin:0 10px 10px 50px" name="fromFmlStock1" id="fmlin1984" value="1" {{'checked' if process_step1['fromFmlStock1']=='1'}}>R0 Include Years Before 1984
                     </div>
                   </div>
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 100px"> 
+                      <label class="control-label">R0</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmR0_early" name="fml1MbhmR0_early" value="{{process_step1['fml1MbhmR0_early'] if process_step1['fml1MbhmR0_early'] != None else ''}}" placeholder=""/> 
+                    </div>            
+                  </div>
                   <div class="form-group form-inline" ><!-- first part -->
                     <div class="col-md-12 col-sm-12">
                       <input type="radio" style="margin:0 10px 10px 50px" name="fromFmlStock1" id="fmlout1984" value="2" {{'checked' if process_step1['fromFmlStock1']=='2'}}>R0 Exclude Years Before 1984
                     </div>
                   </div>
-                  <div class="form-group form-inline" style="margin-top:80px">
+                  <div class="form-group form-inline">
+                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 100px"> 
+                      <label class="control-label">R0</label>
+                    </div>
+                    <div class="col-md-3 col-sm-3 input-group">   
+                      <input type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmR0" name="fml1MbhmR0" value="{{process_step1['fml1MbhmR0'] if process_step1['fml1MbhmR0'] != None else ''}}" placeholder=""/> 
+                    </div>            
+                  </div>
+                  <div class="form-group form-inline">
                     <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px">
                       <label class="control-label">SSB0</label>
                     </div>
                     <div class="col-md-3 col-sm-3 input-group">   
                       <input type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmSSB0" name="fml1MbhmSSB0" value="{{process_step1['fml1MbhmSSB0'] if process_step1['fml1MbhmSSB0'] != None else ''}}" placeholder=""/> 
-                    </div>            
-                  </div>
-                  <div class="form-group form-inline">
-                    <div class="col-md-1 col-sm-1 input-group" style="margin-left: 60px"> 
-                      <label class="control-label">R0</label>
-                    </div>
-                    <div class="col-md-3 col-sm-3 input-group">   
-                      <input type="number" class="form-control" style="border-radius: 4px" id="fml1MbhmR0" name="fml1MbhmR0" value="{{process_step1['fml1MbhmR0'] if process_step1['fml1MbhmR0'] != None else ''}}" placeholder=""/> 
                     </div>            
                   </div>
                   <div class="form-group form-inline">

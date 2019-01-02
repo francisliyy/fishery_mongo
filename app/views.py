@@ -198,13 +198,23 @@ class ProcessView(ModelView):
             step1.nm_cv_2 = global_settings.nm_cv_2
             step1.nm_m = global_settings.nm_m
 
+            step1.cvForRecu = global_settings.cvForRecu
             step1.stock1_amount = global_settings.stock1_amount
             step1.stock2_amount = global_settings.stock2_amount
             step1.recruitTypeStock1 = global_settings.recruitTypeStock1
             step1.formulaStock1 = global_settings.formulaStock1
             step1.fromFmlStock1 = global_settings.fromFmlStock1
+            step1.hst1_lower = global_settings.hst1_lower
+            step1.hst1_median = global_settings.hst1_median
+            step1.hst1_mean = global_settings.hst1_mean
+            step1.hst1_upper = global_settings.hst1_upper
+            step1.hst1_lower_early = global_settings.hst1_lower_early
+            step1.hst1_median_early = global_settings.hst1_median_early
+            step1.hst1_mean_early = global_settings.hst1_mean_early
+            step1.hst1_upper_early = global_settings.hst1_upper_early
             step1.fml1MbhmSSB0 = global_settings.fml1MbhmSSB0
             step1.fml1MbhmR0 = global_settings.fml1MbhmR0
+            step1.fml1MbhmR0_early = global_settings.fml1MbhmR0_early
             step1.fml1MbhmSteep = global_settings.fml1MbhmSteep
 
             step1.bio_catch_mt = global_settings.ssb_msy
@@ -478,6 +488,7 @@ class ProStepView(BaseView):
             pgi.stock2_amount = inputparam['stock2_amount']
             pgi.recruitTypeStock1 = inputparam['recruitTypeStock1']
             pgi.fromHisStock1 = inputparam['fromHisStock1']
+
             pgi.historySt1 = inputparam['historySt1']
             pgi.hst1_lower = inputparam['hst1_lower']
             pgi.hst1_median = inputparam['hst1_median']
@@ -485,11 +496,21 @@ class ProStepView(BaseView):
             pgi.hst1_upper = inputparam['hst1_upper']
             pgi.hst1_other = inputparam['hst1_other']
             pgi.hst1_cal = inputparam['hst1_cal']
+
+            pgi.historySt1_early = inputparam['historySt1_early']
+            pgi.hst1_lower_early = inputparam['hst1_lower_early']
+            pgi.hst1_median_early = inputparam['hst1_median_early']
+            pgi.hst1_mean_early = inputparam['hst1_mean_early']
+            pgi.hst1_upper_early = inputparam['hst1_upper_early']
+            pgi.hst1_other_early = inputparam['hst1_other_early']
+            pgi.hst1_cal_early = inputparam['hst1_cal_early']
+
             pgi.formulaStock1 = inputparam['formulaStock1']
             pgi.fromFmlStock1 = inputparam['fromFmlStock1']
             pgi.fml1MbhmSSB0 = inputparam['fml1MbhmSSB0']
             pgi.fml1MbhmR0 = inputparam['fml1MbhmR0']
             pgi.fml1MbhmSteep = inputparam['fml1MbhmSteep']
+            pgi.fml1MbhmR0_early = inputparam['fml1MbhmR0_early']
 
             pgi.save()
 
