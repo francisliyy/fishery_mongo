@@ -410,24 +410,29 @@ class ProStepView(BaseView):
     @expose('/step4/<string:pk>', methods = ['PUT'])
     @has_access
     def step4(self,pk):
-    	if request.method == 'PUT':
-    		pgi = ProcessGenInput.objects(id=pk).first()
-    		originlist = request.get_json()
-    		populist = []
-    		
-    		for popu in originlist:
-    			inipopu = GIIniPopulation()
-    			inipopu.age_1 = int(popu['age_1'])
-    			inipopu.stock_1_mean = float(popu['stock_1_mean'])
-    			inipopu.cv_1 = float(popu['cv_1'])
-    			inipopu.stock_2_mean = float(popu['stock_2_mean'])
-    			inipopu.cv_2 = float(popu['cv_2'])
-    			populist.append(inipopu)    			
-    		
-    		pgi.iniPopu = populist
-    		pgi.save()
+        if request.method == 'PUT':
+            pgi = ProcessGenInput.objects(id=pk).first()
+            inputparam = request.get_json()
+            
+            pgi.ip_cv_1 = float(inputparam['ip_cv_1']);
+            pgi.ip_cv_2 = float(inputparam['ip_cv_2']);
 
-    	return Response(json.dumps({'status':1}), mimetype='application/json')
+            originlist = inputparam['initPopu']
+
+            populist = []
+
+            for popu in originlist:
+                inipopu = GIIniPopulation()
+                inipopu.age_1 = int(popu['age_1'])
+                inipopu.stock_1_mean = float(popu['stock_1_mean'])
+                inipopu.cv_1 = float(popu['cv_1'])
+                inipopu.stock_2_mean = float(popu['stock_2_mean'])
+                inipopu.cv_2 = float(popu['cv_2'])
+                populist.append(inipopu)    			
+            pgi.iniPopu = populist
+            pgi.save()
+
+        return Response(json.dumps({'status':1}), mimetype='application/json')
 
     @expose('/step5/<string:pk>', methods = ['PUT'])
     @has_access
@@ -458,6 +463,10 @@ class ProStepView(BaseView):
             pgi = ProcessGenInput.objects(id=pk).first()    		
             inputparam = request.get_json()
 
+            pgi.mortality_complexity = int(inputparam['mortality_complexity']);
+            pgi.nm_m = inputparam['nm_m'];
+            pgi.nm_cv_1 = float(inputparam['nm_cv_1']);
+            pgi.nm_cv_2 = float(inputparam['nm_cv_2']);
             pgi.simple_spawning = float(inputparam['simple_spawning']);
 
             mortalitylist = inputparam['mortality']
@@ -570,6 +579,18 @@ class ProStepView(BaseView):
             pgi.mg3_recreational = inputparam['mg3_recreational'];
             pgi.mg3_forhire = inputparam['mg3_forhire'];
             pgi.mg3_private = inputparam['mg3_private'];
+            pgi.mg3_rec_east_open = inputparam['mg3_rec_east_open'];
+            pgi.mg3_rec_east_closed = inputparam['mg3_rec_east_closed'];
+            pgi.mg3_rec_west_open = inputparam['mg3_rec_west_open'];
+            pgi.mg3_rec_west_closed = inputparam['mg3_rec_west_closed'];
+            pgi.mg3_comhard_east_open = inputparam['mg3_comhard_east_open'];
+            pgi.mg3_comhard_east_closed = inputparam['mg3_comhard_east_closed'];
+            pgi.mg3_comhard_west_open = inputparam['mg3_comhard_west_open'];
+            pgi.mg3_comhard_west_closed = inputparam['mg3_comhard_west_closed'];
+            pgi.mg3_comlong_east_open = inputparam['mg3_comlong_east_open'];
+            pgi.mg3_comlong_east_closed = inputparam['mg3_comlong_east_closed'];
+            pgi.mg3_comlong_west_open = inputparam['mg3_comlong_west_open'];
+            pgi.mg3_comlong_west_closed = inputparam['mg3_comlong_west_closed'];
 
             pgi.save()
 

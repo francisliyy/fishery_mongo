@@ -275,13 +275,17 @@ $(function() {
 		            }
 		        });				
 			}else if($panel.prop("id")=='ibParam'){
+
+				var ip_cv_1 = parseFloat($("#ip_cv_1").val())||0;
+				var ip_cv_2 = parseFloat($("#ip_cv_2").val())||0;
+
 				$.ajax({
 		            cache: false,
 		            url: $SCRIPT_ROOT+'/prostepview/step4/'+$("#step1_id").data("step1id"),
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify($("#table-ibParam").bootstrapTable('getData')),
+		            data: JSON.stringify({"ip_cv_1":ip_cv_1,"ip_cv_2":ip_cv_2,"initPopu":$("#table-ibParam").bootstrapTable('getData')}),
 		            success: function(data) 
 		            {
 		                 if(data.status=1){
@@ -306,8 +310,12 @@ $(function() {
 		        });
 			}else if($panel.prop("id")=='naturalmortality'){				
 				var inputdata = {};
+
+				var nm_m = $('input[name=nm_m]:checked', '#form-naturalmortality').val()||'c';
+				var nm_cv_1 = parseFloat($("#nm_cv_1").val())||0;
+				var nm_cv_2 = parseFloat($("#nm_cv_2").val())||0;
 				var simple_spawning = parseFloat($("#simple_spawning").val())||0;
-					inputdata =JSON.stringify({"mortality_complexity":2,
+					inputdata =JSON.stringify({"mortality_complexity":2,"nm_m":nm_m,"nm_cv_1":nm_cv_1,"nm_cv_2":nm_cv_2,
 		            "simple_spawning":simple_spawning,mortality:$("#table-mortality").bootstrapTable('getData')});	
 				$.ajax({
 		            cache: false,
