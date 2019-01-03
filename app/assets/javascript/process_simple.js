@@ -1023,7 +1023,7 @@ $(function() {
 		    				editable:false,
 		    			},
 		    			{
-		    				title:"Mean 1 (year<sup>-1</sup>)",
+		    				title:"Mean M for Stock 1 (year<sup>-1</sup>)",
 		    				field:"mean_1",
 		    				editable: {
 			                    type: 'text',
@@ -1051,7 +1051,7 @@ $(function() {
 		    			},
 		    			*/
 		    			{
-		    				title:"Mean 2 (year<sup>-1</sup>)",
+		    				title:"Mean M for Stock 2 (year<sup>-1</sup>)",
 		    				field:"mean_2",
 		    				editable: {
 			                    type: 'text',
