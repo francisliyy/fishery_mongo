@@ -317,6 +317,7 @@ class ProcessGenInput(Document):
 	bio_catch_mt = DecimalField()
 	bio_f_percent = FloatField()
 	hrt_harvest_rule = StringField(max_length=2)
+	harvest_level = FloatField()
 	mg1_cv = DecimalField()
 
 	bio_biomass_points = DecimalField()

@@ -397,6 +397,7 @@ $(function() {
 				//var bio_harvest_radio = $('input[name=bio_harvest_radio]:checked', '#form-mgtopt1').val()||'C';
 				var bio_catch_mt = $("#bio_catch_mt:enabled").val()||0;
 				var bio_f_percent = $("#bio_f_percent:enabled").val()||0;
+				var harvest_level = $("#ex1").val()||0.0588*0.75;
 				var mg1_cv = $("#mg1_cv:enabled").val()||0;
 
 				var hrt_harvest_rule = $('input[name=hrt_harvest_rule]:checked', '#form-mgtopt1').val()||'CC';
@@ -409,7 +410,7 @@ $(function() {
 				var hst_f_thh1 = $("#hst_f_thh1:enabled").val()||0;
 				var hst_f_thh2 = $('#hst_f_thh2:enabled').val()||0;
 
-				//var bio_f_percent = $("#ex1").val()||0.0588;
+				
 				var sec_recreational = $("#sec_recreational").val()||0;
 				var sec_commercial = $("#sec_commercial").val()||0;
 
@@ -419,7 +420,7 @@ $(function() {
 		            type: "PUT",
 		            dataType: "json",
 		            contentType:"application/json",
-		            data: JSON.stringify({'mg1_cv':mg1_cv}),
+		            data: JSON.stringify({'harvest_level':harvest_level,'mg1_cv':mg1_cv}),
 		            success: function(data) 
 		            {
 		            }
@@ -1190,9 +1191,7 @@ $(function() {
 	/* part 7 recruitment end */
 
 	/* part 10 Management Options Part IV start */
-	$("input[name='mg4_season']").on('change', function(event) {
-		event.preventDefault();
-		/* Act on the event */
+	function initMg4(){
 		if($("input[name='mg4_season']:checked").val()==1){
 			$("#mg4_act_catch_hire").prop('disabled','');
 			$("#mg4_act_catch_private").prop('disabled','');
@@ -1212,6 +1211,11 @@ $(function() {
 			
 
 		}
+	}
+	$("input[name='mg4_season']").on('change', function(event) {
+		event.preventDefault();
+		/* Act on the event */
+		initMg4();
 	});
 
 	/* part 10 Management Options Part IV end */
@@ -1259,6 +1263,7 @@ $(function() {
 	getBioParam();
 	getMortality();
 	initRecrument();
+	initMg4();
     /* initialization end*/
 	
 

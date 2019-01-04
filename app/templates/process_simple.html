@@ -597,7 +597,7 @@
                   <div class="form-group">
                     <label class="col-md-4 control-label"></label>
                     <div class="col-md-7 col-sm-7 input-group well" style="margin-bottom: -20px" align="center">
-                      <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0.03" data-slider-max="0.08" data-slider-step="0.0002" data-slider-value="{{process_step1['bio_f_percent']*0.75}}"/>
+                      <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0.03" data-slider-max="0.08" data-slider-step="0.0002" data-slider-value="{{process_step1['harvest_level'] if process_step1['harvest_level'] != None else process_step1['bio_f_percent']*0.75}}"/>
                     </div>
                   </div>
                   <div class="form-group">

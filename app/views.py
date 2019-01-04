@@ -537,6 +537,7 @@ class ProStepView(BaseView):
             inputparam = request.get_json()
 
             #pgi.bio_f_percent = float(inputparam['bio_f_percent'])/0.75;
+            pgi.harvest_level = float(inputparam['harvest_level']);
             pgi.mg1_cv = inputparam['mg1_cv'];
 
             pgi.save()

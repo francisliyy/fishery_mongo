@@ -29,9 +29,9 @@ function drawChart(chartdata){
 	    }
 		        $.each(chartdata,function(index, el) {
 		        	comm_xAxisData.push(el.year);
-					comm_low_data.push(el.Catch_comm_025);
-					comm_median_data.push(el.Catch_comm_median);
-					comm_high_data.push(el.Catch_comm_975);
+					comm_low_data.push(el.AM_comm_025);
+					comm_median_data.push(el.AM_comm_median);
+					comm_high_data.push(el.AM_comm_975);
 		        });
 				comm_option = {
 				    title: {
@@ -126,9 +126,9 @@ function drawChart(chartdata){
 
 		        $.each(chartdata,function(index, el) {
 		        	recr_xAxisData.push(el.year);
-					recr_low_data.push(el.Catch_recr_025);
-					recr_median_data.push(el.Catch_recr_median);
-					recr_high_data.push(el.Catch_recr_975);
+					recr_low_data.push(el.AM_recr_025);
+					recr_median_data.push(el.AM_recr_median);
+					recr_high_data.push(el.AM_recr_975);
 		        });
 				recr_option = {
 				    title: {
