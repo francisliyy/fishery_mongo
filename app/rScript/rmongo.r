@@ -1272,7 +1272,9 @@ function(store_path,seed_file,F_plan,comm,process_gen_id){
   print(mongo.oid.from.string(process_gen_id))
   resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson,',"Year_to_green_mean":',Year_to_green_mean
                           ,',"total_catch_MSEcomp":',total_catch_MSEcomp,',"catch_var_MSEcomp":',catch_var_MSEcomp
-                          ,',"terminal_SSB_MSEcomp":',terminal_SSB_MSEcomp,',"lowest_SSB_MSEcomp":',lowest_SSB_MSEcomp,'}',sep = "")
+                          ,',"terminal_SSB_MSEcomp":',terminal_SSB_MSEcomp,',"lowest_SSB_MSEcomp":',lowest_SSB_MSEcomp
+                          ,',"total_recr_catch_MSEcomp":',total_recr_catch_MSEcomp,',"catch_recr_var_MSEcomp":',catch_recr_var_MSEcomp
+                          ,',"total_comm_catch_MSEcomp":',total_comm_catch_MSEcomp,',"catch_comm_var_MSEcomp":',catch_comm_var_MSEcomp,'}',sep = "")
   result_list<-mongo.bson.from.JSON(resultListJson)
   mongo.remove(mongo,"admin.mse_result_list",list(process_gen_id=process_gen_id))
   mongo.insert(mongo,"admin.mse_result_list",result_list)

@@ -535,7 +535,7 @@ $(function() {
 		                     console.log("save step9 successfully");
 		                     $.ajax({
 					            cache: false,
-					            url: 'http://gomredsnappermsetool.fiu.edu:8000/runmse',
+					            url: 'http://localhost:8000/runmse',
 					            crossDomain: true,
 					            type: "POST",
 					            dataType: "json",

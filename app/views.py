@@ -309,6 +309,10 @@ class ProcessCmpView(ModelView):
         catchVars = []
         terminalSSBs = []
         lowestSSBs = []
+        totalRecrCatchs = []
+        catchRecrVars = []
+        totalCommCatchs = []
+        catchCommVars = []
         for process in item:            
             pgi = ProcessGenInput.objects(process_id=process.id).first()
             result = MseResultList.objects(process_gen_id=str(pgi.id)).first()            
@@ -318,11 +322,17 @@ class ProcessCmpView(ModelView):
             catchVars.append(result.catch_var_MSEcomp)
             terminalSSBs.append(result.terminal_SSB_MSEcomp)
             lowestSSBs.append(result.lowest_SSB_MSEcomp)
+            totalRecrCatchs.append(result.total_recr_catch_MSEcomp)
+            catchRecrVars.append(result.catch_recr_var_MSEcomp)
+            totalCommCatchs.append(result.total_comm_catch_MSEcomp)
+            catchCommVars.append(result.catch_comm_var_MSEcomp)
         """
             do something with the item record
         """
         return self.render_template('/stgCompare.html',mseNames=json.dumps(mseNames),greenMeans=json.dumps(greenMeans),totalCatchs=json.dumps(totalCatchs)
-            ,catchVars=json.dumps(catchVars),terminalSSBs=json.dumps(terminalSSBs),lowestSSBs=json.dumps(lowestSSBs))
+            ,catchVars=json.dumps(catchVars),terminalSSBs=json.dumps(terminalSSBs),lowestSSBs=json.dumps(lowestSSBs)
+            ,totalRecrCatchs=json.dumps(totalRecrCatchs),catchRecrVars=json.dumps(catchRecrVars)
+            ,totalCommCatchs=json.dumps(totalCommCatchs),catchCommVars=json.dumps(catchCommVars))
 
 """
 class AdvancedMseView(BaseView):
