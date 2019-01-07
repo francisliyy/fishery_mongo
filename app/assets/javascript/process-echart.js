@@ -1,4 +1,4 @@
-
+var kobeChart1 = echarts.init(document.getElementById('kobe-plot'));
 var bioChart1 = echarts.init(document.getElementById('bio-chart-1'));
 var sprChart1 = echarts.init(document.getElementById('spr-chart-1'));
 var hireChart1 = echarts.init(document.getElementById('hire-chart'));
@@ -9,6 +9,10 @@ var ssb1Chart1 = echarts.init(document.getElementById('ssb1-chart'));
 var ssb2Chart1 = echarts.init(document.getElementById('ssb2-chart'));
 
 function drawChart(chartdata){
+
+    var kobe_low_data = [];
+    var kobe_median_data = [];
+    var kobe_high_data = [];
 
 	var comm_xAxisData = [];
     var comm_low_data = [];
@@ -49,6 +53,129 @@ function drawChart(chartdata){
     var ssb2_low_data = [];
     var ssb2_median_data = [];
     var ssb2_high_data = [];
+
+    var kobe_option = {
+    	title: {
+	        text: 'Kobe Plot'
+	    },
+	    color:[ 
+		    '#1e90ff'
+		], 
+	    tooltip: {
+	        trigger: 'axis',
+	        axisPointer: {
+                type: 'cross',
+                animation: false,
+                label: {
+                    backgroundColor: '#ccc',
+                    borderColor: '#aaa',
+                    borderWidth: 1,
+                    shadowBlur: 0,
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    textStyle: {
+                        color: '#222'
+                    }
+                }
+            },
+            formatter: function (params) {
+            	console.log(params);
+                //return params[0].axisValue + '<br />' + params[2].seriesName+" : "+params[2].value+ '<br />' + params[1].seriesName+" : "+params[1].value+ '<br />'+ params[0].seriesName+" : " + params[0].value;
+            }
+	    },
+	    xAxis : [
+	        {
+	            type : 'value',
+	          //min:0,
+	            //max:2,
+	            name:'SSB',
+	          axisLabel:{
+	            show:true,
+	            formatter: function(value){
+	              //if(value==1) return 'MSSF';
+	          	},
+	          },
+	          splitNumber:1,
+	          splitLine:{show:true},
+	          splitArea:{
+	            show:true,
+	            areaStyle:{
+	                     color: [
+	        'rgb(255,0,0,0.5)',    
+	        'rgb(77, 255, 0,0.5)',
+	  
+	    		]}}
+	        }
+	    ],
+	    yAxis : [
+	        {
+	          type : 'value',
+	          name:'F',
+	          //min:0,
+	          //max:2,
+	          axisLabel:{
+	            show:true,
+	            formatter: function(value){
+	              //if(value==1) return 'MFMT';
+	            }
+	          },
+	          splitNumber:1,
+	          splitLine:{show:true},
+	          splitArea:{
+	            show:true,
+	             areaStyle:{
+	                     color: [
+	        'rgb(77, 255, 0,0.5)',
+	        'rgb(255,0,0,0.5)', 
+	    		]}}
+	        }
+	    ],
+	    series : [
+	        {
+	            name:'Lower 2.5%',
+	            type:'line',
+	            stack: '1',
+	            lineStyle: {
+	                normal: {
+	                    opacity: 0
+	                }
+	            },
+	            symbol: 'none',
+	            data:[],
+	        },
+	        {
+	            name:'Median',
+	            type:'line',    
+	            lineStyle: {
+	                normal: {
+	                    
+	                }
+	            },   
+	            showSymbol: false,     
+	            data:[]
+	        },
+	        {
+	            name:'Upper 97.5%',
+	            type:'line',
+	            stack: '1',
+	            lineStyle: {
+	                normal: {
+	                    opacity: 0
+	                }
+	            },
+	            areaStyle: {
+	                normal: {
+	                    color: '#ccc',
+	                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+	                }
+	            },
+	            data:[],
+	            symbol: 'none'
+
+	        }
+        ]
+    };
+    kobeChart1.setOption(kobe_option);
 
 	var	comm_option = {
 	    title: {
@@ -786,6 +913,16 @@ function drawChart(chartdata){
 	    } catch (e) {
 	    }
 
+	    $.each(chartdata,function(index, el) {
+			kobe_low_data.push([el.SSB_total_025,el.F_total_025]);
+			kobe_median_data.push([el.SSB_total_median,el.F_general_median]);
+			kobe_high_data.push([el.SSB_total_975,el.F_general_975]);
+        });
+        kobe_option.series[0].data = kobe_low_data;
+        kobe_option.series[1].data = kobe_median_data;
+        kobe_option.series[2].data = kobe_high_data;
+		kobeChart1.setOption(kobe_option);
+
         $.each(chartdata,function(index, el) {
         	comm_xAxisData.push(el.year);
 			comm_low_data.push(el.AM_comm_025);
@@ -810,7 +947,7 @@ function drawChart(chartdata){
         recr_option.series[1].data = recr_median_data;
         recr_option.series[2].data = recr_high_data;
 		sprChart1.setOption(recr_option);
-debugger;
+
 		$.each(chartdata,function(index, el) {
         	hire_xAxisData.push(el.year);
 			hire_low_data.push(el.Forhire_planned_season_length_025);
