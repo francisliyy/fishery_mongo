@@ -326,7 +326,7 @@ function drawChart(chartdata){
 		        });
 				f_option = {
 				    title: {
-				        text: 'General F'
+				        text: 'General Fishing Mortality'
 				    },
 				    tooltip: {
 				        trigger: 'axis',
