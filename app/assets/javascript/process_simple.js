@@ -410,10 +410,6 @@ $(function() {
 				var hst_f_thh1 = $("#hst_f_thh1:enabled").val()||0;
 				var hst_f_thh2 = $('#hst_f_thh2:enabled').val()||0;
 
-				
-				var sec_recreational = $("#sec_recreational").val()||0;
-				var sec_commercial = $("#sec_commercial").val()||0;
-
 				$.ajax({
 		            cache: false,
 		            url: $SCRIPT_ROOT+'/prostepview/step8/'+$("#step1_id").data("step1id"),

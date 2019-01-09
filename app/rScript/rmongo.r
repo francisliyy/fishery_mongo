@@ -30,6 +30,21 @@ getMSEInfo<-function(mse_id){
   return(result)
 }
 
+# This function connect to the database and get global settings from Mongodb
+getGlobal<-function(){
+  
+  library("rmongodb")
+  #mongo.create(host = "127.0.0.1", name = "", username = "",password = "", db = "admin", timeout = 0L)
+  result<-mongo.bson.empty()
+  mongo <- mongo.create()
+  if (mongo.is.connected(mongo)) {
+    # read record,use mongo shell to find the value of process_id, replace it in mongo.oid.from.string("5b02cc1b360e2e8f7f93d438"),then execute
+    result <- mongo.find.one(mongo, "admin.global_settings")
+  }
+  mongo.destroy(mongo)
+  return(result)
+}
+
 # This function is used for read random file
 # param file_id is the ObjectId get from mse record
 # param store_path is the directory where you want to store the file
@@ -56,6 +71,7 @@ getRondomFile<-function(file_id,store_path){
 
 # This function is used for save into MongoDb
 storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
+
   setwd(store_path)
   require(r4ss)
   direct_ofl <- folder_name
@@ -143,7 +159,7 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   natM<-cbind(age_1, t(M_1),cv_M_1,t(M_2),cv_M_2)
   colnames(natM) <- c("age_1","mean_1", "cv_mean_1", "mean_2", "cv_mean_2")
   mortalityParamJson<-toJSON(unname(alply(natM,1,identity)))
-  simple_spawning<-0.5
+  simple_spawning<-base$seasfracs
   ########################################################
   #Step 5 ends                                     #######
   ########################################################
@@ -153,20 +169,20 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   ########################################################
   
   # if historical 20 year recruitments.
-  Rhist_1<-base$natage[(base$natage$Area==1)&(base$natage$Yr<=base$endyr)&(base$natage$Yr>(base$endyr-20))&(base$natage$`Beg/Mid`=="B"),"0"]
-  Rhist_2<-base$natage[(base$natage$Area==2)&(base$natage$Yr<=base$endyr)&(base$natage$Yr>(base$endyr-20))&(base$natage$`Beg/Mid`=="B"),"0"]
+  #Rhist_1<-base$natage[(base$natage$Area==1)&(base$natage$Yr<=base$endyr)&(base$natage$Yr>(base$endyr-20))&(base$natage$`Beg/Mid`=="B"),"0"]
+  #Rhist_2<-base$natage[(base$natage$Area==2)&(base$natage$Yr<=base$endyr)&(base$natage$Yr>(base$endyr-20))&(base$natage$`Beg/Mid`=="B"),"0"]
   
-  Rhist_1_mean<-mean(Rhist_1)
-  Rhist_1_sd<-sd(Rhist_1)
-  Rhist_1_median<-median(Rhist_1)
-  Rhist_1_q1<-quantile(Rhist_1,0.25)
-  Rhist_1_q3<-quantile(Rhist_1,0.75)
+  #Rhist_1_mean<-mean(Rhist_1)
+  #Rhist_1_sd<-sd(Rhist_1)
+  #Rhist_1_median<-median(Rhist_1)
+  #Rhist_1_q1<-quantile(Rhist_1,0.25)
+  #Rhist_1_q3<-quantile(Rhist_1,0.75)
   
-  Rhist_2_mean<-mean(Rhist_2)
-  Rhist_2_sd<-sd(Rhist_2)
-  Rhist_2_median<-median(Rhist_2)
-  Rhist_2_q1<-quantile(Rhist_2,0.25)
-  Rhist_2_q3<-quantile(Rhist_2,0.75)
+  #Rhist_2_mean<-mean(Rhist_2)
+  #Rhist_2_sd<-sd(Rhist_2)
+  #Rhist_2_median<-median(Rhist_2)
+  #Rhist_2_q1<-quantile(Rhist_2,0.25)
+  #Rhist_2_q3<-quantile(Rhist_2,0.75)
   
   #recruitment, read parameter
   dat6<- base$parameters
@@ -210,6 +226,26 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   #extra variable start                            #######
   ########################################################
   
+  spawning_output_1<-stock_1_mean*fec_at_age_1*1000
+  spawning_output_2<-stock_2_mean*fec_at_age_2*1000
+  #sum(spawning_output_1) #matches the SA report 4.1 Spawning Output 
+  #sum(spawning_output_2) #matches the SA report 4.1 Spawning Output 
+  
+  spawning_output_1_json = toJSON(spawning_output_1)
+  spawning_output_2_json = toJSON(spawning_output_2)
+  
+  #Age length key
+  length_age_key<-base$ALK[,,1]
+  length_age_key_row_name<-rownames(length_age_key)
+  #length_age_key_stock1<-length_age_key
+  #length_age_key_stock2<-length_age_key
+  
+  length_age_key_json = toJSON(length_age_key)
+  length_age_key_row_name_json = toJSON(length_age_key_row_name)
+  #length_age_key_stock1_json = toJSON(length_age_key_stock1)
+  #length_age_key_stock2_json = toJSON(length_age_key_stock2)
+  
+  
   #F in the last three years, add up together not right
   hl_e_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(base$endyr-2)) & (base$timeseries$Yr<=base$endyr) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_1']))
   hl_w_pred_F  <- c(t(base$timeseries[(base$timeseries$Yr>=(base$endyr-2)) & (base$timeseries$Yr<=base$endyr) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_2']))
@@ -226,9 +262,172 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   shrimp_e_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(base$endyr-2)) & (base$timeseries$Yr<=base$endyr) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_13']))
   shrimp_w_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(base$endyr-2)) & (base$timeseries$Yr<=base$endyr) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_14']))
   
-  extraF<-cbind(hl_e_pred_F, hl_w_pred_F,ll_e_pred_F,ll_w_pred_F,mrip_e_pred_F,mrip_w_pred_F,hbt_e_pred_F,hbt_w_pred_F,comm_closed_e_pred_F,comm_closed_w_pred_F,rec_closed_e_pred_F,rec_closed_w_pred_F,shrimp_e_pred_F,shrimp_w_pred_F)
-  colnames(extraF) <- c("hl_e_pred_F","hl_w_pred_F", "ll_e_pred_F", "ll_w_pred_F","mrip_e_pred_F","mrip_w_pred_F", "hbt_e_pred_F", "hbt_w_pred_F","comm_closed_e_pred_F","comm_closed_w_pred_F", "rec_closed_e_pred_F", "rec_closed_w_pred_F","shrimp_e_pred_F","shrimp_w_pred_F")
-  extraFJson<-toJSON(unname(alply(extraF,1,identity)))
+  #extraF<-cbind(hl_e_pred_F, hl_w_pred_F,ll_e_pred_F,ll_w_pred_F,mrip_e_pred_F,mrip_w_pred_F,hbt_e_pred_F,hbt_w_pred_F,comm_closed_e_pred_F,comm_closed_w_pred_F,rec_closed_e_pred_F,rec_closed_w_pred_F,shrimp_e_pred_F,shrimp_w_pred_F)
+  #colnames(extraF) <- c("hl_e_pred_F","hl_w_pred_F", "ll_e_pred_F", "ll_w_pred_F","mrip_e_pred_F","mrip_w_pred_F", "hbt_e_pred_F", "hbt_w_pred_F","comm_closed_e_pred_F","comm_closed_w_pred_F", "rec_closed_e_pred_F", "rec_closed_w_pred_F","shrimp_e_pred_F","shrimp_w_pred_F")
+  #extraFJson<-toJSON(unname(alply(extraF,1,identity)))
+  
+  hl_e_pred_F_ave <- mean(hl_e_pred_F)
+  hl_w_pred_F_ave <- mean(hl_w_pred_F)
+  ll_e_pred_F_ave <- mean(ll_e_pred_F) 
+  ll_w_pred_F_ave <- mean(ll_w_pred_F)
+  mrip_e_pred_F_ave <- mean(mrip_e_pred_F)
+  mrip_w_pred_F_ave <- mean(mrip_w_pred_F)
+  hbt_e_pred_F_ave <- mean(hbt_e_pred_F)
+  hbt_w_pred_F_ave <- mean(hbt_w_pred_F)
+  comm_closed_e_pred_F_ave <- mean(comm_closed_e_pred_F)
+  comm_closed_w_pred_F_ave <- mean(comm_closed_w_pred_F)
+  rec_closed_e_pred_F_ave <- mean(rec_closed_e_pred_F)
+  rec_closed_w_pred_F_ave <- mean(rec_closed_w_pred_F)
+  shrimp_e_pred_F_ave <- mean(shrimp_e_pred_F)
+  shrimp_w_pred_F_ave <- mean(shrimp_w_pred_F)
+  
+  hl_e_pred_F_ave_json = toJSON(hl_e_pred_F_ave)
+  hl_w_pred_F_ave_json = toJSON(hl_w_pred_F_ave)
+  ll_e_pred_F_ave_json = toJSON(ll_e_pred_F_ave)
+  ll_w_pred_F_ave_json = toJSON(ll_w_pred_F_ave)
+  mrip_e_pred_F_ave_json = toJSON(mrip_e_pred_F_ave)
+  mrip_w_pred_F_ave_json = toJSON(mrip_w_pred_F_ave)
+  hbt_e_pred_F_ave_json = toJSON(hbt_e_pred_F_ave)
+  hbt_w_pred_F_ave_json = toJSON(hbt_w_pred_F_ave)
+  comm_closed_e_pred_F_ave_json = toJSON(comm_closed_e_pred_F_ave)
+  comm_closed_w_pred_F_ave_json = toJSON(comm_closed_w_pred_F_ave)
+  rec_closed_e_pred_F_ave_json = toJSON(rec_closed_e_pred_F_ave)
+  rec_closed_w_pred_F_ave_json = toJSON(rec_closed_w_pred_F_ave)
+  shrimp_e_pred_F_ave_json = toJSON(shrimp_e_pred_F_ave)
+  shrimp_w_pred_F_ave_json = toJSON(shrimp_w_pred_F_ave)
+  
+  #Last year selectivity
+  hl_e_selex <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,1), as.character(base$agebins)]))
+  hl_w_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,2), as.character(base$agebins)]))
+  ll_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,3), as.character(base$agebins)]))
+  ll_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,4), as.character(base$agebins)]))
+  mrip_e_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,5), as.character(base$agebins)]))
+  mrip_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,6), as.character(base$agebins)]))
+  hbt_e_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,7), as.character(base$agebins)]))
+  hbt_w_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,8), as.character(base$agebins)]))
+  comm_closed_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,9), as.character(base$agebins)]))
+  comm_closed_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,10), as.character(base$agebins)]))
+  rec_closed_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,11), as.character(base$agebins)]))
+  rec_closed_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,12), as.character(base$agebins)]))
+  shrimp_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,13), as.character(base$agebins)]))
+  shrimp_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,14), as.character(base$agebins)]))
+  
+  hl_e_selex_json = toJSON(hl_e_selex)
+  hl_w_selex_json = toJSON(hl_w_selex)
+  ll_e_selex_json = toJSON(ll_e_selex)
+  ll_w_selex_json = toJSON(ll_w_selex)
+  mrip_e_selex_json = toJSON(mrip_e_selex)
+  mrip_w_selex_json = toJSON(mrip_w_selex)
+  hbt_e_selex_json = toJSON(hbt_e_selex)
+  hbt_w_selex_json = toJSON(hbt_w_selex)
+  comm_closed_e_selex_json = toJSON(comm_closed_e_selex)
+  comm_closed_w_selex_json = toJSON(comm_closed_w_selex)
+  rec_closed_e_selex_json = toJSON(rec_closed_e_selex)
+  rec_closed_w_selex_json = toJSON(rec_closed_w_selex)
+  shrimp_e_selex_json = toJSON(shrimp_e_selex)
+  shrimp_w_selex_json = toJSON(shrimp_w_selex)
+  
+  #Last year retention rate
+  hl_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,1), 6:dim(base$sizeselex)[2]]
+  hl_e_retention<-c(as.matrix(hl_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
+  hl_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,2), 6:dim(base$sizeselex)[2]]
+  hl_w_retention<-c(as.matrix(hl_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
+  
+  ll_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,3), 6:dim(base$sizeselex)[2]]
+  ll_e_retention<-c(as.matrix(ll_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
+  ll_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,4), 6:dim(base$sizeselex)[2]]
+  ll_w_retention<-c(as.matrix(ll_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
+  
+  mrip_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,5), 6:dim(base$sizeselex)[2]]
+  mrip_e_retention<-c(as.matrix(mrip_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
+  mrip_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,6), 6:dim(base$sizeselex)[2]]
+  mrip_w_retention<-c(as.matrix(mrip_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
+  
+  hbt_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,7), 6:dim(base$sizeselex)[2]]
+  hbt_e_retention<-c(as.matrix(hbt_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
+  hbt_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,8), 6:dim(base$sizeselex)[2]]
+  hbt_w_retention<-c(as.matrix(hbt_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
+  
+  hl_e_retention_json = toJSON(hl_e_retention)
+  hl_w_retention_json = toJSON(hl_w_retention)
+  ll_e_retention_json = toJSON(ll_e_retention)
+  ll_w_retention_json = toJSON(ll_w_retention)
+  mrip_e_retention_json = toJSON(mrip_e_retention)
+  mrip_w_retention_json = toJSON(mrip_w_retention)
+  hbt_e_retention_json = toJSON(hbt_e_retention)
+  hbt_w_retention_json = toJSON(hbt_w_retention)
+  
+  #fisheries status
+  #Catch number in the last three years unit 1000s
+  #hl_e_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_1']))
+  #hl_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_2']))
+  #ll_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_3']))
+  #ll_w_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_4']))
+  #mrip_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_5']))
+  #mrip_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_6']))
+  #hbt_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_7']))
+  #hbt_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_8']))
+  hl_e_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_1']))
+  hl_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_2']))
+  ll_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_3']))
+  ll_w_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_4']))
+  mrip_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_5']))
+  mrip_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_6']))
+  hbt_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_7']))
+  hbt_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_8']))
+  comm_closed_e_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_9']))
+  comm_closed_w_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_10']))
+  rec_closed_e_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_11']))
+  rec_closed_w_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_12']))
+  shrimp_e_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_13']))
+  shrimp_w_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_14']))
+  
+  stock_1_N<-base$natage[(base$natage$Area==1)&(base$natage$Yr>=(yr_end-2))&(base$natage$Yr<=yr_end)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
+  stock_2_N<-base$natage[(base$natage$Area==2)&(base$natage$Yr>=(yr_end-2))&(base$natage$Yr<=yr_end)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
+  
+  total_catch_N <-  (hl_e_pred_cat_N + hl_w_pred_cat_N + ll_e_pred_cat_N + ll_w_pred_cat_N
+                     + mrip_e_pred_cat_N + mrip_w_pred_cat_N + hbt_e_pred_cat_N + hbt_w_pred_cat_N
+                     + comm_closed_e_cat_N + comm_closed_w_cat_N + rec_closed_e_cat_N + rec_closed_w_cat_N
+                     + shrimp_e_cat_N + shrimp_w_cat_N)
+  total_catch_N_json = toJSON(total_catch_N)
+  
+  sum_SSB_N <- c(t(rowSums(stock_1_N)+rowSums(stock_2_N)))
+  sum_SSB_N_json = toJSON(sum_SSB_N)
+  
+  Current_F<-mean(total_catch_N/sum_SSB_N)
+  Current_SSB<-sum(spawning_output_1+spawning_output_2)
+  Current_F_json = toJSON(Current_F)
+  Current_SSB_json = toJSON(Current_SSB)
+
+  MSST<-0.5*as.numeric(ssb_msy)
+  MFMT<-as.numeric(f_msy)
+  MSST_json = toJSON(MSST)
+  MFMT_json = toJSON(MFMT)
+  
+  #Position of the year 2016 in the traffic light
+  Current_F_ratio<-Current_F/MFMT
+  Current_SSB_ratio<-Current_SSB/MSST
+  Current_F_ratio_json = toJSON(Current_F_ratio)
+  Current_SSB_ratio_json = toJSON(Current_SSB_ratio)
+  
+  extraParamJson<-paste('{"spawning_output_1":',spawning_output_1_json,',"spawning_output_2":',spawning_output_2_json
+                        ,',"length_age_key":',length_age_key_json,',"length_age_key_row_name":',length_age_key_row_name_json
+                        ,',"hl_e_pred_F_ave":',hl_e_pred_F_ave_json,',"hl_w_pred_F_ave":',hl_w_pred_F_ave_json,',"ll_e_pred_F_ave":',ll_e_pred_F_ave_json,',"ll_w_pred_F_ave":',ll_w_pred_F_ave_json
+                        ,',"mrip_e_pred_F_ave":',hl_e_pred_F_ave_json,',"mrip_w_pred_F_ave":',mrip_w_pred_F_ave_json,',"hbt_e_pred_F_ave":',hbt_e_pred_F_ave_json,',"hbt_w_pred_F_ave":',hbt_w_pred_F_ave_json
+                        ,',"comm_closed_e_pred_F_ave":',comm_closed_e_pred_F_ave_json,',"comm_closed_w_pred_F_ave":',comm_closed_w_pred_F_ave_json
+                        ,',"rec_closed_e_pred_F_ave":',rec_closed_e_pred_F_ave_json,',"rec_closed_w_pred_F_ave":',rec_closed_w_pred_F_ave_json
+                        ,',"shrimp_e_pred_F_ave":',shrimp_e_pred_F_ave_json,',"shrimp_w_pred_F_ave":',shrimp_w_pred_F_ave_json
+                        ,',"hl_e_selex":',hl_e_selex_json,',"hl_w_selex":',hl_w_selex_json,',"ll_e_selex":',ll_e_selex_json,',"ll_w_selex":',ll_w_selex_json
+                        ,',"mrip_e_selex":',mrip_e_selex_json,',"mrip_w_selex":',mrip_w_selex_json,',"hbt_e_selex":',hbt_e_selex_json,',"hbt_w_selex":',hbt_w_selex_json
+                        ,',"comm_closed_e_selex":',comm_closed_e_selex_json,',"comm_closed_w_selex":',comm_closed_w_selex_json
+                        ,',"rec_closed_e_selex":',rec_closed_e_selex_json,',"rec_closed_w_selex":',rec_closed_w_selex_json,',"shrimp_e_selex":',shrimp_e_selex_json,',"shrimp_w_selex":',shrimp_w_selex_json
+                        ,',"hl_e_retention":',hl_e_retention_json,',"hl_w_retention":',hl_w_retention_json,',"ll_e_retention":',ll_e_retention_json,',"ll_w_retention":',ll_w_retention_json
+                        ,',"mrip_e_retention":',mrip_e_retention_json,',"mrip_w_retention":',mrip_w_retention_json
+                        ,',"hbt_e_retention":',hbt_e_retention_json,',"hbt_w_retention":',hbt_w_retention_json,',"hl_e_retention":',hl_e_retention_json,',"hl_e_retention":',hl_e_retention_json
+                        ,',"total_catch_N":',total_catch_N_json,',"sum_SSB_N":',sum_SSB_N_json,',"Current_F":',Current_F_json
+                        ,',"MSST":',MSST_json,',"MFMT":',MFMT_json,',"Current_F_ratio":',Current_F_ratio_json,',"Current_SSB_ratio":',Current_SSB_ratio_json
+                        ,'}',sep = "")
+  
   
   ########################################################
   #extra variable end                              #######
@@ -245,8 +444,8 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
                     ,',"sec_recreational":51,"sec_commercial":49,"sec_hire":45.1,"sec_private":54.9,"sec_headboat":50,"sec_charterboat":50,"sec_pstar":42.7,"sec_act_com":0,"sec_act_pri":20,"sec_act_hire":20'
                     ,',"mg3_commercial":13,"mg3_recreational":16,"mg3_forhire":10,"mg3_private":10,"mg3_rec_east_open":11.8,"mg3_rec_east_closed":11.8,"mg3_rec_west_open":11.8,"mg3_rec_west_closed":11.8'
                     ,',"mg3_comhard_east_open":56,"mg3_comhard_east_closed":55,"mg3_comhard_west_open":60,"mg3_comhard_west_closed":74,"mg3_comlong_east_open":64,"mg3_comlong_east_closed":55,"mg3_comlong_west_open":81,"mg3_comlong_west_closed":74'
-                    ,',"mg4_season":"1","mg4_act_catch_hire":"220000","mg4_act_catch_private":"220000","mg4_input_hire":"220000","mg4_hire_length":"30","mg4_input_private":"220000","mg4_private_length":"30"'
-                    ,',"extra_F":',extraFJson,'}',sep = "")
+                    ,',"mg4_season":"1","mg4_act_catch_hire":"220000","mg4_act_catch_private":"220000","mg4_input_hire":"220000","mg4_hire_length":"3","mg4_input_private":"220000","mg4_private_length":"3"'
+                    ,',"extraParam":',extraParamJson,'}',sep = "")
   global_content<-mongo.bson.from.JSON(jsondata)
   mongo.remove(mongo,"admin.global_settings")
   mongo.insert(mongo,"admin.global_settings",global_content)
@@ -284,266 +483,17 @@ function(file_id,store_path,ssb_msy,f_msy){
   split_filename<-unlist(strsplit(filename, "\\."))
   storeGlobalSetting(store_path,split_filename[1],ssb_msy,f_msy)
 }
-# This function is used for save global zip file and unzip it, then invoke analytic function to get value and save into global settings.
-# param file_id is the ObjectId get from mse record
-# param store_path is the directory where you want to store the file
-#' @param store_path file saved directory
+# This function is used for Run MSE and get result.
 #' @serializer unboxedJSON
 #' @post /runmse
-function(store_path,seed_file,F_plan,comm,process_gen_id){
-  library("r4ss")
+function(process_gen_id){
   
-
-  ######### new program ##################
-  
-  
-  setwd("~/")
-  
-  #Part 1 record key parameters as soon as the zip file was read in
-  ## directories
-  direct <- "OFL"
-  
-  ##basic readin
-  base <- SS_output(dir = direct,printstats = T, covar=T, cormax=0.70, forecast=F,printhighcor=50, printlowcor=50)
-  
-  ##start year and end year
-  yr_start<-base$startyr
-  #endyear was used in Step 2
-  yr_end<-base$endyr
-  
-  ##age readin and setting initial population
-  #The following 5 rows were used in Step 2 and 3
-  #stock_1: East, stock_2: West
-  age_1<-base$agebins
-  age_2<-age_1
-  stock_1_mean<-c(t(base$natage[(base$natage$Area==1)&(base$natage$Yr==yr_end)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]))
-  stock_2_mean<-c(t(base$natage[(base$natage$Area==2)&(base$natage$Yr==yr_end)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]))
-  #sum(stock_1_mean) #matches the SA report 4.1 Spawning Output 
-  #sum(stock_2_mean) #matches the SA report 4.1 Spawning Output 
-  
-  #parepare for MSE init population
-  iniPopu<-cbind(age_1,stock_1_mean,stock_2_mean)
-  colnames(iniPopu) <- c("age", "stock_1_mean", "stock_2_mean")
-  
-  ##biological parameters weight unit kg
-  # Number of eggs for each individual
-  fec_at_age<-c(t(base$wtatage[(base$wtatage$Fleet==-2),as.character(base$agebins)]))
-  if(unique(base$wtatage$Bio_Pattern)==1){
-    fec_at_age_1<-fec_at_age
-    fec_at_age_2<-fec_at_age
-  }
-  
-  spawning_output_1<-stock_1_mean*fec_at_age_1*1000
-  spawning_output_2<-stock_2_mean*fec_at_age_2*1000
-  #sum(spawning_output_1) #matches the SA report 4.1 Spawning Output 
-  #sum(spawning_output_2) #matches the SA report 4.1 Spawning Output 
-  
-  # Biomass for each individual, unit mt
-  weight_at_age<-c(t(base$wtatage[(base$wtatage$Fleet==0),as.character(base$agebins)]))
-  if(unique(base$wtatage$Bio_Pattern)==1){
-    weight_at_age_1<-weight_at_age
-    weight_at_age_2<-weight_at_age
-  }
-  
-  #B_at_age_1<-stock_1_mean*weight_at_age_1 #biomass unit 1000*kg=mt
-  #B_at_age_2<-stock_2_mean*weight_at_age_2 #biomass unit 1000*kg=mt
-  #sum(B_at_age_1) #matches the SA report 4.1 Spawning Output
-  #sum(B_at_age_2) #matches the SA report 4.1 Spawning Output
-  
-  bioPara<-cbind(age_1, weight_at_age_1,fec_at_age_1,weight_at_age_2,fec_at_age_2)
-  colnames(bioPara) <- c("age", "weight_at_age_Area1", "fec_at_age_Area1", "weight_at_age_Area2", "fec_at_age_Area2")
-  
-  #Natural mortality
-  #Age-specific natural mortality rates (M) for Gulf of Mexico red snapper assuming a
-  #Lorenzen mortality curve rescaled to an average M = 0.0943. The column labeled M represents
-  #the average natural mortality experienced from July 1-June 30 (i.e., a birth year). The label Adj.
-  #M indicates the values used in the SS3 model to account for SS advancing age on January 1.
-  
-  M<-c(t(base$M_at_age[(base$M_at_age$Year==yr_end),as.character(base$agebins)]))
-  for(i.M in 2:length(M)) {
-    if(is.na(M[i.M])){
-      M[i.M]=M[i.M-1]
-    }
-  }
-  
-  if(unique(base$M_at_age$Bio_Pattern)==1){
-    M_1<-M
-    M_2<-M
-  }
-  
-  natM<-cbind(age_1, M_1, M_2)
-  colnames(natM) <- c("age","M_Area1", "M_Area2")
-  
-  #Fraction before spawning, currently 0.5
-  season_factor<-base$seasfracs #unit year
-  
-  #recruitment
-  #recruitment, read parameter
-  dat6<- base$parameters
-  steepness<-base$parameters[base$parameters$Label=="SR_BH_steep","Value"]
-  R0_late<-exp(base$parameters[base$parameters$Label=="SR_LN(R0)","Value"]) #unit 1000 R0 after 1984
-  R_offset_para<-base$parameters[base$parameters$Label=="SR_envlink","Value"]
-  R0_early<-R0_late*exp(R_offset_para)
-  
-  SSB0_1<-base$Dynamic_Bzero[(base$Dynamic_Bzero$Era=="VIRG"),"SSB_area1"]
-  SSB0_2<-base$Dynamic_Bzero[(base$Dynamic_Bzero$Era=="VIRG"),"SSB_area2"]
-  SSB0<-SSB0_1+SSB0_2
-  
-  sigma_R<-base$parameters[base$parameters$Label=="SR_sigmaR","Value"] #standard deviation of logged recruitment
-  
-  #unit 1000s
-  spawning_output_rec_1<-c(t(base$natage[(base$natage$Area==1)&(base$natage$Yr==(yr_end))&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]))*fec_at_age_1
-  spawning_output_rec_2<-c(t(base$natage[(base$natage$Area==2)&(base$natage$Yr==(yr_end))&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]))*fec_at_age_2
-  spawning_output_rec<-spawning_output_rec_1+spawning_output_rec_2
-  
-  Rhist_1<-base$natage[(base$natage$Area==1)&(base$natage$Yr<=yr_end)&(base$natage$Yr>=yr_start)&(base$natage$`Beg/Mid`=="B"),"0"]
-  Rhist_2<-base$natage[(base$natage$Area==2)&(base$natage$Yr<=yr_end)&(base$natage$Yr>=yr_start)&(base$natage$`Beg/Mid`=="B"),"0"]
-  
-  Rhist_late<-Rhist_1 + Rhist_2
-  Rhist_early<-Rhist_late[(length(Rhist_late)-(yr_end-1984)):length(Rhist_late)]
-  
-  #Other information from stock assessment files
-  
-  #Age length key
-  length_age_key<-base$ALK[,,1]
-  length_age_key_stock1<-length_age_key
-  length_age_key_stock2<-length_age_key
-  
-  #read F
-  #Fishing fleets definitions (14) Directed fleet landings and discards (8) Bycatch fleets (discards only) (6)
-  #Commercial Vertical line (HL) E/W 1872-2016
-  #Commercial Longline (LL) E/W 1980-2016
-  #Recreational Private/Charter (MRFSS/MRIP) E/W 1950-2016
-  #Recreational Headboat (HBT) E/W 1950-2016
-  #Commercial Closed Season or zero IFQ allocation (C_Closed) E/W 1991-2016
-  #Recreational Closed Season (R_Closed) E/W 1997-2016
-  #Shrimp Bycatch (SHR) E/W 1950/1946 (respectively)-2015
-  
-  #F in the last three years, add up together not right
-  hl_e_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_1']))
-  hl_w_pred_F  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_2']))
-  ll_e_pred_F  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_3']))
-  ll_w_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_4']))
-  mrip_e_pred_F  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_5']))
-  mrip_w_pred_F  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_6']))
-  hbt_e_pred_F  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_7']))
-  hbt_w_pred_F  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_8']))
-  comm_closed_e_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_9']))
-  comm_closed_w_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_10']))
-  rec_closed_e_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_11']))
-  rec_closed_w_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_12']))
-  shrimp_e_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'F:_13']))
-  shrimp_w_pred_F <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'F:_14']))
-  
-  hl_e_pred_F_ave <- mean(hl_e_pred_F)
-  hl_w_pred_F_ave <- mean(hl_w_pred_F)
-  ll_e_pred_F_ave <- mean(ll_e_pred_F) 
-  ll_w_pred_F_ave <- mean(ll_w_pred_F)
-  mrip_e_pred_F_ave <- mean(mrip_e_pred_F)
-  mrip_w_pred_F_ave <- mean(mrip_w_pred_F)
-  hbt_e_pred_F_ave <- mean(hbt_e_pred_F)
-  hbt_w_pred_F_ave <- mean(hbt_w_pred_F)
-  comm_closed_e_pred_F_ave <- mean(comm_closed_e_pred_F)
-  comm_closed_w_pred_F_ave <- mean(comm_closed_w_pred_F)
-  rec_closed_e_pred_F_ave <- mean(rec_closed_e_pred_F)
-  rec_closed_w_pred_F_ave <- mean(rec_closed_w_pred_F)
-  shrimp_e_pred_F_ave <- mean(shrimp_e_pred_F)
-  shrimp_w_pred_F_ave <- mean(shrimp_w_pred_F)
-  
-  #Last year selectivity
-  hl_e_selex <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,1), as.character(base$agebins)]))
-  hl_w_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,2), as.character(base$agebins)]))
-  ll_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,3), as.character(base$agebins)]))
-  ll_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,4), as.character(base$agebins)]))
-  mrip_e_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,5), as.character(base$agebins)]))
-  mrip_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,6), as.character(base$agebins)]))
-  hbt_e_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,7), as.character(base$agebins)]))
-  hbt_w_selex   <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,8), as.character(base$agebins)]))
-  comm_closed_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,9), as.character(base$agebins)]))
-  comm_closed_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,10), as.character(base$agebins)]))
-  rec_closed_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,11), as.character(base$agebins)]))
-  rec_closed_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,12), as.character(base$agebins)]))
-  shrimp_e_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,13), as.character(base$agebins)]))
-  shrimp_w_selex  <- c(t(base$ageselex[(base$ageselex$Yr==yr_end) & is.element(base$ageselex$Factor,"Asel") & is.element(base$ageselex$Fleet,14), as.character(base$agebins)]))
-  
-  #Last year retention rate
-  hl_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,1), 6:dim(base$sizeselex)[2]]
-  hl_e_retention<-c(as.matrix(hl_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
-  hl_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,2), 6:dim(base$sizeselex)[2]]
-  hl_w_retention<-c(as.matrix(hl_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
-  
-  ll_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,3), 6:dim(base$sizeselex)[2]]
-  ll_e_retention<-c(as.matrix(ll_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
-  ll_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,4), 6:dim(base$sizeselex)[2]]
-  ll_w_retention<-c(as.matrix(ll_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
-  
-  mrip_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,5), 6:dim(base$sizeselex)[2]]
-  mrip_e_retention<-c(as.matrix(mrip_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
-  mrip_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,6), 6:dim(base$sizeselex)[2]]
-  mrip_w_retention<-c(as.matrix(mrip_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
-  
-  hbt_e_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,7), 6:dim(base$sizeselex)[2]]
-  hbt_e_retention<-c(as.matrix(hbt_e_retention_len)%*%length_age_key_stock1[nrow(length_age_key_stock1):1,])
-  hbt_w_retention_len<-base$sizeselex[(base$sizeselex$Yr==yr_end) & is.element(base$sizeselex$Factor,"Ret") & is.element(base$sizeselex$Fleet,8), 6:dim(base$sizeselex)[2]]
-  hbt_w_retention<-c(as.matrix(hbt_w_retention_len)%*%length_age_key_stock2[nrow(length_age_key_stock2):1,])
-  
-  #fisheries status
-  #Catch number in the last three years unit 1000s
-  #hl_e_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_1']))
-  #hl_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_2']))
-  #ll_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_3']))
-  #ll_w_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_4']))
-  #mrip_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_5']))
-  #mrip_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_6']))
-  #hbt_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'retain(N):_7']))
-  #hbt_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'retain(N):_8']))
-  hl_e_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_1']))
-  hl_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_2']))
-  ll_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_3']))
-  ll_w_pred_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_4']))
-  mrip_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_5']))
-  mrip_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_6']))
-  hbt_e_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_7']))
-  hbt_w_pred_cat_N  <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_8']))
-  comm_closed_e_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_9']))
-  comm_closed_w_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_10']))
-  rec_closed_e_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_11']))
-  rec_closed_w_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_12']))
-  shrimp_e_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,1) & is.element(base$timeseries$Era,'TIME'),'dead(N):_13']))
-  shrimp_w_cat_N <- c(t(base$timeseries[(base$timeseries$Yr>=(yr_end-2)) & (base$timeseries$Yr<=yr_end) & is.element(base$timeseries$Area,2) & is.element(base$timeseries$Era,'TIME'),'dead(N):_14']))
-  
-  stock_1_N<-base$natage[(base$natage$Area==1)&(base$natage$Yr>=(yr_end-2))&(base$natage$Yr<=yr_end)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
-  stock_2_N<-base$natage[(base$natage$Area==2)&(base$natage$Yr>=(yr_end-2))&(base$natage$Yr<=yr_end)&(base$natage$`Beg/Mid`=="B"),as.character(base$agebins)]
-  
-  total_catch_N <-  (hl_e_pred_cat_N + hl_w_pred_cat_N + ll_e_pred_cat_N + ll_w_pred_cat_N
-                     + mrip_e_pred_cat_N + mrip_w_pred_cat_N + hbt_e_pred_cat_N + hbt_w_pred_cat_N
-                     + comm_closed_e_cat_N + comm_closed_w_cat_N + rec_closed_e_cat_N + rec_closed_w_cat_N
-                     + shrimp_e_cat_N + shrimp_w_cat_N)
-  
-  sum_SSB_N <- c(t(rowSums(stock_1_N)+rowSums(stock_2_N)))
-  
-  Current_F<-mean(total_catch_N/sum_SSB_N)
-  Current_SSB<-sum(spawning_output_1+spawning_output_2)
-  
-  #Also get biological reference point
-  #SSB_MSY_BRP # of eggs, F_MSY_BRP per year
-  SSB_MSY_BRP<-1.23e+15
-  F_MSY_BRP<-0.0588
-  
-  MSST<-0.5*SSB_MSY_BRP
-  MFMT<-F_MSY_BRP
-  
-  #Position of the year 2016 in the traffic light
-  Current_F_ratio<-Current_F/MFMT
-  Current_SSB_ratio<-Current_SSB/MSST
-  
-  
-  ###########################################  
-  ###### Get Database Value Start ###########
-  ########################################### 
+  ##########################################################  
+  ###### Get Database User Interface Value Start ###########
+  ########################################################## 
   
   mse_result <- getMSEInfo(process_gen_id)
-  
+  #mse_result <- getMSEInfo('5c361ea5360e2ed89687b607')
   
   #Options, in the webpage, these value should be read from the database
   
@@ -736,20 +686,95 @@ function(store_path,seed_file,F_plan,comm,process_gen_id){
   ### management option IV ### 
   Recre_season_switch<-mongo.bson.value(mse_result, "mg4_season")
   
-  #if(Recre_season_switch==1) {#determined by ACT
+  if(Recre_season_switch==1) {#determined by ACT
     #Allowable_catch predetermined
     Forhire_catch_rate_lb<-mongo.bson.value(mse_result, "mg4_act_catch_hire") #unit lb per day
     Private_catch_rate_lb<-mongo.bson.value(mse_result, "mg4_act_catch_private") #unit lb per day
-  #}  else if(Recre_season_switch==2) {#input by user
+    Forhire_season_length<-999999
+    Private_season_length<-999999
+  }  else if(Recre_season_switch==2) {#input by user
     Forhire_catch_rate_lb<-mongo.bson.value(mse_result, "mg4_input_hire") #unit lb per day
     Private_catch_rate_lb<-mongo.bson.value(mse_result, "mg4_input_private") #unit lb per day
     Forhire_season_length<-mongo.bson.value(mse_result, "mg4_hire_length") #unit days
     Private_season_length<-mongo.bson.value(mse_result, "mg4_private_length") #unit days
-  #}
+  }
+    
+    
+  ### extra parameter from default setting but not shown in the user interface ###  
   
-###########################################  
-###### Get Database Value End   ###########
-########################################### 
+    ##########################################################  
+    ###### Get Database User Interface Value End   ###########
+    ########################################################## 
+    
+    ##########################################################  
+    ###### Get Database Global setting Value Start ###########
+    ##########################################################
+    
+    global_settings<-getGlobal()
+    extra_param<-mongo.bson.value(global_settings, "extraParam") 
+    
+    spawning_output_1<-unlist(extra_param$spawning_output_1)
+    spawning_output_2<-unlist(extra_param$spawning_output_2)
+    
+    length_age_key<-extra_param$length_age_key
+    length_age_key <- matrix(unlist(length_age_key), ncol = 21, byrow = TRUE)
+    length_age_key_row_name<-unlist(extra_param$length_age_key_row_name)
+    rownames(length_age_key)<-length_age_key_row_name
+    colnames(length_age_key)<-0:agebins
+    
+    hl_e_pred_F_ave<-as.vector(extra_param$hl_e_pred_F_ave)
+    hl_w_pred_F_ave<-as.vector(extra_param$hl_w_pred_F_ave)
+    ll_e_pred_F_ave<-as.vector(extra_param$ll_e_pred_F_ave)
+    ll_w_pred_F_ave<-as.vector(extra_param$ll_w_pred_F_ave)
+    mrip_e_pred_F_ave<-as.vector(extra_param$mrip_e_pred_F_ave)
+    mrip_w_pred_F_ave<-as.vector(extra_param$mrip_w_pred_F_ave)
+    hbt_e_pred_F_ave<-as.vector(extra_param$hbt_e_pred_F_ave)
+    hbt_w_pred_F_ave<-as.vector(extra_param$hbt_w_pred_F_ave)
+    comm_closed_e_pred_F_ave<-as.vector(extra_param$comm_closed_e_pred_F_ave)
+    comm_closed_w_pred_F_ave<-as.vector(extra_param$comm_closed_w_pred_F_ave)
+    rec_closed_e_pred_F_ave<-as.vector(extra_param$rec_closed_e_pred_F_ave)
+    rec_closed_w_pred_F_ave<-as.vector(extra_param$rec_closed_w_pred_F_ave)
+    shrimp_e_pred_F_ave<-as.vector(extra_param$shrimp_e_pred_F_ave)
+    shrimp_w_pred_F_ave<-as.vector(extra_param$shrimp_w_pred_F_ave)
+    
+    hl_e_selex<-unlist(extra_param$hl_e_selex)
+    hl_w_selex<-unlist(extra_param$hl_w_selex)
+    ll_e_selex<-unlist(extra_param$ll_e_selex)
+    ll_w_selex<-unlist(extra_param$ll_w_selex)
+    mrip_e_selex<-unlist(extra_param$mrip_e_selex)
+    mrip_w_selex<-unlist(extra_param$mrip_w_selex)
+    hbt_e_selex<-unlist(extra_param$hbt_e_selex)
+    hbt_w_selex<-unlist(extra_param$hbt_w_selex)
+    comm_closed_e_selex<-unlist(extra_param$comm_closed_e_selex)
+    comm_closed_w_selex<-unlist(extra_param$comm_closed_w_selex)
+    rec_closed_e_selex<-unlist(extra_param$rec_closed_e_selex)
+    rec_closed_w_selex<-unlist(extra_param$rec_closed_w_selex)
+    shrimp_e_selex<-unlist(extra_param$shrimp_e_selex)
+    shrimp_w_selex<-unlist(extra_param$shrimp_w_selex)
+    
+    hl_e_retention<-unlist(extra_param$hl_e_retention)
+    hl_w_retention<-unlist(extra_param$hl_w_retention)
+    ll_e_retention<-unlist(extra_param$ll_e_retention)
+    ll_w_retention<-unlist(extra_param$ll_w_retention)
+    mrip_e_retention<-unlist(extra_param$mrip_e_retention)
+    mrip_w_retention<-unlist(extra_param$mrip_w_retention)
+    hbt_e_retention<-unlist(extra_param$hbt_e_retention)
+    hbt_w_retention<-unlist(extra_param$hbt_w_retention)
+    hl_e_retention<-unlist(extra_param$hl_e_retention)
+    
+    total_catch_N<-unlist(extra_param$total_catch_N)
+    sum_SSB_N<-unlist(extra_param$sum_SSB_N)
+    Current_F<-unlist(extra_param$Current_F)
+    Current_SSB<-unlist(extra_param$Current_SSB)
+    MSST<-extra_param$MSST
+    MFMT<-extra_param$MFMT
+    Current_F_ratio<-extra_param$Current_F_ratio
+    Current_SSB_ratio<-extra_param$Current_SSB_ratio
+    
+    
+    ##########################################################  
+    ###### Get Database Global setting Value End ###########
+    ########################################################## 
   
   
   
@@ -786,10 +811,10 @@ function(store_path,seed_file,F_plan,comm,process_gen_id){
   #legal size selectivity 
   Comme_min_size_cm<-Comme_min_size_in*2.54 # unit inch
   Recre_min_size_cm<-Recre_min_size_in*2.54  #unit inch
-  thre_bin_comme<-as.numeric(rownames(length_age_key))[1]+2-2*which.max(as.numeric(rownames(length_age_key))<=Comme_min_size_cm)
-  thre_bin_recre<-as.numeric(rownames(length_age_key))[1]+2-2*which.max(as.numeric(rownames(length_age_key))<=Recre_min_size_cm)
-  Comme_legal_selx<-colSums(length_age_key[as.numeric(rownames(length_age_key))>=Comme_min_size_cm,])+length_age_key[thre_bin_comme,]*(1-(Comme_min_size_cm-thre_bin_comme)/2)
-  Recre_legal_selx<-colSums(length_age_key[as.numeric(rownames(length_age_key))>=Recre_min_size_cm,])+length_age_key[thre_bin_recre,]*(1-(Recre_min_size_cm-thre_bin_recre)/2)
+  thre_bin_comme<-which.max(as.numeric(rownames(length_age_key))<=Comme_min_size_cm)
+  thre_bin_recre<-which.max(as.numeric(rownames(length_age_key))<=Recre_min_size_cm)
+  Comme_legal_selx<-colSums(length_age_key[as.numeric(rownames(length_age_key))>Comme_min_size_cm,])+length_age_key[thre_bin_comme,]*(1-(Comme_min_size_cm-as.numeric(rownames(length_age_key)[thre_bin_comme]))/2)
+  Recre_legal_selx<-colSums(length_age_key[as.numeric(rownames(length_age_key))>Recre_min_size_cm,])+length_age_key[thre_bin_recre,]*(1-(Recre_min_size_cm-as.numeric(rownames(length_age_key)[thre_bin_recre]))/2)
   
   #estimate direct fishing F
   comp_comm_sel_e <- hl_e_pred_F_ave * hl_e_selex * hl_e_retention + ll_e_pred_F_ave * ll_e_selex * ll_e_retention 
@@ -798,7 +823,7 @@ function(store_path,seed_file,F_plan,comm,process_gen_id){
   comp_recr_sel_e <- mrip_e_pred_F_ave * mrip_e_selex * mrip_e_retention + hbt_e_pred_F_ave* hbt_e_selex * hbt_e_retention
   comp_recr_sel_w <- mrip_w_pred_F_ave * mrip_w_selex * mrip_w_retention + hbt_w_pred_F_ave* hbt_w_selex * hbt_w_retention
   
-  #estimate open season discards for a directed fleet
+  #estimate open season discards death for a directed fleet
   comp_comm_discard_e <- hl_e_pred_F_ave * hl_e_selex * (1-hl_e_retention) * Comme_hl_discard_E_open + ll_e_pred_F_ave * ll_e_selex * (1-ll_e_retention) * Comme_ll_discard_E_open
   comp_comm_discard_w <- hl_w_pred_F_ave * hl_w_selex * (1-hl_w_retention) * Comme_hl_discard_W_open + ll_w_pred_F_ave * ll_w_selex * (1-ll_w_retention) * Comme_ll_discard_W_open
   
@@ -1186,11 +1211,17 @@ function(store_path,seed_file,F_plan,comm,process_gen_id){
   SSB_total_975<-apply(SSB_total, 2, quantile, probs=0.975)
   SSB_total_025<-apply(SSB_total, 2, quantile, probs=0.025)
   
+  SSB_total_ratio_median<-SSB_total_median/MSST
+  SSB_total_ratio_median<-c(Current_SSB_ratio,SSB_total_ratio_median)
+  
   F_general_mean<-colMeans(F_general)
   F_general_sd<-apply(F_general, 2,sd)
   F_general_median<-apply(F_general, 2,median)
   F_general_975<-apply(F_general, 2, quantile, probs=0.975)
   F_general_025<-apply(F_general, 2, quantile, probs=0.025)
+  
+  F_general_ratio_median<-F_general_median/MFMT
+  F_general_ratio_median<-c(Current_F_ratio,F_general_ratio_median)
   
   AM_comm_mean<-colMeans(AM_comm)
   AM_comm_sd<-apply(AM_comm, 2,sd)

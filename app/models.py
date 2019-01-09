@@ -1,5 +1,5 @@
 from mongoengine import Document, EmbeddedDocument
-from mongoengine import BooleanField,DateTimeField,FloatField,StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField,EmbeddedDocumentListField
+from mongoengine import BooleanField,DateTimeField,FloatField,StringField, ReferenceField, ListField, FileField, IntField, SequenceField,DecimalField,EmbeddedDocumentListField,EmbeddedDocumentField
 from flask import Markup, url_for
 from flask_appbuilder.models.decorators import renders
 #from flask_appbuilder.security.mongoengine.models import *
@@ -73,6 +73,65 @@ class Allocation(EmbeddedDocument):
 	stock = StringField(max_length=50)
 	fleet = StringField(max_length=50)
 	allocation = DecimalField()
+
+class extraParam(EmbeddedDocument):
+
+	spawning_output_1 = ListField(DecimalField())
+	spawning_output_2 = ListField(DecimalField())
+
+	length_age_key = ListField(DecimalField()) # matrix
+	length_age_key_row_name = ListField(StringField(max_length=5))
+	length_age_key_stock1 = ListField(DecimalField())# matrix
+	length_age_key_stock2 = ListField(DecimalField())# matrix
+
+	hl_e_pred_F_ave = DecimalField()
+	hl_w_pred_F_ave = DecimalField()
+	ll_e_pred_F_ave = DecimalField()
+	ll_w_pred_F_ave = DecimalField()
+	mrip_e_pred_F_ave = DecimalField()
+	mrip_w_pred_F_ave = DecimalField()
+	hbt_e_pred_F_ave = DecimalField()
+	hbt_w_pred_F_ave = DecimalField()
+	comm_closed_e_pred_F_ave = DecimalField()
+	comm_closed_w_pred_F_ave = DecimalField()
+	rec_closed_e_pred_F_ave = DecimalField()
+	rec_closed_w_pred_F_ave = DecimalField()
+	shrimp_e_pred_F_ave = DecimalField()
+	shrimp_w_pred_F_ave = DecimalField()
+
+	hl_e_selex = ListField(DecimalField())
+	hl_w_selex = ListField(DecimalField())
+	ll_e_selex = ListField(DecimalField())
+	ll_w_selex = ListField(DecimalField())
+	mrip_e_selex = ListField(DecimalField())
+	mrip_w_selex = ListField(DecimalField())
+	hbt_e_selex = ListField(DecimalField())
+	hbt_w_selex = ListField(DecimalField())
+	comm_closed_e_selex = ListField(DecimalField())
+	comm_closed_w_selex = ListField(DecimalField())
+	rec_closed_e_selex = ListField(DecimalField())
+	rec_closed_w_selex = ListField(DecimalField())
+	shrimp_e_selex = ListField(DecimalField())
+	shrimp_w_selex = ListField(DecimalField())
+
+	hl_e_retention = ListField(DecimalField())
+	hl_w_retention = ListField(DecimalField())
+	ll_e_retention = ListField(DecimalField())
+	ll_w_retention = ListField(DecimalField())
+	mrip_e_retention = ListField(DecimalField())
+	mrip_w_retention = ListField(DecimalField())
+	hbt_e_retention = ListField(DecimalField())
+	hbt_w_retention = ListField(DecimalField())
+
+	total_catch_N = ListField(DecimalField())
+	sum_SSB_N = ListField(DecimalField())
+	Current_F = ListField(DecimalField())
+	Current_SSB = ListField(DecimalField())
+	MSST = DecimalField()
+	MFMT = DecimalField()
+	Current_F_ratio = DecimalField()
+	Current_SSB_ratio = DecimalField()
+
 
 class extraF(EmbeddedDocument):
 
@@ -235,6 +294,7 @@ class GlobalSettings(Document):
 
 	#extral
 	extra_F = EmbeddedDocumentListField(extraF)
+	extraParam = EmbeddedDocumentField(extraParam)
 
 class ProcessGenInput(Document):
 

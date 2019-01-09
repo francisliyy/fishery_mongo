@@ -260,7 +260,7 @@ class ProcessView(ModelView):
             step1.mg4_private_length = global_settings.mg4_private_length
 
                 #extral
-            step1.extra_F = global_settings.extra_F
+            #step1.extra_F = global_settings.extra_F
 
             step1.save()            
 
