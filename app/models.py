@@ -477,6 +477,8 @@ class MseResultSingle(EmbeddedDocument):
 	F_general_median = FloatField()
 	F_general_975 = FloatField()
 	F_general_025 = FloatField()
+	SSB_total_ratio_median = FloatField()
+	F_general_ratio_median = FloatField()
 
 class MseResultList(Document):
 

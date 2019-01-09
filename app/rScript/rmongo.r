@@ -1212,7 +1212,7 @@ function(process_gen_id){
   SSB_total_025<-apply(SSB_total, 2, quantile, probs=0.025)
   
   SSB_total_ratio_median<-SSB_total_median/MSST
-  SSB_total_ratio_median<-c(Current_SSB_ratio,SSB_total_ratio_median)
+  #SSB_total_ratio_median<-c(Current_SSB_ratio,SSB_total_ratio_median)
   
   F_general_mean<-colMeans(F_general)
   F_general_sd<-apply(F_general, 2,sd)
@@ -1221,7 +1221,7 @@ function(process_gen_id){
   F_general_025<-apply(F_general, 2, quantile, probs=0.025)
   
   F_general_ratio_median<-F_general_median/MFMT
-  F_general_ratio_median<-c(Current_F_ratio,F_general_ratio_median)
+  #F_general_ratio_median<-c(Current_F_ratio,F_general_ratio_median)
   
   AM_comm_mean<-colMeans(AM_comm)
   AM_comm_sd<-apply(AM_comm, 2,sd)
@@ -1285,23 +1285,26 @@ function(process_gen_id){
   ######### new program end ##############
   
   
-  resultlist<-cbind(c(2016:2035),AM_comm_median,AM_comm_975,AM_comm_025,AM_recr_median,AM_recr_975,AM_recr_025
+  resultlist<-cbind(c(2017:2036),AM_comm_median,AM_comm_975,AM_comm_025,AM_recr_median,AM_recr_975,AM_recr_025
                     ,SSB_total_median,SSB_total_975,SSB_total_025,SSB_1_median,SSB_1_975,SSB_1_025,SSB_2_median,SSB_2_975,SSB_2_025
                     ,Forhire_planned_season_length_median,Forhire_planned_season_length_975,Forhire_planned_season_length_025
                     ,Private_planned_season_length_median,Private_planned_season_length_975,Private_planned_season_length_025
-                    ,F_general_median,F_general_975,F_general_025)
+                    ,F_general_median,F_general_975,F_general_025
+                    ,SSB_total_ratio_median,F_general_ratio_median)
   colnames(resultlist) <- c("year","AM_comm_median", "AM_comm_975", "AM_comm_025", "AM_recr_median", "AM_recr_975", "AM_recr_025"
                     ,"SSB_total_median", "SSB_total_975","SSB_total_025","SSB_1_median", "SSB_1_975","SSB_1_025","SSB_2_median", "SSB_2_975","SSB_2_025"
                     ,"Forhire_planned_season_length_median","Forhire_planned_season_length_975","Forhire_planned_season_length_025"
                     ,"Private_planned_season_length_median","Private_planned_season_length_975","Private_planned_season_length_025"
-                    ,"F_general_median","F_general_975","F_general_025")
+                    ,"F_general_median","F_general_975","F_general_025"
+                    ,"SSB_total_ratio_median","F_general_ratio_median")
   library("RJSONIO")
   library("plyr")
   resultJson<-toJSON(unname(alply(resultlist,1,identity)))
 
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   print(mongo.oid.from.string(process_gen_id))
-  resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson,',"Year_to_green_mean":',Year_to_green_mean
+  resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson,',"Current_F_ratio":',Current_F_ratio
+                          ,',"Year_to_green_mean":',Year_to_green_mean
                           ,',"total_catch_MSEcomp":',total_catch_MSEcomp,',"catch_var_MSEcomp":',catch_var_MSEcomp
                           ,',"terminal_SSB_MSEcomp":',terminal_SSB_MSEcomp,',"lowest_SSB_MSEcomp":',lowest_SSB_MSEcomp
                           ,',"total_recr_catch_MSEcomp":',total_recr_catch_MSEcomp,',"catch_recr_var_MSEcomp":',catch_recr_var_MSEcomp
