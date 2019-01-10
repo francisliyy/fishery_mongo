@@ -237,8 +237,8 @@ storeGlobalSetting<-function(store_path,folder_name,ssb_msy,f_msy){
   #Age length key
   length_age_key<-base$ALK[,,1]
   length_age_key_row_name<-rownames(length_age_key)
-  #length_age_key_stock1<-length_age_key
-  #length_age_key_stock2<-length_age_key
+  length_age_key_stock1<-length_age_key
+  length_age_key_stock2<-length_age_key
   
   length_age_key_json = toJSON(length_age_key)
   length_age_key_row_name_json = toJSON(length_age_key_row_name)
