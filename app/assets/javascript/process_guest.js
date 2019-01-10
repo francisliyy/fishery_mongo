@@ -34,11 +34,11 @@ $(function() {
 
 		        $.ajax({
 		            cache: false,
-		            url: 'http://localhost:8000/runmse',
+		            url: 'http://gomredsnappermsetool.fiu.edu:8000/runmse',
 		            crossDomain: true,
 		            type: "POST",
 		            dataType: "json",
-		            data: JSON.stringify({"store_path":"~/","seed_file":"seed.csv","F_plan":bio_f_percent/0.75,"comm":sec_commercial}),
+		            data: JSON.stringify({"process_gen_id":$("#step1_id").data("step1id")}),
 		            success: function(data) 
 		            {
 		                 $("#mask").removeClass('lmask');

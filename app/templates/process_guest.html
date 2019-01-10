@@ -40,7 +40,7 @@
       <div class="col-md-9" style="padding-right: 2em;">
         <div id="accordion-demo" class="panel-group">
 
-          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfiles="{{process_rndfilenames}}" data-stock1filename="{{process_stock1filename}}"></div>
+          <div id="step1_id" data-step1id="{{process_step1['id']}}" data-rndfiles="{{process_rndfilenames}}" data-stock1filename="{{process_stock1filename}}" data-current_F_ratio="{{process_current_F_ratio}}" data-current_SSB_ratio="{{process_current_SSB_ratio}}"></div>
 
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -979,14 +979,35 @@
           Show the process result:
         </p>
         <ol class="acc-wizard-sidebar">
+          <li class="acc-wizard-todo"><a href="#kobe">Kobe Plot</a></li>
           <li class="acc-wizard-todo"><a href="#bio">Commercial Catch</a></li>
           <li class="acc-wizard-todo"><a href="#spr">Recreational Catch</a></li>
+          <li class="acc-wizard-todo"><a href="#hire">For Hire Catch</a></li>
+          <li class="acc-wizard-todo"><a href="#private">Private Catch</a></li>          
+          <li class="acc-wizard-todo"><a href="#f">General Fishing Mortality</a></li>
           <li class="acc-wizard-todo"><a href="#ssb">Total SSB</a></li>
-          <li class="acc-wizard-todo"><a href="#f">General F</a></li>
+          <li class="acc-wizard-todo"><a href="#ssb1">SSB in Stock1</a></li>
+          <li class="acc-wizard-todo"><a href="#ssb2">SSB in Stock2</a></li>
         </ol>
       </div>
       <div class="col-md-9" style="padding-right: 2em;">
         <div id="process-result-panel" class="panel-group">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#kobe" data-parent="#process-result" data-toggle="collapse">
+                  Kobe Plot
+                </a>
+              </h4>
+            </div>
+            <div id="kobe" class="panel-collapse collapse in">
+              <div class="panel-body">
+                  <div id="kobe-plot" class="echart-size">
+                  </div>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#generalinput -->
+          </div> <!-- /.panel.panel-default -->
 
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -1023,6 +1044,54 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
+                <a href="#hire" data-parent="#process-result" data-toggle="collapse">
+                  For Hire Catch
+                </a>
+              </h4>
+            </div>
+            <div id="hire" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="hire-chart" class="echart-size">
+                </div> 
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#private" data-parent="#process-result" data-toggle="collapse">
+                  Private Catch
+                </a>
+              </h4>
+            </div>
+            <div id="private" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="private-chart" class="echart-size">
+                </div> 
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#f" data-parent="#process-result" data-toggle="collapse">
+                  General Fishing Mortality
+                </a>
+              </h4>
+            </div>
+            <div id="f" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="f-chart-1" class="echart-size">
+                </div>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
                 <a href="#ssb" data-parent="#process-result" data-toggle="collapse">
                   Total SSB
                 </a>
@@ -1039,14 +1108,30 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#f" data-parent="#process-result" data-toggle="collapse">
-                  General F
+                <a href="#ssb1" data-parent="#process-result" data-toggle="collapse">
+                  SSB in Stock1
                 </a>
               </h4>
             </div>
-            <div id="f" class="panel-collapse collapse in">
+            <div id="ssb1" class="panel-collapse collapse in">
               <div class="panel-body">
-                <div id="f-chart-1" class="echart-size">
+                <div id="ssb1-chart" class="echart-size">
+                </div>
+              </div> <!--/.panel-body -->
+            </div> <!-- /#addwizard -->
+          </div> <!-- /.panel.panel-default -->
+
+           <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#ssb2" data-parent="#process-result" data-toggle="collapse">
+                  SSB in Stock2
+                </a>
+              </h4>
+            </div>
+            <div id="ssb2" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div id="ssb2-chart" class="echart-size">
                 </div>
               </div> <!--/.panel-body -->
             </div> <!-- /#addwizard -->
@@ -1063,7 +1148,6 @@
         </div>
       </div>
     </div>
-    <div id="mask"></div>
     <div id="mask"></div>
 
 {% endblock %}
