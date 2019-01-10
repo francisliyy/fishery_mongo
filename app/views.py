@@ -165,14 +165,14 @@ class ProcessView(ModelView):
         rndfilenames = []
         stock1_filename = None
 
+        global_settings = GlobalSettings.objects.first()
+
         if step1 is None:
             print("step1 is null")
             
             #############################################################
             #   read from global_settings                               #
             #############################################################
-
-            global_settings = GlobalSettings.objects.first()
 
             step1 = ProcessGenInput(process_id=pk,created_by=current_user.id)                       
 
@@ -272,6 +272,9 @@ class ProcessView(ModelView):
             step1.rnd_seed_file.append(onefile)
             step1.save()
 
+        current_F_ratio = global_settings.extraParam.Current_F_ratio[0]
+        current_SSB_ratio = global_settings.extraParam.Current_SSB_ratio[0]
+
         if step1.stock1_filepath :
             stock1_filename = step1.stock1_filepath.name 
         print("===================")
@@ -284,9 +287,9 @@ class ProcessView(ModelView):
             #print("===========%s"%step1[0].rnd_seed_file.filename)
 
         if item.process_simple is True:
-            return self.render_template('/process_simple.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process_simple.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name, process_description=item.process_description,process_current_F_ratio=current_F_ratio,process_current_SSB_ratio=current_SSB_ratio)
         else:
-            return self.render_template('/process.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name, process_description=item.process_description)
+            return self.render_template('/process.html',process_step1=step1,process_rndfilenames=json.dumps(rndfilenames),process_stock1filename=json.dumps(stock1_filename),process_name=item.process_name, process_description=item.process_description,process_current_F_ratio=current_F_ratio,process_current_SSB_ratio=current_SSB_ratio)
 
 class ProcessCmpView(ModelView):
 

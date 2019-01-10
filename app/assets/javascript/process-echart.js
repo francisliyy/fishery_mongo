@@ -116,7 +116,7 @@ function drawChart(chartdata){
 	    ],
 	    series : [
 	        {
-	          name:'2016',
+	          name:'',
 	          type:'scatter',
 	          data:[],
 	          itemStyle:{
@@ -874,7 +874,7 @@ function drawChart(chartdata){
 	    $.each(chartdata,function(index, el) {
 			kobe_median_data.push([el.SSB_total_ratio_median,el.F_general_ratio_median]);
         });
-        debugger;
+
         kobe_option.series[0].data = kobe_median_data;
 		kobeChart1.setOption(kobe_option);
 
@@ -988,6 +988,10 @@ $(function() {
 
     var colorChart = echarts.init(document.getElementById('colorChart'));
     var ruleChart = echarts.init(document.getElementById('ruleChart'));
+    var current_f_ratio = $('#step1_id').data('current_f_ratio');
+    var current_ssb_ratio = $('#step1_id').data('current_ssb_ratio');
+    var start_projection = $('#start_projection').find("input").val();
+    start_projection = start_projection.substring(0,4);
 
     var colorChartOption = {
     	    color:[ 
@@ -1048,9 +1052,9 @@ $(function() {
 		    ],
 		    series : [
 		        {
-		          name:'2016',
+		          name:start_projection,
 		          type:'scatter',
-		          data:[[1.40854,0.823]],
+		          data:[[current_ssb_ratio,current_f_ratio]],
 		          itemStyle:{
 		          normal:{
 		              label:{

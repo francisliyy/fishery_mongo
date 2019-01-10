@@ -499,7 +499,6 @@ function(process_gen_id){
   
   ### never used variables, ignore begin ####
   time_step_switch<-2 # 1: half year, 2: 1 year.  12312018 currently only year.
-  project_start_year<-2016 #  12312018 suppose can start from any date, but currently only from the beginning of the year
   mixing_pattern_switch<-1 # 1: no mixing, 2: constant, 3: same over year, 4: time varies 12312018 currently only no mixing
   HCR_pattern<-2 #HCR pattern 1: constant C, 2: constant F
   ### never used variables, ignore end ####
@@ -519,6 +518,7 @@ function(process_gen_id){
   ####   no use, just keep it, end #######
   
   ### general input ###
+  project_start_year<-as.numeric(substring(as.Date(mongo.bson.value(mse_result, "start_projection")),0,4))
   Runtime_short<-mongo.bson.value(mse_result, "short_term_mgt") # unit year
   Runtime_long<-mongo.bson.value(mse_result, "long_term_mgt") # unit year
   Simrun_Num<-mongo.bson.value(mse_result, "no_of_interations")
@@ -1283,9 +1283,9 @@ function(process_gen_id){
   
   
   ######### new program end ##############
-  
-  
-  resultlist<-cbind(c(2017:2036),AM_comm_median,AM_comm_975,AM_comm_025,AM_recr_median,AM_recr_975,AM_recr_025
+  year_start<-project_start_year+1
+  year_end<-project_start_year+20
+  resultlist<-cbind(c(year_start:year_end),AM_comm_median,AM_comm_975,AM_comm_025,AM_recr_median,AM_recr_975,AM_recr_025
                     ,SSB_total_median,SSB_total_975,SSB_total_025,SSB_1_median,SSB_1_975,SSB_1_025,SSB_2_median,SSB_2_975,SSB_2_025
                     ,Forhire_planned_season_length_median,Forhire_planned_season_length_975,Forhire_planned_season_length_025
                     ,Private_planned_season_length_median,Private_planned_season_length_975,Private_planned_season_length_025
@@ -1303,7 +1303,7 @@ function(process_gen_id){
 
   mongo <- mongo.create(host = "127.0.0.1", username = "",password = "", db = "admin")
   print(mongo.oid.from.string(process_gen_id))
-  resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson,',"Current_F_ratio":',Current_F_ratio
+  resultListJson <- paste('{"process_gen_id":"',process_gen_id,'","resultlist":',resultJson
                           ,',"Year_to_green_mean":',Year_to_green_mean
                           ,',"total_catch_MSEcomp":',total_catch_MSEcomp,',"catch_var_MSEcomp":',catch_var_MSEcomp
                           ,',"terminal_SSB_MSEcomp":',terminal_SSB_MSEcomp,',"lowest_SSB_MSEcomp":',lowest_SSB_MSEcomp
