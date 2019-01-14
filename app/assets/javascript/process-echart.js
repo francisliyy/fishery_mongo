@@ -1254,7 +1254,63 @@ $(function() {
 		    }else{
 		    	doc.text('Random Seed Setting: Self-defined CSV', 90, 410);
 		    }
+
+		    //steo3 : Initial Population
+		    //Section font size
+		    doc.setFontSize(20);
+		    doc.text('Initial Population', 50, 440)
+		    doc.setFontSize(10);
+		    doc.text('Stock 1 Population CV (Normal Dist.): '+result.ip_cv_1, 90, 460);
+		    doc.text('Stock 2 Population CV (Normal Dist.): '+result.ip_cv_2, 90, 480);
+		    doc.text('Stock mean: see Table-1 below', 90, 500);
 		    
+		    //steo4 : Biological Parameter
+		    //Section font size
+		    doc.setFontSize(20);
+		    doc.text('Biological Parameters', 50, 530)
+		    doc.setFontSize(10);
+		    doc.text('Stock Weight-at-age & Fecundity: see Table-2 below', 90, 550);
+
+		    //steo5 : Natural Mortality
+		    //Section font size
+		    doc.setFontSize(20);
+		    doc.text('Natural Mortality', 50, 580)
+		    doc.setFontSize(10);
+		    if(result.nm_m=='h'){		    	
+		    	doc.text('High M', 90, 600);
+		    }else if(result.nm_m=='l'){
+		    	doc.text('Low M', 90, 600);
+		    }else{
+		    	doc.text('Current M', 90, 600);
+		    }
+		    doc.text('CV for Stock1 Population(Log-normal Dist.): '+result.nm_cv_1, 90, 620);
+		    doc.text('CV for Stock2 Population(Log-normal Dist.): '+result.nm_cv_1, 90, 640);
+		    doc.text('Fraction before Spawning: '+result.simple_spawning, 90, 660);
+		    doc.text('Mean M for Stock: see Table-3 below', 90, 680);
+
+		    doc.addPage();
+		    doc.setFontSize(10);
+		    doc.text('Table-1:',90,80);
+		    var tableIP = $('#form-ibParam .fixed-table-body').clone();
+		    tableIP.find("div.fixed-table-loading").remove();
+		    tableIP.find("#table-ibParam").css("font-size", "10px");
+		    doc.fromHTML(tableIP[0],90,90);
+		    
+		    doc.addPage();
+		    doc.setFontSize(10);
+		    doc.text('Table-2:',90,80);
+		    var tableBP = $('#form-bioParam .fixed-table-body').clone();
+		    tableBP.find("div.fixed-table-loading").remove();
+		    tableBP.find("#table-bioParam").css("font-size", "10px");		    
+		    doc.fromHTML(tableBP[0],90,90);
+
+		    doc.addPage();
+		    doc.setFontSize(10);
+		    doc.text('Table-3:',90,80);
+		    var tableNM = $('#form-naturalmortality .fixed-table-body').clone();
+		    tableNM.find("div.fixed-table-loading").remove();
+		    tableNM.find("#table-mortality").css("font-size", "10px")
+		    doc.fromHTML(tableNM[0],90,90);
 
 		    
 		    doc.addPage();
