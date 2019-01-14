@@ -890,6 +890,21 @@ class ProStepView(BaseView):
 
         return Response(json.dumps({}), mimetype='application/json')
 
+    @expose('/getMesInput/<pro_gen_id>')
+    @has_access
+    def getMesInput(self,pro_gen_id):
+
+        print(pro_gen_id)
+
+        mseInput = ProcessGenInput.objects(id=pro_gen_id).first()
+
+        print(mseInput)
+
+        if mseInput!=None :
+            return Response(mseInput.to_json(), mimetype='application/json')
+
+        return Response(json.dumps({}), mimetype='application/json')
+
 class StockFileView(ModelView):
 
     datamodel = MongoEngineInterface(StockFile)

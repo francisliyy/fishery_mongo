@@ -1182,20 +1182,103 @@ $(function() {
 
     $("#btnReport").on('click', function(event) {
     	event.preventDefault();
-    	/* Act on the event */
-    	var bioChart1ImgData = bioChart1.getDataURL();
-    	var sprChart1ImgData = sprChart1.getDataURL();
-    	var ssbChart1ImgData = ssbChart1.getDataURL();
-    	var fChart1ImgData = fChart1.getDataURL();
+    	$("#mask").addClass('lmask');
 
-	    var doc = new jsPDF('p', 'pt', 'a4', false);
-	    var pageHeight= doc.internal.pageSize.height;
-	    doc.addImage(bioChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
-	    doc.addImage(sprChart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
-	    doc.addPage();
-	    doc.addImage(ssbChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
-	    doc.addImage(fChart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
-	    doc.save( 'colorchart.pdf')
+		$.ajax({
+	    	url: $SCRIPT_ROOT+'/prostepview/getMesInput/'+$("#step1_id").data("step1id"),
+	    	type: 'get',
+	    	dataType: 'JSON',
+	    	data: {},
+	    }).done(function(result) {
+
+	    	console.log(result);
+
+		    var kobeChart1ImgData = kobeChart1.getDataURL();
+	    	var bioChart1ImgData = bioChart1.getDataURL();
+	    	var sprChart1ImgData = sprChart1.getDataURL();
+	    	var ssbChart1ImgData = ssbChart1.getDataURL();
+	    	var fChart1ImgData = fChart1.getDataURL();
+	    	var hireChart1ImgData = hireChart1.getDataURL();
+	    	var privateChart1ImgData = privateChart1.getDataURL();
+	    	var ssb1Chart1ImgData = ssb1Chart1.getDataURL();
+	    	var ssb2Chart1ImgData = ssb2Chart1.getDataURL();
+
+		    var doc = new jsPDF('p', 'pt', 'a4', false);
+
+		    var pageHeight= doc.internal.pageSize.height;
+			doc.setFontSize(36);
+		    doc.text('MSE Report', 200, 80);
+		    //steo1 : Stock Assessment Model Input
+		    //Section font size
+		    doc.setFontSize(20);
+		    doc.text('Stock Assessment Model Input', 50, 120)
+		    //aritcle title font size
+		    doc.setFontSize(12);
+		    doc.text('Stock1:', 70, 140)
+		    //aritcle font size
+		    doc.setFontSize(10);
+		    if(result.stock1_model_type==1){		    	
+		    	doc.text('Model type: Stock Synthesis 3', 90, 160);
+		    }else if(result.stock1_model_type==2){
+		    	doc.text('Model type: Virtual Population Analysis', 90, 160);
+		    }else{
+		    	doc.text('Model type: Statistical-catch-at-age', 90, 160);
+		    }
+		    if(result.stock1_input_file_type==1){
+		    	doc.text('Input File: Official Stock Assessment Model', 90, 180);
+		    }else{
+		    	doc.text('Input File: Self-defined Model', 90, 180);
+		    }
+
+			//steo2 : General Input
+		    //Section font size
+		    doc.setFontSize(20);
+		    doc.text('General Input', 50, 210)
+		    //aritcle font size
+		    doc.setFontSize(10);
+		    if(result.time_step=='Y'){		    	
+		    	doc.text('Time Step: 1 year', 90, 230);
+		    }else{
+		    	doc.text('Time Step: half year', 90, 230);
+		    }
+		    doc.text('Start Projection: 2016-01-01', 90, 250);
+		    doc.text('Short-term Management: '+result.short_term_mgt+' Years', 90, 270);
+		    doc.text('Long-term Management: '+result.long_term_mgt+' Years', 90, 290);
+		    doc.text('Stock per Management: '+result.stock_per_mgt_unit, 90, 310);
+		    doc.text('Mixing Pattern: No mixing', 90, 330);
+		    doc.text('Last Age in the Plus Group: '+result.last_age, 90, 350);
+		    doc.text('Number of Iteratons: '+result.no_of_interations, 90, 370);
+		    doc.text('Effective Sample Size For Initial Distribution: '+result.sample_size, 90, 390);
+		    if(result.rnd_seed_setting==1){
+		    	doc.text('Random Seed Setting: Default Seed CSV', 90, 410);
+		    }else{
+		    	doc.text('Random Seed Setting: Self-defined CSV', 90, 410);
+		    }
+		    
+
+		    
+		    doc.addPage();
+		    doc.addImage(kobeChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
+		    doc.addImage(bioChart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
+		    doc.addPage();
+		    doc.addImage(sprChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
+		    doc.addImage(ssbChart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
+		    doc.addPage();
+		    doc.addImage(fChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
+		    doc.addImage(hireChart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
+		    doc.addPage();
+		    doc.addImage(privateChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
+		    doc.addImage(ssb1Chart1ImgData, 'jpg', 50, 450, 500, 350, undefined, 'none');
+		    doc.addPage();
+		    doc.addImage(ssb2Chart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
+		    doc.save( 'colorchart.pdf')		    
+	    	
+	    }).always(function(result){
+	    	$("#mask").removeClass('lmask');
+	    })
+
+    	/* Act on the event */
+
     });	
 
 
