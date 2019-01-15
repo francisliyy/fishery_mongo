@@ -600,6 +600,8 @@ function(process_gen_id){
   switch_R_pattern<-mongo.bson.value(mse_result, "recruitTypeStock1")
   switch_R_year<-mongo.bson.value(mse_result, "fromHisStock1")
   switch_R_formula<-mongo.bson.value(mse_result, "fromFmlStock1")
+  switch_R_year_early<-mongo.bson.value(mse_result, "historySt1_early")
+  switch_R_year_later<-mongo.bson.value(mse_result, "historySt1")
   
   #  Rhist_late_mean<-exp(mean(log(Rhist_late)))
   #  Rhist_late_25<-qlnorm(0.25,mean(log(Rhist_late)),sd(log(Rhist_late)))
@@ -612,11 +614,26 @@ function(process_gen_id){
   #  Rhist_early_75<-qlnorm(0.75,mean(log(Rhist_early)),sd(log(Rhist_early)))  
   
   if(switch_R_pattern==1){
-    if(switch_R_year==1){
-      Rhist<-Rhist_early
-    }else if(switch_R_year==1){
-      # if historical 20 year recruitments.
-      Rhist<-Rhist_late
+   if(switch_R_year==1){		    	
+      if(switch_R_year_early==1){
+        Rhist<-mongo.bson.value(mse_result, "hst1_lower_early")
+      }else if(switch_R_year_early==2){		    	
+        Rhist<-mongo.bson.value(mse_result, "hst1_median_early")
+      }else if(switch_R_year_early==3){		    	
+        Rhist<-mongo.bson.value(mse_result, "hst1_mean_early")
+      }else if(switch_R_year_early==4){		    	
+        Rhist<-mongo.bson.value(mse_result, "hst1_upper_early")
+      }
+    }else{
+      if(switch_R_year_later==1){		    	
+        Rhist<-mongo.bson.value(mse_result, "hst1_lower")
+      }else if(switch_R_year_later==2){		    	
+        Rhist<-mongo.bson.value(mse_result, "hst1_median")
+      }else if(switch_R_year_later==3){		    	
+        Rhist<-mongo.bson.value(mse_result, "hst1_mean")
+      }else if(switch_R_year_later==4){		    	
+        Rhist<-mongo.bson.value(mse_result, "hst1_upper")
+      }
     }
     rec_pattern1_quantile<-0.5
   }else if(switch_R_pattern==2){
