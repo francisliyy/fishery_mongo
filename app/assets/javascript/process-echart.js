@@ -1193,6 +1193,9 @@ $(function() {
 
 	    	console.log(result);
 
+	    	var colorChartImgData = colorChart.getDataURL();
+	    	var ruleChartImgData = ruleChart.getDataURL();
+
 		    var kobeChart1ImgData = kobeChart1.getDataURL();
 	    	var bioChart1ImgData = bioChart1.getDataURL();
 	    	var sprChart1ImgData = sprChart1.getDataURL();
@@ -1312,6 +1315,140 @@ $(function() {
 		    tableNM.find("#table-mortality").css("font-size", "10px")
 		    doc.fromHTML(tableNM[0],90,90);
 
+		    //steo6 : Recruitment
+		    //Section font size
+		    doc.addPage();
+		    doc.setFontSize(20);
+		    doc.text('Recruitment', 50, 80)
+		    doc.setFontSize(10);
+		    doc.text('CV for Recruitment: '+result.cvForRecu, 90, 100);
+		    doc.text(result.stock1_amount+'% to Stock 1, '+result.stock2_amount+'% to Stock 2 ', 90, 120);
+		    if(result.recruitTypeStock1==1){
+		    	doc.text('From Historical: ', 90, 140);		    	
+		    	if(result.fromHisStock1==1){
+		    		doc.text('Include Years before 1984: ', 100, 160);
+		    		doc.text('Historical R(1000s): ', 110, 180);		    	
+		    		if(result.historySt1_early==1){		    	
+			    		doc.text('Lower 25%: '+result.hst1_lower_early, 120, 200);
+				    }else if(result.historySt1_early==2){		    	
+			    		doc.text('Median: '+result.hst1_median_early, 120, 200);
+				    }else if(result.historySt1_early==3){		    	
+			    		doc.text('Mean: '+result.hst1_mean_early, 120, 200);
+				    }else if(result.historySt1_early==4){		    	
+			    		doc.text('Upper 25%: '+result.hst1_upper_early, 120, 200);
+				    }
+			    }else{
+			    	doc.text('Exclude Years before 1984: ', 100, 160);
+		    		doc.text('Historical R(1000s): ', 110, 180);
+			    	if(result.historySt1==1){		    	
+			    		doc.text('Lower 25%: '+result.hst1_lower, 120, 200);
+				    }else if(result.historySt1==2){		    	
+			    		doc.text('Median: '+result.hst1_median, 120, 200);
+				    }else if(result.historySt1==3){		    	
+			    		doc.text('Mean: '+result.hst1_mean, 120, 200);
+				    }else if(result.historySt1==4){		    	
+			    		doc.text('Upper 25%: '+result.hst1_upper, 120, 200);
+				    }
+			    }
+		    }else{
+		    	doc.text('From Formula: ', 90, 140);
+		    	if(result.formulaStock1==1){		    	
+		    		doc.text('Moderfied Beverton-Holt Model:', 100, 160);
+		    		if(result.fromFmlStock1==1){		    	
+			    		doc.text('R0 Include Years Before 1984:', 110, 180);
+			    		doc.text('R0 :'+result.fml1MbhmR0_early, 120, 200);
+				    }else {	
+				    	doc.text('R0 Exclude Years Before 1984: ', 110, 180);
+				    	doc.text('R0 :'+result.fml1MbhmR0, 120, 200);	    	
+			    	}
+			    	doc.text('SSB0 :'+result.fml1MbhmSSB0, 120, 220);	
+			    	doc.text('Steepnes :'+result.fml1MbhmSteep, 120, 240);	
+			    }	
+		    }
+
+		    //steo7 : Management Options I
+		    //Section font size
+		    doc.setFontSize(20);
+		    doc.text('Management Options I', 50, 270)
+		    doc.setFontSize(10);
+		    doc.text('Biological Reference Points:', 90, 290);
+		    doc.text('SSB(MSY)'+": "+result.bio_catch_mt+" eggs", 100, 310);
+		    doc.text('F(MSY)'+": "+result.bio_f_percent, 100, 330);
+		    doc.text('Fisheries Status: ', 90, 350);
+		    doc.addImage(colorChartImgData, 'jpg', 100, 360,300, 150, undefined, 'none');
+		    doc.text('Fisheries Status: ', 90, 530);
+		    if(result.hrt_harvest_rule=='CC'){		    	
+	    		doc.text('Constant C: '+result.harvest_level, 100, 550);
+		    }else {	
+		    	doc.text('Constant F: '+result.harvest_level, 100, 550); 	
+	    	}
+		    doc.addImage(ruleChartImgData, 'jpg', 100, 560,300, 150, undefined, 'none');
+		    doc.text('CV for Implementation Uncertainty: '+result.mg1_cv, 90, 730);
+
+		    //steo8 : Management Options II
+		    //Section font size
+		    doc.addPage();
+		    doc.setFontSize(20);
+		    doc.text('Management Options II', 50, 80)
+		    doc.setFontSize(10);
+		    doc.text('Allocation among Sectors:', 90, 100);
+		    doc.text('Recreational: '+result.sec_recreational+'%', 100, 120);
+		    doc.text('Commercial: '+result.sec_commercial+'%', 100, 140);
+		    doc.text('Allocation among Recremental Sectors:', 90, 160);
+		    doc.text('For Hire: '+result.sec_hire+'%', 100, 180);
+		    doc.text('Private: '+result.sec_private+'%', 100, 200);
+		    doc.text('Allocation among For Hire Segments:', 90, 220);
+		    doc.text('Headboat: '+result.sec_headboat+'%', 100, 240);
+		    doc.text('Charter Boat: '+result.sec_charterboat+'%', 100, 260);
+		    doc.text('Probability of Overfishing (OFL -> ABC):', 90, 280);
+		    doc.text('P*: '+result.sec_pstar+'%', 100, 300);
+		    doc.text('Acceptable Catch Target (ACT) Buffer:', 90, 320);
+		    doc.text('For Commencial Sector: '+result.sec_act_com+'%', 100, 340);
+		    doc.text('For Private Sector: '+result.sec_act_pri+'%', 100, 360);
+		    doc.text('For Forhire Sector: '+result.sec_act_hire+'%', 100, 380);
+
+		    //steo9 : Management Options III
+		    //Section font size
+		    doc.setFontSize(20);
+		    doc.text('Management Options III', 50, 410)
+		    doc.setFontSize(10);
+		    doc.text('Regulations:', 90, 430);
+		    doc.text('Mininum Size:', 100, 450);
+		    doc.text('Commercial: '+result.mg3_commercial+' inch', 110, 470);
+		    doc.text('Recreational: '+result.mg3_recreational+' inch', 110, 490);
+		    doc.text('Recreational Bag Limit:', 100, 510);
+		    doc.text('For For Hire: '+result.mg3_forhire+' # of fish per bag', 110, 530);
+		    doc.text('For Private: '+result.mg3_private+' # of fish per bag', 110, 550);
+		    doc.text('(Hint: will scale the catch rate)', 100, 570);
+		    doc.text('Release Mortality:', 100, 590);
+		    doc.text('Recreational Stock1 Open: '+result.mg3_rec_east_open+'%, Recreational Stock1 Closed: '+result.mg3_rec_east_closed+'%', 110, 610);
+		    doc.text('Recreational Stock2 Open: '+result.mg3_rec_west_open+'%, Recreational Stock2 Closed: '+result.mg3_rec_west_closed+'%', 110, 630);
+		    doc.text('Commecial hardline Stock1 Open: '+result.mg3_comhard_east_open+'%, Commecial hardline Stock1 Closed: '+result.mg3_comhard_east_closed+'%', 110, 650);
+		    doc.text('Commecial hardline Stock2 Open: '+result.mg3_comhard_west_open+'%, Commecial hardline Stock2 Closed: '+result.mg3_comhard_west_closed+'%', 110, 670);
+		    doc.text('Commecial longline Stock1 Open: '+result.mg3_comlong_east_open+'%, Commecial longline Stock1 Closed: '+result.mg3_comlong_east_closed+'%', 110, 690);
+		    doc.text('Commecial longline Stock2 Open: '+result.mg3_comlong_west_open+'%, Commecial longline Stock2 Closed: '+result.mg3_comlong_west_closed+'%', 110, 710);
+		    
+		    //steo8 : Management Options IV
+		    //Section font size
+		    doc.addPage();
+		    doc.setFontSize(20);
+		    doc.text('Management Options IV', 50, 80)
+		    doc.setFontSize(10);
+		    if(result.mg4_season==1){		    	
+	    		doc.text('Determined by ACT:', 90, 100);
+	    		doc.text('(Hint: bag limit for for hire is, current '+result.mg3_forhire+'/day, planned '+result.mg3_forhire+'/day)', 100, 120);
+	    		doc.text('Catch Rate for For Hire:'+result.mg4_act_catch_hire+'lb/day', 110, 140);
+	    		doc.text('(Hint: bag limit for private is, current '+result.mg3_private+'/day, planned '+result.mg3_forhire+'/day)', 100, 160);
+	    		doc.text('Catch Rate for Private:'+result.mg4_act_catch_private+'lb/day', 110, 180);
+		    }else {	
+		    	doc.text('Input by User:', 90, 100);
+	    		doc.text('(Hint: bag limit for for hire is, current '+result.mg3_forhire+'/day, planned '+result.mg3_forhire+'/day)', 100, 120);
+	    		doc.text('Catch Rate for For Hire:'+result.mg4_input_hire+'lb/day', 110, 140);
+	    		doc.text('Length of Season for For Hire:'+result.mg4_hire_length+'day', 110, 160);
+	    		doc.text('(Hint: bag limit for private is, current '+result.mg3_private+'/day, planned '+result.mg3_forhire+'/day)', 100, 180);
+	    		doc.text('Catch Rate for Private:'+result.mg4_input_private+'lb/day', 110,200);	 
+	    		doc.text('Length of Season for Private:'+result.mg4_private_length+'day', 110, 220);   	
+	    	}
 		    
 		    doc.addPage();
 		    doc.addImage(kobeChart1ImgData, 'jpg', 50, 50,500, 350, undefined, 'none');
